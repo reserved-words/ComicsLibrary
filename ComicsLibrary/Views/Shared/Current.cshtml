@@ -1,0 +1,35 @@
+﻿
+<div class="container-fluid">
+    <div class="row split-header">
+        <div class="col-xs-8">
+            <h2>Currently Reading</h2>
+        </div>
+        <div class="col-xs-4">
+            <actions class="pull-right"
+                     params="comics: comics,
+                             selectedAction: selectedAction,
+                             onActionCompleted: onActionCompleted" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div data-bind="foreach: collection">
+            <div class="col-xs-12">
+                <h4 data-bind="text: title"></h4>
+            </div>
+            <div class="col-xs-12">
+                <div class="grid" data-bind="foreach: comics">
+                    <comic params="readUrl: readUrl,
+                                   imageUrl: imageUrl,
+                                   isRead: isRead,
+                                   readNext: readNext,
+                                   title: title,
+                                   seriesTitle: seriesTitle,
+                                   selected: selected,
+                                   select: select,
+                                   seriesId: seriesId"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

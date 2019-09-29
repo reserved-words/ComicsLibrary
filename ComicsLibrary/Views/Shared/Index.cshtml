@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comics Library</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="description" content="Comics Library" />
+    <link rel="SHORTCUT ICON" href="~/favicon.ico" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" data-bind="foreach: menuItems">
+                    <li data-bind="css: { active: active }">
+                        <a data-bind="text: name, click: $root.menuClick"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+
+        <br />
+
+        <div id="content">
+
+        </div>
+
+    </div>
+
+    <div data-bind="visible: loading" class="spinner" id="loading-indicator">
+        <img src=@Url.Content("~/Images/loading.gif") class="spinner-element" />
+    </div>
+
+    <div class="hidden">
+        <span id="currentUrl" data-stuff-url="@Url.Action("Index", "Current")"></span>
+        <span id="latestUrl" data-stuff-url="@Url.Action("Index", "Latest")"></span>
+        <span id="libraryUrl" data-stuff-url="@Url.Action("Index", "Library")"></span>
+        <span id="searchUrl" data-stuff-url="@Url.Action("Index", "Search")"></span>
+        <span id="seriesUrl" data-stuff-url="@Url.Action("Index", "Series")"></span>
+
+        @{ var controllerName = "Comics"; }
+        <span id="getUpdatedUrl" data-stuff-url="@Url.Action("GetUpdated", controllerName, new { limit = 12 })"></span>
+        <span id="getNewUrl" data-stuff-url="@Url.Action("GetNew", controllerName, new { limit = 12 })"></span>
+        <span id="getNextUrl" data-stuff-url="@Url.Action("GetNext", controllerName)"></span>
+        <span id="getSeriesUrl" data-stuff-url="@Url.Action("GetSeries", controllerName, new { seriesId = "id", limit = 12 })"></span>
+        <span id="abandonSeriesUrl" data-stuff-url="@Url.Action("AbandonSeries", controllerName, new { seriesId = "id" })"></span>
+        <span id="reinstateSeriesUrl" data-stuff-url="@Url.Action("ReinstateSeries", controllerName, new { id = "id" })"></span>
+        <span id="removeFromLibraryUrl" data-stuff-url="@Url.Action("RemoveFromLibrary", controllerName, new { id = "id" })"></span>
+        <span id="addToLibraryUrl" data-stuff-url="@Url.Action("AddToLibrary", controllerName)"></span>
+        <span id="getComicsUrl" data-stuff-url="@Url.Action("GetComics", controllerName, new { seriesId = "id", limit = 12, offset = "offset" })"></span>
+        <span id="getSeriesToReadUrl" data-stuff-url="@Url.Action("GetSeriesToRead", controllerName)"></span>
+        <span id="getSeriesFinishedUrl" data-stuff-url="@Url.Action("GetSeriesFinished", controllerName)"></span>
+        <span id="getSeriesAbandonedUrl" data-stuff-url="@Url.Action("GetSeriesAbandoned", controllerName)"></span>
+        <span id="getSeriesInProgressUrl" data-stuff-url="@Url.Action("GetSeriesInProgress", controllerName)"></span>
+        <span id="searchByTitleUrl" data-stuff-url="@Url.Action("SearchByTitle", controllerName, new { title = "title", sortOrder = "sortOrder", limit = 10, page = "page" })"></span>
+        <span id="markAsReadUrl" data-stuff-url="@Url.Action("MarkAsRead", controllerName)"></span>
+        <span id="markAsUnreadUrl" data-stuff-url="@Url.Action("MarkAsUnread", controllerName)"></span>
+        <span id="addToReadNextUrl" data-stuff-url="@Url.Action("AddToReadNext", controllerName)"></span>
+        <span id="removeFromReadNextUrl" data-stuff-url="@Url.Action("RemoveFromReadNext", controllerName)"></span>
+        <span id="getComicsByMarvelIdUrl" data-stuff-url="@Url.Action("GetComicsByMarvelId", controllerName, new { marvelId = "id", limit = 12, offset = "offset" })"></span>
+    </div>
+
+    @Scripts.Render("~/bundles/Comics")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+</html>
