@@ -73,6 +73,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MarvelSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MarvelSharp.1.0.0\lib\net452\MarvelSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -84,11 +90,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppKeys.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj">
+      <Project>{758894C3-4470-48B0-A0C4-DF487C815817}</Project>
+      <Name>ComicsLibrary.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComicsLibrary.Contracts\ComicsLibrary.Data.Contracts.csproj">
+      <Project>{BB418CB3-9453-424C-AACB-23C30064FCB6}</Project>
+      <Name>ComicsLibrary.Data.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComicsLibrary.Data\ComicsLibrary.Data.csproj">
+      <Project>{875D3531-29A5-4CD3-8770-44CBCE5C35BD}</Project>
+      <Name>ComicsLibrary.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj">
+      <Project>{A3D32AF0-700C-4506-9AF2-7C2987A1BF0C}</Project>
+      <Name>ComicsLibrary.Mapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj">
+      <Project>{ec755b89-a04a-4b4c-9ca0-b8e7d6fc81d5}</Project>
+      <Name>ComicsLibrary.MarvelApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComicsLibrary.Services\ComicsLibrary.Services.csproj">
+      <Project>{4C29CE59-376F-4348-968D-11E67C851D53}</Project>
+      <Name>ComicsLibrary.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,8 @@
-﻿using System;
-using System.Configuration;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using ComicsLibrary.Common.Services;
+using ComicsLibrary.Data;
+using ComicsLibrary.Data.Contracts;
+using ComicsLibrary.Services;
+using System;
 
 namespace ComicsLibrary.ComicsUpdater
 {
@@ -9,10 +10,19 @@ namespace ComicsLibrary.ComicsUpdater
     {
         public static void Main(string[] args)
         {
-            var client = new HttpClient();
-            client.Timeout = TimeSpan.FromSeconds(60 * 5);
-            var url = ConfigurationManager.AppSettings["Url"];
-            var result = client.PostAsync(new Uri(url), null).Result;
+            var updateService = GetService(); 
+            updateService.UpdateSeries();
+        }
+
+        private static IUpdateService GetService()
+        {
+            var appKeys = new AppKeys();
+            var mapper = new Mapper.Mapper();
+            var apiService = new MarvelComicsApi.Service(mapper, appKeys);
+            var logger = new Logger();
+            var asyncHelper = new AsyncHelper();
+            Func<IUnitOfWork> unitOfWorkFactory = () => new UnitOfWork();
+            return new UpdateService(unitOfWorkFactory, mapper, apiService, logger, asyncHelper);
         }
     }
 }

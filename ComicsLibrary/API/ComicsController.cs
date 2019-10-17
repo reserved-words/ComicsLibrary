@@ -167,14 +167,6 @@ namespace ComicsLibrary.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        [Route("Comics/UpdateSeries")]
-        [HttpPost]
-        public HttpStatusCodeResult UpdateSeries()
-        {
-            _updateService.UpdateSeries();
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
-
         [Route("Comics/SearchByTitle")]
         [HttpGet]
         public async Task<PagedResult<Series>> SearchByTitle(string title, int sortOrder, int limit, int page)
