@@ -10,15 +10,17 @@ namespace DatabaseMigrater
         {
             try
             {
-                if (args.Length != 3)
+                if (args.Length != 5)
                     throw new Exception("Incorrect numer of arguments");
 
                 var connectionString = args[0];
                 var databaseName = args[1];
                 var webAppUser = args[2];
+                var serviceUserName = args[3];
+                var serviceUserPassword = args[4];
 
                 CreateSchema.Run(connectionString);
-                CreateUsers.Run(connectionString, databaseName, webAppUser);
+                CreateUsers.Run(connectionString, databaseName, webAppUser, serviceUserName, serviceUserPassword);
             }
             catch (Exception exc)
             {

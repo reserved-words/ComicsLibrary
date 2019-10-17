@@ -6,7 +6,7 @@ namespace DatabaseMigrater
 {
     public static class CreateUsers
     {
-        public static void Run(string connectionString, string databaseName, string webAppUser)
+        public static void Run(string connectionString, string databaseName, string webAppUser, string serviceUserName, string serviceUserPassword)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -15,6 +15,8 @@ namespace DatabaseMigrater
                 var parameters = new List<SqlParameter>
                 {
                     new SqlParameter("@DatabaseName", databaseName),
+                    new SqlParameter("@ServiceUserName", serviceUserName),
+                    new SqlParameter("@ServiceUserPassword", serviceUserPassword),
                     new SqlParameter("@WebAppUser", webAppUser)
                 };
 
