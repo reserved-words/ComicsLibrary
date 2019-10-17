@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201909281439510_AddedCreateUsersProcedure.Designer.cs">
       <DependentUpon>201909281439510_AddedCreateUsersProcedure.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910171631120_RemoveServiceUserFromCreateUsers.cs" />
+    <Compile Include="Migrations\201910171631120_RemoveServiceUserFromCreateUsers.Designer.cs">
+      <DependentUpon>201910171631120_RemoveServiceUserFromCreateUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
@@ -127,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909281439510_AddedCreateUsersProcedure.resx">
       <DependentUpon>201909281439510_AddedCreateUsersProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910171631120_RemoveServiceUserFromCreateUsers.resx">
+      <DependentUpon>201910171631120_RemoveServiceUserFromCreateUsers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
