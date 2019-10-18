@@ -7,8 +7,20 @@ namespace ComicsLibrary.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
-        private readonly Dictionary<Type, IRepository> _repositories = new Dictionary<Type, IRepository>();
+        private readonly ApplicationDbContext _context;
+        private readonly Dictionary<Type, IRepository> _repositories;
+
+        public UnitOfWork()
+        {
+            _context = new ApplicationDbContext();
+            _repositories = new Dictionary<Type, IRepository>();
+        }
+
+        public UnitOfWork(string connectionString)
+        {
+            _context = new ApplicationDbContext(connectionString);
+            _repositories = new Dictionary<Type, IRepository>();
+        }
 
         public IRepository<T> Repository<T>() where T : class
         {

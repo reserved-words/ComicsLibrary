@@ -3,6 +3,7 @@ using ComicsLibrary.Data;
 using ComicsLibrary.Data.Contracts;
 using ComicsLibrary.Services;
 using System;
+using System.Configuration;
 
 namespace ComicsLibrary.ComicsUpdater
 {
@@ -21,7 +22,8 @@ namespace ComicsLibrary.ComicsUpdater
             var apiService = new MarvelComicsApi.Service(mapper, appKeys);
             var logger = new Logger();
             var asyncHelper = new AsyncHelper();
-            Func<IUnitOfWork> unitOfWorkFactory = () => new UnitOfWork();
+            var connectionString = ConfigurationManager.ConnectionStrings["ComicsTaskConnectionString"].ConnectionString;
+            Func<IUnitOfWork> unitOfWorkFactory = () => new UnitOfWork(connectionString);
             return new UpdateService(unitOfWorkFactory, mapper, apiService, logger, asyncHelper);
         }
     }
