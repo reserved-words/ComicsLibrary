@@ -120,13 +120,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Common\ComicsLibrary1.Common.csproj">
       <Project>{758894c3-4470-48b0-a0c4-df487c815817}</Project>
-      <Name>ComicsLibrary.Common</Name>
+      <Name>ComicsLibrary1.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Contracts\ComicsLibrary.Data.Contracts.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Contracts\ComicsLibrary1.Data.Contracts.csproj">
       <Project>{bb418cb3-9453-424c-aacb-23c30064fcb6}</Project>
-      <Name>ComicsLibrary.Data.Contracts</Name>
+      <Name>ComicsLibrary1.Data.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

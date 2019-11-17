@@ -61,9 +61,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ComicsLibrary.Data\ComicsLibrary.Data.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Data\ComicsLibrary1.Data.csproj">
       <Project>{875D3531-29A5-4CD3-8770-44CBCE5C35BD}</Project>
-      <Name>ComicsLibrary.Data</Name>
+      <Name>ComicsLibrary1.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,23 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary", "ComicsLibrary\ComicsLibrary.csproj", "{F8CBADF6-AF6A-4042-9355-9596DA959AFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1", "ComicsLibrary1\ComicsLibrary1.csproj", "{F8CBADF6-AF6A-4042-9355-9596DA959AFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Common", "ComicsLibrary.Common\ComicsLibrary.Common.csproj", "{758894C3-4470-48B0-A0C4-DF487C815817}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1.Common", "ComicsLibrary1.Common\ComicsLibrary1.Common.csproj", "{758894C3-4470-48B0-A0C4-DF487C815817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Data.Contracts", "ComicsLibrary.Contracts\ComicsLibrary.Data.Contracts.csproj", "{BB418CB3-9453-424C-AACB-23C30064FCB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1.Data.Contracts", "ComicsLibrary1.Contracts\ComicsLibrary1.Data.Contracts.csproj", "{BB418CB3-9453-424C-AACB-23C30064FCB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Data", "ComicsLibrary.Data\ComicsLibrary.Data.csproj", "{875D3531-29A5-4CD3-8770-44CBCE5C35BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1.Data", "ComicsLibrary1.Data\ComicsLibrary1.Data.csproj", "{875D3531-29A5-4CD3-8770-44CBCE5C35BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Mapper", "ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj", "{A3D32AF0-700C-4506-9AF2-7C2987A1BF0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1.Mapper", "ComicsLibrary1.Mapper\ComicsLibrary1.Mapper.csproj", "{A3D32AF0-700C-4506-9AF2-7C2987A1BF0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.MarvelApi", "ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj", "{EC755B89-A04A-4B4C-9CA0-B8E7D6FC81D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1.MarvelApi", "ComicsLibrary1.MarvelApi\ComicsLibrary1.MarvelApi.csproj", "{EC755B89-A04A-4B4C-9CA0-B8E7D6FC81D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Services", "ComicsLibrary.Services\ComicsLibrary.Services.csproj", "{4C29CE59-376F-4348-968D-11E67C851D53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1.Services", "ComicsLibrary1.Services\ComicsLibrary1.Services.csproj", "{4C29CE59-376F-4348-968D-11E67C851D53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Updater", "ComicsLibrary.Updater\ComicsLibrary.Updater.csproj", "{6D7E0BD9-7FE8-40D6-A258-8DA736598ED1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1.Updater", "ComicsLibrary1.Updater\ComicsLibrary1.Updater.csproj", "{6D7E0BD9-7FE8-40D6-A258-8DA736598ED1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseMigrater", "DatabaseMigrater\DatabaseMigrater.csproj", "{779BF539-C513-4ACA-B969-00B960DF54C6}"
 EndProject

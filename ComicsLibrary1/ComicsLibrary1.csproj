@@ -352,29 +352,29 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Common\ComicsLibrary1.Common.csproj">
       <Project>{758894C3-4470-48B0-A0C4-DF487C815817}</Project>
-      <Name>ComicsLibrary.Common</Name>
+      <Name>ComicsLibrary1.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Contracts\ComicsLibrary.Data.Contracts.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Contracts\ComicsLibrary1.Data.Contracts.csproj">
       <Project>{BB418CB3-9453-424C-AACB-23C30064FCB6}</Project>
-      <Name>ComicsLibrary.Data.Contracts</Name>
+      <Name>ComicsLibrary1.Data.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Data\ComicsLibrary.Data.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Data\ComicsLibrary1.Data.csproj">
       <Project>{875d3531-29a5-4cd3-8770-44cbce5c35bd}</Project>
-      <Name>ComicsLibrary.Data</Name>
+      <Name>ComicsLibrary1.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Mapper\ComicsLibrary1.Mapper.csproj">
       <Project>{A3D32AF0-700C-4506-9AF2-7C2987A1BF0C}</Project>
-      <Name>ComicsLibrary.Mapper</Name>
+      <Name>ComicsLibrary1.Mapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.MarvelApi\ComicsLibrary1.MarvelApi.csproj">
       <Project>{ec755b89-a04a-4b4c-9ca0-b8e7d6fc81d5}</Project>
-      <Name>ComicsLibrary.MarvelApi</Name>
+      <Name>ComicsLibrary1.MarvelApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Services\ComicsLibrary.Services.csproj">
+    <ProjectReference Include="..\ComicsLibrary1.Services\ComicsLibrary1.Services.csproj">
       <Project>{4C29CE59-376F-4348-968D-11E67C851D53}</Project>
-      <Name>ComicsLibrary.Services</Name>
+      <Name>ComicsLibrary1.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
