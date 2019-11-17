@@ -93,12 +93,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ComicsLibrary1.Common\ComicsLibrary1.Common.csproj">
-      <Project>{758894C3-4470-48B0-A0C4-DF487C815817}</Project>
-      <Name>ComicsLibrary1.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

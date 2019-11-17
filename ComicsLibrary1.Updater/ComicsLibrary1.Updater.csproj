@@ -99,18 +99,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ComicsLibrary1.Common\ComicsLibrary1.Common.csproj">
-      <Project>{758894C3-4470-48B0-A0C4-DF487C815817}</Project>
-      <Name>ComicsLibrary1.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary1.Contracts\ComicsLibrary1.Data.Contracts.csproj">
-      <Project>{BB418CB3-9453-424C-AACB-23C30064FCB6}</Project>
-      <Name>ComicsLibrary1.Data.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary1.Data\ComicsLibrary1.Data.csproj">
-      <Project>{875D3531-29A5-4CD3-8770-44CBCE5C35BD}</Project>
-      <Name>ComicsLibrary1.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ComicsLibrary1.Mapper\ComicsLibrary1.Mapper.csproj">
       <Project>{A3D32AF0-700C-4506-9AF2-7C2987A1BF0C}</Project>
       <Name>ComicsLibrary1.Mapper</Name>
@@ -118,10 +106,6 @@
     <ProjectReference Include="..\ComicsLibrary1.MarvelApi\ComicsLibrary1.MarvelApi.csproj">
       <Project>{ec755b89-a04a-4b4c-9ca0-b8e7d6fc81d5}</Project>
       <Name>ComicsLibrary1.MarvelApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary1.Services\ComicsLibrary1.Services.csproj">
-      <Project>{4C29CE59-376F-4348-968D-11E67C851D53}</Project>
-      <Name>ComicsLibrary1.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
