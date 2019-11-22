@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ComicsLibrary.Data;
+using Microsoft.Data.SqlClient;
+using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace DatabaseMigrater
 {
@@ -20,7 +21,7 @@ namespace DatabaseMigrater
                     new SqlParameter("@WebAppUser", webAppUser)
                 };
 
-                using (var command = new SqlCommand("[ComicsLibrary].[CreateUsers]", connection) { CommandType = CommandType.StoredProcedure })
+                using (var command = new SqlCommand($"[{ApplicationDbContext.SchemaName}].[CreateUsers]", connection) { CommandType = CommandType.StoredProcedure })
                 {
                     command.Parameters.AddRange(parameters.ToArray());
                     command.ExecuteNonQuery();

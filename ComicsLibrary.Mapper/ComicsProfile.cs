@@ -43,7 +43,7 @@ namespace ComicsLibrary.Mapper
                 .ForMember(dest => dest.Results, act => act.MapFrom(src => src.Data.Result));
 
             CreateMap<MarvelSeries, Series>()
-                .ForMember(dest => dest.ImageUrl, act => act.ResolveUsing(src => MapImageToString(src.Thumbnail)))
+                .ForMember(dest => dest.ImageUrl, act => act.MapFrom(src => MapImageToString(src.Thumbnail)))
                 .ForMember(dest => dest.MarvelId, act => act.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Characters, act => act.MapFrom(src => string.Join(", ", src.Characters.Items.Select(i => i.Name))))
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => GetTitleCase(src.Type)))
@@ -53,18 +53,18 @@ namespace ComicsLibrary.Mapper
                 .ForMember(dest => dest.Comics, act => act.Ignore());
 
             CreateMap<MarvelComic, Comic>()
-                .ForMember(dest => dest.ImageUrl, act => act.ResolveUsing(src => MapImageToString(src.Thumbnail)))
-                .ForMember(dest => dest.ReadUrl, act => act.ResolveUsing(GetReaderUrl))
+                .ForMember(dest => dest.ImageUrl, act => act.MapFrom(src => MapImageToString(src.Thumbnail)))
+                .ForMember(dest => dest.ReadUrl, act => act.MapFrom(src => GetReaderUrl(src)))
                 .ForMember(dest => dest.MarvelId, act => act.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Creators, act => act.MapFrom(src => GetCreators(src)))
-                .ForMember(dest => dest.OnSaleDate, act => act.ResolveUsing(GetOnSaleDate))
+                .ForMember(dest => dest.OnSaleDate, act => act.MapFrom(src => GetOnSaleDate(src)))
                 .ForMember(dest => dest.Id, act => act.Ignore())
                 .ForMember(dest => dest.Url, act => act.Ignore())
                 .ForMember(dest => dest.SeriesId, act => act.Ignore())
                 .ForMember(dest => dest.Series, act => act.Ignore());
 
             CreateMap<MarvelCharacter, Character>()
-                .ForMember(dest => dest.ImageUrl, act => act.ResolveUsing(src => MapImageToString(src.Thumbnail)))
+                .ForMember(dest => dest.ImageUrl, act => act.MapFrom(src => MapImageToString(src.Thumbnail)))
                 .ForMember(dest => dest.MarvelId, act => act.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, act => act.Ignore())
                 .ForMember(dest => dest.Url, act => act.Ignore());

@@ -1,12 +1,10 @@
-﻿using ComicsLibrary.Common.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MarvelSharp;
-using MarvelSharp.Criteria;
+
 using ComicsLibrary.Common.Models;
-using MarvelSharp.Model;
+using ComicsLibrary.Common.Interfaces;
 
 using Comic = ComicsLibrary.Common.Models.Comic;
 using Series = ComicsLibrary.Common.Models.Series;
@@ -15,6 +13,10 @@ using Character = ComicsLibrary.Common.Models.Character;
 using MarvelComic = MarvelSharp.Model.Comic;
 using MarvelSeries = MarvelSharp.Model.Series;
 using MarvelCharacter = MarvelSharp.Model.Character;
+
+using MarvelSharp;
+using MarvelSharp.Model;
+using MarvelSharp.Criteria;
 
 namespace ComicsLibrary.MarvelComicsApi
 {

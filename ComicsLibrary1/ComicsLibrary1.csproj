@@ -345,16 +345,6 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ComicsLibrary1.Mapper\ComicsLibrary1.Mapper.csproj">
-      <Project>{A3D32AF0-700C-4506-9AF2-7C2987A1BF0C}</Project>
-      <Name>ComicsLibrary1.Mapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary1.MarvelApi\ComicsLibrary1.MarvelApi.csproj">
-      <Project>{ec755b89-a04a-4b4c-9ca0-b8e7d6fc81d5}</Project>
-      <Name>ComicsLibrary1.MarvelApi</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1,6 +1,6 @@
 ﻿using System;
 using AutoMapper;
-using IMapper = ComicsLibrary.Common.Services.IMapper;
+using IMapper = ComicsLibrary.Common.Interfaces.IMapper;
 
 namespace ComicsLibrary.Mapper
 {
