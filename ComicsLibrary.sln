@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary1", "ComicsLibrary1\ComicsLibrary1.csproj", "{F8CBADF6-AF6A-4042-9355-9596DA959AFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary-Old", "ComicsLibrary1\ComicsLibrary-Old.csproj", "{F8CBADF6-AF6A-4042-9355-9596DA959AFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeploymentTools", "DeploymentTools", "{812096E7-76E8-46DD-8908-F86EE4A028CE}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,13 +28,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Data", "Comic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary", "ComicsLibrary\ComicsLibrary.csproj", "{08DBEA65-A404-4C40-809D-26DE67844CE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.MarvelApi", "ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj", "{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.MarvelApi", "ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj", "{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Mapper", "ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj", "{15FDD981-B37E-4E71-AD84-893F14295272}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Mapper", "ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj", "{15FDD981-B37E-4E71-AD84-893F14295272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Updater", "ComicsLibrary.Updater\ComicsLibrary.Updater.csproj", "{27D18F70-2EDA-44FD-A40B-C32A07D6A5C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Updater", "ComicsLibrary.Updater\ComicsLibrary.Updater.csproj", "{27D18F70-2EDA-44FD-A40B-C32A07D6A5C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseMigrater", "DatabaseMigrater\DatabaseMigrater.csproj", "{5C03F421-B044-416B-AFA2-5E231003E7AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseMigrater", "DatabaseMigrater\DatabaseMigrater.csproj", "{5C03F421-B044-416B-AFA2-5E231003E7AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

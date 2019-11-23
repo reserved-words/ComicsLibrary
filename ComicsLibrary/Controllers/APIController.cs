@@ -1,21 +1,18 @@
-﻿using ComicsLibrary.Common.Services;
+﻿using ComicsLibrary.Common.Interfaces;
 using System.Collections.Generic;
-using System.Web.Http;
 using System.Net;
 using System.Threading.Tasks;
 using ComicsLibrary.Common.Api;
-
-using HttpStatusCodeResult = System.Web.Mvc.HttpStatusCodeResult;
-using ComicsLibrary.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ComicsLibrary.Controllers
 {
-    public class ComicsController : ApiController
+    public class APIController : ControllerBase
     {
         private readonly IService _service;
         private readonly IUpdateService _updateService;
 
-        public ComicsController(IService service, IUpdateService updateService)
+        public APIController(IService service, IUpdateService updateService)
         {
             _service = service;
             _updateService = updateService;
@@ -121,50 +118,50 @@ namespace ComicsLibrary.Controllers
 
         [Route("Comics/MarkAsRead")]
         [HttpPost]
-        public HttpStatusCodeResult MarkAsRead(int[] ids)
+        public IActionResult MarkAsRead(int[] ids)
         {
             if (ids != null)
             {
                 _service.MarkAsRead(ids);
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Ok();
         }
 
         [Route("Comics/MarkAsUnread")]
         [HttpPost]
-        public HttpStatusCodeResult MarkAsUnread(int[] ids)
+        public IActionResult MarkAsUnread(int[] ids)
         {
             if (ids != null)
             {
                 _service.MarkAsUnread(ids);
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Ok();
         }
 
         [Route("Comics/AddToReadNext")]
         [HttpPost]
-        public HttpStatusCodeResult AddToReadNext(int[] ids)
+        public IActionResult AddToReadNext(int[] ids)
         {
             if (ids != null)
             {
                 _service.AddToReadNext(ids);
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Ok();
         }
 
         [Route("Comics/RemoveFromReadNext")]
         [HttpPost]
-        public HttpStatusCodeResult RemoveFromReadNext(int[] ids)
+        public IActionResult RemoveFromReadNext(int[] ids)
         {
             if (ids != null)
             {
                 _service.RemoveFromReadNext(ids);
             }
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Ok();
         }
 
         [Route("Comics/SearchByTitle")]
