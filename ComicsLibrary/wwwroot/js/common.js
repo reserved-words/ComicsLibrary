@@ -45,7 +45,7 @@ AJAX = {
 };
 
 requirejs.config({
-    baseUrl: URL.base + '/Scripts',
+    baseUrl: URL.base + 'lib',
     waitSeconds: 200,
     paths: {
         'knockout': 'KnockoutJS/knockout-3.5.0',
