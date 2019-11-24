@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ComicsLibrary.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class BaseController : ControllerBase
     {
         public IActionResult PartialView(string viewName)

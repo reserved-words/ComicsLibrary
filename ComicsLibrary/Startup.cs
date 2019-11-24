@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ComicsLibrary.Common.Interfaces;
+using ComicsLibrary.Data;
+using ComicsLibrary.Mapper;
+using ComicsLibrary.Services;
+using MarvelSharp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +27,16 @@ namespace ComicsLibrary
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IService, Service>();
+            services.AddTransient<IMapper, Mapper.Mapper>();
+            services.AddTransient<IApiService, MarvelComicsApi.Service>();
+            services.AddTransient<IMarvelAppKeys, AppKeys>();
+            services.AddTransient<ILogger, Logger>();
+
+            services.AddScoped<Func<IUnitOfWork>>(sp => {
+                return () => new UnitOfWork(Configuration);
+            });
+
             services.AddControllersWithViews();
         }
 

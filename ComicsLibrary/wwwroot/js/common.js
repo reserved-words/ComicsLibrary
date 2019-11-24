@@ -54,11 +54,11 @@ requirejs.config({
 });
 
 ko.components.register('comic', {
-    viewModel: { require: URL.base + '/Scripts/comics/Components/comic.js' },
-    template: { require: 'text!../Templates/comic.html' }
+    viewModel: { require: URL.base + '/js/Components/comic.js' },
+    template: { require: 'text!../js/Templates/comic.html' }
 });
 
 ko.components.register('actions', {
-    viewModel: { require: URL.base + '/Scripts/comics/Components/actions.js' },
-    template: { require: 'text!../Templates/actions.html' }
+    viewModel: { require: URL.base + '/js/Components/actions.js' },
+    template: { require: 'text!../js/Templates/actions.html' }
 });

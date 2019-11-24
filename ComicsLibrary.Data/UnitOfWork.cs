@@ -1,5 +1,5 @@
 ﻿using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 
@@ -10,9 +10,9 @@ namespace ComicsLibrary.Data
         private readonly ApplicationDbContext _context;
         private readonly Dictionary<Type, IRepository> _repositories = new Dictionary<Type, IRepository>();
 
-        public UnitOfWork(string connectionString)
+        public UnitOfWork(IConfiguration config)
         {
-            _context = new ApplicationDbContext(connectionString);
+            _context = new ApplicationDbContext(config["ComicsLibraryConnectionString"]);
         }
 
         public IRepository<T> Repository<T>() where T : class

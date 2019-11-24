@@ -39,8 +39,7 @@ namespace ComicsLibrary.Updater
             var apiService = new MarvelComicsApi.Service(mapper, appKeys);
             var logger = new Logger();
             var asyncHelper = new AsyncHelper();
-            var connectionString = config["UpdaterConnectionString"];
-            Func<IUnitOfWork> unitOfWorkFactory = () => new UnitOfWork(connectionString);
+            Func<IUnitOfWork> unitOfWorkFactory = () => new UnitOfWork(config);
             return new UpdateService(unitOfWorkFactory, mapper, apiService, logger, asyncHelper);
         }
     }
