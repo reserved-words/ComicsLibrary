@@ -14,19 +14,19 @@ currentViewModel.load = function (id) {
         self.collection.removeAll();
         $(data).each(function (index, element) {
             var series = {
-                title: element.Title,
+                title: element.title,
                 comics: ko.observableArray()
             };
-            $(element.Comics).each(function (index, element) {
+            $(element.comics).each(function (index, element) {
                 var comic = {
-                    id: element.Id,
-                    readUrl: element.ReadUrl,
-                    imageUrl: element.ImageUrl,
-                    isRead: element.IsRead,
-                    readNext: element.ToReadNext,
-                    title: element.IssueTitle,
+                    id: element.id,
+                    readUrl: element.readUrl,
+                    imageUrl: element.imageUrl,
+                    isRead: element.isRead,
+                    readNext: element.toReadNext,
+                    title: element.issueTitle,
                     seriesTitle: null,
-                    seriesId: element.SeriesId,
+                    seriesId: element.seriesId,
                     selected: ko.observable(false),
                     select: function() {
                         this.selected(!this.selected());

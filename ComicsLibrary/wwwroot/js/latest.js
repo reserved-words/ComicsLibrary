@@ -15,15 +15,15 @@ latestViewModel.load = function (id) {
         self.updated.removeAll();
         $(data).each(function (index, element) {
             self.updated.push({
-                id: element.Id,
-                readUrl: element.ReadUrl,
-                imageUrl: element.ImageUrl,
-                title: element.IssueTitle,
-                seriesTitle: element.SeriesTitle,
-                isRead: element.IsRead,
-                readNext: element.ToReadNext,
-                dateUpdated: element.ReadUrlAdded,
-                seriesId: element.SeriesId,
+                id: element.id,
+                readUrl: element.readUrl,
+                imageUrl: element.imageUrl,
+                title: element.issueTitle,
+                seriesTitle: element.seriesTitle,
+                isRead: element.isRead,
+                readNext: element.toReadNext,
+                dateUpdated: element.readUrlAdded,
+                seriesId: element.seriesId,
                 selected: ko.observable(false),
                 select: function () {
                     this.selected(!this.selected());
@@ -36,15 +36,15 @@ latestViewModel.load = function (id) {
         self.added.removeAll();
         $(data).each(function (index, element) {
             self.added.push({
-                id: element.Id,
-                readUrl: element.ReadUrl,
-                imageUrl: element.ImageUrl,
-                title: element.IssueTitle,
-                seriesTitle: element.SeriesTitle,
-                isRead: element.IsRead,
-                readNext: element.ToReadNext,
-                dateAdded: element.DateAdded,
-                seriesId: element.SeriesId,
+                id: element.id,
+                readUrl: element.readUrl,
+                imageUrl: element.imageUrl,
+                title: element.issueTitle,
+                seriesTitle: element.seriesTitle,
+                isRead: element.isRead,
+                readNext: element.toReadNext,
+                dateAdded: element.dateAdded,
+                seriesId: element.seriesId,
                 selected: ko.observable(false),
                 select: function () {
                     this.selected(!this.selected());

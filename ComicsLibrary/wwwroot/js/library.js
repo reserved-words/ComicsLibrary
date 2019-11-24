@@ -2,7 +2,7 @@
     title: ko.observable(),
     series: ko.observableArray(),
     viewSeries: function (data, event) {
-        index.loadSeries(data.Id);
+        index.loadSeries(data.id);
     }
 };
 
@@ -42,13 +42,13 @@ libraryViewModel.load = function (id) {
 }
 
 libraryViewModel.abandonSeries = function (data, event) {
-    AJAX.post(URL.get("abandonSeries", data.Id), null, function (result) {
+    AJAX.post(URL.get("abandonSeries", data.id), null, function (result) {
         libraryViewModel.load();
     });
 }
 
 libraryViewModel.reinstateSeries = function (data, event) {
-    AJAX.post(URL.get("reinstateSeries", data.Id), null, function (result) {
+    AJAX.post(URL.get("reinstateSeries", data.id), null, function (result) {
         libraryViewModel.load();
     });
 }
@@ -56,7 +56,7 @@ libraryViewModel.reinstateSeries = function (data, event) {
 libraryViewModel.deleteSeries = function (data, event) {
     if (!confirm("Delete this series?"))
         return;
-    AJAX.post(URL.get("removeFromLibrary", data.Id), null, function (result) {
+    AJAX.post(URL.get("removeFromLibrary", data.id), null, function (result) {
         libraryViewModel.load();
     });
 }

@@ -66,21 +66,21 @@ searchViewModel.searchPage = function (page) {
     }
     self.noCriteria(false);
     AJAX.get(URL.get("searchByTitle", '', '', page, self.sortOrder(), self.title()), function (data) {
-        self.totalPages(data.TotalPages);
-        self.page(data.Page);
-        self.nextPage(data.NextPage);
-        self.previousPage(data.PreviousPage);
+        self.totalPages(data.totalPages);
+        self.page(data.page);
+        self.nextPage(data.nextPage);
+        self.previousPage(data.previousPage);
         self.results.removeAll();
-        $(data.Results).each(function (index, element) {
+        $(data.results).each(function (index, element) {
             self.results.push({
-                id: ko.observable(element.Id),
-                title: element.Title,
-                startYear: element.StartYear,
-                endYear: element.EndYear,
-                url: element.Url,
-                imageUrl: element.ImageUrl,
-                type: element.Type,
-                marvelId: element.MarvelId
+                id: ko.observable(element.id),
+                title: element.title,
+                startYear: element.startYear,
+                endYear: element.endYear,
+                url: element.url,
+                imageUrl: element.imageUrl,
+                type: element.type,
+                marvelId: element.marvelId
             });
         });
         self.noResults(self.results().length === 0);
@@ -105,13 +105,13 @@ searchViewModel.getMoreComics = function () {
     
     var url = URL.get('getComicsByMarvelId', searchViewModel.selectedSeries().marvelId, searchViewModel.comics().length);
     AJAX.get(url, function (result) {
-        searchViewModel.comicsPagesFetched(result.Page);
-        searchViewModel.totalComicsPages(result.TotalPages);
+        searchViewModel.comicsPagesFetched(result.page);
+        searchViewModel.totalComicsPages(result.totalPages);
         $(result.Results).each(function (index, element) {
             searchViewModel.comics.push({
-                title: element.IssueTitle,
-                imageUrl: element.ImageUrl,
-                readUrl: element.ReadUrl
+                title: element.issueTitle,
+                imageUrl: element.imageUrl,
+                readUrl: element.readUrl
             });
         });
     });

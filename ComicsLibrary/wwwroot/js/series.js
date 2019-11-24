@@ -17,11 +17,11 @@ seriesViewModel.load = function (id) {
     self.selectedAction(0);
     self.id(id);
     AJAX.get(URL.get('getSeries', id), function (data) {
-        self.id(data.Id);
-        self.title(data.MainTitle);
-        self.subTitle(data.SubTitle);
-        self.totalComics(data.TotalComics);
-        self.isAbandoned(data.Abandoned);
+        self.id(data.id);
+        self.title(data.mainTitle);
+        self.subTitle(data.subTitle);
+        self.totalComics(data.totalComics);
+        self.isAbandoned(data.abandoned);
         self.comics.removeAll();
         $(data.Comics).each(function (index, element) {
             self.addComic(element);
@@ -62,12 +62,12 @@ seriesViewModel.getMoreComics = function () {
 
 seriesViewModel.addComic = function(element){
     seriesViewModel.comics.push({
-        id: element.Id,
-        readUrl: element.ReadUrl,
-        imageUrl: element.ImageUrl,
-        isRead: element.IsRead,
-        readNext: element.ToReadNext,
-        title: element.IssueTitle,
+        id: element.id,
+        readUrl: element.readUrl,
+        imageUrl: element.imageUrl,
+        isRead: element.isRead,
+        readNext: element.toReadNext,
+        title: element.issueTitle,
         seriesTitle: null,
         selected: ko.observable(false),
         select: function () {

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ComicsLibrary
 {
-    public class AppKeys : IAppKeys, IMarvelAppKeys
+    public class AppKeys : IMarvelAppKeys
     {
         private readonly IConfiguration _config;
 
@@ -11,12 +11,6 @@ namespace ComicsLibrary
         {
             _config = config;
         }
-
-        public string ValidGmailLogin => GetValue("ValidGmailLogin");
-
-        public string GoogleClientId => GetValue("GoogleClientId");
-
-        public string GoogleClientSecret => GetValue("GoogleClientSecret");
 
         public string PrivateKey => GetValue("MarvelApiPrivateKey");
 
