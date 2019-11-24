@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ComicsLibrary.Common.Delegates;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Data;
 using ComicsLibrary.Mapper;
@@ -32,10 +33,10 @@ namespace ComicsLibrary
             services.AddTransient<IApiService, MarvelComicsApi.Service>();
             services.AddTransient<IMarvelAppKeys, AppKeys>();
             services.AddTransient<ILogger, Logger>();
+            services.AddTransient<IAsyncHelper, AsyncHelper>();
 
-            services.AddScoped<Func<IUnitOfWork>>(sp => {
-                return () => new UnitOfWork(Configuration);
-            });
+            services.AddScoped(sp => new GetCurrentDateTime(() => DateTime.Now));
+            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(Configuration));
 
             services.AddControllersWithViews();
         }

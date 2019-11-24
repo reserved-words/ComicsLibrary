@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary-Old", "ComicsLibrary1\ComicsLibrary-Old.csproj", "{F8CBADF6-AF6A-4042-9355-9596DA959AFC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeploymentTools", "DeploymentTools", "{812096E7-76E8-46DD-8908-F86EE4A028CE}"
 	ProjectSection(SolutionItems) = preProject
 		DeploymentTools\AppSetUp.ps1 = DeploymentTools\AppSetUp.ps1
@@ -46,17 +44,6 @@ Global
 		Web.Release|Any CPU = Web.Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.RssUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.RssUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.VM|Any CPU.ActiveCfg = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.VM|Any CPU.Build.0 = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8CBADF6-AF6A-4042-9355-9596DA959AFC}.Web.Release|Any CPU.Build.0 = Release|Any CPU
 		{0326EE97-BD7A-4217-84A1-2B2A11525F5C}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0326EE97-BD7A-4217-84A1-2B2A11525F5C}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
 		{0326EE97-BD7A-4217-84A1-2B2A11525F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
