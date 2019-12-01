@@ -72,7 +72,8 @@ namespace ComicsLibrary.Mapper
             CreateMap<Comic, ApiComic>()
                 .ForMember(s => s.SeriesId, act => act.MapFrom(src => src.SeriesId))
                 .ForMember(s => s.SeriesTitle, act => act.MapFrom(src => src.Series.Title))
-                .ForMember(s => s.IssueTitle, act => act.MapFrom(src => GetIssueTitle(src)));
+                .ForMember(s => s.IssueTitle, act => act.MapFrom(src => GetIssueTitle(src)))
+                .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date : DateTime.MinValue));
 
             CreateMap<Series, ApiSeries>()
                 .ForMember(s => s.ImageUrl, act => act.MapFrom(src => src.Comics.FirstOrDefault().ImageUrl))

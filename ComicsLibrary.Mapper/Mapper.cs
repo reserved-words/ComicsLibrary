@@ -10,14 +10,9 @@ namespace ComicsLibrary.Mapper
 
         public Mapper()
         {
-            _autoMapper = new Lazy<AutoMapper.IMapper>(() => new AutoMapper.Mapper(ConfigureAutoMapper()));
-        }
-
-        private MapperConfiguration ConfigureAutoMapper()
-        {
-            return new MapperConfiguration(cfg => {
+            _autoMapper = new Lazy<AutoMapper.IMapper>(() => new AutoMapper.Mapper(new MapperConfiguration(cfg => {
                 cfg.AddProfile<ComicsProfile>();
-            });
+            })));
         }
 
         public T1 Map<T2, T1>(T2 source, T1 destination = null) where T2 : class where T1 : class
