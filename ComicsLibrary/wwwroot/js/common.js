@@ -17,7 +17,7 @@ AJAX = {
     get: function (url, onLoaded) {
         index.loading(true);
         $.ajax({
-            type: "GET",
+            method: "GET",
             url: url,
             success: function (data) {
                 onLoaded(data);
@@ -32,14 +32,18 @@ AJAX = {
         index.loading(true);
         $.ajax({
             url: url,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (result) {
-                onLoaded(result);
-                index.loading(false);
-            }
+            method: "POST",
+            data: data
+        })
+        .done(function (result) {
+            onLoaded(result);
+        })
+        .fail(function (jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+            alert(JSON.stringify(jqXHR));
+        })
+        .always(function () {
+            index.loading(false);
         });
     }
 };

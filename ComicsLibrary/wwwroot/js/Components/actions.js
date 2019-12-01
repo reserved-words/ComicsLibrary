@@ -28,7 +28,7 @@
             if (!url || url.length === 0)
                 return;
 
-            AJAX.post(url, selectedIds, function (result) {
+            AJAX.post(url, { ids: selectedIds }, function (result) {
                 self.onActionCompleted();
             });
         }

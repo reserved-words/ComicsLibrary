@@ -23,7 +23,7 @@ seriesViewModel.load = function (id) {
         self.totalComics(data.totalComics);
         self.isAbandoned(data.abandoned);
         self.comics.removeAll();
-        $(data.Comics).each(function (index, element) {
+        $(data.comics).each(function (index, element) {
             self.addComic(element);
         });
     });

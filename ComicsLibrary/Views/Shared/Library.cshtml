@@ -8,24 +8,24 @@
 
     <table class="table table-striped table-condensed">
         <tbody data-bind="foreach: series">
-        <tr>
-            <td>
-                <a data-bind="text: MainTitle, click: $root.viewSeries" />
-                <span class="badge badge-primary" data-bind="text: UnreadAvailableComics, visible: UnreadAvailableComics > 0" />
-            </td>
-            <td data-bind="text: SubTitle" class="text-nowrap" style="padding-right: 2em;" />
-            <td class="text-right">
-                <span data-bind="text: Progress"></span>%
-            </td>
-            <td class="text-right text-nowrap">
-                <div class="btn-group" role="group" aria-label="Series actions">
-                    <button class="btn btn-sm btn-primary" data-bind="visible: !Abandoned, click: $root.abandonSeries">Abandon</button>
-                    <button class="btn btn-sm btn-primary" data-bind="visible: Abandoned, click: $root.reinstateSeries">Reinstate</button>
-                    <button class="btn btn-sm btn-danger" data-bind="click: $root.deleteSeries">Delete</button>
-                </div>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <a data-bind="text: mainTitle, click: $root.viewSeries" />
+                    <span class="badge badge-primary" data-bind="text: unreadAvailableComics, visible: unreadAvailableComics > 0" />
+                </td>
+                <td data-bind="text: subTitle" class="text-nowrap" style="padding-right: 2em;" />
+                <td class="text-right">
+                    <span data-bind="text: progress"></span>%
+                </td>
+                <td class="text-right text-nowrap">
+                    <div class="btn-group" role="group" aria-label="Series actions">
+                        <button class="btn btn-sm btn-primary" data-bind="visible: !abandoned, click: $root.abandonSeries">Abandon</button>
+                        <button class="btn btn-sm btn-primary" data-bind="visible: abandoned, click: $root.reinstateSeries">Reinstate</button>
+                        <button class="btn btn-sm btn-danger" data-bind="click: $root.deleteSeries">Delete</button>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
-    
+
 </div>
