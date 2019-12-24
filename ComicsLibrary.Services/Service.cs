@@ -131,6 +131,7 @@ namespace ComicsLibrary.Services
             using (var uow = _unitOfWorkFactory())
             {
                 return uow.Repository<Series>()
+                    .Including(s => s.Comics)
                     .Where(s => !s.Abandoned && s.Comics.Any(c => c.IsRead) && s.Comics.Any(c => !c.IsRead))
                     .OrderBy(s => s.Title)
                     .ToList()
@@ -143,12 +144,16 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                return uow.Repository<Series>()
+                var series = uow.Repository<Series>()
                     .Where(s => !s.Abandoned && s.Comics.All(c => !c.IsRead))
                     .OrderBy(s => s.Title)
                     .ToList()
                     .Select(c => _mapper.Map<Series, ApiSeries>(c))
                     .ToList();
+
+                series.ForEach(s => s.Progress = 0);
+
+                return series;
             }
         }
 
@@ -156,12 +161,16 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                return uow.Repository<Series>()
+                var series = uow.Repository<Series>()
                     .Where(s => !s.Abandoned && s.Comics.All(c => c.IsRead))
                     .OrderBy(s => s.Title)
                     .ToList()
                     .Select(c => _mapper.Map<Series, ApiSeries>(c))
                     .ToList();
+
+                series.ForEach(s => s.Progress = 100);
+
+                return series;
             }
         }
 
@@ -170,6 +179,7 @@ namespace ComicsLibrary.Services
             using (var uow = _unitOfWorkFactory())
             {
                 return uow.Repository<Series>()
+                    .Including(s => s.Comics)
                     .Where(s => s.Abandoned)
                     .OrderBy(s => s.Title)
                     .ToList()
