@@ -95,23 +95,23 @@ namespace ComicsLibrary.Controllers
 
         [Route("API/RemoveFromLibrary")]
         [HttpPost]
-        public void RemoveFromLibrary(int seriesId)
+        public void RemoveFromLibrary(int id)
         {
-            _service.RemoveSeriesFromLibrary(seriesId);
+            _service.RemoveSeriesFromLibrary(id);
         }
 
         [Route("API/AbandonSeries")]
         [HttpPost]
-        public void AbandonSeries(int seriesId)
+        public void AbandonSeries(int id)
         {
-            _service.AbandonSeries(seriesId);
+            _service.AbandonSeries(id);
         }
 
         [Route("API/ReinstateSeries")]
         [HttpPost]
-        public void Reinstate(int seriesId)
+        public void ReinstateSeries(int id)
         {
-            _service.ReinstateSeries(seriesId);
+            _service.ReinstateSeries(id);
         }
 
         [Route("API/MarkAsRead")]

@@ -56,6 +56,7 @@ libraryViewModel.reinstateSeries = function (data, event) {
 libraryViewModel.deleteSeries = function (data, event) {
     if (!confirm("Delete this series?"))
         return;
+
     AJAX.post(URL.get("removeFromLibrary", data.id), null, function (result) {
         libraryViewModel.load();
     });

@@ -53,7 +53,7 @@
         <span id="getNewUrl" data-stuff-url="@Url.Action("GetNew", controllerName, new { limit = 12 })"></span>
         <span id="getNextUrl" data-stuff-url="@Url.Action("GetNext", controllerName)"></span>
         <span id="getSeriesUrl" data-stuff-url="@Url.Action("GetSeries", controllerName, new { seriesId = "id", limit = 12 })"></span>
-        <span id="abandonSeriesUrl" data-stuff-url="@Url.Action("AbandonSeries", controllerName, new { seriesId = "id" })"></span>
+        <span id="abandonSeriesUrl" data-stuff-url="@Url.Action("AbandonSeries", controllerName, new { id = "id" })"></span>
         <span id="reinstateSeriesUrl" data-stuff-url="@Url.Action("ReinstateSeries", controllerName, new { id = "id" })"></span>
         <span id="removeFromLibraryUrl" data-stuff-url="@Url.Action("RemoveFromLibrary", controllerName, new { id = "id" })"></span>
         <span id="addToLibraryUrl" data-stuff-url="@Url.Action("AddToLibrary", controllerName)"></span>
