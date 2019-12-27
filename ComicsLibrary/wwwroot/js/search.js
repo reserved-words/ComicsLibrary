@@ -100,14 +100,15 @@ searchViewModel.selectSeries = function (data, event) {
 }
 
 searchViewModel.getMoreComics = function () {
-    if (!searchViewModel.selectedSeries().marvelId)
+    if (!searchViewModel.selectedSeries().marvelId) {
         return;
+    }
     
     var url = URL.get('getComicsByMarvelId', searchViewModel.selectedSeries().marvelId, searchViewModel.comics().length);
     AJAX.get(url, function (result) {
         searchViewModel.comicsPagesFetched(result.page);
         searchViewModel.totalComicsPages(result.totalPages);
-        $(result.Results).each(function (index, element) {
+        $(result.results).each(function (index, element) {
             searchViewModel.comics.push({
                 title: element.issueTitle,
                 imageUrl: element.imageUrl,
