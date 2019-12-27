@@ -1,135 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6D7E0BD9-7FE8-40D6-A258-8DA736598ED1}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ComicsLibrary.Updater</RootNamespace>
-    <AssemblyName>ComicsLibrary.Updater</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VM|AnyCPU'">
-    <OutputPath>bin\VM\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Web.Release|AnyCPU'">
-    <OutputPath>bin\Web.Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ComicsUpdater.Release|AnyCPU'">
-    <OutputPath>bin\ComicsUpdater.Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RssUpdater.Release|AnyCPU'">
-    <OutputPath>bin\RssUpdater.Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="MarvelSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MarvelSharp.1.0.0\lib\net452\MarvelSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <None Remove="appSettings.json" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="AppKeys.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="appSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj">
-      <Project>{758894C3-4470-48B0-A0C4-DF487C815817}</Project>
-      <Name>ComicsLibrary.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Contracts\ComicsLibrary.Data.Contracts.csproj">
-      <Project>{BB418CB3-9453-424C-AACB-23C30064FCB6}</Project>
-      <Name>ComicsLibrary.Data.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Data\ComicsLibrary.Data.csproj">
-      <Project>{875D3531-29A5-4CD3-8770-44CBCE5C35BD}</Project>
-      <Name>ComicsLibrary.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj">
-      <Project>{A3D32AF0-700C-4506-9AF2-7C2987A1BF0C}</Project>
-      <Name>ComicsLibrary.Mapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj">
-      <Project>{ec755b89-a04a-4b4c-9ca0-b8e7d6fc81d5}</Project>
-      <Name>ComicsLibrary.MarvelApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComicsLibrary.Services\ComicsLibrary.Services.csproj">
-      <Project>{4C29CE59-376F-4348-968D-11E67C851D53}</Project>
-      <Name>ComicsLibrary.Services</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj" />
+    <ProjectReference Include="..\ComicsLibrary.Data\ComicsLibrary.Data.csproj" />
+    <ProjectReference Include="..\ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj" />
+    <ProjectReference Include="..\ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj" />
+    <ProjectReference Include="..\ComicsLibrary.Services\ComicsLibrary.Services.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

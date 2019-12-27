@@ -1,20 +1,21 @@
-﻿using ComicsLibrary.Common.Services;
-using System.Configuration;
+﻿using ComicsLibrary.Common.Interfaces;
+using Microsoft.Extensions.Configuration;
 
-namespace ComicsLibrary.Services
+namespace ComicsLibrary
 {
-    public class AppKeys : IAppKeys, IMarvelAppKeys
+    public class AppKeys : IMarvelAppKeys
     {
-        public string ValidGmailLogin => GetValue("ValidGmailLogin");
+        private readonly IConfiguration _config;
 
-        public string GoogleClientId => GetValue("GoogleClientId");
-
-        public string GoogleClientSecret => GetValue("GoogleClientSecret");
+        public AppKeys(IConfiguration config)
+        {
+            _config = config;
+        }
 
         public string PrivateKey => GetValue("MarvelApiPrivateKey");
 
         public string PublicKey => GetValue("MarvelApiPublicKey");
 
-        private string GetValue(string key) => ConfigurationManager.AppSettings[key];
+        private string GetValue(string key) => _config[key];
     }
 }

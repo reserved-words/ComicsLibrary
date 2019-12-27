@@ -1,6 +1,5 @@
 ﻿using ComicsLibrary.Common.Models;
-using ComicsLibrary.Common.Services;
-using ComicsLibrary.Data.Contracts;
+using ComicsLibrary.Common.Interfaces;
 using System;
 using System.Linq;
 using Comic = ComicsLibrary.Common.Models.Comic;

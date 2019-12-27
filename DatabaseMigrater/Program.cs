@@ -33,7 +33,7 @@ namespace DatabaseMigrater
             var logFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "ReservedWords",
-                "GameDeals");
+                "ComicsLibrary");
 
             Directory.CreateDirectory(logFolder);
 

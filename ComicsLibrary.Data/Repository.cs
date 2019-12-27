@@ -1,10 +1,11 @@
-﻿using ComicsLibrary.Data.Contracts;
+﻿using ComicsLibrary.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace ComicsLibrary.Data
 {

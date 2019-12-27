@@ -1,4 +1,4 @@
-﻿using ComicsLibrary.Common.Services;
+﻿using ComicsLibrary.Common.Interfaces;
 using System;
 
 namespace ComicsLibrary.Services

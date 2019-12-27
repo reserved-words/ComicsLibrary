@@ -1,37 +1,31 @@
-﻿using ComicsLibrary.Data.Contracts;
+﻿using ComicsLibrary.Common.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ComicsLibrary.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        private readonly Dictionary<Type, IRepository> _repositories;
+        private readonly Dictionary<Type, IRepository> _repositories = new Dictionary<Type, IRepository>();
 
-        public UnitOfWork()
+        public UnitOfWork(IConfiguration config)
         {
-            _context = new ApplicationDbContext();
-            _repositories = new Dictionary<Type, IRepository>();
-        }
-
-        public UnitOfWork(string connectionString)
-        {
-            _context = new ApplicationDbContext(connectionString);
-            _repositories = new Dictionary<Type, IRepository>();
+            _context = new ApplicationDbContext(config["ComicsLibraryConnectionString"]);
         }
 
         public IRepository<T> Repository<T>() where T : class
         {
-            if (!_repositories.Keys.Contains(typeof(T)))
+            if (!_repositories.TryGetValue(typeof(T), out IRepository repository))
             {
-                _repositories.Add(typeof(T), new Repository<T>(_context));
+                repository = new Repository<T>(_context);
+                _repositories.Add(typeof(T), repository);
             }
 
-            return _repositories[typeof(T)] as IRepository<T>;
+            return repository as IRepository<T>;
         }
-        
+
         public void Save()
         {
             _context.SaveChanges();

@@ -1,14 +1,16 @@
-﻿using ComicsLibrary.Common.Services;
-using System.Configuration;
+﻿using ComicsLibrary.Common.Interfaces;
 
-namespace ComicsLibrary.Services
+namespace ComicsLibrary.Updater
 {
     public class AppKeys : IMarvelAppKeys
     {
-        public string PrivateKey => GetValue("MarvelApiPrivateKey");
+        public AppKeys(string privateKey, string publicKey)
+        {
+            PrivateKey = privateKey;
+            PublicKey = publicKey;
+        }
 
-        public string PublicKey => GetValue("MarvelApiPublicKey");
-
-        private string GetValue(string key) => ConfigurationManager.AppSettings[key];
+        public string PrivateKey { get; }
+        public string PublicKey { get;}
     }
 }

@@ -1,0 +1,298 @@
+﻿
+@import "../lib/Bootstrap/scss/_functions";
+@import "../lib/Bootstrap/scss/_variables";
+@import "../lib/FontAwesome/scss/fontawesome";
+
+@body-bg:                   #444444;
+
+@text-color:                #CCC;
+
+@link-color:                @text-color;
+@link-hover-color:          darken(@link-color, 15%);
+
+@brand-primary:             #563e60;
+@brand-info:                #40656f;
+@brand-danger:              #7d363e;
+
+@panel-bg:                  darken(@body-bg, 3%);
+
+@panel-primary-border:      #777;
+
+@panel-info-text:           @text-color;
+
+@panel-default-text:        @text-color;
+@panel-default-border:      #888;
+@panel-default-heading-bg:  #444;
+
+@panel-danger-heading-bg:   @brand-danger;
+@panel-danger-text:         @text-color;
+@panel-danger-border:       #888;
+
+@panel-heading-bg:          #555;
+@panel-footer-bg:           @panel-heading-bg;
+
+@btn-primary-border:        #666;
+@btn-danger-border:         #666;
+@btn-info-border:           #666;
+@btn-info-bg:               @brand-info;
+
+@state-info-bg:             @brand-info;
+@state-info-border:         #888;
+
+@table-bg:                  @panel-bg;
+@table-bg-hover:            lighten(@table-bg, 10%);
+@table-border-color:        #BBB;
+@table-bg-accent:           lighten(@table-bg, 3%);
+
+@input-bg:                  #fcfcfc;
+
+@modal-content-bg:          #555;
+@modal-content-border-color:#e5e5e5;
+@modal-header-border-color: #e5e5e5;
+@modal-footer-border-color: @modal-header-border-color;
+
+@modal-header-footer-bg:    #3b3b3b;
+
+.modal-header, .modal-footer {
+    background-color:       @modal-header-footer-bg;
+}
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('fonts/glyphicons-halflings-regular.eot');
+  src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+input, select {
+    height: 20px;
+}
+
+    input.currency {
+        width: 80px;
+        text-align: right;
+    }
+
+    input.datebox {
+        width: 155px;
+    }
+
+    input.datetimebox {
+        width: 200px;
+    }
+
+div.spinner {
+    position: fixed;
+    left: 0;
+    top: 0;
+    opacity: 0.4;
+    z-index: 9999;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    background: no-repeat center #fff;
+    text-align: center;
+    font: normal 16px Tahoma, Geneva, sans-serif;
+}
+
+    div.spinner .spinner-element {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -50px 0px 0px -50px;
+    }
+
+.cursor-drag {
+    cursor: move;
+}
+
+.sortlist{
+    min-height: 10px;
+    margin-bottom: 0;
+}
+
+.sortlist li {
+    padding: 0.5em;
+    border-bottom: 1px solid #dbdbdb;
+}
+
+    .sortlist li:last-child {
+        border-bottom-width: 0;
+    }
+
+.panel-condensed .panel-heading,
+.panel-condensed .panel-body,
+.panel-condensed .panel-footer {
+    padding: 0.7em;
+}
+
+td {
+    color: @text-color;
+}
+
+.image-container {
+    position: relative;
+}
+
+.selected img {
+    opacity: 0.2;
+}
+
+.selected-label {
+    display: none;
+    position: absolute;
+    bottom: 50%;
+    left: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.selected .selected-label {
+    display: inline;
+}
+
+.btn-info {
+    background-color: @btn-info-bg;
+    border-color: @btn-info-border;
+}
+
+.nav-tabs li.active a,
+.nav-tabs li.active a:hover,
+.nav-tabs li.active a:disabled,
+.nav-tabs li.active a:visited,
+.nav-tabs li.active a:active,
+.nav li a,
+.nav li a:hover,
+.nav li a:disabled,
+.nav li a:visited,
+.nav li a:active,
+.navbar-header a,
+.navbar-header a:hover,
+.navbar-header a:disabled,
+.navbar-header a:visited,
+.navbar-header a:active,
+a.btn,
+a.btn:hover,
+a.btn:disabled,
+a.btn:visited,
+a.btn:active,
+.dropdown a,
+.dropdown a:hover,
+.dropdown a:disabled,
+.dropdown a:visited,
+.dropdown a:active {
+    color: @text-color;
+    text-decoration: none;
+}
+
+.dropdown-menu li a,
+.dropdown-menu li a:hover,
+.dropdown-menu li a:disabled,
+.dropdown-menu li a:visited,
+.dropdown-menu li a:active {
+    color: @body-bg;
+    text-decoration: none;
+}
+
+a,
+a:hover,
+a:disabled,
+a:visited,
+a:active {
+    color: @text-color;
+    text-decoration: underline;
+}
+
+.btn-secondary {
+    color: @text-color;
+}
+
+.editor-toolbar {
+    background-color: white;
+}
+
+ul.list-inline-condensed-right li {
+    padding-left: 0;
+}
+
+ul.list-inline-condensed-left li {
+    padding-right: 0;
+}
+
+span.menu-badge {
+    font-size: 0.7em;
+    display: block;
+    position: absolute;
+    right: -4px;
+    top: 7px;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+img.selectable {
+    width:100%;
+    margin: 0;
+    opacity: 1;
+}
+
+img.selected {
+    opacity: 0.15;
+}
+
+.thumbnail{
+    padding: 0;
+}
+
+i.link {
+    cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+}
+
+.split-header {
+    margin-bottom: 15px;
+
+    h2, h3 {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+}
+
+.book {
+    float: left; 
+    margin: 0 10px 0 0; 
+    padding: 10px 0 0 0;
+}
+
+@import "../lib/Bootstrap/scss/bootstrap";

@@ -4,10 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comics Library</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     <meta name="description" content="Comics Library" />
     <link rel="SHORTCUT ICON" href="~/favicon.ico" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -39,7 +38,7 @@
     </div>
 
     <div data-bind="visible: loading" class="spinner" id="loading-indicator">
-        <img src=@Url.Content("~/Images/loading.gif") class="spinner-element" />
+        <img src=@Url.Content("~/loading.gif") class="spinner-element" />
     </div>
 
     <div class="hidden">
@@ -49,12 +48,12 @@
         <span id="searchUrl" data-stuff-url="@Url.Action("Index", "Search")"></span>
         <span id="seriesUrl" data-stuff-url="@Url.Action("Index", "Series")"></span>
 
-        @{ var controllerName = "Comics"; }
+        @{ var controllerName = "API"; }
         <span id="getUpdatedUrl" data-stuff-url="@Url.Action("GetUpdated", controllerName, new { limit = 12 })"></span>
         <span id="getNewUrl" data-stuff-url="@Url.Action("GetNew", controllerName, new { limit = 12 })"></span>
         <span id="getNextUrl" data-stuff-url="@Url.Action("GetNext", controllerName)"></span>
         <span id="getSeriesUrl" data-stuff-url="@Url.Action("GetSeries", controllerName, new { seriesId = "id", limit = 12 })"></span>
-        <span id="abandonSeriesUrl" data-stuff-url="@Url.Action("AbandonSeries", controllerName, new { seriesId = "id" })"></span>
+        <span id="abandonSeriesUrl" data-stuff-url="@Url.Action("AbandonSeries", controllerName, new { id = "id" })"></span>
         <span id="reinstateSeriesUrl" data-stuff-url="@Url.Action("ReinstateSeries", controllerName, new { id = "id" })"></span>
         <span id="removeFromLibraryUrl" data-stuff-url="@Url.Action("RemoveFromLibrary", controllerName, new { id = "id" })"></span>
         <span id="addToLibraryUrl" data-stuff-url="@Url.Action("AddToLibrary", controllerName)"></span>
@@ -71,8 +70,20 @@
         <span id="getComicsByMarvelIdUrl" data-stuff-url="@Url.Action("GetComicsByMarvelId", controllerName, new { marvelId = "id", limit = 12, offset = "offset" })"></span>
     </div>
 
-    @Scripts.Render("~/bundles/Comics")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/lib/JQuery/jquery-3.4.1.min.js"></script>
+    <script src="~/lib/Bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/FontAwesome/js/fontawesome.js"></script>
+    <script src="~/lib/KnockoutJS/knockout-3.5.0.js"></script>
+    <script src="~/lib/KnockoutJS/ko-scrollHandler.js"></script>
+    <script src="~/lib/MomentJS/moment.js"></script>
+    <script src="~/lib/RequireJS/require.js"></script>
+    <script src="~/js/common.js"></script>
+    <script src="~/js/search.js"></script>
+    <script src="~/js/series.js"></script>
+    <script src="~/js/latest.js"></script>
+    <script src="~/js/library.js"></script>
+    <script src="~/js/current.js"></script>
+    <script src="~/js/index.js"></script>
 
 </body>
 </html>

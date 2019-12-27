@@ -1,10 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using ComicsLibrary.ExtensionMethods;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ComicsLibrary.Controllers
 {
-    public class SearchController : Controller
+    public class SearchController : BaseController
     {
-        public ActionResult Index()
+        public IActionResult Index()
         {
             if (Request.IsAjaxRequest())
             {
