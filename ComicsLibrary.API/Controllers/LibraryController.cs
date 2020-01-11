@@ -1,120 +1,116 @@
-﻿using ComicsLibrary.Common.Interfaces;
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
 using ComicsLibrary.Common.Api;
+using ComicsLibrary.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace ComicsLibrary.Controllers
+namespace ComicsLibrary.API.Controllers
 {
-    public class APIController : ControllerBase
+    [Route("library")]
+    public class LibraryController : ControllerBase
     {
         private readonly IService _service;
 
-        public APIController(IService service)
+        public LibraryController(IService service)
         {
             _service = service;
         }
 
-        [Route("API/GetNew")]
+        [Route("GetNew")]
         [HttpGet]
         public List<Comic> GetNew(int limit)
         {
             return _service.GetLatestAdded(limit);
         }
 
-        [Route("API/GetUpdated")]
+        [Route("GetUpdated")]
         [HttpGet]
         public List<Comic> GetUpdated(int limit)
         {
             return _service.GetLatestUpdated(limit);
         }
 
-        [Route("API/GetNext")]
+        [Route("GetNext")]
         [HttpGet]
         public List<Series> GetNext()
         {
             return _service.GetToReadNext();
         }
 
-        [Route("API/GetSeriesInProgress")]
+        [Route("GetSeriesInProgress")]
         [HttpGet]
         public List<Series> GetSeriesInProgress()
         {
             return _service.GetSeriesInProgress();
         }
 
-        [Route("API/GetSeriesToRead")]
+        [Route("GetSeriesToRead")]
         [HttpGet]
         public List<Series> GetSeriesToRead()
         {
             return _service.GetSeriesToRead();
         }
 
-        [Route("API/GetSeriesFinished")]
+        [Route("GetSeriesFinished")]
         [HttpGet]
         public List<Series> GetSeriesFinished()
         {
             return _service.GetSeriesFinished();
         }
 
-        [Route("API/GetSeriesAbandoned")]
+        [Route("GetSeriesAbandoned")]
         [HttpGet]
         public List<Series> GetSeriesAbandoned()
         {
             return _service.GetSeriesAbandoned();
         }
 
-        [Route("API/GetSeries")]
+        [Route("GetSeries")]
         [HttpGet]
         public Series GetSeries(int seriesId, int limit)
         {
             return _service.GetSeries(seriesId, limit);
         }
 
-        [Route("API/GetComics")]
+        [Route("GetComics")]
         [HttpGet]
         public List<Comic> GetComics(int seriesId, int limit, int offset)
         {
             return _service.GetComics(seriesId, limit, offset);
         }
 
-        [Route("API/GetComicsByMarvelId")]
-        [HttpGet]
-        public async Task<PagedResult<Comic>> GetComicsByMarvelId(int marvelId, int limit, int offset)
-        {
-            return await _service.GetComicsByMarvelId(marvelId, limit, offset);
-        }
-
-        [Route("API/AddToLibrary")]
+        [Route("AddToLibrary")]
         [HttpPost]
         public async Task<int> AddToLibrary(Series series)
         {
             return await _service.AddSeriesToLibrary(series);
         }
 
-        [Route("API/RemoveFromLibrary")]
+        [Route("RemoveFromLibrary")]
         [HttpPost]
         public void RemoveFromLibrary(int id)
         {
             _service.RemoveSeriesFromLibrary(id);
         }
 
-        [Route("API/AbandonSeries")]
+        [Route("AbandonSeries")]
         [HttpPost]
         public void AbandonSeries(int id)
         {
             _service.AbandonSeries(id);
         }
 
-        [Route("API/ReinstateSeries")]
+        [Route("ReinstateSeries")]
         [HttpPost]
         public void ReinstateSeries(int id)
         {
             _service.ReinstateSeries(id);
         }
 
-        [Route("API/MarkAsRead")]
+        [Route("MarkAsRead")]
         [HttpPost]
         public IActionResult MarkAsRead(int[] ids)
         {
@@ -126,7 +122,7 @@ namespace ComicsLibrary.Controllers
             return Ok();
         }
 
-        [Route("API/MarkAsUnread")]
+        [Route("MarkAsUnread")]
         [HttpPost]
         public IActionResult MarkAsUnread(int[] ids)
         {
@@ -138,7 +134,7 @@ namespace ComicsLibrary.Controllers
             return Ok();
         }
 
-        [Route("API/AddToReadNext")]
+        [Route("AddToReadNext")]
         [HttpPost]
         public IActionResult AddToReadNext(int[] ids)
         {
@@ -150,7 +146,7 @@ namespace ComicsLibrary.Controllers
             return Ok();
         }
 
-        [Route("API/RemoveFromReadNext")]
+        [Route("RemoveFromReadNext")]
         [HttpPost]
         public IActionResult RemoveFromReadNext(int[] ids)
         {
@@ -160,13 +156,6 @@ namespace ComicsLibrary.Controllers
             }
 
             return Ok();
-        }
-
-        [Route("API/SearchByTitle")]
-        [HttpGet]
-        public async Task<PagedResult<Series>> SearchByTitle(string title, int sortOrder, int limit, int page)
-        {
-            return await _service.SearchByTitle(title, sortOrder, limit, page);
         }
     }
 }

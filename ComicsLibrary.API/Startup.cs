@@ -5,14 +5,18 @@ using System.Threading.Tasks;
 using ComicsLibrary.Common.Delegates;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Data;
+using ComicsLibrary.Mapper;
 using ComicsLibrary.Services;
+using ComicsLibrary.Updater;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace ComicsLibrary
+namespace ComicsLibrary.API
 {
     public class Startup
     {
@@ -26,8 +30,17 @@ namespace ComicsLibrary
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ILogger, Logger>();
-            services.AddControllersWithViews();
+            services.AddTransient<IService, Service>();
+            services.AddTransient<IMapper, Mapper.Mapper>();
+            services.AddTransient<IApiService, MarvelComicsApi.Service>();
+            services.AddTransient<IMarvelAppKeys, AppKeys>();
+            services.AddTransient<Common.Interfaces.ILogger, Logger>();
+            services.AddTransient<IAsyncHelper, AsyncHelper>();
+
+            services.AddScoped(sp => new GetCurrentDateTime(() => DateTime.Now));
+            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(Configuration));
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,11 +50,6 @@ namespace ComicsLibrary
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -49,9 +57,7 @@ namespace ComicsLibrary
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }
