@@ -27,7 +27,7 @@ namespace ComicsLibrary.Data
         }
 
         public virtual DbSet<Series> Series { get; set; }
-        public virtual DbSet<Comic> ComicSeries { get; set; }
+        public virtual DbSet<Comic> Comics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
