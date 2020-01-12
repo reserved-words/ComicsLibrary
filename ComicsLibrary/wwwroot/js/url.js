@@ -5,13 +5,13 @@
     },
 
     base: window.location.href,
-    apiBase: "http://localhost:58281/",
+    apiBase: $('#apiBaseUrl').attr('data-stuff-url'),
     limit: 12,
 
     getUpdated: function () { return this.apiBase + "library/getUpdated?limit=" + this.limit },
     getNew: function () { return this.apiBase + "library/getNew?limit=" + this.limit },
     getNext: function () { return this.apiBase + "library/getNext" },
-    getSeries: function (id) { return this.apiBase + "library/getSeries?id=" + id + "&limit=" + this.limit },
+    getSeries: function (id) { return this.apiBase + "library/getSeries?seriesId=" + id + "&limit=" + this.limit },
     abandonSeries: function (id) { return this.apiBase + "library/abandonSeries?id=" + id },
     reinstateSeries: function (id) { return this.apiBase + "library/reinstateSeries?id=" + id },
     removeFromLibrary: function (id) { return this.apiBase + "library/removeFromLibrary?id=" + id },

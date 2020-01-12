@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    string apiBaseUrl = Configuration["ApiBaseUrl"];
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -47,6 +53,7 @@
         <span id="libraryUrl" data-stuff-url="@Url.Action("Index", "Library")"></span>
         <span id="searchUrl" data-stuff-url="@Url.Action("Index", "Search")"></span>
         <span id="seriesUrl" data-stuff-url="@Url.Action("Index", "Series")"></span>
+        <span id="apiBaseUrl" data-stuff-url="@apiBaseUrl"></span>
     </div>
 
     <script src="~/lib/JQuery/jquery-3.4.1.min.js"></script>

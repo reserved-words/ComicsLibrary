@@ -13,13 +13,17 @@ namespace ComicsLibrary.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _config;
+
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
 
-        public IConfiguration Configuration { get; }
+        //public IConfiguration Configuration { get; }
 
+        public string ApiAllowedCorsOrigin => _config.GetValue<string>("ApiAllowedCorsOrigin");
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,7 +35,7 @@ namespace ComicsLibrary.API
             services.AddTransient<IAsyncHelper, AsyncHelper>();
 
             services.AddScoped(sp => new GetCurrentDateTime(() => DateTime.Now));
-            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(Configuration));
+            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(_config));
 
             services.AddControllers();
         }
@@ -39,6 +43,13 @@ namespace ComicsLibrary.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(
+                options => options
+                    .WithOrigins(ApiAllowedCorsOrigin)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+            );
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
