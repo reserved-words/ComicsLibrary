@@ -35,7 +35,7 @@ namespace ComicsLibrary.API
             services.AddTransient<IAsyncHelper, AsyncHelper>();
 
             services.AddScoped(sp => new GetCurrentDateTime(() => DateTime.Now));
-            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(_config));
+            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(_config["ComicsLibraryConnectionString"]));
 
             services.AddControllers();
         }
