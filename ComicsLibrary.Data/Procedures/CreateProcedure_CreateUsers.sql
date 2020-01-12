@@ -39,7 +39,7 @@ BEGIN
 	EXEC sp_executesql @SqlStatement
 	SET @SqlStatement = 'GRANT INSERT, UPDATE, DELETE ON ComicsLibrary.Comics TO [' + @WebAppUser + ']'
 	EXEC sp_executesql @SqlStatement
-	SET @SqlStatement = 'GRANT INSERT, UPDATE, DELETE ON ComicsLibrary.ComicSeries TO [' + @WebAppUser + ']'
+	SET @SqlStatement = 'GRANT INSERT, UPDATE, DELETE ON ComicsLibrary.Series TO [' + @WebAppUser + ']'
 	EXEC sp_executesql @SqlStatement
 END
 GO
