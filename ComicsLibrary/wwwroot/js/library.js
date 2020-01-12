@@ -20,16 +20,16 @@ libraryViewModel.load = function (id) {
 
     switch (id) {
         case "To Read":
-            url = URL.get("getSeriesToRead");
+            url = URL.getSeriesToRead();
             break;
         case "Finished":
-            url = URL.get("getSeriesFinished");
+            url = URL.getSeriesFinished();
             break;
         case "Abandoned":
-            url = URL.get("getSeriesAbandoned");
+            url = URL.getSeriesAbandoned();
             break;
         default:
-            url = URL.get("getSeriesInProgress");
+            url = URL.getSeriesInProgress();
             break;
     }
 
@@ -42,13 +42,13 @@ libraryViewModel.load = function (id) {
 }
 
 libraryViewModel.abandonSeries = function (data, event) {
-    AJAX.post(URL.get("abandonSeries", data.id), null, function (result) {
+    AJAX.post(URL.abandonSeries(data.id), null, function (result) {
         libraryViewModel.load();
     });
 }
 
 libraryViewModel.reinstateSeries = function (data, event) {
-    AJAX.post(URL.get("reinstateSeries", data.id), null, function (result) {
+    AJAX.post(URL.reinstateSeries(data.id), null, function (result) {
         libraryViewModel.load();
     });
 }
@@ -57,7 +57,7 @@ libraryViewModel.deleteSeries = function (data, event) {
     if (!confirm("Delete this series?"))
         return;
 
-    AJAX.post(URL.get("removeFromLibrary", data.id), null, function (result) {
+    AJAX.post(URL.removeFromLibrary(data.id), null, function (result) {
         libraryViewModel.load();
     });
 }

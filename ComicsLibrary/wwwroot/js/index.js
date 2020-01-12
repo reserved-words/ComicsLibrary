@@ -10,12 +10,12 @@
     ],
     menuClick: function (data, event) {
         setMenuItemActive(data);
-        loadContent(URL.get(data.id), data.viewModel, data.name);
+        loadContent(URL.getView(data.id), data.viewModel, data.name);
     },
     loading: ko.observable(true),
     loadSeries: function (id) {
         setMenuItemActive(null);
-        loadContent(URL.get("series", id), seriesViewModel, id);
+        loadContent(URL.getView("series", id), seriesViewModel, id);
     }
 };
 

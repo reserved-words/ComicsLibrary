@@ -47,27 +47,6 @@
         <span id="libraryUrl" data-stuff-url="@Url.Action("Index", "Library")"></span>
         <span id="searchUrl" data-stuff-url="@Url.Action("Index", "Search")"></span>
         <span id="seriesUrl" data-stuff-url="@Url.Action("Index", "Series")"></span>
-
-        @{ var controllerName = "API"; }
-        <span id="getUpdatedUrl" data-stuff-url="@Url.Action("GetUpdated", controllerName, new { limit = 12 })"></span>
-        <span id="getNewUrl" data-stuff-url="@Url.Action("GetNew", controllerName, new { limit = 12 })"></span>
-        <span id="getNextUrl" data-stuff-url="@Url.Action("GetNext", controllerName)"></span>
-        <span id="getSeriesUrl" data-stuff-url="@Url.Action("GetSeries", controllerName, new { seriesId = "id", limit = 12 })"></span>
-        <span id="abandonSeriesUrl" data-stuff-url="@Url.Action("AbandonSeries", controllerName, new { id = "id" })"></span>
-        <span id="reinstateSeriesUrl" data-stuff-url="@Url.Action("ReinstateSeries", controllerName, new { id = "id" })"></span>
-        <span id="removeFromLibraryUrl" data-stuff-url="@Url.Action("RemoveFromLibrary", controllerName, new { id = "id" })"></span>
-        <span id="addToLibraryUrl" data-stuff-url="@Url.Action("AddToLibrary", controllerName)"></span>
-        <span id="getComicsUrl" data-stuff-url="@Url.Action("GetComics", controllerName, new { seriesId = "id", limit = 12, offset = "offset" })"></span>
-        <span id="getSeriesToReadUrl" data-stuff-url="@Url.Action("GetSeriesToRead", controllerName)"></span>
-        <span id="getSeriesFinishedUrl" data-stuff-url="@Url.Action("GetSeriesFinished", controllerName)"></span>
-        <span id="getSeriesAbandonedUrl" data-stuff-url="@Url.Action("GetSeriesAbandoned", controllerName)"></span>
-        <span id="getSeriesInProgressUrl" data-stuff-url="@Url.Action("GetSeriesInProgress", controllerName)"></span>
-        <span id="searchByTitleUrl" data-stuff-url="@Url.Action("SearchByTitle", controllerName, new { title = "title", sortOrder = "sortOrder", limit = 10, page = "page" })"></span>
-        <span id="markAsReadUrl" data-stuff-url="@Url.Action("MarkAsRead", controllerName)"></span>
-        <span id="markAsUnreadUrl" data-stuff-url="@Url.Action("MarkAsUnread", controllerName)"></span>
-        <span id="addToReadNextUrl" data-stuff-url="@Url.Action("AddToReadNext", controllerName)"></span>
-        <span id="removeFromReadNextUrl" data-stuff-url="@Url.Action("RemoveFromReadNext", controllerName)"></span>
-        <span id="getComicsByMarvelIdUrl" data-stuff-url="@Url.Action("GetComicsByMarvelId", controllerName, new { marvelId = "id", limit = 12, offset = "offset" })"></span>
     </div>
 
     <script src="~/lib/JQuery/jquery-3.4.1.min.js"></script>
@@ -77,6 +56,7 @@
     <script src="~/lib/KnockoutJS/ko-scrollHandler.js"></script>
     <script src="~/lib/MomentJS/moment.js"></script>
     <script src="~/lib/RequireJS/require.js"></script>
+    <script src="~/js/url.js"></script>
     <script src="~/js/common.js"></script>
     <script src="~/js/search.js"></script>
     <script src="~/js/series.js"></script>

@@ -20,7 +20,7 @@
         index.loadSeries(data.id());
     },
     addToLibrary: function (data, event) {
-        AJAX.post(URL.get('addToLibrary'), data, function (result) {
+        AJAX.post(URL.addToLibrary(), data, function (result) {
             if (result === 0)
             {
                 alert("Error");
@@ -65,7 +65,7 @@ searchViewModel.searchPage = function (page) {
         return;
     }
     self.noCriteria(false);
-    AJAX.get(URL.get("searchByTitle", '', '', page, self.sortOrder(), self.title()), function (data) {
+    AJAX.get(URL.searchByTitle(self.title(), self.sortOrder(), page), function (data) {
         self.totalPages(data.totalPages);
         self.page(data.page);
         self.nextPage(data.nextPage);
@@ -104,7 +104,7 @@ searchViewModel.getMoreComics = function () {
         return;
     }
     
-    var url = URL.get('getComicsByMarvelId', searchViewModel.selectedSeries().marvelId, searchViewModel.comics().length);
+    var url = URL.getComicsByMarvelId(searchViewModel.selectedSeries().marvelId, searchViewModel.comics().length);
     AJAX.get(url, function (result) {
         searchViewModel.comicsPagesFetched(result.page);
         searchViewModel.totalComicsPages(result.totalPages);

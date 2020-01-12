@@ -1,7 +1,7 @@
 ﻿using ComicsLibrary.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-namespace ComicsLibrary
+namespace ComicsLibrary.API
 {
     public class AppKeys : IMarvelAppKeys
     {

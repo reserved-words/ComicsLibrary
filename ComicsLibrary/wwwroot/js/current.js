@@ -10,7 +10,7 @@
 currentViewModel.load = function (id) {
     var self = this;
     self.selectedAction(0);
-    AJAX.get(URL.get("getNext"), function (data) {
+    AJAX.get(URL.getNext(), function (data) {
         self.collection.removeAll();
         $(data).each(function (index, element) {
             var series = {

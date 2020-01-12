@@ -6,10 +6,10 @@
         this.comics = params.comics;
         this.actions = [
             { url: "", name: "Select action:" },
-            { url: URL.get("markAsRead"), name: "Mark as Read" },
-            { url: URL.get("markAsUnread"), name: "Mark as Unread" },
-            { url: URL.get("addToReadNext"), name: "Add to Read Next" },
-            { url: URL.get("removeFromReadNext"), name: "Remove from Read Next" }
+            { url: URL.markAsRead(), name: "Mark as Read" },
+            { url: URL.markAsUnread(), name: "Mark as Unread" },
+            { url: URL.addToReadNext(), name: "Add to Read Next" },
+            { url: URL.removeFromReadNext(), name: "Remove from Read Next" }
         ];
         this.executeAction = function () {
             var self = this;

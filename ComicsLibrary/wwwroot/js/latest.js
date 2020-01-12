@@ -11,7 +11,7 @@ latestViewModel.load = function (id) {
     var self = this;
     self.selectedAction(0);
 
-    AJAX.get(URL.get('getUpdated'), function (data) {
+    AJAX.get(URL.getUpdated(), function (data) {
         self.updated.removeAll();
         $(data).each(function (index, element) {
             self.updated.push({
@@ -32,7 +32,7 @@ latestViewModel.load = function (id) {
         });
     });
 
-    AJAX.get(URL.get('getNew'), function (data) {
+    AJAX.get(URL.getNew(), function (data) {
         self.added.removeAll();
         $(data).each(function (index, element) {
             self.added.push({

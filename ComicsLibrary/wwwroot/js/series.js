@@ -16,7 +16,7 @@ seriesViewModel.load = function (id) {
     var self = this;
     self.selectedAction(0);
     self.id(id);
-    AJAX.get(URL.get('getSeries', id), function (data) {
+    AJAX.get(URL.getSeries(id), function (data) {
         self.id(data.id);
         self.title(data.mainTitle);
         self.subTitle(data.subTitle);
@@ -31,14 +31,14 @@ seriesViewModel.load = function (id) {
 
 seriesViewModel.abandonSeries = function () {
     var self = this;
-    AJAX.post(URL.get('abandonSeries', self.id()), null, function (result) {
+    AJAX.post(URL.abandonSeries(self.id()), null, function (result) {
         self.isAbandoned(true);
     });
 }
 
 seriesViewModel.reinstateSeries = function () {
     var self = this;
-    AJAX.post(URL.get('reinstateSeries', self.id()), null, function (result) {
+    AJAX.post(URL.reinstateSeries(self.id()), null, function (result) {
         self.isAbandoned(false);
     });
 }
@@ -47,13 +47,13 @@ seriesViewModel.deleteSeries = function () {
     if (!confirm("Delete this series?"))
         return;
     var self = this;
-    AJAX.post(URL.get('removeFromLibrary', self.id()), null, function (result) {
+    AJAX.post(URL.removeFromLibrary(self.id()), null, function (result) {
         index.loadSeries(0);
     });
 }
 
 seriesViewModel.getMoreComics = function () {
-    AJAX.get(URL.get('getComics', seriesViewModel.id(), seriesViewModel.comics().length), function (data) {
+    AJAX.get(URL.getComics(seriesViewModel.id(), seriesViewModel.comics().length), function (data) {
         $(data).each(function (index, element) {
             seriesViewModel.addComic(element);
         });

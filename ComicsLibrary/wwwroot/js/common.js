@@ -1,19 +1,4 @@
-﻿URL = {
-    get: function (name, id, offset, page, sortOrder, title) {
-        var actionUrl = $('#' + name + 'Url').attr('data-stuff-url');
-        return actionUrl
-            .replace('=id', '=' + id)
-            .replace('=Id', '=' + id)
-            .replace('=offset', '=' + offset)
-            .replace('=page', '=' + page)
-            .replace('=sortOrder', '=' + sortOrder)
-            .replace('=title', '=' + title);
-    },
-
-    base: window.location.href
-};
-
-AJAX = {
+﻿AJAX = {
     get: function (url, onLoaded) {
         index.loading(true);
         $.ajax({
