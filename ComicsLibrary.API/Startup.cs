@@ -20,22 +20,38 @@ namespace ComicsLibrary.API
             _config = config;
         }
 
-        //public IConfiguration Configuration { get; }
-
         public string ApiAllowedCorsOrigin => _config.GetValue<string>("ApiAllowedCorsOrigin");
-        
+        public string ApiAuthorityUrl => _config.GetValue<string>("ApiAuthorityUrl");
+        public string ApiConnectionString => _config.GetValue<string>("ApiConnectionString");
+        public string ApiName => _config.GetValue<string>("ApiName");
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = ApiAuthorityUrl;
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = ApiName;
+                });
+
+            services.AddCors();
+
+            services.AddMvcCore()
+                .AddMvcOptions(opt => opt.EnableEndpointRouting = false)
+                .AddAuthorization();
+
             services.AddTransient<IService, Service>();
             services.AddTransient<IMapper, Mapper.Mapper>();
             services.AddTransient<IApiService, MarvelComicsApi.Service>();
             services.AddTransient<IMarvelAppKeys, AppKeys>();
-            services.AddTransient<Common.Interfaces.ILogger, Logger>();
+            services.AddTransient<ILogger, Logger>();
             services.AddTransient<IAsyncHelper, AsyncHelper>();
 
             services.AddScoped(sp => new GetCurrentDateTime(() => DateTime.Now));
-            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(_config["ComicsLibraryConnectionString"]));
+            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(ApiConnectionString));
 
             services.AddControllers();
         }
@@ -56,8 +72,9 @@ namespace ComicsLibrary.API
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseMvc();
 
             app.UseEndpoints(endpoints =>
             {
