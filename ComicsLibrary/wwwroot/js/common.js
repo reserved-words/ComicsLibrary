@@ -1,34 +1,33 @@
-﻿AJAX = {
+﻿
+AJAX = {
     get: function (url, onLoaded) {
         index.loading(true);
-        $.ajax({
-            method: "GET",
-            url: url,
-            success: function (data) {
-                onLoaded(data);
+
+        mgr.getUser().then(function (user) {
+            console.log(user.access_token);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onload = function () {
+                onLoaded(JSON.parse(xhr.responseText));
                 index.loading(false);
-            },
-            error: function (ex) {
-                alert("Error");
             }
+            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+            xhr.send();
         });
     },
+
     post: function (url, data, onLoaded) {
         index.loading(true);
-        $.ajax({
-            url: url,
-            method: "POST",
-            data: data
-        })
-        .done(function (result) {
-            onLoaded(result);
-        })
-        .fail(function (jqXHR, textStatus) {
-            alert("Request failed: " + textStatus);
-            alert(JSON.stringify(jqXHR));
-        })
-        .always(function () {
-            index.loading(false);
+
+        mgr.getUser().then(function (user) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+            xhr.onload = function () {
+                onLoaded(JSON.parse(xhr.responseText));
+                index.loading(false);
+            }
+            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+            xhr.send(data);
         });
     }
 };

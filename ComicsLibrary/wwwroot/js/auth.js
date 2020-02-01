@@ -12,16 +12,15 @@ function authorize(config) {
         post_logout_redirect_uri: "http://localhost:54865/"
     };
 
-    console.log(JSON.stringify(authConfig));
-
     mgr = new Oidc.UserManager(authConfig);
 
     mgr.getUser().then(function (user) {
         if (user) {
-            alert("User logged in");
+            ko.applyBindings(index);
+            index.loading(false);
+            index.menuClick(index.menuItems[0], null);
         }
         else {
-            alert("User not logged in");
             mgr.signinRedirect();
         }
     });
@@ -33,7 +32,7 @@ function login() {
 
 function callback() {
     new Oidc.UserManager({ response_mode: "query" }).signinRedirectCallback().then(function () {
-        window.location = window.applicationBaseUrl;
+        window.location = "http://localhost:54865/";
     }).catch(function (e) {
         console.error(e);
     });
@@ -59,20 +58,6 @@ function callback() {
 
 function login() {
     mgr.signinRedirect();
-}
-
-function api() {
-    //mgr.getUser().then(function (user) {
-    //    var url = "http://localhost:58281/identity";
-
-    //    var xhr = new XMLHttpRequest();
-    //    xhr.open("GET", url);
-    //    xhr.onload = function () {
-    //        log(xhr.status, JSON.parse(xhr.responseText));
-    //    }
-    //    xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-    //    xhr.send();
-    //});
 }
 
 function logout() {

@@ -37,12 +37,6 @@ var loadContent = function (viewUrl, viewModel, id) {
     });
 }
 
-//$(function () {
-//    ko.applyBindings(index);
-//    index.loading(false);
-//    index.menuClick(index.menuItems[0], null);
-//});
-
 $(document).on('click', '.navbar-collapse.in', function (e) {
     $(this).collapse('hide');
 });

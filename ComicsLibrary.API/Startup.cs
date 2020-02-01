@@ -66,20 +66,8 @@ namespace ComicsLibrary.API
                     .AllowAnyHeader()
             );
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
             app.UseMvc();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
