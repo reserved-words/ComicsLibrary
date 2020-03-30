@@ -24,6 +24,7 @@ namespace ComicsLibrary.API
         public string ApiAuthorityUrl => _config.GetValue<string>("ApiAuthorityUrl");
         public string ApiConnectionString => _config.GetValue<string>("ApiConnectionString");
         public string ApiName => _config.GetValue<string>("ApiName");
+        public string SchemaName => _config.GetValue<string>("SchemaName");
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -51,7 +52,7 @@ namespace ComicsLibrary.API
             services.AddTransient<IAsyncHelper, AsyncHelper>();
 
             services.AddScoped(sp => new GetCurrentDateTime(() => DateTime.Now));
-            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(ApiConnectionString));
+            services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(ApiConnectionString, SchemaName));
 
             services.AddControllers();
         }

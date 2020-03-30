@@ -1,37 +1,25 @@
 ﻿using ComicsLibrary.Common.Models;
 using Microsoft.EntityFrameworkCore;
+using PostDeploymentTools;
 
 namespace ComicsLibrary.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : MigratableDbContext
     {
-        public static string SchemaName = "ComicsLibrary";
-
         private const string DefaultConnectionString = "Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=ComicsLibrary;Integrated Security=True;";
-
-        private readonly string _connectionString;
+        private const string SchemaName = "ComicsLibrary";
 
         public ApplicationDbContext()
-            : this(DefaultConnectionString)
+            : this(DefaultConnectionString, SchemaName)
         {
         }
 
-        public ApplicationDbContext(string connectionString)
+        public ApplicationDbContext(string connectionString, string schemaName)
+            : base(connectionString, schemaName)
         {
-            _connectionString = connectionString;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionString, x => x.MigrationsHistoryTable("__MigrationsHistory", SchemaName));
         }
 
         public virtual DbSet<Series> Series { get; set; }
         public virtual DbSet<Comic> Comics { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.HasDefaultSchema(SchemaName);
-        }
     }
 }

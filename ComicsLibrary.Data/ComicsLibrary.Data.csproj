@@ -5,41 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Procedures\CreateProcedure_CreateUsers.sql" />
-    <None Remove="Procedures\DropProcedure_CreateUsers.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Procedures\CreateProcedure_CreateUsers.sql" />
-    <Content Include="Procedures\DropProcedure_CreateUsers.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="PostDeploymentTools" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources.resx">
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

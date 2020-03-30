@@ -10,9 +10,9 @@ namespace ComicsLibrary.Data
         private readonly ApplicationDbContext _context;
         private readonly Dictionary<Type, IRepository> _repositories = new Dictionary<Type, IRepository>();
 
-        public UnitOfWork(string connectionString)
+        public UnitOfWork(string connectionString, string schemaName)
         {
-            _context = new ApplicationDbContext(connectionString);
+            _context = new ApplicationDbContext(connectionString, schemaName);
         }
 
         public IRepository<T> Repository<T>() where T : class
