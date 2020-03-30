@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="bootstrap.sass" Version="4.4.1" />
+    <PackageReference Include="ErrorLog.Logger" Version="1.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>

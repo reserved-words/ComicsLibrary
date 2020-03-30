@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ErrorLog.Logger" Version="1.0.4" />
     <PackageReference Include="PreDeploymentTools" Version="1.0.4" />
   </ItemGroup>
 
