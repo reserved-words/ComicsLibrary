@@ -20,7 +20,7 @@ namespace ComicsLibrary.Services
         private readonly IApiService _apiService;
         private readonly ILogger _logger;
 
-        public Service(Func<IUnitOfWork> unitOfWorkFactory, IMapper mapper, 
+        public Service(Func<IUnitOfWork> unitOfWorkFactory, IMapper mapper,
             IApiService apiService, ILogger logger)
         {
             _apiService = apiService;
@@ -61,21 +61,6 @@ namespace ComicsLibrary.Services
             {
                 _logger.Log(ex);
                 return 0;
-            }
-        }
-
-        public void AddToReadNext(int[] ids)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                foreach (var id in ids)
-                {
-                    var comic = uow.Repository<Comic>().GetById(id);
-                    comic.ToReadNext = true;
-                    comic.IsRead = false;
-                }
-
-                uow.Save();
             }
         }
 
@@ -188,43 +173,6 @@ namespace ComicsLibrary.Services
             }
         }
 
-        public List<ApiComic> GetLatestAdded(int limit)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<Comic>()
-                    .Including(c => c.Series)
-                    .OrderByDescending(c => c.DateAdded)
-                    .Take(limit)
-                    .ToList()
-                    .Select(c => _mapper.Map<Comic, ApiComic>(c))
-                    .ToList();
-            }
-        }
-
-        public List<ApiSeries> GetToReadNext()
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var series = uow.Repository<Series>()
-                    .Including(s => s.Comics)
-                    .Where(s => s.Comics.Any(c => c.ToReadNext))
-                    .ToList();
-
-                foreach (var s in series)
-                {
-                    s.Comics = s.Comics
-                        .Where(c => c.ToReadNext)
-                        .OrderByDescending(c => c.IssueNumber)
-                        .ToList();
-                }
-
-                return series
-                    .Select(s => _mapper.Map<Series, ApiSeries>(s))
-                    .ToList();
-            }
-        }
-
         public void MarkAsRead(int[] ids)
         {
             using (var uow = _unitOfWorkFactory())
@@ -264,19 +212,6 @@ namespace ComicsLibrary.Services
             }
         }
 
-        public void RemoveFromReadNext(int[] ids)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                foreach (var id in ids)
-                {
-                    var comic = uow.Repository<Comic>().GetById(id);
-                    comic.ToReadNext = false;
-                }
-
-                uow.Save();
-            }
-        }
 
         public void RemoveSeriesFromLibrary(int id)
         {
@@ -393,7 +328,7 @@ namespace ComicsLibrary.Services
             {
                 if (string.IsNullOrEmpty(comic.ImageUrl) || comic.Title.EndsWith("Variant)"))
                     return;
-                    
+
                 var savedComic = uow.Repository<Comic>().SingleOrDefault(c => c.MarvelId == comic.MarvelId);
 
                 if (savedComic == null)
@@ -416,18 +351,22 @@ namespace ComicsLibrary.Services
             }
         }
 
-        public List<ApiComic> GetLatestUpdated(int limit)
+        public List<ApiComic> GetAllNextIssues()
         {
             using (var uow = _unitOfWorkFactory())
             {
-                return uow.Repository<Comic>()
+                var test = uow.Repository<Comic>()
                     .Including(c => c.Series)
-                    .Where(c =>  c.ReadUrlAdded.HasValue)
+                    .Where(c => !c.Series.Abandoned && !c.IsRead)
                     .OrderByDescending(c => c.ReadUrlAdded.Value)
-                    .Take(limit)
-                    .ToList()
-                    .Select(c => _mapper.Map<Comic, ApiComic>(c))
                     .ToList();
+
+                return test
+                     .GroupBy(c => c.SeriesId)
+                     .Select(g => g.First())
+                     .ToList()
+                     .Select(c => _mapper.Map<Comic, ApiComic>(c))
+                     .ToList();
             }
         }
     }

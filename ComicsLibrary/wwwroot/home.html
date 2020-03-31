@@ -1,0 +1,17 @@
+﻿
+<div class="container-fluid">
+    <div class="row split-header">
+        <div class="col-xs-12">
+            <h2>Marvel</h2>
+        </div>
+    </div>
+
+    <div class="grid" data-bind="foreach: comics">
+        <comic params="readUrl: readUrl,
+                       imageUrl: imageUrl,
+                       title: title,
+                       seriesTitle: seriesTitle,
+                       seriesId: seriesId" />
+    </div>
+
+</div>

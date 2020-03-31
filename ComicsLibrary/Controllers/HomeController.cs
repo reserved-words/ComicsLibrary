@@ -2,7 +2,7 @@
 
 namespace ComicsLibrary.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {

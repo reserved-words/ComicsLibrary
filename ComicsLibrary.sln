@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Updater", "Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.API", "ComicsLibrary.API\ComicsLibrary.API.csproj", "{4C23ACBB-85B7-4EFA-B67F-B80FF4FD8D03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.PreDeployment", "ComicsLibrary.PreDeployment\ComicsLibrary.PreDeployment.csproj", "{1C4F5A51-AA44-4D7A-BF75-4EC32112EC9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.PreDeployment", "ComicsLibrary.PreDeployment\ComicsLibrary.PreDeployment.csproj", "{1C4F5A51-AA44-4D7A-BF75-4EC32112EC9E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.PostDeployment", "ComicsLibrary.PostDeployment\ComicsLibrary.PostDeployment.csproj", "{70F96209-CBCA-4F4F-8792-F87D79B4F269}"
 EndProject

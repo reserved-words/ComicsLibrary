@@ -6,8 +6,7 @@ namespace ComicsLibrary.Common.Interfaces
 {
     public interface IService
     {
-        void RemoveFromReadNext(int[] ids);
-        void AddToReadNext(int[] ids);
+        List<Comic> GetAllNextIssues();
         void MarkAsUnread(int[] ids);
         void MarkAsRead(int[] ids);
         void ReinstateSeries(int id);
@@ -16,12 +15,10 @@ namespace ComicsLibrary.Common.Interfaces
         Task<int> AddSeriesToLibrary(Series series);
         Series GetSeries(int id, int numberOfComics);
         List<Comic> GetComics(int seriesId, int limit, int offset);
-        List<Series> GetToReadNext();
-        List<Comic> GetLatestAdded(int limit);
-        List<Comic> GetLatestUpdated(int limit);
         Task UpdateSeries(int maxNumberToUpdate);
         Task<PagedResult<Series>> SearchByTitle(string title, int sortOrder, int limit, int page);
         Task<PagedResult<Comic>> GetComicsByMarvelId(int marvelId, int limit, int offset);
+        
         List<Series> GetSeriesInProgress();
         List<Series> GetSeriesToRead();
         List<Series> GetSeriesFinished();

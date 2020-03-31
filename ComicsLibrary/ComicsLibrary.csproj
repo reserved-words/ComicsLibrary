@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\js\Templates\actions.html" />
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
     <None Include="wwwroot\js\Templates\comic.html" />
   </ItemGroup>
 
@@ -33,15 +37,6 @@
     <ProjectReference Include="..\ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj" />
     <ProjectReference Include="..\ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj" />
     <ProjectReference Include="..\ComicsLibrary.Services\ComicsLibrary.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\css\site.css">
-      <DependentUpon>site.scss</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\css\site.min.css">
-      <DependentUpon>site.css</DependentUpon>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

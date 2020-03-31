@@ -3,32 +3,32 @@ AJAX = {
     get: function (url, onLoaded) {
         index.loading(true);
 
-        mgr.getUser().then(function (user) {
-            console.log(user.access_token);
+        //mgr.getUser().then(function (user) {
+        //    console.log(user.access_token);
             var xhr = new XMLHttpRequest();
             xhr.open("GET", url);
             xhr.onload = function () {
                 onLoaded(JSON.parse(xhr.responseText));
                 index.loading(false);
             }
-            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+        //    xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
             xhr.send();
-        });
+        //});
     },
 
     post: function (url, data, onLoaded) {
         index.loading(true);
 
-        mgr.getUser().then(function (user) {
+        //mgr.getUser().then(function (user) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url);
             xhr.onload = function () {
                 onLoaded(JSON.parse(xhr.responseText));
                 index.loading(false);
             }
-            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+          //  xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
             xhr.send(data);
-        });
+     //   });
     }
 };
 
@@ -44,9 +44,4 @@ requirejs.config({
 ko.components.register('comic', {
     viewModel: { require: URL.base + '/js/Components/comic.js' },
     template: { require: 'text!../js/Templates/comic.html' }
-});
-
-ko.components.register('actions', {
-    viewModel: { require: URL.base + '/js/Components/actions.js' },
-    template: { require: 'text!../js/Templates/actions.html' }
 });

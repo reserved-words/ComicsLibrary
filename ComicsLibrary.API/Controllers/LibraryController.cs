@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
+using ComicsLibrary.Common.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComicsLibrary.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("library")]
     public class LibraryController : ControllerBase
     {
@@ -18,25 +19,12 @@ namespace ComicsLibrary.API.Controllers
             _service = service;
         }
 
-        [Route("GetNew")]
-        [HttpGet]
-        public List<Comic> GetNew(int limit)
-        {
-            return _service.GetLatestAdded(limit);
-        }
-
-        [Route("GetUpdated")]
-        [HttpGet]
-        public List<Comic> GetUpdated(int limit)
-        {
-            return _service.GetLatestUpdated(limit);
-        }
-
         [Route("GetNext")]
         [HttpGet]
-        public List<Series> GetNext()
+        public List<Comic> GetNext()
         {
-            return _service.GetToReadNext();
+            var test =  _service.GetAllNextIssues();
+            return test;
         }
 
         [Route("GetSeriesInProgress")]
@@ -128,30 +116,6 @@ namespace ComicsLibrary.API.Controllers
             if (ids != null)
             {
                 _service.MarkAsUnread(ids);
-            }
-
-            return Ok();
-        }
-
-        [Route("AddToReadNext")]
-        [HttpPost]
-        public IActionResult AddToReadNext(int[] ids)
-        {
-            if (ids != null)
-            {
-                _service.AddToReadNext(ids);
-            }
-
-            return Ok();
-        }
-
-        [Route("RemoveFromReadNext")]
-        [HttpPost]
-        public IActionResult RemoveFromReadNext(int[] ids)
-        {
-            if (ids != null)
-            {
-                _service.RemoveFromReadNext(ids);
             }
 
             return Ok();

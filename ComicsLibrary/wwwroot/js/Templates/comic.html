@@ -1,22 +1,12 @@
 ﻿<div class="thumbnail">
-    <img data-bind="attr:{src: imageUrl, title: seriesTitle}, css: { selected: selected }, click: select" class="selectable" />
+    <a data-bind="attr:{ href: readUrl }" href="" target="_blank">
+        <img data-bind="attr:{src: imageUrl, title: seriesTitle}" />
+    </a>
     <div class="caption">
-        <a data-bind="visible: readUrl, attr:{ href: readUrl }" href="" target="_blank">
-            <span data-bind="text: title"></span>
-        </a>
-        <span data-bind="visible: !readUrl, text: title"></span>
+        <span data-bind="text: seriesTitle, click: goToSeries"></span>
+        <span data-bind="text: title"></span>
         <div class="pull-right">
-            <i class="fa fa-book link" data-bind="visible: seriesId, click: goToSeries" title="Go To Series" />
-            <i class="fa fa-star" data-bind="visible: readNext" title="To Read Next"/>
-            <i class="fa fa-check" data-bind="visible: isRead" title="Read"/>
-            <i class="fa fa-exclamation-triangle" data-bind="visible: !readUrl" title="Not Available"/>
+            <i class="fa fa-exclamation-triangle" data-bind="visible: !readUrl" title="Not Available" />
         </div>
-        <br />
-        <small data-bind="visible: dateAdded">
-            Added <span data-bind="text: moment(dateAdded).format('DD/MM/YYYY HH:mm:ss')"></span>
-        </small>
-        <small data-bind="visible: dateUpdated">
-            Updated <span data-bind="text: moment(dateUpdated).format('DD/MM/YYYY HH:mm:ss')"></span>
-        </small>
     </div>
 </div>

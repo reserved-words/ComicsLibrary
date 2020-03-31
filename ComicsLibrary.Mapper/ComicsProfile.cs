@@ -116,10 +116,12 @@ namespace ComicsLibrary.Mapper
 
         private static string GetIssueTitle(Comic comic)
         {
-            if (!comic.OnSaleDate.HasValue)
-                return $"#{comic.IssueNumber}";
+            return $"#{comic.IssueNumber}";
 
-            return $"#{comic.IssueNumber} ({comic.OnSaleDate.Value.Date.ToString("dd/MM/yyyy")})";
+            //if (!comic.OnSaleDate.HasValue)
+            //    return $"#{comic.IssueNumber}";
+
+            //return $"#{comic.IssueNumber} ({comic.OnSaleDate.Value.Date.ToString("dd/MM/yyyy")})";
         }
 
         private static string GetTitle(Series series, bool subtitle)

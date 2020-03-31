@@ -1,16 +1,12 @@
 ﻿index = {
     menuItems: [
-        { id: "latest", name: "Recently Added", viewModel: latestViewModel, active: ko.observable(true) },
-        { id: "current", name: "Read Next", viewModel: currentViewModel, active: ko.observable(false) },
-        { id: "library", name: "In Progress", viewModel: libraryViewModel, active: ko.observable(false) },
-        { id: "library", name: "To Read", viewModel: libraryViewModel, active: ko.observable(false) },
-        { id: "library", name: "Finished", viewModel: libraryViewModel, active: ko.observable(false) },
-        { id: "library", name: "Abandoned", viewModel: libraryViewModel, active: ko.observable(false) },
+        { id: "home", name: "Home", viewModel: homeViewModel, active: ko.observable(true) },
+        { id: "library", name: "Library", viewModel: libraryViewModel, active: ko.observable(true) },
         { id: "search", name: "Search", viewModel: searchViewModel, active: ko.observable(false) }
     ],
     menuClick: function (data, event) {
         setMenuItemActive(data);
-        loadContent(URL.getView(data.id), data.viewModel, data.name);
+        loadContent(data.viewModel, data.name);
     },
     loading: ko.observable(true),
     loadSeries: function (id) {
@@ -28,8 +24,8 @@ var setMenuItemActive = function(activeItem) {
     }
 }
 
-var loadContent = function (viewUrl, viewModel, id) {
-    $("#content").load(viewUrl, function() {
+var loadContent = function (viewModel, id) {
+    $("#content").load(id + ".html", function() {
         viewModel.load(id);
         ko.cleanNode($('#content')[0]);
         ko.applyBindings(viewModel, $('#content')[0]);
@@ -39,4 +35,11 @@ var loadContent = function (viewUrl, viewModel, id) {
 
 $(document).on('click', '.navbar-collapse.in', function (e) {
     $(this).collapse('hide');
+});
+
+$(function ()
+{
+    ko.applyBindings(index);
+    index.loading(false);
+    index.menuClick(index.menuItems[0], null);
 });
