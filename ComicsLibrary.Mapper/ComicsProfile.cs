@@ -17,6 +17,8 @@ using MarvelCharacter = MarvelSharp.Model.Character;
 using ApiComic = ComicsLibrary.Common.Api.Comic;
 using ApiSeries = ComicsLibrary.Common.Api.Series;
 
+using NextComicInSeries = ComicsLibrary.Common.Api.NextComicInSeries;
+
 namespace ComicsLibrary.Mapper
 {
     public class ComicsProfile : Profile
@@ -75,7 +77,13 @@ namespace ComicsLibrary.Mapper
                 .ForMember(s => s.IssueTitle, act => act.MapFrom(src => GetIssueTitle(src)))
                 .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date : DateTime.MinValue));
 
-            CreateMap<Series, ApiSeries>()
+            CreateMap<Comic, NextComicInSeries>()
+                .ForMember(s => s.SeriesId, act => act.MapFrom(src => src.SeriesId))
+                .ForMember(s => s.SeriesTitle, act => act.MapFrom(src => GetSeriesTitle(src.Series)))
+                .ForMember(s => s.IssueTitle, act => act.MapFrom(src => GetIssueTitle(src)))
+                .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
+
+        CreateMap<Series, ApiSeries>()
                 .ForMember(s => s.ImageUrl, act => act.MapFrom(src => src.Comics.FirstOrDefault().ImageUrl))
                 .ForMember(s => s.MainTitle, act => act.MapFrom(src => GetTitle(src, false)))
                 .ForMember(s => s.SubTitle, act => act.MapFrom(src => GetTitle(src, true)))
@@ -149,6 +157,13 @@ namespace ComicsLibrary.Mapper
                 return series.StartYear.ToString();
 
             return $"{series.StartYear} - {series.EndYear}";
+        }
+
+        private static string GetSeriesTitle(Series series)
+        {
+            return series.StartYear == null
+                ? series.MainTitle
+                : $"{series.MainTitle} ({series.StartYear})";
         }
 
         private static string GetTitleCase(string str)

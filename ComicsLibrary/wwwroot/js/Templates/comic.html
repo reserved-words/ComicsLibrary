@@ -1,12 +1,16 @@
 ﻿<div class="thumbnail">
     <a data-bind="attr:{ href: readUrl }" href="" target="_blank">
-        <img data-bind="attr:{src: imageUrl, title: seriesTitle}" />
+        <img data-bind="attr:{src: imageUrl}" />
     </a>
     <div class="caption">
-        <span data-bind="text: seriesTitle, click: goToSeries"></span>
-        <span data-bind="text: title"></span>
+        <span data-bind="text: seriesTitle"></span><br />
+        <span data-bind="text: issueTitle"></span>
         <div class="pull-right">
             <i class="fa fa-exclamation-triangle" data-bind="visible: !readUrl" title="Not Available" />
         </div>
+        <span data-bind="visible:onSaleDate, text: onSaleDate"></span><br />
+        <a data-bind="click: goToSeries" href="">
+            <span data-bind="text: unreadIssues"></span> unread
+        </a>
     </div>
 </div>

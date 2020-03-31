@@ -2,6 +2,8 @@
 @import "../lib/Bootstrap/scss/_variables";
 @import "../lib/FontAwesome/scss/fontawesome";
 
+$font-size-base: 12px;
+
 div.spinner {
     position: fixed;
     left: 0;

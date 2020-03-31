@@ -4370,6 +4370,9 @@ readers do not read off random characters that represent icons */
   position: static;
   width: auto; }
 
+html, body {
+  font-size: 0.8rem; }
+
 div.spinner {
   position: fixed;
   left: 0;

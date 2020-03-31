@@ -6,12 +6,12 @@
     ],
     menuClick: function (data, event) {
         setMenuItemActive(data);
-        loadContent(data.viewModel, data.name);
+        loadContent(data.name, data.viewModel, data.name);
     },
     loading: ko.observable(true),
     loadSeries: function (id) {
         setMenuItemActive(null);
-        loadContent(URL.getView("series", id), seriesViewModel, id);
+        loadContent("series", seriesViewModel, id);
     }
 };
 
@@ -24,8 +24,8 @@ var setMenuItemActive = function(activeItem) {
     }
 }
 
-var loadContent = function (viewModel, id) {
-    $("#content").load(id + ".html", function() {
+var loadContent = function (name, viewModel, id) {
+    $("#content").load(name + ".html", function() {
         viewModel.load(id);
         ko.cleanNode($('#content')[0]);
         ko.applyBindings(viewModel, $('#content')[0]);

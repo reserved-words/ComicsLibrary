@@ -351,22 +351,31 @@ namespace ComicsLibrary.Services
             }
         }
 
-        public List<ApiComic> GetAllNextIssues()
+        public List<NextComicInSeries> GetAllNextIssues()
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var test = uow.Repository<Comic>()
+                var series = uow.Repository<Comic>()
                     .Including(c => c.Series)
                     .Where(c => !c.Series.Abandoned && !c.IsRead)
-                    .OrderByDescending(c => c.ReadUrlAdded.Value)
+                    .OrderBy(c => c.OnSaleDate)
                     .ToList();
 
-                return test
+                var groups = series
                      .GroupBy(c => c.SeriesId)
-                     .Select(g => g.First())
-                     .ToList()
-                     .Select(c => _mapper.Map<Comic, ApiComic>(c))
+                     .Select(g => new { Unread = g.Count(), Next = g.First() })
                      .ToList();
+
+                var list = new List<NextComicInSeries>();
+
+                foreach (var g in groups)
+                {
+                    var comic = _mapper.Map<Comic, NextComicInSeries>(g.Next);
+                    comic.UnreadIssues = g.Unread;
+                    list.Add(comic);
+                }
+
+                return list;
             }
         }
     }

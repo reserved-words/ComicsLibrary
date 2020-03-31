@@ -21,10 +21,9 @@ namespace ComicsLibrary.API.Controllers
 
         [Route("GetNext")]
         [HttpGet]
-        public List<Comic> GetNext()
+        public List<NextComicInSeries> GetNext()
         {
-            var test =  _service.GetAllNextIssues();
-            return test;
+            return _service.GetAllNextIssues();
         }
 
         [Route("GetSeriesInProgress")]
