@@ -9,6 +9,7 @@ namespace ComicsLibrary.Common.Interfaces
         List<NextComicInSeries> GetAllNextIssues();
         void MarkAsUnread(int[] ids);
         void MarkAsRead(int[] ids);
+        NextComicInSeries MarkAsRead(int id);
         void ReinstateSeries(int id);
         void AbandonSeries(int id);
         void RemoveSeriesFromLibrary(int id);

@@ -9,9 +9,9 @@
         loadContent(data.name, data.viewModel, data.name);
     },
     loading: ko.observable(true),
-    loadSeries: function (id) {
+    loadSeries: function (seriesId) {
         setMenuItemActive(null);
-        loadContent("series", seriesViewModel, id);
+        loadContent("series", seriesViewModel, seriesId);
     }
 };
 

@@ -5,14 +5,15 @@
     <div class="card-body">
         <div class="caption">
             <h5 class="card-title" data-bind="text: seriesTitle"></h5>
-            <span class="card-text" data-bind="text: issueTitle"></span>
+            <span class="card-text" data-bind="text: issueTitle"></span><br />
+            <span class="card-text" data-bind="text: unreadIssues"></span> unread
         </div>
     </div>
     <div class="card-body">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-light"><i class="fas fa-book"></i></button>
-            <button type="button" class="btn btn-light"><i class="fas fa-arrow-right"></i></button>
-            <button type="button" class="btn btn-light"><i class="fas fa-archive"></i></button>
+            <button type="button" class="btn btn-light" data-bind="click: goToSeries"><i class="fas fa-book"></i></button>
+            <button type="button" class="btn btn-light" data-bind="click: markAsRead"><i class="fas fa-arrow-right"></i></button>
+            <button type="button" class="btn btn-light" data-bind="click: archiveSeries"><i class="fas fa-archive"></i></button>
         </div>
     </div>
 </div>

@@ -5,14 +5,14 @@ AJAX = {
 
         //mgr.getUser().then(function (user) {
         //    console.log(user.access_token);
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", url);
-            xhr.onload = function () {
-                onLoaded(JSON.parse(xhr.responseText));
-                index.loading(false);
-            }
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.onload = function () {
+            onLoaded(JSON.parse(xhr.responseText));
+            index.loading(false);
+        }
         //    xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-            xhr.send();
+        xhr.send();
         //});
     },
 
@@ -20,15 +20,15 @@ AJAX = {
         index.loading(true);
 
         //mgr.getUser().then(function (user) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", url);
-            xhr.onload = function () {
-                onLoaded(JSON.parse(xhr.responseText));
-                index.loading(false);
-            }
-          //  xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-            xhr.send(data);
-     //   });
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.onload = function () {
+            onLoaded(JSON.parse(xhr.responseText));
+            index.loading(false);
+        };
+        //  xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+        xhr.send(data);
+        //   });
     }
 };
 

@@ -188,6 +188,27 @@ namespace ComicsLibrary.Services
             }
         }
 
+        public NextComicInSeries MarkAsRead(int id)
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                var comic = uow.Repository<Comic>().GetById(id);
+                comic.IsRead = true;
+                uow.Save();
+
+                var next = uow.Repository<Comic>()
+                    .Including(c => c.Series)
+                    .Where(c => c.SeriesId == comic.SeriesId && !c.IsRead)
+                    .OrderBy(c => c.OnSaleDate)
+                    .FirstOrDefault();
+
+                if (next == null)
+                    return null;
+
+                return _mapper.Map<Comic, NextComicInSeries>(next);
+            }
+        }
+
         public void MarkAsUnread(int[] ids)
         {
             using (var uow = _unitOfWorkFactory())
@@ -364,6 +385,7 @@ namespace ComicsLibrary.Services
                 var groups = series
                      .GroupBy(c => c.SeriesId)
                      .Select(g => new { Unread = g.Count(), Next = g.First() })
+                     .OrderBy(c => c.Next.Series.Title)
                      .ToList();
 
                 var list = new List<NextComicInSeries>();

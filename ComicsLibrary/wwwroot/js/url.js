@@ -15,7 +15,7 @@
     getSeriesFinished: function () { return this.apiBase + "library/getSeriesFinished" },
     getSeriesAbandoned: function () { return this.apiBase + "library/getSeriesAbandoned" },
     getSeriesInProgress: function () { return this.apiBase + "library/getSeriesInProgress" },
-    markAsRead: function () { return this.apiBase + "library/markAsRead" },
+    markAsRead: function (id) { return this.apiBase + "library/markAsRead?id=" + id },
     markAsUnread: function () { return this.apiBase + "library/markAsUnread" },
     
     searchByTitle: function (title, sortOrder, page) { return this.apiBase + "search/searchByTitle?title=" + title + "&sortOrder=" + sortOrder + "&limit=" + this.limit + "&page=" + page },
