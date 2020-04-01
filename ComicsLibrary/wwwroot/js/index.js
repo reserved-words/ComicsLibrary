@@ -25,7 +25,8 @@ var setMenuItemActive = function(activeItem) {
 }
 
 var loadContent = function (name, viewModel, id) {
-    $("#content").load(name + ".html", function() {
+    var appBaseUrl = $('#appBaseUrl').data('stuff-url');
+    $("#content").load(appBaseUrl + name + ".html", function() {
         viewModel.load(id);
         ko.cleanNode($('#content')[0]);
         ko.applyBindings(viewModel, $('#content')[0]);

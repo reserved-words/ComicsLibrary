@@ -2,6 +2,7 @@
 @inject IConfiguration Configuration
 @{
     var apiBaseUrl = Configuration["ApiBaseUrl"];
+    var appBaseUrl = Configuration["AppBaseUrl"];
 }
 
 <!DOCTYPE html>
@@ -46,6 +47,7 @@
 
     <div class="hidden">
         <span id="apiBaseUrl" data-stuff-url="@apiBaseUrl"></span>
+        <span id="appBaseUrl" data-stuff-url="@appBaseUrl"></span>
     </div>
 
     <script src="~/lib/JQuery/jquery-3.4.1.min.js"></script>

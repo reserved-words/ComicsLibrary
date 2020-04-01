@@ -7,7 +7,7 @@ namespace ComicsLibrary.PreDeployment
     {
         static void Main(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length != 3)
                 throw new Exception("Incorrect number of arguments");
 
             var appName = args[0];
