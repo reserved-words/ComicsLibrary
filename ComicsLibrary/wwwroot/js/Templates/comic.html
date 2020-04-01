@@ -1,16 +1,18 @@
-﻿<div class="thumbnail">
+﻿<div class="card">
     <a data-bind="attr:{ href: readUrl }" href="" target="_blank">
-        <img data-bind="attr:{src: imageUrl}" />
+        <img class="card-img-top" data-bind="attr:{src: imageUrl}">
     </a>
-    <div class="caption">
-        <span data-bind="text: seriesTitle"></span><br />
-        <span data-bind="text: issueTitle"></span>
-        <div class="pull-right">
-            <i class="fa fa-exclamation-triangle" data-bind="visible: !readUrl" title="Not Available" />
+    <div class="card-body">
+        <div class="caption">
+            <h5 class="card-title" data-bind="text: seriesTitle"></h5>
+            <span class="card-text" data-bind="text: issueTitle"></span>
         </div>
-        <span data-bind="visible:onSaleDate, text: onSaleDate"></span><br />
-        <a data-bind="click: goToSeries" href="">
-            <span data-bind="text: unreadIssues"></span> unread
-        </a>
+    </div>
+    <div class="card-body">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-light"><i class="fas fa-book"></i></button>
+            <button type="button" class="btn btn-light"><i class="fas fa-arrow-right"></i></button>
+            <button type="button" class="btn btn-light"><i class="fas fa-archive"></i></button>
+        </div>
     </div>
 </div>

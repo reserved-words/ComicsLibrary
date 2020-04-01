@@ -2,8 +2,6 @@
 @import "../lib/Bootstrap/scss/_variables";
 @import "../lib/FontAwesome/scss/fontawesome";
 
-$font-size-base: 12px;
-
 div.spinner {
     position: fixed;
     left: 0;
@@ -38,7 +36,55 @@ h2 {
     img {
         width: 100%;
     }
+
+    .caption {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .card {
+        /*border: 1px solid gray;
+        border-radius: 5px;
+        padding: 10px;*/
+        height: 100%;
+    }
 }
 
 
 @import "../lib/Bootstrap/scss/bootstrap";
+
+body {
+    font-size: 12px;
+
+    h5 {
+        font-size: 12px;
+        font-weight: bold;
+    }
+}
+
+.card {
+    .card-title {
+        margin-bottom: 0.25rem;
+    }
+
+    .card-body {
+        padding: 0;
+        text-align: center;
+
+        .caption {
+            padding: 0.5rem;
+            margin: 0;
+        }
+
+        .btn-group {
+            width: 100%;
+            
+            .btn {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                border: 1px solid white;
+            }
+        }
+    }
+}

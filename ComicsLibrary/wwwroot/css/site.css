@@ -4370,9 +4370,6 @@ readers do not read off random characters that represent icons */
   position: static;
   width: auto; }
 
-html, body {
-  font-size: 0.8rem; }
-
 div.spinner {
   position: fixed;
   left: 0;
@@ -4401,6 +4398,15 @@ h2 {
   grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
   .grid img {
     width: 100%; }
+  .grid .caption {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px; }
+  .grid .card {
+    /*border: 1px solid gray;
+        border-radius: 5px;
+        padding: 10px;*/
+    height: 100%; }
 
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
@@ -11582,3 +11588,25 @@ a.text-dark:hover, a.text-dark:focus {
   .table .thead-dark th {
     color: inherit;
     border-color: #dee2e6; } }
+
+body {
+  font-size: 12px; }
+  body h5 {
+    font-size: 12px;
+    font-weight: bold; }
+
+.card .card-title {
+  margin-bottom: 0.25rem; }
+
+.card .card-body {
+  padding: 0;
+  text-align: center; }
+  .card .card-body .caption {
+    padding: 0.5rem;
+    margin: 0; }
+  .card .card-body .btn-group {
+    width: 100%; }
+    .card .card-body .btn-group .btn {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border: 1px solid white; }
