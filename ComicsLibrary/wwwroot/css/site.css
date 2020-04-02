@@ -11610,3 +11610,5 @@ body {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       border: 1px solid white; }
+    .card .card-body .btn-group label.btn {
+      font-size: 12px; }

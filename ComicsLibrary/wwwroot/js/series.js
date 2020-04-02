@@ -54,7 +54,7 @@ seriesViewModel.getMoreIssues = function () {
     });
 }
 
-seriesViewModel.addIssue = function(element){
+seriesViewModel.addIssue = function (element) {
     seriesViewModel.issues.push({
         id: element.id,
         readUrl: element.readUrl,

@@ -7,8 +7,7 @@ namespace ComicsLibrary.Common.Interfaces
     public interface IService
     {
         List<NextComicInSeries> GetAllNextIssues();
-        void MarkAsUnread(int[] ids);
-        void MarkAsRead(int[] ids);
+        void MarkAsUnread(int id);
         NextComicInSeries MarkAsRead(int id);
         void ReinstateSeries(int id);
         void AbandonSeries(int id);

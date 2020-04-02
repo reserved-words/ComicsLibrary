@@ -25,7 +25,9 @@ AJAX = {
         xhr.onload = function () {
             //alert(xhr.responseText);
             //onLoaded(JSON.parse(xhr.responseText));
-            onLoaded();
+
+
+            onLoaded(xhr.responseText ? JSON.parse(xhr.responseText) : '');
             index.loading(false);
         };
         //  xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);

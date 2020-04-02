@@ -9,10 +9,13 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="btn-group" role="group">
-            <!--<button type="button" class="btn btn-light" data-bind="click: goToSeries"><i class="fas fa-book"></i></button>-->
-            <button type="button" class="btn btn-light" data-bind="click: markAsRead"><i class="fas fa-arrow-right"></i></button>
-            <!--<button type="button" class="btn btn-light" data-bind="click: archiveSeries"><i class="fas fa-archive"></i></button>-->
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-light" data-bind="click: markAsUnread, class: isRead ? '' : 'active'">
+                <input type="radio" name="read-status" id="unread" autocomplete="off" data-bind="checked: !isRead"> Unread
+            </label>
+            <label class="btn btn-light" data-bind="click: markAsRead, class: isRead ? 'active' : ''">
+                <input type="radio" name="read-status" id="read" autocomplete="off" data-bind="checked: isRead"> Read
+            </label>
         </div>
     </div>
 </div>

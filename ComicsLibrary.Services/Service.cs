@@ -173,21 +173,6 @@ namespace ComicsLibrary.Services
             }
         }
 
-        public void MarkAsRead(int[] ids)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                foreach (var id in ids)
-                {
-                    var comic = uow.Repository<Comic>().GetById(id);
-                    comic.ToReadNext = false;
-                    comic.IsRead = true;
-                }
-
-                uow.Save();
-            }
-        }
-
         public NextComicInSeries MarkAsRead(int id)
         {
             using (var uow = _unitOfWorkFactory())
@@ -209,16 +194,12 @@ namespace ComicsLibrary.Services
             }
         }
 
-        public void MarkAsUnread(int[] ids)
+        public void MarkAsUnread(int id)
         {
             using (var uow = _unitOfWorkFactory())
             {
-                foreach (var id in ids)
-                {
-                    var comic = uow.Repository<Comic>().GetById(id);
-                    comic.IsRead = false;
-                }
-
+                var comic = uow.Repository<Comic>().GetById(id);
+                comic.IsRead = false;
                 uow.Save();
             }
         }

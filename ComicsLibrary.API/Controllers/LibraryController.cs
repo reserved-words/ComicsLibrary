@@ -107,13 +107,9 @@ namespace ComicsLibrary.API.Controllers
 
         [Route("MarkAsUnread")]
         [HttpPost]
-        public IActionResult MarkAsUnread(int[] ids)
+        public IActionResult MarkAsUnread(int id)
         {
-            if (ids != null)
-            {
-                _service.MarkAsUnread(ids);
-            }
-
+            _service.MarkAsUnread(id);
             return Ok();
         }
     }

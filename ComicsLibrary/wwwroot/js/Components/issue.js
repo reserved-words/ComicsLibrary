@@ -10,7 +10,20 @@
         this.isRead = params.isRead;
 
         this.markAsRead = function (data, event) {
-            homeViewModel.markAsRead(data.id);
+            if (data.isRead)
+                return;
+
+            AJAX.post(URL.markAsRead(data.id), null, function () {
+                data.isRead = true;
+            });
+        }
+        this.markAsUnread = function (data, event) {
+            if (!data.isRead)
+                return;
+
+            AJAX.post(URL.markAsUnread(data.id), null, function () {
+                data.isRead = false;
+            });
         }
     }
 
