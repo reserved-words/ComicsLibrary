@@ -11595,6 +11595,11 @@ body {
     font-size: 12px;
     font-weight: bold; }
 
+.card a.disabled {
+  cursor: default; }
+  .card a.disabled img {
+    opacity: 0.5; }
+
 .card .card-title {
   margin-bottom: 0.25rem; }
 

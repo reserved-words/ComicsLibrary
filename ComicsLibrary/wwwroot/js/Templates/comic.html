@@ -1,5 +1,5 @@
 ﻿<div class="card">
-    <a data-bind="attr:{ href: readUrl }" href="" target="_blank">
+    <a data-bind="class: (readUrl ? 'enabled' : 'disabled'), attr:{ href: readUrl }" href="" target="_blank">
         <img class="card-img-top" data-bind="attr:{src: imageUrl}">
     </a>
     <div class="card-body">
