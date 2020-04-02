@@ -36,6 +36,26 @@ namespace ComicsLibrary.MarvelComicsApi
 
         public async Task<ApiResult<Series>> SearchSeriesAsync(string titleStartsWith, int limit, int page, SearchOrder? orderBy)
         {
+            return new ApiResult<Series>
+            {
+                Success = true,
+                Total = 100,
+                Results = Enumerable.Range(1, limit)
+                    .Select(i => new Series 
+                    {
+                        Id = i,
+                        MarvelId = i,
+                        Title = "Series " + i,
+                        StartYear = 1980,
+                        EndYear = 1995,
+                        IsFinished = false,
+                        Abandoned = false,
+                        Url = "https://www.google.com/",
+                        ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg"
+                    })
+                    .ToList()
+            };
+
             var series = await GetSeries(titleStartsWith, limit, page, orderBy);
 
             return _mapper.Map<Response<List<MarvelSeries>>, ApiResult<Series>>(series);

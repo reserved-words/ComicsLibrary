@@ -2,8 +2,8 @@
     title: ko.observable(),
     sortOrder: ko.observable(),
     sortOrderOptions: [
-        { id: 1, name: "Title Ascending" },
-        { id: 2, name: "Start Year Descending" }
+        { id: 1, name: "Sort by title" },
+        { id: 2, name: "Sort by year" }
     ],
     results: ko.observableArray(),
     page: ko.observable(),
