@@ -25,6 +25,6 @@ namespace ComicsLibrary.Common.Api
         public int MarvelId { get; set; }
         public string Url { get; set; }
 
-        public Comic[] Comics { get; set; }
+        public Comic[] Issues { get; set; }
     }
 }

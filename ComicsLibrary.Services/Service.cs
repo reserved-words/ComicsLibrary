@@ -72,7 +72,7 @@ namespace ComicsLibrary.Services
                     .Including(s => s.Comics)
                     .Single(c => c.Id == seriesId));
 
-                series.Comics = series.Comics
+                series.Issues = series.Issues
                     .OrderByDescending(c => c.IssueNumber)
                     .Take(numberOfComics)
                     .ToArray();

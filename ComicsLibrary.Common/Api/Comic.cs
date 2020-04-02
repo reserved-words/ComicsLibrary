@@ -12,7 +12,7 @@ namespace ComicsLibrary.Common.Api
         public string ReadUrl { get; set; }
         public double? IssueNumber { get; set; }
         public int SeriesId { get; set; }
-        public DateTime OnSaleDate { get; set; }
+        public string OnSaleDate { get; set; }
         public bool IsRead { get; set; }
         public bool ToReadNext { get; set; }
         public DateTime DateAdded { get; set; }

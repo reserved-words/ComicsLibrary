@@ -75,7 +75,7 @@ namespace ComicsLibrary.Mapper
                 .ForMember(s => s.SeriesId, act => act.MapFrom(src => src.SeriesId))
                 .ForMember(s => s.SeriesTitle, act => act.MapFrom(src => src.Series.Title))
                 .ForMember(s => s.IssueTitle, act => act.MapFrom(src => GetIssueTitle(src)))
-                .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date : DateTime.MinValue));
+                .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
 
             CreateMap<Comic, NextComicInSeries>()
                 .ForMember(s => s.SeriesId, act => act.MapFrom(src => src.SeriesId))
@@ -84,6 +84,7 @@ namespace ComicsLibrary.Mapper
                 .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
 
         CreateMap<Series, ApiSeries>()
+                .ForMember(s => s.Issues, act => act.MapFrom(src => src.Comics))
                 .ForMember(s => s.ImageUrl, act => act.MapFrom(src => src.Comics.FirstOrDefault().ImageUrl))
                 .ForMember(s => s.MainTitle, act => act.MapFrom(src => GetTitle(src, false)))
                 .ForMember(s => s.SubTitle, act => act.MapFrom(src => GetTitle(src, true)))

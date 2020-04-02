@@ -47,3 +47,8 @@ ko.components.register('comic', {
     viewModel: { require: URL.base + '/js/Components/comic.js' },
     template: { require: 'text!../js/Templates/comic.html' }
 });
+
+ko.components.register('issue', {
+    viewModel: { require: URL.base + '/js/Components/issue.js' },
+    template: { require: 'text!../js/Templates/issue.html' }
+});

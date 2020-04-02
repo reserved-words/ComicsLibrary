@@ -2,29 +2,23 @@
     id: ko.observable(),
     title: ko.observable(),
     subTitle: ko.observable(),
-    comics: ko.observableArray(),
+    issues: ko.observableArray(),
     isAbandoned: ko.observable(),
-    totalComics: ko.observable(),
-    selectedAction: ko.observable(0)
+    totalIssues: ko.observable()
 };
-
-seriesViewModel.onActionCompleted = function () {
-    index.loadSeries(seriesViewModel.id());
-}
 
 seriesViewModel.load = function (id) {
     var self = this;
-    self.selectedAction(0);
     self.id(id);
     AJAX.get(URL.getSeries(id), function (data) {
         self.id(data.id);
         self.title(data.mainTitle);
         self.subTitle(data.subTitle);
-        self.totalComics(data.totalComics);
+        self.totalIssues(data.totalIssues);
         self.isAbandoned(data.abandoned);
-        self.comics.removeAll();
-        $(data.comics).each(function (index, element) {
-            self.addComic(element);
+        self.issues.removeAll();
+        $(data.issues).each(function (index, element) {
+            self.addIssue(element);
         });
     });
 }
@@ -52,26 +46,21 @@ seriesViewModel.deleteSeries = function () {
     });
 }
 
-seriesViewModel.getMoreComics = function () {
-    AJAX.get(URL.getComics(seriesViewModel.id(), seriesViewModel.comics().length), function (data) {
+seriesViewModel.getMoreIssues = function () {
+    AJAX.get(URL.getComics(seriesViewModel.id(), seriesViewModel.issues().length), function (data) {
         $(data).each(function (index, element) {
-            seriesViewModel.addComic(element);
+            seriesViewModel.addIssue(element);
         });
     });
 }
 
-seriesViewModel.addComic = function(element){
-    seriesViewModel.comics.push({
+seriesViewModel.addIssue = function(element){
+    seriesViewModel.issues.push({
         id: element.id,
         readUrl: element.readUrl,
         imageUrl: element.imageUrl,
         isRead: element.isRead,
-        readNext: element.toReadNext,
         title: element.issueTitle,
-        seriesTitle: null,
-        selected: ko.observable(false),
-        select: function () {
-            this.selected(!this.selected());
-        }
+        onSaleDate: element.onSaleDate
     });
 }
