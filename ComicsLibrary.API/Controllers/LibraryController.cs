@@ -84,16 +84,18 @@ namespace ComicsLibrary.API.Controllers
 
         [Route("AbandonSeries")]
         [HttpPost]
-        public void AbandonSeries(int id)
+        public IActionResult AbandonSeries(int id)
         {
             _service.AbandonSeries(id);
+            return Ok();
         }
 
         [Route("ReinstateSeries")]
         [HttpPost]
-        public void ReinstateSeries(int id)
+        public IActionResult ReinstateSeries(int id)
         {
             _service.ReinstateSeries(id);
+            return Ok();
         }
 
         [Route("MarkAsRead")]

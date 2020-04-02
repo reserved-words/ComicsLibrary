@@ -23,7 +23,9 @@ AJAX = {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url);
         xhr.onload = function () {
-            onLoaded(JSON.parse(xhr.responseText));
+            //alert(xhr.responseText);
+            //onLoaded(JSON.parse(xhr.responseText));
+            onLoaded();
             index.loading(false);
         };
         //  xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);

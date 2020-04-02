@@ -10,7 +10,11 @@
         });
     },
     archiveSeries: function (seriesId) {
-        alert("Archive series: " + seriesId);
+        var self = this;
+
+        AJAX.post(URL.abandonSeries(seriesId), null, function (result) {
+            self.comics.remove(item => item.seriesId === seriesId);
+        });
     }
 };
 
