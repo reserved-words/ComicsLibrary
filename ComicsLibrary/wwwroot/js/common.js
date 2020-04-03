@@ -31,7 +31,9 @@ AJAX = {
             index.loading(false);
         };
         //  xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-        xhr.send(data);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.send(JSON.stringify(data));
         //   });
     }
 };

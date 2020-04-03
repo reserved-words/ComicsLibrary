@@ -278,7 +278,7 @@ namespace ComicsLibrary.Services
             {
                 var inLibrary = uow.Repository<Series>()
                     .Where(s => s.MarvelId.HasValue)
-                    .ToDictionary(s => s.MarvelId, s => s.Id);
+                    .ToDictionary(s => s.MarvelId.Value, s => s.Id);
 
                 var series = new List<ApiSeries>();
                 foreach (var result in searchResults.Results)
@@ -286,12 +286,7 @@ namespace ComicsLibrary.Services
                     if (!result.MarvelId.HasValue)
                         continue;
 
-                    // TEST ONLY
-                    var libraryId = result.MarvelId.Value < 7 ? result.MarvelId.Value : 0;
-                    //int libraryId;
-                    //inLibrary.TryGetValue(result.MarvelId.Value, out libraryId);
-
-                    // END TEST
+                    inLibrary.TryGetValue(result.MarvelId.Value, out int libraryId);
 
                     series.Add(new ApiSeries
                     {

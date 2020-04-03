@@ -36,30 +36,6 @@ namespace ComicsLibrary.MarvelComicsApi
 
         public async Task<ApiResult<Series>> SearchSeriesAsync(string titleStartsWith, int limit, int page, SearchOrder? orderBy)
         {
-            var result = new ApiResult<Series>
-            {
-                Success = true,
-                Total = 100,
-                Results = new List<Series>()
-            };
-
-            for (var i = (page - 1) * limit; i < Math.Min(page * limit, 100); i++)
-            {
-                result.Results.Add(new Series
-                {
-                    Id = 0,
-                    MarvelId = i + 1,
-                    Title = "Series " + (i + 1),
-                    StartYear = 1980,
-                    EndYear = 1995,
-                    Type = "test",
-                    Url = "https://www.google.com/",
-                    ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg"
-                });
-            }
-
-            return result;
-
             var series = await GetSeries(titleStartsWith, limit, page, orderBy);
 
             return _mapper.Map<Response<List<MarvelSeries>>, ApiResult<Series>>(series);
@@ -67,27 +43,6 @@ namespace ComicsLibrary.MarvelComicsApi
 
         public async Task<ApiResult<Comic>> GetSeriesComicsAsync(int id, int maxResults, int page)
         {
-            var result = new ApiResult<Comic>
-            {
-                Success = true,
-                Total = 65,
-                Results = new List<Comic>()
-            };
-
-            for (var i = (page - 1) * maxResults; i < Math.Min(page * maxResults, 65); i++)
-            {
-                result.Results.Add(new Comic
-                {
-                    Title = "#" + i + 1,
-                    IssueNumber = i + 1,
-                    ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg",
-                    ReadUrl = "https://www.google.com/",
-                    OnSaleDate = DateTime.Now.AddDays(i - 65 * 7)
-                });
-            }
-
-            return result;
-
             var comics = await GetSeriesComics(id, maxResults, page);
 
             return _mapper.Map<Response<List<MarvelComic>>, ApiResult<Comic>>(comics);

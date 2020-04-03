@@ -73,9 +73,8 @@
             var self = this;
 
             AJAX.post(URL.addToLibrary(), data, function (result) {
-                alert(result);
-
-                if (result === 0) {
+                
+                if (!result) {
                     alert("Error");
                     return;
                 }

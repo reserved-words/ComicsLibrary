@@ -70,7 +70,7 @@ namespace ComicsLibrary.API.Controllers
 
         [Route("AddToLibrary")]
         [HttpPost]
-        public async Task<int> AddToLibrary(Series series)
+        public async Task<int> AddToLibrary([FromBody]Series series)
         {
             return await _service.AddSeriesToLibrary(series);
         }
