@@ -5,10 +5,15 @@
         this.issues = ko.observableArray([]);
         this.totalPages = ko.observable(0);
         this.pagesFetched = ko.observable(0);
-
+        this.libraryId = ko.observable(params.libraryId);
 
         this.marvelId = params.marvelId;
         this.title = params.title;
+        this.imageUrl = params.imageUrl;
+        this.startYear = params.startYear;
+        this.endYear = params.endYear;
+        this.type = params.type;
+        this.url = params.url;
 
         this.getMoreIssues = function (data, event) {
             var self = this;
@@ -45,10 +50,38 @@
 
             this.selected(true);
 
-            if (this.totalPages() > 0 && this.pagesFetched() > 1)
+            if (this.totalPages() > 0 && this.pagesFetched() >= 1)
                 return;
 
             this.getMoreIssues();
+        }
+
+        this.goToSeries = function () {
+            index.loadSeries(this.libraryId());
+        }
+
+        this.addToLibrary = function () {
+            var data = {
+                marvelId: this.marvelId,
+                title: this.title,
+                imageUrl: this.imageUrl,
+                startYear: this.startYear,
+                endYear: this.endYear,
+                type: this.type,
+                url: this.url
+            };
+
+            var self = this;
+
+            AJAX.post(URL.addToLibrary(), data, function (result) {
+                alert(result);
+
+                if (result === 0) {
+                    alert("Error");
+                    return;
+                }
+                self.libraryId(result);
+            });
         }
     }
 

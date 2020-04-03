@@ -43,13 +43,12 @@ namespace ComicsLibrary.MarvelComicsApi
                 Results = Enumerable.Range(1, limit)
                     .Select(i => new Series 
                     {
-                        Id = i,
+                        Id = 0,
                         MarvelId = i,
                         Title = "Series " + i,
                         StartYear = 1980,
                         EndYear = 1995,
-                        IsFinished = false,
-                        Abandoned = false,
+                        Type = "test",
                         Url = "https://www.google.com/",
                         ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg"
                     })
@@ -90,21 +89,6 @@ namespace ComicsLibrary.MarvelComicsApi
             }
 
             return result;
-
-            return new ApiResult<Comic>
-            {
-                Success = true,
-                Total = 65,
-                Results = new List<Comic>
-                {
-                    new Comic
-                    {
-                        Title = "#4",
-                        ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg",
-                        ReadUrl = "https://www.google.com/"
-                    }
-                }
-            };
 
             var comics = await GetSeriesComics(id, maxResults, page);
 

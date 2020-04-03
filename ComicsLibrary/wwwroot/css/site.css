@@ -11609,6 +11609,10 @@ body {
   .card a.disabled img {
     opacity: 0.5; }
 
+.card .card-header .btn-right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+
 .card .card-title {
   margin-bottom: 0.25rem; }
 

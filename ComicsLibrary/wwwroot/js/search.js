@@ -11,25 +11,7 @@
     previousPage: ko.observable(),
     totalPages: ko.observable(),
     noResults: ko.observable(false),
-    noCriteria: ko.observable(true),
-    selectedSeries: ko.observable(),
-    selectedId: ko.observable(),
-    comics: ko.observableArray(),
-    comicsPagesFetched: ko.observable(),
-    totalComicsPages: ko.observable(),
-    goToSeries: function(data, event) {
-        index.loadSeries(data.id());
-    },
-    addToLibrary: function (data, event) {
-        AJAX.post(URL.addToLibrary(), data, function (result) {
-            if (result === 0)
-            {
-                alert("Error");
-                return;
-            }
-            data.id(result);
-        });
-    }
+    noCriteria: ko.observable(true)
 };
 
 searchViewModel.load = function ()
@@ -74,15 +56,14 @@ searchViewModel.searchPage = function (page) {
 
         $(data.results).each(function (index, element) {
             self.results.push({
-                id: ko.observable(element.id),
+                libraryId: element.id,
                 title: element.title,
-                url: element.url,
-                imageUrl: element.imageUrl,
-                type: element.type,
                 marvelId: element.marvelId,
-                issues: ko.observableArray(),
-                pagesFetched: 0,
-                totalPages: 0
+                imageUrl: element.imageUrl,
+                startYear: element.startYear,
+                endYear: element.endYear,
+                type: element.type,
+                url: element.url
             });
         });
 

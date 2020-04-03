@@ -286,8 +286,12 @@ namespace ComicsLibrary.Services
                     if (!result.MarvelId.HasValue)
                         continue;
 
-                    int libraryId;
-                    inLibrary.TryGetValue(result.MarvelId.Value, out libraryId);
+                    // TEST ONLY
+                    var libraryId = result.MarvelId.Value < 7 ? result.MarvelId.Value : 0;
+                    //int libraryId;
+                    //inLibrary.TryGetValue(result.MarvelId.Value, out libraryId);
+
+                    // END TEST
 
                     series.Add(new ApiSeries
                     {

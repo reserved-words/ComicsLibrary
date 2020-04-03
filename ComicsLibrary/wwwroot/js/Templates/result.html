@@ -1,12 +1,16 @@
-﻿<div class="card">
-    <div class="card-header">
-        <h2 class="mb-0">
-            <button data-bind="text: title, click: toggle" class="btn btn-link" type="button">
+﻿<div class="card mb-2">
+    <div class="card-header p-0 d-flex justify-content-between">
+        <div class="flex-fill" data-bind="click: toggle">
+            <h6 class="m-2" data-bind="text: title"></h6>
+        </div>
+        <div>
+            <button type="button" class="btn btn-dark btn-right" data-bind="visible: libraryId(), click: goToSeries">
+                <i class="fa fa-book link" title="Go To Series" />
             </button>
-        </h2>
-
-        <!--<i class="fa fa-book link" data-bind="visible: id(), click: $root.goToSeries" title="Go To Series" />
-        <i class="fa fa-folder-plus link" data-bind="visible: !id(), click: $root.addToLibrary" title="Add to Library" />-->
+            <button type="button" class="btn btn-dark btn-right" data-bind="visible: !libraryId(), click: addToLibrary">
+                <i class="fa fa-folder-plus link" title="Add to Library" />
+            </button>
+        </div>
     </div>
 
     <div data-bind="class: (selected() ? 'show' : '')" class="collapse" data-parent="#searchResults">

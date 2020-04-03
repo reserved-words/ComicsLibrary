@@ -35,8 +35,13 @@
             <div data-bind="visible: !noResults(), foreach: results" class="accordion" id="searchResults">
 
                 <result params="title: title,
-                                marvelId: marvelId" />
-
+                                marvelId: marvelId,
+                                libraryId: libraryId,
+                                imageUrl: imageUrl,
+                                startYear: startYear,
+                                endYear: endYear,
+                                type: type,
+                                url: url" />
             </div>
         </div>
     </div>
