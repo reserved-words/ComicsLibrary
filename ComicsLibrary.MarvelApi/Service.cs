@@ -36,33 +36,31 @@ namespace ComicsLibrary.MarvelComicsApi
 
         public async Task<ApiResult<Series>> SearchSeriesAsync(string titleStartsWith, int limit, int page, SearchOrder? orderBy)
         {
-            return new ApiResult<Series>
+            var result = new ApiResult<Series>
             {
                 Success = true,
                 Total = 100,
-                Results = Enumerable.Range(1, limit)
-                    .Select(i => new Series 
-                    {
-                        Id = 0,
-                        MarvelId = i,
-                        Title = "Series " + i,
-                        StartYear = 1980,
-                        EndYear = 1995,
-                        Type = "test",
-                        Url = "https://www.google.com/",
-                        ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg"
-                    })
-                    .ToList()
+                Results = new List<Series>()
             };
 
+            for (var i = (page - 1) * limit; i < Math.Min(page * limit, 100); i++)
+            {
+                result.Results.Add(new Series
+                {
+                    Id = 0,
+                    MarvelId = i + 1,
+                    Title = "Series " + (i + 1),
+                    StartYear = 1980,
+                    EndYear = 1995,
+                    Type = "test",
+                    Url = "https://www.google.com/",
+                    ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg"
+                });
+            }
+
+            return result;
+
             var series = await GetSeries(titleStartsWith, limit, page, orderBy);
-
-            return _mapper.Map<Response<List<MarvelSeries>>, ApiResult<Series>>(series);
-        }
-
-        public async Task<ApiResult<Series>> GetCharacterSeriesAsync(int id, int limit, int page)
-        {
-            var series = await GetCharacterSeries(id, limit, page);
 
             return _mapper.Map<Response<List<MarvelSeries>>, ApiResult<Series>>(series);
         }
@@ -76,7 +74,7 @@ namespace ComicsLibrary.MarvelComicsApi
                 Results = new List<Comic>()
             };
 
-            for (var i = (page - 1) * 12; i < Math.Min(page * 12, 65); i++)
+            for (var i = (page - 1) * maxResults; i < Math.Min(page * maxResults, 65); i++)
             {
                 result.Results.Add(new Comic
                 {
@@ -84,7 +82,7 @@ namespace ComicsLibrary.MarvelComicsApi
                     IssueNumber = i + 1,
                     ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg",
                     ReadUrl = "https://www.google.com/",
-                    OnSaleDate = DateTime.Now.AddDays(i-65 * 7)
+                    OnSaleDate = DateTime.Now.AddDays(i - 65 * 7)
                 });
             }
 
@@ -120,45 +118,6 @@ namespace ComicsLibrary.MarvelComicsApi
             return _mapper.Map<List<MarvelComic>, List<Comic>>(comics);
         }
 
-        public async Task<string> GetAllSeriesCharactersAsync(int id)
-        {
-            var pageNo = 1;
-
-            var response = await GetSeriesCharacters(id, MaxResultsPerCall, pageNo);
-            CheckResponse(response);
-
-            var characters = response.Data.Result;
-
-            if (response.Data.Total.HasValue && response.Data.Total < MaxResults)
-            {
-                while (characters.Count < response.Data.Total)
-                {
-                    pageNo++;
-                    var newResponse = await GetSeriesCharacters(id, MaxResultsPerCall, pageNo);
-                    CheckResponse(newResponse);
-                    characters.AddRange(newResponse.Data.Result);
-                }
-            }
-
-            return string.Join(", ", characters.Select(c => c.Name));
-        }
-
-        public async Task<ApiResult<Character>> SearchCharacterAsync(string nameStartsWith, int limit, int page)
-        {
-            var characters = await GetCharacters(nameStartsWith, limit, page);
-
-            return _mapper.Map<Response<List<MarvelCharacter>>, ApiResult<Character>>(characters);
-        }
-
-        private async Task<Response<List<MarvelCharacter>>> GetCharacters(string nameStartsWith, int limit, int page)
-        {
-            return await _apiService.GetAllCharactersAsync(limit, (page - 1) * limit, new CharacterCriteria
-            {
-                NameStartsWith = nameStartsWith,
-                OrderBy = new List<CharacterOrder> { CharacterOrder.NameAscending }
-            });
-        }
-
         private async Task<Response<List<MarvelSeries>>> GetSeries(string titleStartsWith, int limit, int page, SearchOrder? orderBy)
         {
             return await _apiService.GetAllSeriesAsync(limit, (page - 1) * limit, new SeriesCriteria
@@ -179,17 +138,9 @@ namespace ComicsLibrary.MarvelComicsApi
             });
         }
 
-        private async Task<Response<List<MarvelSeries>>> GetCharacterSeries(int id, int limit, int page)
-        {
-            return await _apiService.GetCharacterSeriesAsync(id, limit, (page - 1) * limit, new SeriesCriteria
-            {
-                OrderBy = new List<SeriesOrder> { SeriesOrder.StartYearDescending }
-            });
-        }
-
         private async Task<Response<List<MarvelComic>>> GetSeriesComics(int id, int limit, int page)
         {
-            return await _apiService.GetSeriesComicsAsync(id, limit, (page-1)*limit, new ComicCriteria
+            return await _apiService.GetSeriesComicsAsync(id, limit, (page - 1) * limit, new ComicCriteria
             {
                 OrderBy = new List<ComicOrder> { ComicOrder.IssueNumberAscending },
                 NoVariants = true

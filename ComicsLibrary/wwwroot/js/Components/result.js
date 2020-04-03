@@ -21,7 +21,6 @@
             var url = URL.getComicsByMarvelId(self.marvelId, self.issues().length);
 
             AJAX.get(url, function (result) {
-
                 self.pagesFetched(result.page);
                 self.totalPages(result.totalPages);
 

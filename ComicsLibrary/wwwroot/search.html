@@ -11,7 +11,7 @@
                         <div class="form-row align-items-center">
 
                             <div class="col-auto">
-                                <input type="text" class="form-control" id="inlineFormInput" placeholder="Enter title" data-bind="value: title">
+                                <input type="text" class="form-control" id="inlineFormInput" placeholder="Enter search text" data-bind="value: searchText">
                             </div>
 
                             <div class="col-auto">
@@ -43,83 +43,15 @@
                                 type: type,
                                 url: url" />
             </div>
+
+            <div class="text-center">
+                <p data-bind="visible: (pagesFetched() >= 1)">Fetched <span data-bind="text: pagesFetched"></span> of <span data-bind="text: totalPages"></span> pages</p>
+
+                <a class="btn btn-light btn-sm" data-bind="visible: (pagesFetched() < totalPages()), click: getMoreResults">Show more</a>
+
+            </div>
+
         </div>
     </div>
 </div>
 
-<!--<div class="row" data-bind="visible: results().length > 0">
-    <div class="col-xs-4 text-left">
-        <button data-bind="visible: previousPage, click: goToPreviousPage" class="btn btn-sm btn-primary">Previous</button>
-    </div>
-    <div class="col-xs-4 text-center">
-        <p>
-            Page <span data-bind="text: page" /> of <span data-bind="text: totalPages" />
-        </p>
-    </div>
-    <div class="col-xs-4 text-right">
-        <button data-bind="visible: nextPage, click: goToNextPage" class="btn btn-sm btn-primary">Next</button>
-    </div>
-</div>
-
-<div class="col-xs-12 col-md-8" data-bind="visible: selectedSeries().marvelId">
-    <div class="row">
-        <div class="col-xs-12">
-            <h4>
-                <span data-bind="text: selectedSeries().title"></span>
-                <i class="fa fa-book link" data-bind="visible: selectedSeries().id(), click: goToSelectedSeries" title="Go To Series" />
-                <i class="fa fa-save link" data-bind="visible: !selectedSeries().id(), click: addSelectedSeriesToLibrary" title="Add to Library" />
-            </h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="grid" data-bind="foreach: comics">
-                <comic params="readUrl: readUrl,
-                                       imageUrl: imageUrl,
-                                       title: title" />
-            </div>
-        </div>
-    </div>
-
-    <div class="text-center" data-bind="scroll: comicsPagesFetched() < totalComicsPages(), scrollOptions: { loadFunc: getMoreComics }">Loading more comics...</div>-->
-<!--<div class="container-fluid">
-    <div class="split-header">
-        <div class="col-xs-12 col-md-4">
-
-            <h3>Search</h3>
-
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <label for="title">Title:</label>
-                </div>
-                <div class="col-xs-9">
-                    <input id="title" name="title" type="text" class="form-control" data-bind="value: title" />
-                </div>
-            </div>
-
-            <div class="row form-group">
-                <div class="col-xs-3">
-                    <label for="sortby">Sort By:</label>
-                </div>
-                <div class="col-xs-9">
-                    <select id="sortby" name="sortby" class="form-control" data-bind="value: sortOrder, foreach: sortOrderOptions">
-                        <option data-bind="value: id, text: name" />
-                    </select>
-                </div>
-            </div>
-
-            <div class="row form-group pull-right">
-                <div class="col-xs-12">
-                    <button data-bind="click: startSearch" class="btn btn-sm btn-primary">Search</button>
-                    <button data-bind="click: clearSearch" class="btn btn-sm btn-primary">Clear</button>
-                </div>
-            </div>
-
-
-
-        </div>
-
-                </div>
-    </div>
-
-</div>-->
