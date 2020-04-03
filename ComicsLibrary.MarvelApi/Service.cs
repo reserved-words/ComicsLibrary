@@ -77,12 +77,12 @@ namespace ComicsLibrary.MarvelComicsApi
                 Results = new List<Comic>()
             };
 
-            for (var i = page * 12; i < Math.Min((page + 1) * 12, 65); i++)
+            for (var i = (page - 1) * 12; i < Math.Min(page * 12, 65); i++)
             {
                 result.Results.Add(new Comic
                 {
-                    Title = "#" + i,
-                    IssueNumber = i,
+                    Title = "#" + i + 1,
+                    IssueNumber = i + 1,
                     ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg",
                     ReadUrl = "https://www.google.com/",
                     OnSaleDate = DateTime.Now.AddDays(i-65 * 7)
