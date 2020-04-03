@@ -70,6 +70,42 @@ namespace ComicsLibrary.MarvelComicsApi
 
         public async Task<ApiResult<Comic>> GetSeriesComicsAsync(int id, int maxResults, int page)
         {
+            var result = new ApiResult<Comic>
+            {
+                Success = true,
+                Total = 65,
+                Results = new List<Comic>()
+            };
+
+            for (var i = page * 12; i < Math.Min((page + 1) * 12, 65); i++)
+            {
+                result.Results.Add(new Comic
+                {
+                    Title = "#" + i,
+                    IssueNumber = i,
+                    ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg",
+                    ReadUrl = "https://www.google.com/",
+                    OnSaleDate = DateTime.Now.AddDays(i-65 * 7)
+                });
+            }
+
+            return result;
+
+            return new ApiResult<Comic>
+            {
+                Success = true,
+                Total = 65,
+                Results = new List<Comic>
+                {
+                    new Comic
+                    {
+                        Title = "#4",
+                        ImageUrl = "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/710793/710793._TTD_QL80_SX400_.jpg",
+                        ReadUrl = "https://www.google.com/"
+                    }
+                }
+            };
+
             var comics = await GetSeriesComics(id, maxResults, page);
 
             return _mapper.Map<Response<List<MarvelComic>>, ApiResult<Comic>>(comics);

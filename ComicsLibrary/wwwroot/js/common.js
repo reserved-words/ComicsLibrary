@@ -54,3 +54,8 @@ ko.components.register('issue', {
     viewModel: { require: URL.base + '/js/Components/issue.js' },
     template: { require: 'text!../js/Templates/issue.html' }
 });
+
+ko.components.register('result', {
+    viewModel: { require: URL.base + '/js/Components/result.js' },
+    template: { require: 'text!../js/Templates/result.html' }
+});

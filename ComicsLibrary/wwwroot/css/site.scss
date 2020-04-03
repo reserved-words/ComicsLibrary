@@ -68,6 +68,12 @@ body {
         margin-left: 10px;
         margin-right: 10px;
     }
+
+    select.form-control,
+    input.form-control {
+        width: 100%;
+        min-width: 12rem;
+    }
 }
 
 .card {

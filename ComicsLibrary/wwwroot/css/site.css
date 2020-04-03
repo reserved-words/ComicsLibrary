@@ -11599,6 +11599,10 @@ body {
     cursor: pointer;
     margin-left: 10px;
     margin-right: 10px; }
+  body select.form-control,
+  body input.form-control {
+    width: 100%;
+    min-width: 12rem; }
 
 .card a.disabled {
   cursor: default; }

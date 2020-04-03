@@ -5,7 +5,7 @@
 
             <h3>Search</h3>
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-body p-3">
                     <form>
                         <div class="form-row align-items-center">
@@ -32,23 +32,10 @@
 
             <p data-bind="visible: noResults()">No results found</p>
 
-            <div data-bind="visible: !noResults()" class="accordion" id="searchResults">
-                <div class="card" data-bind="foreach: results">
-                    <div class="card-header" data-bind="id: ('heading' + id), click: $root.selectSeries">
-                        <h2 class="mb-0">
-                            <button data-bind="text: mainTitle" class="btn btn-link" type="button">
-                            </button>
-                        </h2>
-                        <!--<i class="fa fa-book link" data-bind="visible: id(), click: $root.goToSeries" title="Go To Series" />
-                        <i class="fa fa-folder-plus link" data-bind="visible: !id(), click: $root.addToLibrary" title="Add to Library" />-->
-                    </div>
+            <div data-bind="visible: !noResults(), foreach: results" class="accordion" id="searchResults">
 
-                    <div data-bind="id: ('collapse' + id)" class="collapse show" data-parent="#searchResults">
-                        <div class="card-body">
-                            Data not fetched yet
-                        </div>
-                    </div>
-                </div>
+                <result params="title: title,
+                                marvelId: marvelId" />
 
             </div>
         </div>
