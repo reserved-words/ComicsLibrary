@@ -1,7 +1,6 @@
 ﻿seriesViewModel = {
     id: ko.observable(),
     title: ko.observable(),
-    subTitle: ko.observable(),
     issues: ko.observableArray(),
     isAbandoned: ko.observable(),
     totalIssues: ko.observable()
@@ -10,11 +9,11 @@
 seriesViewModel.load = function (id) {
     var self = this;
     self.id(id);
+
     AJAX.get(URL.getSeries(id), function (data) {
         self.id(data.id);
-        self.title(data.mainTitle);
-        self.subTitle(data.subTitle);
-        self.totalIssues(data.totalIssues);
+        self.title(data.title);
+        self.totalIssues(data.totalComics);
         self.isAbandoned(data.abandoned);
         self.issues.removeAll();
         $(data.issues).each(function (index, element) {

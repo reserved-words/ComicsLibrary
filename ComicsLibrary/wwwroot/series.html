@@ -1,18 +1,22 @@
 ﻿
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <h2 data-bind="text: title"></h2>
-        <h3 data-bind="text: subTitle"></h3>
+    <h2 data-bind="text: title"></h2>
 
-        <div class="grid" data-bind="foreach: issues">
-            <issue params="id: id,
+    <div class="grid mb-3" data-bind="foreach: issues">
+        <issue params="id: id,
                         readUrl: readUrl,
                         imageUrl: imageUrl,
                         isRead: isRead,
                         title: title,
                         onSaleDate: onSaleDate" />
-        </div>
     </div>
 
-<div class="text-center" data-bind="scroll: issues().length < totalIssues(), scrollOptions: { loadFunc: getMoreIssues }">Loading more issues...</div>
+    <div class="text-center">
+        <p>Fetched <span data-bind="text: issues().length"></span> of <span data-bind="text: totalIssues()"></span> issues</p>
+
+        <a class="btn btn-light btn-sm" data-bind="visible: (issues().length < totalIssues()), click: getMoreIssues">Show more</a>
+
+    </div>
+</div>
 
