@@ -1,4 +1,4 @@
-﻿libraryViewModel = {
+﻿library = {
     shelves: [
         { id: 1, title: "Reading", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
         { id: 2, title: "To Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
@@ -6,7 +6,7 @@
         { id: 4, title: "Archived", items: ko.observableArray(), fetched: false, selected: ko.observable(false) }
     ],
     select: function (data, event) {
-        libraryViewModel.setSelected(data.id);
+        library.setSelected(data.id);
     }
 };
 
@@ -16,10 +16,10 @@
 // When comic is archived from a different section - move to Archived
 // When a new series is added - move to ToRead
 
-libraryViewModel.setSelected = function(selectedId){
-    var selectedShelf = libraryViewModel.shelves.filter(s => s.id === selectedId)[0];
+library.setSelected = function(selectedId){
+    var selectedShelf = library.shelves.filter(s => s.id === selectedId)[0];
 
-    $.each(libraryViewModel.shelves, function (index, value) {
+    $.each(library.shelves, function (index, value) {
         value.selected(false);
     });
 
@@ -43,50 +43,50 @@ libraryViewModel.setSelected = function(selectedId){
     });
 }
 
-libraryViewModel.load = function () {
-    libraryViewModel.setSelected(1);
+library.load = function () {
+    library.setSelected(1);
 }
 
-libraryViewModel.goToSeries = function (data, event) {
+library.goToSeries = function (data, event) {
     index.loadSeries(data.id);
 }
 
-libraryViewModel.archiveSeries = function (data, event) {
+library.archiveSeries = function (data, event) {
     AJAX.post(URL.abandonSeries(data.id), null, function () {
         data.abandoned = true;
-        $(libraryViewModel.shelves).each(function (index, element) {
+        $(library.shelves).each(function (index, element) {
             element.items.remove(item => item.id === data.id);
         });
 
-        libraryViewModel.insertAlphabetically(libraryViewModel.shelves[3], data);
+        library.insertAlphabetically(library.shelves[3], data);
     });
 }
 
-libraryViewModel.deleteSeries = function (data, event) {
+library.deleteSeries = function (data, event) {
     if (!confirm("Delete this series?"))
         return;
 
     AJAX.post(URL.deleteSeries(seriesId), null, function (result) {
-        $(libraryViewModel.shelves).each(function (index, element) {
+        $(library.shelves).each(function (index, element) {
             element.items.remove(item => item.id === data.id);
         });
     });
 }
 
-libraryViewModel.reinstateSeries = function (data, event) {
+library.reinstateSeries = function (data, event) {
     AJAX.post(URL.reinstateSeries(data.id), null, function () {
 
         data.abandoned = false;
 
-        libraryViewModel.shelves[3].items.remove(item => item.id === data.id);
+        library.shelves[3].items.remove(item => item.id === data.id);
 
         var newShelf = data.progress === 0 ? 1 : data.progress === 100 ? 2 : 0;
 
-        libraryViewModel.insertAlphabetically(libraryViewModel.shelves[newShelf], data);
+        library.insertAlphabetically(library.shelves[newShelf], data);
     });
 }
 
-libraryViewModel.insertAlphabetically = function (shelf, newItem) {
+library.insertAlphabetically = function (shelf, newItem) {
     for (var i in shelf.items()) {
         if (shelf.items()[i].title > newItem.title) {
             shelf.items.splice(i, 0, newItem);

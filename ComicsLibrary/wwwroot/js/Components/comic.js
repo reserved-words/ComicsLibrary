@@ -16,11 +16,11 @@
         }
 
         this.markAsRead = function (data, event) {
-            homeViewModel.markAsRead(data.id);
+            home.markAsRead(data.id);
         }
 
         this.archiveSeries = function (data, event) {
-            homeViewModel.archiveSeries(data.seriesId);
+            home.archiveSeries(data.seriesId);
         }
     }
 

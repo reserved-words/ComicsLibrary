@@ -1,4 +1,4 @@
-﻿searchViewModel = {
+﻿search = {
     searchText: ko.observable(),
     sortOrder: ko.observable(),
     sortOrderOptions: [
@@ -16,22 +16,22 @@
     }
 };
 
-searchViewModel.load = function () {
+search.load = function () {
     this.clearSearch();
 }
 
-searchViewModel.clearSearch = function() {
+search.clearSearch = function() {
     this.results.removeAll();
     this.sortOrder(1);
     this.noResults(false);
     this.noCriteria(true);
 }
 
-searchViewModel.startSearch = function () {
+search.startSearch = function () {
     this.searchPage(1);
 }
 
-searchViewModel.searchPage = function (page) {
+search.searchPage = function (page) {
 
     console.log(page);
 

@@ -1,4 +1,4 @@
-﻿seriesViewModel = {
+﻿series = {
     id: ko.observable(),
     title: ko.observable(),
     issues: ko.observableArray(),
@@ -8,7 +8,7 @@
 
 // Add methods to archive / reinstate / delete series
 
-seriesViewModel.load = function (id) {
+series.load = function (id) {
     var self = this;
 
     self.id(id);
@@ -29,21 +29,21 @@ seriesViewModel.load = function (id) {
     });
 }
 
-seriesViewModel.abandonSeries = function () {
+series.abandonSeries = function () {
     var self = this;
     AJAX.post(URL.abandonSeries(self.id()), null, function (result) {
         self.isAbandoned(true);
     });
 }
 
-seriesViewModel.reinstateSeries = function () {
+series.reinstateSeries = function () {
     var self = this;
     AJAX.post(URL.reinstateSeries(self.id()), null, function (result) {
         self.isAbandoned(false);
     });
 }
 
-seriesViewModel.deleteSeries = function () {
+series.deleteSeries = function () {
     if (!confirm("Delete this series?"))
         return;
     var self = this;
@@ -52,16 +52,16 @@ seriesViewModel.deleteSeries = function () {
     });
 }
 
-seriesViewModel.getMoreIssues = function () {
-    AJAX.get(URL.getComics(seriesViewModel.id(), seriesViewModel.issues().length), function (data) {
+series.getMoreIssues = function () {
+    AJAX.get(URL.getComics(series.id(), series.issues().length), function (data) {
         $(data).each(function (index, element) {
-            seriesViewModel.addIssue(element);
+            series.addIssue(element);
         });
     });
 }
 
-seriesViewModel.addIssue = function (element) {
-    seriesViewModel.issues.push({
+series.addIssue = function (element) {
+    series.issues.push({
         id: element.id,
         readUrl: element.readUrl,
         imageUrl: element.imageUrl,

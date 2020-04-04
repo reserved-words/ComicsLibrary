@@ -1,8 +1,8 @@
 ﻿index = {
     menuItems: [
-        { id: "home", name: "Home", viewModel: homeViewModel, active: ko.observable(true) },
-        { id: "library", name: "Library", viewModel: libraryViewModel, active: ko.observable(true) },
-        { id: "search", name: "Search", viewModel: searchViewModel, active: ko.observable(false) }
+        { id: "home", name: "Home", viewModel: home, active: ko.observable(true) },
+        { id: "library", name: "Library", viewModel: library, active: ko.observable(true) },
+        { id: "search", name: "Search", viewModel: search, active: ko.observable(false) }
     ],
     menuClick: function (data, event) {
         setMenuItemActive(data);
@@ -11,7 +11,7 @@
     loading: ko.observable(true),
     loadSeries: function (seriesId) {
         setMenuItemActive(null);
-        loadContent("series", seriesViewModel, seriesId);
+        loadContent("series", series, seriesId);
     }
 };
 

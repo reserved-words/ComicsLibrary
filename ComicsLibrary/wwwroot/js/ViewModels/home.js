@@ -1,4 +1,4 @@
-﻿homeViewModel = {
+﻿home = {
     comics: ko.observableArray(),
     markAsRead: function (id) {
         var self = this;
@@ -18,7 +18,7 @@
     }
 };
 
-homeViewModel.load = function (id) {
+home.load = function (id) {
     var self = this;
 
     AJAX.get(URL.getNext(), function (data) {
