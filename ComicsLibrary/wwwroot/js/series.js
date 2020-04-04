@@ -6,6 +6,8 @@
     totalIssues: ko.observable()
 };
 
+// Add methods to archive / reinstate / delete series
+
 seriesViewModel.load = function (id) {
     var self = this;
 

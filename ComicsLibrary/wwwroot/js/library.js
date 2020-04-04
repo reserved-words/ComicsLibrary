@@ -14,6 +14,7 @@
 // When comic is marked as read and there are no more unread in the series - move to Read
 // When comic is marked as unread - move to Reading / To Read
 // When comic is archived from a different section - move to Archived
+// When a new series is added - move to ToRead
 
 libraryViewModel.setSelected = function(selectedId){
     var selectedShelf = libraryViewModel.shelves.filter(s => s.id === selectedId)[0];
