@@ -26,32 +26,11 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetAllNextIssues();
         }
 
-        [Route("GetSeriesInProgress")]
+        [Route("GetSeriesByStatus")]
         [HttpGet]
-        public List<Series> GetSeriesInProgress()
+        public List<Series> GetSeriesByStatus(SeriesStatus status)
         {
-            return _service.GetSeriesInProgress();
-        }
-
-        [Route("GetSeriesToRead")]
-        [HttpGet]
-        public List<Series> GetSeriesToRead()
-        {
-            return _service.GetSeriesToRead();
-        }
-
-        [Route("GetSeriesFinished")]
-        [HttpGet]
-        public List<Series> GetSeriesFinished()
-        {
-            return _service.GetSeriesFinished();
-        }
-
-        [Route("GetSeriesAbandoned")]
-        [HttpGet]
-        public List<Series> GetSeriesAbandoned()
-        {
-            return _service.GetSeriesAbandoned();
+            return _service.GetSeriesByStatus(status);
         }
 
         [Route("GetSeries")]

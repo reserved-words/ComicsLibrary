@@ -11,10 +11,7 @@
     removeFromLibrary: function (id) { return this.apiBase + "library/removeFromLibrary?id=" + id },
     addToLibrary: function () { return this.apiBase + "library/addToLibrary" },
     getComics: function (id, offset) { return this.apiBase + "library/getComics?seriesId=" + id + "&limit=" + this.limit + "&offset=" + offset },
-    getSeriesToRead: function () { return this.apiBase + "library/getSeriesToRead" },
-    getSeriesFinished: function () { return this.apiBase + "library/getSeriesFinished" },
-    getSeriesAbandoned: function () { return this.apiBase + "library/getSeriesAbandoned" },
-    getSeriesInProgress: function () { return this.apiBase + "library/getSeriesInProgress" },
+    getSeriesByStatus: function (id) { return this.apiBase + "library/getSeriesByStatus?status=" + id },
     markAsRead: function (id) { return this.apiBase + "library/markAsRead?id=" + id },
     markAsUnread: function (id) { return this.apiBase + "library/markAsUnread?id=" + id },
     

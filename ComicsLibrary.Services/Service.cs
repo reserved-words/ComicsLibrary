@@ -111,65 +111,35 @@ namespace ComicsLibrary.Services
             }
         }
 
-        public List<ApiSeries> GetSeriesInProgress()
+        public List<ApiSeries> GetSeriesByStatus(SeriesStatus status)
         {
             using (var uow = _unitOfWorkFactory())
             {
-                return uow.Repository<Series>()
-                    .Including(s => s.Comics)
-                    .Where(s => !s.Abandoned && s.Comics.Any(c => c.IsRead) && s.Comics.Any(c => !c.IsRead))
-                    .OrderBy(s => s.Title)
-                    .ToList()
-                    .Select(c => _mapper.Map<Series, ApiSeries>(c))
-                    .ToList();
-            }
-        }
+                // TODO - change to prevent fetching all comics from each series - only need the first
 
-        public List<ApiSeries> GetSeriesToRead()
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var series = uow.Repository<Series>()
-                    .Where(s => !s.Abandoned && s.Comics.All(c => !c.IsRead))
-                    .OrderBy(s => s.Title)
+                var series = status == SeriesStatus.Reading
+                    ? GetSeriesInProgress(uow)
+                    : status == SeriesStatus.ToRead
+                    ? GetSeriesToRead(uow)
+                    : status == SeriesStatus.Read
+                    ? GetSeriesFinished(uow)
+                    : GetSeriesArchived(uow);
+
+                var list = series.OrderBy(s => s.Title)
                     .ToList()
                     .Select(c => _mapper.Map<Series, ApiSeries>(c))
                     .ToList();
 
-                series.ForEach(s => s.Progress = 0);
+                if (status == SeriesStatus.ToRead)
+                {
+                    list.ForEach(s => s.Progress = 0);
+                }
+                else if (status == SeriesStatus.Read)
+                {
+                    list.ForEach(s => s.Progress = 100);
+                }
 
-                return series;
-            }
-        }
-
-        public List<ApiSeries> GetSeriesFinished()
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var series = uow.Repository<Series>()
-                    .Where(s => !s.Abandoned && s.Comics.All(c => c.IsRead))
-                    .OrderBy(s => s.Title)
-                    .ToList()
-                    .Select(c => _mapper.Map<Series, ApiSeries>(c))
-                    .ToList();
-
-                series.ForEach(s => s.Progress = 100);
-
-                return series;
-            }
-        }
-
-        public List<ApiSeries> GetSeriesAbandoned()
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<Series>()
-                    .Including(s => s.Comics)
-                    .Where(s => s.Abandoned)
-                    .OrderBy(s => s.Title)
-                    .ToList()
-                    .Select(c => _mapper.Map<Series, ApiSeries>(c))
-                    .ToList();
+                return list;
             }
         }
 
@@ -379,6 +349,26 @@ namespace ComicsLibrary.Services
 
                 return list;
             }
+        }
+
+        private IEnumerable<Series> GetSeriesInProgress(IUnitOfWork uow)
+        {
+            return uow.Repository<Series>().Including(s => s.Comics).Where(s => !s.Abandoned && s.Comics.Any(c => c.IsRead) && s.Comics.Any(c => !c.IsRead));
+        }
+
+        private IEnumerable<Series> GetSeriesToRead(IUnitOfWork uow)
+        {
+            return uow.Repository<Series>().Including(s => s.Comics).Where(s => !s.Abandoned && s.Comics.All(c => !c.IsRead));
+        }
+
+        private IEnumerable<Series> GetSeriesFinished(IUnitOfWork uow)
+        {
+            return uow.Repository<Series>().Including(s => s.Comics).Where(s => !s.Abandoned && s.Comics.All(c => c.IsRead));
+        }
+
+        private IEnumerable<Series> GetSeriesArchived(IUnitOfWork uow)
+        {
+            return uow.Repository<Series>().Including(s => s.Comics).Where(s => s.Abandoned);
         }
     }
 }

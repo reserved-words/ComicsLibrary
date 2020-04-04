@@ -19,9 +19,6 @@ namespace ComicsLibrary.Common.Interfaces
         Task<PagedResult<Series>> SearchByTitle(string title, int sortOrder, int limit, int page);
         Task<PagedResult<Comic>> GetComicsByMarvelId(int marvelId, int limit, int offset);
         
-        List<Series> GetSeriesInProgress();
-        List<Series> GetSeriesToRead();
-        List<Series> GetSeriesFinished();
-        List<Series> GetSeriesAbandoned();
+        List<Series> GetSeriesByStatus(SeriesStatus status);
     }
 }

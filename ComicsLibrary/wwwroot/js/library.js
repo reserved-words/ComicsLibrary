@@ -1,58 +1,57 @@
 ﻿libraryViewModel = {
-    title: ko.observable(),
-    series: ko.observableArray(),
-    viewSeries: function (data, event) {
-        index.loadSeries(data.id);
+    shelves: [
+        { id: 1, title: "Reading", items: ko.observableArray(), selected: ko.observable(false) },
+        { id: 2, title: "To Read", items: ko.observableArray(), selected: ko.observable(false) },
+        { id: 3, title: "Read", items: ko.observableArray(), selected: ko.observable(false) },
+        { id: 4, title: "Archived", items: ko.observableArray(), selected: ko.observable(false) }
+    ],
+    select: function (data, event) {
+        libraryViewModel.setSelected(data.id);
     }
 };
 
-libraryViewModel.load = function (id) {
-    var self = this;
+libraryViewModel.setSelected = function(selectedId){
+    var selectedShelf = libraryViewModel.shelves.filter(s => s.id === selectedId)[0];
 
-    self.title("");
-    self.series.removeAll();
+    $.each(libraryViewModel.shelves, function (index, value) {
+        value.selected(false);
+    });
 
-    if (!id) {
-        id = self.title();
-        if (!id) {
-            id = "In Progress";
-        }
-    }
+    selectedShelf.selected(true);
 
-    self.title(id);
+    if (!selectedShelf.items().length) {
+        AJAX.get(URL.getSeriesByStatus(selectedId), function (data) {
 
-    switch (id) {
-        case "To Read":
-            url = URL.getSeriesToRead();
-            break;
-        case "Finished":
-            url = URL.getSeriesFinished();
-            break;
-        case "Abandoned":
-            url = URL.getSeriesAbandoned();
-            break;
-        default:
-            url = URL.getSeriesInProgress();
-            break;
-    }
+            $(data).each(function (index, element) {
+                selectedShelf.items.push({
+                    id: element.id,
+                    title: element.title,
+                    imageUrl: element.imageUrl,
+                    abandoned: element.abandoned,
+                    progress: element.progress
+                });
+            });
 
-    AJAX.get(url, function (data) {
-        self.series.removeAll();
-        $(data).each(function (index, element) {
-            self.series.push(element);
         });
-    });
+    }
 }
 
-libraryViewModel.abandonSeries = function (data, event) {
-    AJAX.post(URL.abandonSeries(data.id), null, function (result) {
-        libraryViewModel.load();
-    });
+libraryViewModel.load = function () {
+    libraryViewModel.setSelected(1);
 }
 
-libraryViewModel.reinstateSeries = function (data, event) {
-    AJAX.post(URL.reinstateSeries(data.id), null, function (result) {
-        libraryViewModel.load();
+libraryViewModel.goToSeries = function (data, event) {
+    index.loadSeries(data.id);
+}
+
+libraryViewModel.archiveSeries = function (data, event) {
+    AJAX.post(URL.abandonSeries(data.id), null, function () {
+        data.abandoned = true;
+        $(libraryViewModel.shelves).each(function (index, element) {
+            element.items.remove(item => item.id === data.id);
+        });
+        // Ideally need to insert in the right place alphabetically
+        libraryViewModel.shelves[3].items.push(data);
     });
 }
 
@@ -60,7 +59,27 @@ libraryViewModel.deleteSeries = function (data, event) {
     if (!confirm("Delete this series?"))
         return;
 
-    AJAX.post(URL.removeFromLibrary(data.id), null, function (result) {
-        libraryViewModel.load();
+    //AJAX.post(URL.deleteSeries(seriesId), null, function (result) {
+    $(libraryViewModel.shelves).each(function (index, element) {
+        element.items.remove(item => item.id === data.id);
+    });
+    //});
+}
+
+libraryViewModel.reinstateSeries = function (data, event) {
+    AJAX.post(URL.reinstateSeries(data.id), null, function () {
+
+        data.abandoned = false;
+
+        libraryViewModel.shelves[3].items.remove(item => item.id === data.id);
+
+        var newShelf = data.progress === 0
+            ? 1
+            : data.progress === 100
+                ? 2
+                : 0;
+
+        // Ideally need to insert in the right place alphabetically
+        libraryViewModel.shelves[newShelf].items.push(data);
     });
 }

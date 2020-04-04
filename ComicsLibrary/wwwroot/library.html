@@ -2,32 +2,35 @@
 
     <h3>Library</h3>
 
-    <ul class="nav nav-tabs nav-fill" id="libraryTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill" id="libraryTab" role="tablist" data-bind="foreach: shelves">
         <li class="nav-item">
-            <a class="nav-link active" id="reading-tab" data-toggle="tab" href="#reading" role="tab" aria-controls="reading" aria-selected="true">Reading</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="to-read-tab" data-toggle="tab" href="#to-read" role="tab" aria-controls="to-read" aria-selected="false">To Read</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="read-tab" data-toggle="tab" href="#read" role="tab" aria-controls="read" aria-selected="false">Read</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="archived-tab" data-toggle="tab" href="#archived" role="tab" aria-controls="archived" aria-selected="false">Archived</a>
+            <a class="nav-link" data-bind="click: $root.select, text: title, class: (selected() ? 'active' : '')" role="tab"></a>
         </li>
     </ul>
-    <div class="tab-content" id="libraryTabContent">
-        <div class="tab-pane fade show active" id="reading" role="tabpanel" aria-labelledby="reading-tab">
+    <div class="tab-content" id="libraryTabContent" data-bind="foreach: shelves">
+        <div class="tab-pane fade" data-bind="class: (selected() ? 'show active' : '')" role="tabpanel">
 
-        </div>
-        <div class="tab-pane fade" id="to-read" role="tabpanel" aria-labelledby="to-read-tab">
-
-        </div>
-        <div class="tab-pane fade" id="read" role="tabpanel" aria-labelledby="read-tab">
-
-        </div>
-        <div class="tab-pane fade" id="archived" role="tabpanel" aria-labelledby="archived-tab">
-
+            <div class="container-fluid p-3">
+                <div class="grid" data-bind="foreach: items">
+                    <div class="card">
+                        <img class="card-img-top" data-bind="attr:{src: imageUrl}">
+                        <div class="card-body">
+                            <div class="caption">
+                                <h5 class="card-title" data-bind="text: title"></h5>
+                                <span class="card-text" data-bind="visible: (progress > 0 && progress < 100), text: (progress + '% read')"></span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="btn-group" role="group">
+                                <button type="button" title="Go to series" class="btn btn-light" data-bind="click: $root.goToSeries"><i class="fas fa-book"></i></button>
+                                <button type="button" title="Archive series" class="btn btn-light" data-bind="visible: !abandoned, click: $root.archiveSeries"><i class="fas fa-archive"></i></button>
+                                <button type="button" title="Reinstate series" class="btn btn-light" data-bind="visible: abandoned, click: $root.reinstateSeries"><i class="fas fa-arrow-up"></i></button>
+                                <button type="button" title="Delete series" class="btn btn-light" data-bind="click: $root.deleteSeries"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
