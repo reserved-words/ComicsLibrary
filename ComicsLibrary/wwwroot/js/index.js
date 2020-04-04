@@ -1,38 +1,36 @@
 ﻿index = {
-    menuItems: [
-        { id: "home", name: "Home", viewModel: home, active: ko.observable(true) },
-        { id: "library", name: "Library", viewModel: library, active: ko.observable(true) },
-        { id: "search", name: "Search", viewModel: search, active: ko.observable(false) }
+    loading: ko.observable(true),
+    pages: [
+        { name: "Home", isActive: ko.observable(true), viewModel: home, loaded: false, menu: true },
+        { name: "Library", isActive: ko.observable(false), viewModel: library, loaded: false, menu: true },
+        { name: "Search", isActive: ko.observable(false), viewModel: search, loaded: false, menu: true },
+        { name: "Series", isActive: ko.observable(false), viewModel: series, loaded: false, menu: false }
     ],
     menuClick: function (data, event) {
-        setMenuItemActive(data);
-        loadContent(data.name, data.viewModel, data.name);
+        loadContent(data);
+        setPageActive(data);
     },
-    loading: ko.observable(true),
     loadSeries: function (seriesId) {
-        setMenuItemActive(null);
-        loadContent("series", series, seriesId);
+        loadContent(index.pages[3], seriesId);
+        setPageActive(index.pages[3]);
     }
 };
 
-var setMenuItemActive = function(activeItem) {
-    $.each(index.menuItems, function (i, element) {
-        element.active(false);
+var setPageActive = function(activePage) {
+    $.each(index.pages, function (i, page) {
+        page.isActive(false);
     });
-    if (activeItem) {
-        activeItem.active(true);
+    if (activePage) {
+        activePage.isActive(true);
     }
 }
 
-var loadContent = function (name, viewModel, id) {
-    index.loading(true);
-    var appBaseUrl = $('#appBaseUrl').data('stuff-url');
-    $("#content").load(appBaseUrl + name + ".html", function() {
-        viewModel.load(id);
-        ko.cleanNode($('#content')[0]);
-        ko.applyBindings(viewModel, $('#content')[0]);
-        index.loading(false);
-    });
+var loadContent = function (page, id) {
+    if (page.loaded && !id)
+        return;
+
+    page.viewModel.load(id);
+    page.loaded = true;
 }
 
 $(document).on('click', '.navbar-collapse.in', function (e) {
@@ -42,6 +40,17 @@ $(document).on('click', '.navbar-collapse.in', function (e) {
 $(function ()
 {
     ko.applyBindings(index);
-    index.loading(false);
-    index.menuClick(index.menuItems[0], null);
+    index.loading(true);
+    var appBaseUrl = $('#appBaseUrl').data('stuff-url');
+
+    $(index.pages).each(function (i, page) {
+        $("#" + page.name).load(appBaseUrl + page.name + ".html", function () {
+            ko.cleanNode($("#" + page.name)[0]);
+            ko.applyBindings(page.viewModel, $("#" + page.name)[0]);
+
+            if (i === 0) {
+                index.menuClick(page, null);
+            }
+        });
+    });
 });

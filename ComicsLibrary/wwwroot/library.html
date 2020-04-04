@@ -1,32 +1,29 @@
-﻿<div class="container-fluid">
+﻿<h3>Library</h3>
 
-    <h3>Library</h3>
+<ul class="nav nav-tabs nav-fill" id="libraryTab" role="tablist" data-bind="foreach: shelves">
+    <li class="nav-item">
+        <a class="nav-link" data-bind="click: $root.select, text: title, class: (selected() ? 'active' : '')" role="tab"></a>
+    </li>
+</ul>
+<div class="tab-content" id="libraryTabContent" data-bind="foreach: shelves">
+    <div class="tab-pane fade" data-bind="class: (selected() ? 'show active' : '')" role="tabpanel">
 
-    <ul class="nav nav-tabs nav-fill" id="libraryTab" role="tablist" data-bind="foreach: shelves">
-        <li class="nav-item">
-            <a class="nav-link" data-bind="click: $root.select, text: title, class: (selected() ? 'active' : '')" role="tab"></a>
-        </li>
-    </ul>
-    <div class="tab-content" id="libraryTabContent" data-bind="foreach: shelves">
-        <div class="tab-pane fade" data-bind="class: (selected() ? 'show active' : '')" role="tabpanel">
-
-            <div class="container-fluid p-3">
-                <div class="grid" data-bind="foreach: items">
-                    <div class="card">
-                        <img class="card-img-top" data-bind="attr:{src: imageUrl}">
-                        <div class="card-body">
-                            <div class="caption">
-                                <h5 class="card-title" data-bind="text: title"></h5>
-                                <span class="card-text" data-bind="text: (progress + '% read')"></span>
-                            </div>
+        <div class="container-fluid p-3">
+            <div class="grid" data-bind="foreach: items">
+                <div class="card">
+                    <img class="card-img-top" data-bind="attr:{src: imageUrl}">
+                    <div class="card-body">
+                        <div class="caption">
+                            <h5 class="card-title" data-bind="text: title"></h5>
+                            <span class="card-text" data-bind="text: (progress + '% read')"></span>
                         </div>
-                        <div class="card-body">
-                            <div class="btn-group" role="group">
-                                <button type="button" title="Go to series" class="btn btn-light" data-bind="click: $root.goToSeries"><i class="fas fa-book"></i></button>
-                                <button type="button" title="Archive series" class="btn btn-light" data-bind="visible: !abandoned, click: $root.archiveSeries"><i class="fas fa-archive"></i></button>
-                                <button type="button" title="Reinstate series" class="btn btn-light" data-bind="visible: abandoned, click: $root.reinstateSeries"><i class="fas fa-arrow-up"></i></button>
-                                <button type="button" title="Delete series" class="btn btn-light" data-bind="click: $root.deleteSeries"><i class="fas fa-trash"></i></button>
-                            </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group" role="group">
+                            <button type="button" title="Go to series" class="btn btn-light" data-bind="click: $root.goToSeries"><i class="fas fa-book"></i></button>
+                            <button type="button" title="Archive series" class="btn btn-light" data-bind="visible: !abandoned, click: $root.archiveSeries"><i class="fas fa-archive"></i></button>
+                            <button type="button" title="Reinstate series" class="btn btn-light" data-bind="visible: abandoned, click: $root.reinstateSeries"><i class="fas fa-arrow-up"></i></button>
+                            <button type="button" title="Delete series" class="btn btn-light" data-bind="click: $root.deleteSeries"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 </div>

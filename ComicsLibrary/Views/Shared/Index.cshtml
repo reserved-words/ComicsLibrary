@@ -23,8 +23,8 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="nav navbar-nav flex-grow-1" data-bind="foreach: menuItems">
-                        <li class="nav-item" data-bind="css: { active: active }">
+                    <ul class="nav navbar-nav flex-grow-1" data-bind="foreach: pages">
+                        <li class="nav-item" data-bind="visible: menu, css: { active: isActive }">
                             <a class="nav-link text-dark" data-bind="text: name, click: $root.menuClick"></a>
                         </li>
                     </ul>
@@ -34,9 +34,12 @@
     </header>
     <div class="container-fluid">
         <main role="main" class="pb-3">
-            <div id="content">
+            <div id="content" data-bind="foreach: pages">
+                <div data-bind="visible: isActive">
+                    <div data-bind="attr:{id: name}" class="container-fluid">
 
-
+                    </div>
+                </div>
             </div>
         </main>
     </div>

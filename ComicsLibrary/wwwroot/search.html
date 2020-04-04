@@ -1,38 +1,35 @@
-﻿
-<div class="container-fluid">
+﻿<h3>Search</h3>
 
-    <h3>Search</h3>
+<div class="card mb-3">
+    <div class="card-body p-3">
+        <form>
+            <div class="form-row align-items-center">
 
-    <div class="card mb-3">
-        <div class="card-body p-3">
-            <form>
-                <div class="form-row align-items-center">
-
-                    <div class="col-auto">
-                        <input type="text" class="form-control" id="inlineFormInput" placeholder="Enter search text" data-bind="value: searchText">
-                    </div>
-
-                    <div class="col-auto">
-                        <select id="sortby" name="sortby" class="form-control" data-bind="value: sortOrder, foreach: sortOrderOptions">
-                            <option data-bind="value: id, text: name" />
-                        </select>
-                    </div>
-
-                    <div class="col-auto">
-                        <button data-bind="click: startSearch" type="button" class="btn btn-light">Search</button>
-                    </div>
-
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="inlineFormInput" placeholder="Enter search text" data-bind="value: searchText">
                 </div>
-            </form>
 
-        </div>
+                <div class="col-auto">
+                    <select id="sortby" name="sortby" class="form-control" data-bind="value: sortOrder, foreach: sortOrderOptions">
+                        <option data-bind="value: id, text: name" />
+                    </select>
+                </div>
+
+                <div class="col-auto">
+                    <button data-bind="click: startSearch" type="button" class="btn btn-light">Search</button>
+                </div>
+
+            </div>
+        </form>
+
     </div>
+</div>
 
-    <p data-bind="visible: noResults()">No results found</p>
+<p data-bind="visible: noResults()">No results found</p>
 
-    <div data-bind="visible: !noResults(), foreach: results" class="accordion" id="searchResults">
+<div data-bind="visible: !noResults(), foreach: results" class="accordion" id="searchResults">
 
-        <result params="title: title,
+    <result params="title: title,
                                 marvelId: marvelId,
                                 libraryId: libraryId,
                                 imageUrl: imageUrl,
@@ -40,14 +37,11 @@
                                 endYear: endYear,
                                 type: type,
                                 url: url" />
-    </div>
-
-    <div class="text-center">
-        <p data-bind="visible: (pagesFetched() >= 1)">Fetched <span data-bind="text: pagesFetched"></span> of <span data-bind="text: totalPages"></span> pages</p>
-
-        <a class="btn btn-light btn-sm" data-bind="visible: (pagesFetched() < totalPages()), click: getMoreResults">Show more</a>
-
-    </div>
-
 </div>
 
+<div class="text-center">
+    <p data-bind="visible: (pagesFetched() >= 1)">Fetched <span data-bind="text: pagesFetched"></span> of <span data-bind="text: totalPages"></span> pages</p>
+
+    <a class="btn btn-light btn-sm" data-bind="visible: (pagesFetched() < totalPages()), click: getMoreResults">Show more</a>
+
+</div>

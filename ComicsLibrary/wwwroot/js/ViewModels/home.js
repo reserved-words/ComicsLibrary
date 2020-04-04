@@ -1,5 +1,4 @@
 ﻿home = {
-    loaded: false,
     comics: ko.observableArray(),
     markAsRead: function (id) {
         AJAX.post(URL.markAsRead(id), null, function (result) {
@@ -14,12 +13,6 @@
         });
     },
     load: function () {
-        console.log("load home");
-
-        if (home.loaded)
-            return;
-
-
         AJAX.get(URL.getNext(), function (data) {
             home.comics.removeAll();
             $(data).each(function (index, element) {

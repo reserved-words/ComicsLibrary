@@ -19,7 +19,7 @@
 //        if (user) {
 //            ko.applyBindings(index);
 //            index.loading(false);
-//            index.menuClick(index.menuItems[0], null);
+//            index.menuClick(index.pages[0], null);
 //        }
 //        else {
 //            mgr.signinRedirect();
