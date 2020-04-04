@@ -9,6 +9,9 @@
 libraryViewModel.load = function (id) {
     var self = this;
 
+    self.title("");
+    self.series.removeAll();
+
     if (!id) {
         id = self.title();
         if (!id) {

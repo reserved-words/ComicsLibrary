@@ -25,6 +25,7 @@ var setMenuItemActive = function(activeItem) {
 }
 
 var loadContent = function (name, viewModel, id) {
+    index.loading(true);
     var appBaseUrl = $('#appBaseUrl').data('stuff-url');
     $("#content").load(appBaseUrl + name + ".html", function() {
         viewModel.load(id);

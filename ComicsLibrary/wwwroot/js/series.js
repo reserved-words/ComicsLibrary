@@ -8,7 +8,12 @@
 
 seriesViewModel.load = function (id) {
     var self = this;
+
     self.id(id);
+    self.title("");
+    self.issues.removeAll();
+    self.isAbandoned(false);
+    self.totalIssues(0);
 
     AJAX.get(URL.getSeries(id), function (data) {
         self.id(data.id);

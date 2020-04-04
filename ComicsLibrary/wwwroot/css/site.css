@@ -11588,6 +11588,8 @@ a.text-dark:hover, a.text-dark:focus {
 
 body {
   font-size: 12px; }
+  body h3 {
+    margin-bottom: 1rem; }
   body h5 {
     font-size: 12px;
     font-weight: bold; }
