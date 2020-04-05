@@ -9,6 +9,12 @@ namespace ComicsLibrary.PreDeployment
 {
     class Program
     {
+        private static string _logDirectory = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+            "ReservedWords", 
+            "ComicsLibrary", 
+            "Logs");
+
         private static IConfiguration _config = GetConfig();
 
         static void Main(string[] args)
@@ -17,7 +23,7 @@ namespace ComicsLibrary.PreDeployment
             var domainName = _config["DomainName"];
             var servicePassword = _config["ServiceUserPassword"];
 
-            var preDeploymentService = new PreDeploymentService(appName, domainName, ex => Log(ex));
+            var preDeploymentService = new PreDeploymentService(appName, domainName, _logDirectory, ex => Log(ex));
             preDeploymentService.CreateApi();
             preDeploymentService.CreateWebApp();
             preDeploymentService.CreateService(servicePassword);
