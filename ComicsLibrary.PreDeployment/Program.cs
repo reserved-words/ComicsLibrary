@@ -1,23 +1,41 @@
-﻿using PreDeploymentTools;
+﻿using ErrorLog.Logger;
+using Microsoft.Extensions.Configuration;
+using PreDeploymentTools;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace ComicsLibrary.PreDeployment
 {
     class Program
     {
+        private static IConfiguration _config = GetConfig();
+
         static void Main(string[] args)
         {
-            if (args.Length != 3)
-                throw new Exception("Incorrect number of arguments");
+            var appName = _config["AppName"];
+            var domainName = _config["DomainName"];
+            var servicePassword = _config["ServiceUserPassword"];
 
-            var appName = args[0];
-            var domainName = args[1];
-            var servicePassword = args[2];
-
-            var preDeploymentService = new PreDeploymentService(appName, domainName);
+            var preDeploymentService = new PreDeploymentService(appName, domainName, ex => Log(ex));
             preDeploymentService.CreateApi();
             preDeploymentService.CreateWebApp();
             preDeploymentService.CreateService(servicePassword);
+        }
+
+        private static void Log(Exception ex)
+        {
+            new Logger(_config).Log(ex);
+        }
+
+        private static IConfiguration GetConfig()
+        {
+            var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            return new ConfigurationBuilder()
+                .SetBasePath(directory)
+                .AddJsonFile("appSettings.json", false, true)
+                .Build();
         }
     }
 }

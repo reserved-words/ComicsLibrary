@@ -1,22 +1,25 @@
 ﻿using ComicsLibrary.Data;
+using ErrorLog.Logger;
+using Microsoft.Extensions.Configuration;
 using PostDeploymentTools;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace ComicsLibrary.PostDeployment
 {
     class Program
     {
+        private static IConfiguration _config = GetConfig();
+
         static void Main(string[] args)
         {
-            if (args.Length != 4)
-                throw new Exception("Incorrect number of arguments");
+            var appName = _config["AppName"];
+            var connectionString = _config["ConnectionString"];
+            var databaseName = _config["DatabaseName"];
+            var schemaName = _config["SchemaName"];
 
-            var appName = args[0];
-            var connectionString = args[1];
-            var databaseName = args[2];
-            var schemaName = args[3];
-
-            var postDeploymentService = new PostDeploymentService(appName, connectionString, databaseName, schemaName);
+            var postDeploymentService = new PostDeploymentService(appName, connectionString, databaseName, schemaName, ex => Log(ex));
             postDeploymentService.UpdateDatabase(() => new ApplicationDbContext(connectionString, schemaName));
 
             postDeploymentService.CreateTaskUser();
@@ -24,6 +27,21 @@ namespace ComicsLibrary.PostDeployment
 
             postDeploymentService.CreateApiUser();
             postDeploymentService.GrantApiPermission("SELECT, INSERT, UPDATE, DELETE");
-		}
+        }
+
+        private static void Log(Exception ex)
+        {
+            new Logger(_config).Log(ex);
+        }
+
+        private static IConfiguration GetConfig()
+        {
+            var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            return new ConfigurationBuilder()
+                .SetBasePath(directory)
+                .AddJsonFile("appSettings.json", false, true)
+                .Build();
+        }
     }
 }
