@@ -20,24 +20,24 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
-    <PackageReference Include="PreDeploymentTools" Version="1.2.1" />
+    <PackageReference Include="PreDeploymentTools" Version="1.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="C:\Users\rhian\.nuget\packages\predeploymenttools\1.2.1\contentFiles\any\netcoreapp3.1\PowershellScripts\IIS-AppSetUp.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\rhian\.nuget\packages\predeploymenttools\1.2.1\contentFiles\any\netcoreapp3.1\PowershellScripts\ServiceSetUp.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\rhian\.nuget\packages\predeploymenttools\1.2.1\contentFiles\any\netcoreapp3.1\PowershellScripts\SetupTools.psm1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\rhian\.nuget\packages\predeploymenttools\1.2.1\contentFiles\any\netcoreapp3.1\PowershellScripts\Test.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\rhian\.nuget\packages\predeploymenttools\1.2.1\contentFiles\any\netcoreapp3.1\PowershellScripts\UserRights.psm1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
