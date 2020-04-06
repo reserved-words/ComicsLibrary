@@ -13,7 +13,7 @@ namespace ComicsLibrary.PreDeployment
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
             "ReservedWords", 
             "ComicsLibrary", 
-            "Logs",
+            "PreDeploymentLogs",
             $"{DateTime.Today.ToString("yyyy-MM-dd")}.log");
 
         private static IConfiguration _config = GetConfig();
