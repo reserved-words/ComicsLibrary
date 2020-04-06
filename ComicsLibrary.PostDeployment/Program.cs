@@ -18,8 +18,9 @@ namespace ComicsLibrary.PostDeployment
             var connectionString = _config["ConnectionString"];
             var databaseName = _config["DatabaseName"];
             var schemaName = _config["SchemaName"];
+            var domainName = _config["DomainName"];
 
-            var postDeploymentService = new PostDeploymentService(appName, connectionString, databaseName, schemaName, ex => Log(ex));
+            var postDeploymentService = new PostDeploymentService(domainName, appName, connectionString, databaseName, schemaName, ex => Log(ex));
             postDeploymentService.UpdateDatabase(() => new ApplicationDbContext(connectionString, schemaName));
 
             postDeploymentService.CreateTaskUser();
