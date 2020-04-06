@@ -3,38 +3,55 @@ AJAX = {
     get: function (url, onLoaded) {
         index.loading(true);
 
-        //mgr.getUser().then(function (user) {
-        //    console.log(user.access_token);
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url);
-        xhr.onload = function () {
-            onLoaded(JSON.parse(xhr.responseText));
-            index.loading(false);
-        }
-        //    xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-        xhr.send();
-        //});
+        mgr.getUser().then(function (user) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+
+            xhr.onreadystatechange = function (oEvent) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        onLoaded(JSON.parse(xhr.responseText));
+                        index.loading(false);
+                    } else {
+                        alert("Error");
+                        console.log("Error", xhr.statusText);
+                    }
+                }
+            };
+            xhr.send();
+        });
     },
 
     post: function (url, data, onLoaded) {
         index.loading(true);
 
-        //mgr.getUser().then(function (user) {
+        mgr.getUser().then(function (user) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+            xhr.onload = function () {
+                onLoaded(xhr.responseText ? JSON.parse(xhr.responseText) : '');
+                index.loading(false);
+            };
+            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.send(JSON.stringify(data));
+        });
+    },
+
+    getContent: function (path, onFetched) {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.onload = function () {
-            //alert(xhr.responseText);
-            //onLoaded(JSON.parse(xhr.responseText));
-
-
-            onLoaded(xhr.responseText ? JSON.parse(xhr.responseText) : '');
-            index.loading(false);
-        };
-        //  xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.send(JSON.stringify(data));
-        //   });
+        xhr.open("GET", path, false);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200 || xhr.status == 0) {
+                    var content = JSON.parse(xhr.responseText);
+                    onFetched(content);
+                }
+            }
+        }
+        xhr.send(null);
     }
 };
 

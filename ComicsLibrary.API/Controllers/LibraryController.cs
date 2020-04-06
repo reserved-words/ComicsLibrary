@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ComicsLibrary.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("library")]
     public class LibraryController : ControllerBase
     {

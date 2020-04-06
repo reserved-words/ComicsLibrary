@@ -8,10 +8,5 @@ namespace ComicsLibrary.Controllers
         {
             return View();
         }
-
-        public IActionResult Callback()
-        {
-            return View();
-        }
     }
 }

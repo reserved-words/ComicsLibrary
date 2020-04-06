@@ -33,12 +33,7 @@ var loadContent = function (page, id) {
     page.loaded = true;
 }
 
-$(document).on('click', '.navbar-collapse.in', function (e) {
-    $(this).collapse('hide');
-});
-
-$(function ()
-{
+var onAuthorised = function () {
     ko.applyBindings(index);
     index.loading(true);
     var appBaseUrl = $('#appBaseUrl').data('stuff-url');
@@ -53,4 +48,13 @@ $(function ()
             }
         });
     });
+}
+
+$(document).on('click', '.navbar-collapse.in', function (e) {
+    $(this).collapse('hide');
+});
+
+$(function ()
+{
+    authorize(onAuthorised);
 });
