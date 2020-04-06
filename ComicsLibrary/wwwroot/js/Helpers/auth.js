@@ -7,7 +7,7 @@ function authorize2(onAuthorized) {
     var authConfig = {
         authority: config.authUrl,
         client_id: config.authClientId,
-        redirect_uri: appUrl + "callback.html",
+        redirect_uri: appUrl + "home/callback",
         response_type: config.authResponseType,
         scope: config.authScope,
         post_logout_redirect_uri: appUrl
