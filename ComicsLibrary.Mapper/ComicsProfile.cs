@@ -8,11 +8,9 @@ using MarvelSharp.Model;
 
 using Comic = ComicsLibrary.Common.Models.Comic;
 using Series = ComicsLibrary.Common.Models.Series;
-using Character = ComicsLibrary.Common.Models.Character;
 
 using MarvelComic = MarvelSharp.Model.Comic;
 using MarvelSeries = MarvelSharp.Model.Series;
-using MarvelCharacter = MarvelSharp.Model.Character;
 
 using ApiComic = ComicsLibrary.Common.Api.Comic;
 using ApiSeries = ComicsLibrary.Common.Api.Series;
@@ -39,18 +37,11 @@ namespace ComicsLibrary.Mapper
                 .ForMember(dest => dest.Total, act => act.MapFrom(src => src.Data.Total))
                 .ForMember(dest => dest.Results, act => act.MapFrom(src => src.Data.Result));
 
-            CreateMap<Response<List<MarvelCharacter>>, ApiResult<Character>>()
-                .ForMember(dest => dest.Success, act => act.MapFrom(src => src.Success))
-                .ForMember(dest => dest.Total, act => act.MapFrom(src => src.Data.Total))
-                .ForMember(dest => dest.Results, act => act.MapFrom(src => src.Data.Result));
-
             CreateMap<MarvelSeries, Series>()
                 .ForMember(dest => dest.ImageUrl, act => act.MapFrom(src => MapImageToString(src.Thumbnail)))
                 .ForMember(dest => dest.MarvelId, act => act.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Characters, act => act.MapFrom(src => string.Join(", ", src.Characters.Items.Select(i => i.Name))))
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => GetTitleCase(src.Type)))
                 .ForMember(dest => dest.Id, act => act.Ignore())
-                .ForMember(dest => dest.Order, act => act.Ignore())
                 .ForMember(dest => dest.Url, act => act.Ignore())
                 .ForMember(dest => dest.Comics, act => act.Ignore());
 
@@ -61,15 +52,8 @@ namespace ComicsLibrary.Mapper
                 .ForMember(dest => dest.Creators, act => act.MapFrom(src => GetCreators(src)))
                 .ForMember(dest => dest.OnSaleDate, act => act.MapFrom(src => GetOnSaleDate(src)))
                 .ForMember(dest => dest.Id, act => act.Ignore())
-                .ForMember(dest => dest.Url, act => act.Ignore())
                 .ForMember(dest => dest.SeriesId, act => act.Ignore())
                 .ForMember(dest => dest.Series, act => act.Ignore());
-
-            CreateMap<MarvelCharacter, Character>()
-                .ForMember(dest => dest.ImageUrl, act => act.MapFrom(src => MapImageToString(src.Thumbnail)))
-                .ForMember(dest => dest.MarvelId, act => act.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Id, act => act.Ignore())
-                .ForMember(dest => dest.Url, act => act.Ignore());
 
             CreateMap<Comic, ApiComic>()
                 .ForMember(s => s.SeriesId, act => act.MapFrom(src => src.SeriesId))
@@ -109,10 +93,8 @@ namespace ComicsLibrary.Mapper
                 .ForMember(src => src.ImageUrl, act => act.MapFrom(src => src.ImageUrl))
                 .ForMember(src => src.ReadUrl, act => act.MapFrom(src => src.ReadUrl))
                 .ForMember(src => src.DiamondCode, act => act.MapFrom(src => src.DiamondCode))
-                .ForMember(src => src.Isbn, act => act.MapFrom(src => src.Isbn))
                 .ForMember(src => src.IssueNumber, act => act.MapFrom(src => src.IssueNumber))
                 .ForMember(src => src.Upc, act => act.MapFrom(src => src.Upc))
-                .ForMember(src => src.Url, act => act.MapFrom(src => src.Url))
                 .ForMember(src => src.Creators, act => act.MapFrom(src => src.Creators))
                 .ForMember(src => src.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate))
                 .ForAllOtherMembers(act => act.Ignore());

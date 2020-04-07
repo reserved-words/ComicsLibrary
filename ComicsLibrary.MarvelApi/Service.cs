@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using ComicsLibrary.Common.Models;
@@ -8,11 +7,9 @@ using ComicsLibrary.Common.Interfaces;
 
 using Comic = ComicsLibrary.Common.Models.Comic;
 using Series = ComicsLibrary.Common.Models.Series;
-using Character = ComicsLibrary.Common.Models.Character;
 
 using MarvelComic = MarvelSharp.Model.Comic;
 using MarvelSeries = MarvelSharp.Model.Series;
-using MarvelCharacter = MarvelSharp.Model.Character;
 
 using MarvelSharp;
 using MarvelSharp.Model;
@@ -47,8 +44,6 @@ namespace ComicsLibrary.MarvelComicsApi
 
             return _mapper.Map<Response<List<MarvelComic>>, ApiResult<Comic>>(comics);
         }
-
-
 
         public async Task<List<Comic>> GetAllSeriesComicsAsync(int id)
         {
@@ -100,11 +95,6 @@ namespace ComicsLibrary.MarvelComicsApi
                 OrderBy = new List<ComicOrder> { ComicOrder.IssueNumberAscending },
                 NoVariants = true
             });
-        }
-
-        private async Task<Response<List<MarvelCharacter>>> GetSeriesCharacters(int id, int limit, int page)
-        {
-            return await _apiService.GetSeriesCharactersAsync(id, limit, (page - 1) * limit);
         }
 
         private static void CheckResponse<T>(Response<T> response)

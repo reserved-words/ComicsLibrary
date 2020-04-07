@@ -149,6 +149,7 @@ namespace ComicsLibrary.Services
             {
                 var comic = uow.Repository<Comic>().GetById(id);
                 comic.IsRead = true;
+                comic.DateRead = DateTime.Now;
                 uow.Save();
 
                 var next = uow.Repository<Comic>()
@@ -170,6 +171,7 @@ namespace ComicsLibrary.Services
             {
                 var comic = uow.Repository<Comic>().GetById(id);
                 comic.IsRead = false;
+                comic.DateRead = null;
                 uow.Save();
             }
         }

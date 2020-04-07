@@ -21,11 +21,9 @@ namespace ComicsLibrary.Common.Models
         public string ImageUrl { get; set; }
         public int? MarvelId { get; set; }
         public string Url { get; set; }
-        public int? Order { get; set; }
         public int? StartYear { get; set; }
         public int? EndYear { get; set; }
         public string Type { get; set; }
-        public string Characters { get; set; }
         public DateTime LastUpdated { get; set; }
         public bool IsFinished { get; set; }
         public bool Abandoned { get; set; }
