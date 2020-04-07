@@ -17,5 +17,7 @@ namespace ComicsLibrary.Common.Api
         public bool ToReadNext { get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime? ReadUrlAdded { get; set; }
+        public DateTime? DateRead { get; set; }
+        public string Creators { get; set; }
     }
 }

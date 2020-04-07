@@ -24,7 +24,8 @@
                     readUrl: element.readUrl,
                     seriesId: element.seriesId,
                     onSaleDate: element.onSaleDate,
-                    unreadIssues: element.unreadIssues
+                    unreadIssues: element.unreadIssues,
+                    creators: element.creators
                 });
             });
         });

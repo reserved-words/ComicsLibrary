@@ -10,6 +10,22 @@
         this.seriesId = params.seriesId;
         this.onSaleDate = params.onSaleDate;
         this.unreadIssues = params.unreadIssues;
+        this.creators = params.creators;
+
+        var query = params.seriesTitle
+            .concat(" ", params.issueTitle, " ", params.creators)
+            .replace("(", "")
+            .replace(")", "")
+            .replace(/&/g, "")
+            .replace("#", "%23")
+            .replace(" ", "+");
+
+        this.goodreadsUrl = "https://www.goodreads.com/search"
+            + "?utf8=%E2%9C%93"
+            + "&search_type=books"
+            + "&search%5Bfield%5D=on"
+            + "&q="
+            + query;
 
         this.goToSeries = function(data,event) {
             index.loadSeries(data.seriesId);
