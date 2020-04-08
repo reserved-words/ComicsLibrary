@@ -1,37 +1,46 @@
-﻿var config = "";
-var mgr = null;
-var appUrl = $("#appBaseUrl").data("stuff-url");
+﻿var mgr = null;
 
-function authorize2(onAuthorized) {
+function authorize(onAuthorized) {
 
-    var authConfig = {
-        authority: config.authUrl,
-        client_id: config.authClientId,
-        redirect_uri: appUrl + "home/callback",
-        response_type: config.authResponseType,
-        scope: config.authScope,
-        post_logout_redirect_uri: appUrl
-    };
+    $.get(app.authSettingsUrl(), function (data) {
 
-    mgr = new Oidc.UserManager(authConfig);
+        mgr = new Oidc.UserManager({
+            authority: data.url,
+            client_id: data.clientId,
+            redirect_uri: app.callbackUrl(),
+            response_type: data.responseType,
+            scope: data.scope,
+            post_logout_redirect_uri: app.baseUrl
+        });
 
-    mgr.getUser().then(function (user) {
-        if (user) {
-            onAuthorized();
-        }
-        else {
-            mgr.signinRedirect();
-        }
+        mgr.getUser()
+            .then(function (user) {
+                if (user) {
+                    onAuthorized();
+                }
+                else {
+                    mgr.signinRedirect()
+                        .catch(function (e) {
+                            console.error(e);
+                            index.loading(false);
+                            alert("Failed to load sign-in page. Please try again.");
+                        });
+                }
+            })
+            .catch(function (e) {
+                console.error(e);
+            });
     });
 }
 
 function callback() {
-    new Oidc.UserManager({ response_mode: "query" }).signinRedirectCallback().then(function () {
-        console.log(appUrl);
-        window.location = appUrl;
-    }).catch(function (e) {
-        console.error(e);
-    });
+    new Oidc.UserManager({ response_mode: "query" })
+        .signinRedirectCallback()
+        .then(function () {
+            window.location = app.baseUrl;
+        }).catch(function (e) {
+            console.error(e);
+        });
 }
 
 //function login() {
@@ -41,11 +50,3 @@ function callback() {
 //function logout() {
 //    mgr.signoutRedirect();
 //}
-
-function authorize(onAuthorized) {
-    settingsPath = appUrl + "authSettings.json";
-    AJAX.getContent(settingsPath, function (content) {
-        config = content;
-        authorize2(onAuthorized);
-    });
-}

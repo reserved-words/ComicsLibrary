@@ -33,13 +33,13 @@ var loadContent = function (page, id) {
     page.loaded = true;
 }
 
-var onAuthorised = function () {
+var onAuthorized = function () {
     ko.applyBindings(index);
     index.loading(true);
-    var appBaseUrl = $('#appBaseUrl').data('stuff-url');
 
+    
     $(index.pages).each(function (i, page) {
-        $("#" + page.name).load(appBaseUrl + page.name + ".html", function () {
+        $("#" + page.name).load(app.baseUrl + page.name + ".html", function () {
             ko.cleanNode($("#" + page.name)[0]);
             ko.applyBindings(page.viewModel, $("#" + page.name)[0]);
 
@@ -56,5 +56,5 @@ $(document).on('click', '.navbar-collapse.in', function (e) {
 
 $(function ()
 {
-    authorize(onAuthorised);
+    authorize(onAuthorized);
 });

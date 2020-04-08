@@ -13,7 +13,7 @@
             if (data.isRead)
                 return;
 
-            AJAX.post(URL.markAsRead(data.id), null, function () {
+            API.post(URL.markAsRead(data.id), null, function () {
                 data.isRead = true;
             });
         }
@@ -21,7 +21,7 @@
             if (!data.isRead)
                 return;
 
-            AJAX.post(URL.markAsUnread(data.id), null, function () {
+            API.post(URL.markAsUnread(data.id), null, function () {
                 data.isRead = false;
             });
         }

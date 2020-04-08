@@ -1,6 +1,0 @@
-{
-  "authUrl": "http://localhost:5000",
-  "authClientId": "ComicsLibrary",
-  "authResponseType": "code",
-  "authScope": "ComicsLibraryApi"
-}

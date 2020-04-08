@@ -28,7 +28,7 @@ library.setSelected = function(selectedId){
     if (selectedShelf.fetched)
         return;
 
-    AJAX.get(URL.getSeriesByStatus(selectedId), function (data) {
+    API.get(URL.getSeriesByStatus(selectedId), function (data) {
         selectedShelf.items.removeAll();
         selectedShelf.fetched = true;
         $(data).each(function (index, element) {
@@ -52,7 +52,7 @@ library.goToSeries = function (data, event) {
 }
 
 library.archiveSeries = function (data, event) {
-    AJAX.post(URL.abandonSeries(data.id), null, function () {
+    API.post(URL.abandonSeries(data.id), null, function () {
         data.abandoned = true;
         $(library.shelves).each(function (index, element) {
             element.items.remove(item => item.id === data.id);
@@ -66,7 +66,7 @@ library.deleteSeries = function (data, event) {
     if (!confirm("Delete this series?"))
         return;
 
-    AJAX.post(URL.deleteSeries(seriesId), null, function (result) {
+    API.post(URL.deleteSeries(seriesId), null, function (result) {
         $(library.shelves).each(function (index, element) {
             element.items.remove(item => item.id === data.id);
         });
@@ -74,7 +74,7 @@ library.deleteSeries = function (data, event) {
 }
 
 library.reinstateSeries = function (data, event) {
-    AJAX.post(URL.reinstateSeries(data.id), null, function () {
+    API.post(URL.reinstateSeries(data.id), null, function () {
 
         data.abandoned = false;
 

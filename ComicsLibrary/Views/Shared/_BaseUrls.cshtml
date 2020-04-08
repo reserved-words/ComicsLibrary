@@ -1,0 +1,11 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    var apiBaseUrl = Configuration["ApiBaseUrl"];
+    var appBaseUrl = Configuration["AppBaseUrl"];
+}
+
+<div class="hidden">
+    <span id="apiBaseUrl" data-stuff-url="@apiBaseUrl"></span>
+    <span id="appBaseUrl" data-stuff-url="@appBaseUrl"></span>
+</div>

@@ -1,10 +1,4 @@
-﻿@using Microsoft.Extensions.Configuration
-@inject IConfiguration Configuration
-@{
-    var appBaseUrl = Configuration["AppBaseUrl"];
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,14 +8,13 @@
 </head>
 <body>
 
-    <div class="hidden">
-        <span id="appBaseUrl" data-stuff-url="@appBaseUrl"></span>
-    </div>
+    @await Html.PartialAsync("_BaseUrls")
 
     <script src="~/lib/JQuery/jquery-3.4.1.min.js"></script>
     <script src="~/lib/oidc-client-js/oidc-client.js"></script>
     <script src="~/lib/oidc-client-js/oidc-client.rsa256.slim.js"></script>
 
+    <script src="~/js/Helpers/config.js"></script>
     <script src="~/js/Helpers/auth.js"></script>
     <script src="~/js/Helpers/callback.js"></script>
 

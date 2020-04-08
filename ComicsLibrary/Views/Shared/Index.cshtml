@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+
+    @await Html.PartialAsync("_BaseUrls")
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -48,11 +51,6 @@
         <img src=@Url.Content("~/loading.gif") class="spinner-element" />
     </div>
 
-    <div class="hidden">
-        <span id="apiBaseUrl" data-stuff-url="@apiBaseUrl"></span>
-        <span id="appBaseUrl" data-stuff-url="@appBaseUrl"></span>
-    </div>
-
     <script src="~/lib/JQuery/jquery-3.4.1.min.js"></script>
     <script src="~/lib/Bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/FontAwesome/js/all.js"></script>
@@ -63,9 +61,10 @@
     <script src="~/lib/oidc-client-js/oidc-client.rsa256.slim.js"></script>
 
 
+    <script src="~/js/Helpers/config.js"></script>
     <script src="~/js/Helpers/auth.js"></script>
     <script src="~/js/Helpers/url.js"></script>
-    <script src="~/js/Helpers/common.js"></script>
+    <script src="~/js/Helpers/api.js"></script>
     <script src="~/js/ViewModels/search.js"></script>
     <script src="~/js/ViewModels/series.js"></script>
     <script src="~/js/ViewModels/library.js"></script>

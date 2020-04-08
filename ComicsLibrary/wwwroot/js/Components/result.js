@@ -20,7 +20,7 @@
 
             var url = URL.getComicsByMarvelId(self.marvelId, self.issues().length);
 
-            AJAX.get(url, function (result) {
+            API.get(url, function (result) {
                 self.pagesFetched(result.page);
                 self.totalPages(result.totalPages);
 
@@ -72,7 +72,7 @@
 
             var self = this;
 
-            AJAX.post(URL.addToLibrary(), data, function (result) {
+            API.post(URL.addToLibrary(), data, function (result) {
                 
                 if (!result) {
                     alert("Error");

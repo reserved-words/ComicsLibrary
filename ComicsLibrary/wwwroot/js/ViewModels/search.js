@@ -48,7 +48,7 @@ search.searchPage = function (page) {
         self.results.removeAll();
     }
 
-    AJAX.get(URL.searchByTitle(self.searchText(), self.sortOrder(), page), function (data) {
+    API.get(URL.searchByTitle(self.searchText(), self.sortOrder(), page), function (data) {
 
         self.pagesFetched(data.page);
         self.totalPages(data.totalPages);

@@ -17,7 +17,7 @@ series.load = function (id) {
     self.isAbandoned(false);
     self.totalIssues(0);
 
-    AJAX.get(URL.getSeries(id), function (data) {
+    API.get(URL.getSeries(id), function (data) {
         self.id(data.id);
         self.title(data.title);
         self.totalIssues(data.totalComics);
@@ -31,14 +31,14 @@ series.load = function (id) {
 
 series.abandonSeries = function () {
     var self = this;
-    AJAX.post(URL.abandonSeries(self.id()), null, function (result) {
+    API.post(URL.abandonSeries(self.id()), null, function (result) {
         self.isAbandoned(true);
     });
 }
 
 series.reinstateSeries = function () {
     var self = this;
-    AJAX.post(URL.reinstateSeries(self.id()), null, function (result) {
+    API.post(URL.reinstateSeries(self.id()), null, function (result) {
         self.isAbandoned(false);
     });
 }
@@ -47,13 +47,13 @@ series.deleteSeries = function () {
     if (!confirm("Delete this series?"))
         return;
     var self = this;
-    AJAX.post(URL.removeFromLibrary(self.id()), null, function (result) {
+    API.post(URL.removeFromLibrary(self.id()), null, function (result) {
         index.loadSeries(0);
     });
 }
 
 series.getMoreIssues = function () {
-    AJAX.get(URL.getComics(series.id(), series.issues().length), function (data) {
+    API.get(URL.getComics(series.id(), series.issues().length), function (data) {
         $(data).each(function (index, element) {
             series.addIssue(element);
         });
