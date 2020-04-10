@@ -75,8 +75,8 @@ namespace ComicsLibrary.Mapper
                 .ForMember(s => s.YearsActive, act => act.MapFrom(src => GetYearsActive(src)))
                 .ForMember(s => s.Progress, act => act.MapFrom(src => GetProgress(src)))
                 .ForMember(s => s.TotalComics, act => act.MapFrom(src => src.Comics.Count))
-                .ForMember(s => s.UnreadAvailableComics, act => act.MapFrom(src => 
-                    src.Comics.Count(c => !c.IsRead && !string.IsNullOrEmpty(c.ReadUrl))));
+                .ForMember(s => s.UnreadIssues, act => act.MapFrom(src => 
+                    src.Comics.Count(c => !c.IsRead)));
 
             CreateMap<ApiSeries, Series>()
                 .ForMember(s => s.ImageUrl, act => act.MapFrom(src => src.ImageUrl))

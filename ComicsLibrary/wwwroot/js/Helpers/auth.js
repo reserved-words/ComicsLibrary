@@ -16,7 +16,7 @@ function authorize(onAuthorized) {
         mgr.getUser()
             .then(function (user) {
                 if (user) {
-                    onAuthorized();
+                    onAuthorized(user);
                 }
                 else {
                     mgr.signinRedirect()

@@ -10,6 +10,7 @@
     archiveSeries: function (seriesId) {
         API.post(URL.abandonSeries(seriesId), null, function (result) {
             home.comics.remove(item => item.seriesId === seriesId);
+            library.onSeriesArchived(seriesId);
         });
     },
     load: function () {

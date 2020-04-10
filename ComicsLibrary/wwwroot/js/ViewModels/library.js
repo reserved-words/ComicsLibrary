@@ -7,14 +7,108 @@
     ],
     select: function (data, event) {
         library.setSelected(data.id);
+    },
+    archiveSeries: function (data, event) {
+        API.post(URL.abandonSeries(data.id), null, function () {
+            library.onSeriesArchived(data.id);
+        });
+    },
+    reinstateSeries: function (data, event) {
+        API.post(URL.reinstateSeries(data.id), null, function () {
+            library.onSeriesReinstated(data.id);
+        });
+    },
+    deleteSeries: function (data, event) {
+        if (!confirm("Delete this series?"))
+            return;
+
+        API.post(URL.deleteSeries(data.id), null, function () {
+            library.onSeriesDeleted(data.id);
+        });
+    },
+    goToSeries: function (data, event) {
+        index.loadSeries(data.id);
+    },
+    onIssueRead: function (seriesId) {
+        var result = this.find(seriesId);
+        result.series.unreadIssues--;
+        this.move(result.series, result.shelf, newShelf);
+    },
+    onIssueUnread: function (seriesId) {
+        var result = this.find(seriesId);
+        result.series.unreadIssues++;
+        this.move(result.series, result.shelf);
+    },
+    onSeriesArchived: function (seriesId) {
+        var result = this.find(seriesId);
+        result.series.abandoned = true;
+        this.move(result.series, result.shelf);
+    },
+    onSeriesReinstated: function (seriesId) {
+        var result = this.find(seriesId);
+        result.series.abandoned = false;
+        this.move(result.series, result.shelf);
+    },
+    onSeriesAdded: function (series) {
+        this.move(series, null, newShelf);
+    },
+    onSeriesDeleted: function (seriesId) {
+        var result = this.find(seriesId);
+        result.shelf.items.remove(result.series);
+    },
+    move: function (item, oldShelf) {
+        var newShelf = this.getShelf(series);
+
+        if (oldShelf.id === newShelf.id)
+            return;
+
+        if (oldShelf) {
+            oldShelf.items.remove(item);
+        }
+
+        this.insertItem(newShelf, item);
+    },
+    getShelf(series) {
+        return series.abandoned
+            ? 3
+            : series.unreadIssues === 0
+                ? 2
+                : series.unreadIssues === series.totalComics
+                    ? 1
+                    : 0;
+    },
+    find: function (seriesId) {
+        var foundShelf = null;
+        var foundSeries = null;
+
+        $.each(library.shelves, function (i, shelf) {
+            if (foundShelf) {
+                return false;
+            }
+            $.each(shelf.items(), function (j, series) {
+                if (series.id === seriesId) {
+                    foundShelf = shelf;
+                    foundSeries = series;
+                    return false;
+                }
+            });
+        });
+
+        return {
+            shelf: foundShelf,
+            series: foundSeries
+        };
+    },
+    insertItem: function (shelf, item) {
+        for (var i in shelf.items()) {
+            if (shelf.items()[i].title > item.title) {
+                shelf.items.splice(i, 0, item);
+                return false;
+            }
+        }
+        shelf.items.push(item);
     }
 };
-
-// Add methods to move series from one section to another
-// When comic is marked as read and there are no more unread in the series - move to Read
-// When comic is marked as unread - move to Reading / To Read
-// When comic is archived from a different section - move to Archived
-// When a new series is added - move to ToRead
 
 library.setSelected = function(selectedId){
     var selectedShelf = library.shelves.filter(s => s.id === selectedId)[0];
@@ -37,7 +131,9 @@ library.setSelected = function(selectedId){
                 title: element.title,
                 imageUrl: element.imageUrl,
                 abandoned: element.abandoned,
-                progress: element.progress
+                progress: element.progress,
+                unreadIssues: element.unreadIssues,
+                totalComics: element.totalComics
             });
         });
     });
@@ -45,54 +141,4 @@ library.setSelected = function(selectedId){
 
 library.load = function () {
     library.setSelected(1);
-}
-
-library.goToSeries = function (data, event) {
-    index.loadSeries(data.id);
-}
-
-library.archiveSeries = function (data, event) {
-    API.post(URL.abandonSeries(data.id), null, function () {
-        data.abandoned = true;
-        $(library.shelves).each(function (index, element) {
-            element.items.remove(item => item.id === data.id);
-        });
-
-        library.insertAlphabetically(library.shelves[3], data);
-    });
-}
-
-library.deleteSeries = function (data, event) {
-    if (!confirm("Delete this series?"))
-        return;
-
-    API.post(URL.deleteSeries(seriesId), null, function (result) {
-        $(library.shelves).each(function (index, element) {
-            element.items.remove(item => item.id === data.id);
-        });
-    });
-}
-
-library.reinstateSeries = function (data, event) {
-    API.post(URL.reinstateSeries(data.id), null, function () {
-
-        data.abandoned = false;
-
-        library.shelves[3].items.remove(item => item.id === data.id);
-
-        var newShelf = data.progress === 0 ? 1 : data.progress === 100 ? 2 : 0;
-
-        library.insertAlphabetically(library.shelves[newShelf], data);
-    });
-}
-
-library.insertAlphabetically = function (shelf, newItem) {
-    for (var i in shelf.items()) {
-        if (shelf.items()[i].title > newItem.title) {
-            shelf.items.splice(i, 0, newItem);
-            return;
-        }
-    }
-
-    shelf.items.push(newItem);
 }

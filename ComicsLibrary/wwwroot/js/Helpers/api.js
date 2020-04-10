@@ -22,8 +22,13 @@ function authorizeAndSend(xhr, data, onLoaded) {
     };
 
     mgr.getUser().then(function (user) {
-        xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
-        xhr.send(data);
+        if (user) {
+            xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
+            xhr.send(data);
+        }
+        else {
+            mgr.signinRedirect()
+        }
     });
 }
 

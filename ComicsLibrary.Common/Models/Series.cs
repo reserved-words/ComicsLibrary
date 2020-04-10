@@ -15,6 +15,7 @@ namespace ComicsLibrary.Common.Models
         }
 
         public int Id { get; set; }
+        public int? SourceId { get; set; }
         [Required]
         [StringLength(255)]
         public string Title { get; set; }
@@ -27,6 +28,8 @@ namespace ComicsLibrary.Common.Models
         public DateTime LastUpdated { get; set; }
         public bool IsFinished { get; set; }
         public bool Abandoned { get; set; }
+
+        public virtual Source Source { get; set; }
 
         public virtual ICollection<Comic> Comics { get; set; }
 

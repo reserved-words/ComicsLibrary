@@ -21,7 +21,7 @@ namespace ComicsLibrary.Common.Api
         public string YearsActive { get; set; }
         public int Progress { get; set; }
         public int TotalComics { get; set; }
-        public int UnreadAvailableComics { get; set; }
+        public int UnreadIssues { get; set; }
         public int MarvelId { get; set; }
         public string Url { get; set; }
 
