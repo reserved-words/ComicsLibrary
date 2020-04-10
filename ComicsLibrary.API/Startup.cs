@@ -2,12 +2,12 @@ using System;
 using ComicsLibrary.Common.Delegates;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Data;
-using ComicsLibrary.Services;
+using ComicsLibrary.Common.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using ComicsLibrary.Services.Mapper;
 
 namespace ComicsLibrary.API
 {
@@ -45,9 +45,8 @@ namespace ComicsLibrary.API
                 .AddAuthorization();
 
             services.AddTransient<IService, Service>();
-            services.AddTransient<IMapper, Mapper.Mapper>();
-            services.AddTransient<IApiService, MarvelComicsApi.Service>();
-            services.AddTransient<IMarvelAppKeys, AppKeys>();
+            services.AddTransient<IMapper, Mapper>();
+            services.AddTransient<IApiService, MarvelUnlimited.Service>();
             services.AddTransient<ILogger, Logger>();
             services.AddTransient<IAsyncHelper, AsyncHelper>();
 

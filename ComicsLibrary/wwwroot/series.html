@@ -1,17 +1,36 @@
 ﻿<h3 data-bind="text: title"></h3>
 
-<div class="grid mb-3" data-bind="foreach: issues">
-    <issue params="id: id,
-                        readUrl: readUrl,
-                        imageUrl: imageUrl,
-                        isRead: isRead,
-                        title: title,
-                        onSaleDate: onSaleDate" />
+<div class="mb-3" data-bind="foreach: bookLists">
+    <div class="card">
+
+        <div class="card-header">
+            <h4 data-bind="text: typeName"></h4>
+        </div>
+
+        <div class="card-body p-3">
+
+            <div class="text-right">
+                <p>Home: <input data-bind="checked: home" type="checkbox" /></p>
+            </div>
+
+            <div class="grid mb-3" data-bind="foreach: books">
+                <issue params="id: id,
+                                readUrl: readUrl,
+                                imageUrl: imageUrl,
+                                isRead: isRead,
+                                title: title,
+                                onSaleDate: onSaleDate" />
+            </div>
+
+            <div class="text-center">
+                <p>Fetched <span data-bind="text: books().length"></span> of <span data-bind="text: totalBooks"></span> books</p>
+
+                <a class="btn btn-light btn-sm" data-bind="visible: (books().length < totalBooks), click: getMoreBooks">Show more</a>
+
+            </div>
+        </div>
+
+    </div>
 </div>
 
-<div class="text-center">
-    <p>Fetched <span data-bind="text: issues().length"></span> of <span data-bind="text: totalIssues()"></span> issues</p>
 
-    <a class="btn btn-light btn-sm" data-bind="visible: (issues().length < totalIssues()), click: getMoreIssues">Show more</a>
-
-</div>

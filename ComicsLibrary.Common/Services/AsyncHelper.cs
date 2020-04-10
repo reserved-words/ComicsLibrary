@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ComicsLibrary.Common.Interfaces;
 
-namespace ComicsLibrary.Services
+namespace ComicsLibrary.Common.Services
 {
     public class AsyncHelper : IAsyncHelper
     {

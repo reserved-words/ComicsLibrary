@@ -35,9 +35,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj" />
     <ProjectReference Include="..\ComicsLibrary.Data\ComicsLibrary.Data.csproj" />
-    <ProjectReference Include="..\ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj" />
-    <ProjectReference Include="..\ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj" />
-    <ProjectReference Include="..\ComicsLibrary.Services\ComicsLibrary.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

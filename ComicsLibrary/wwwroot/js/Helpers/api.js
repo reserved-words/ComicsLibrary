@@ -38,7 +38,9 @@ function onReadyStateChange(xhr, onLoaded) {
 
     if (xhr.status === 200) {
         index.loading(false);
-        onLoaded(xhr.responseText ? JSON.parse(xhr.responseText) : '');
+        if (onLoaded) {
+            onLoaded(xhr.responseText ? JSON.parse(xhr.responseText) : '');
+        }
     } else {
         alert("Error");
         console.error(xhr.statusText);

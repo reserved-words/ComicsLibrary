@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using ErrorLogger = ErrorLog.Logger.Logger;
 
-namespace ComicsLibrary.Services
+namespace ComicsLibrary.Common.Services
 {
     public class Logger : ILogger
     {

@@ -7,11 +7,11 @@ using ComicsLibrary.Common.Interfaces;
 
 using ApiComic = ComicsLibrary.Common.Api.Comic;
 using ApiSeries = ComicsLibrary.Common.Api.Series;
-using Comic = ComicsLibrary.Common.Models.Comic;
 using Series = ComicsLibrary.Common.Models.Series;
+
 using ComicsLibrary.Common.Models;
 
-namespace ComicsLibrary.Services
+namespace ComicsLibrary.Common.Services
 {
     public class Service : IService
     {
@@ -47,8 +47,8 @@ namespace ComicsLibrary.Services
                 {
                     var s = _mapper.Map<ApiSeries, Series>(series);
                     s.LastUpdated = DateTime.Now;
-                    s.Comics = await _apiService.GetAllSeriesComicsAsync(series.MarvelId);
-                    foreach (var c in s.Comics)
+                    s.Books = await _apiService.GetAllSeriesComicsAsync(series.SourceItemID);
+                    foreach (var c in s.Books)
                     {
                         c.DateAdded = DateTime.Now;
                     }
@@ -68,16 +68,51 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var series = _mapper.Map<Series, ApiSeries>(uow.Repository<Series>()
-                    .Including(s => s.Comics)
-                    .Single(c => c.Id == seriesId));
+                var dbSeries = uow.Repository<Series>()
+                    .Including(s => s.Books)
+                    .Single(c => c.Id == seriesId);
 
-                series.Issues = series.Issues
-                    .OrderByDescending(c => c.IssueNumber)
-                    .Take(numberOfComics)
+                var dbBookTypes = uow.Repository<BookType>()
+                    .Including(bt => bt.HomeBookTypes)
+                    .Select(bt => new 
+                    { 
+                        ID = bt.ID, 
+                        Name = bt.Name, 
+                        Home = bt.HomeBookTypes.Any(t => t.SeriesId == seriesId && t.Enabled)  
+                    })
+                    .ToDictionary(t => t.ID, t => new { Name = t.Name, Home = t.Home });
+
+                var series = _mapper.Map<Series, ApiSeries>(dbSeries);
+
+                series.BookLists = dbSeries.Books
+                    .GroupBy(b => b.BookTypeID)
+                    .Select(g => new BookList
+                    {
+                        TypeId = g.Key.Value,
+                        TypeName = dbBookTypes[g.Key.Value].Name,
+                        TotalBooks = g.Count(),
+                        Home = dbBookTypes[g.Key.Value].Home,
+                        Books = g.OrderByDescending(c => c.Number)
+                            .Take(numberOfComics)
+                            .Select(b => _mapper.Map<Book, ApiComic>(b))
+                            .ToArray()
+                    })
                     .ToArray();
 
                 return series;
+            }
+        }
+
+        public List<ApiComic> GetBooks(int seriesId, int typeId, int limit, int offset)
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                return _mapper.Map<List<Book>, List<ApiComic>>(uow.Repository<Book>()
+                    .Where(s => s.SeriesId == seriesId && s.BookTypeID == typeId)
+                    .OrderByDescending(c => c.Number)
+                    .Skip(offset)
+                    .Take(limit)
+                    .ToList());
             }
         }
 
@@ -85,10 +120,10 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                return _mapper.Map<List<Comic>, List<ApiComic>>(uow.Repository<Comic>()
+                return _mapper.Map<List<Book>, List<ApiComic>>(uow.Repository<Book>()
                     .Including(s => s.Series)
                     .Where(s => s.SeriesId == seriesId)
-                    .OrderByDescending(c => c.IssueNumber)
+                    .OrderByDescending(c => c.Number)
                     .Skip(offset)
                     .Take(limit)
                     .ToList());
@@ -101,7 +136,7 @@ namespace ComicsLibrary.Services
             {
                 var page = offset / limit + 1;
                 var result = await _apiService.GetSeriesComicsAsync(marvelId, limit, page);
-                var comics = _mapper.Map<List<Comic>, List<ApiComic>>(result.Results);
+                var comics = _mapper.Map<List<Book>, List<ApiComic>>(result.Results);
                 return new PagedResult<ApiComic>(comics, limit, page, result.Total);
             }
             catch (Exception ex)
@@ -147,21 +182,20 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var comic = uow.Repository<Comic>().GetById(id);
-                comic.IsRead = true;
+                var comic = uow.Repository<Book>().GetById(id);
                 comic.DateRead = DateTime.Now;
                 uow.Save();
 
-                var next = uow.Repository<Comic>()
+                var next = uow.Repository<Book>()
                     .Including(c => c.Series)
-                    .Where(c => c.SeriesId == comic.SeriesId && !c.IsRead)
+                    .Where(c => c.SeriesId == comic.SeriesId && !c.DateRead.HasValue)
                     .OrderBy(c => c.OnSaleDate)
                     .FirstOrDefault();
 
                 if (next == null)
                     return null;
 
-                return _mapper.Map<Comic, NextComicInSeries>(next);
+                return _mapper.Map<Book, NextComicInSeries>(next);
             }
         }
 
@@ -169,8 +203,7 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var comic = uow.Repository<Comic>().GetById(id);
-                comic.IsRead = false;
+                var comic = uow.Repository<Book>().GetById(id);
                 comic.DateRead = null;
                 uow.Save();
             }
@@ -191,11 +224,11 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var comicsToDelete = uow.Repository<Comic>().Where(c => c.SeriesId == id).Select(c => c.Id).ToList();
+                var comicsToDelete = uow.Repository<Book>().Where(c => c.SeriesId == id).Select(c => c.Id).ToList();
 
                 foreach (var comic in comicsToDelete)
                 {
-                    uow.Repository<Comic>().Delete(comic);
+                    uow.Repository<Book>().Delete(comic);
                 }
 
                 uow.Repository<Series>().Delete(id);
@@ -213,10 +246,10 @@ namespace ComicsLibrary.Services
                     var yearAgo = DateTime.Now.AddYears(-1);
 
                     var ongoingSeries = uow.Repository<Series>()
-                        .Where(s => s.MarvelId.HasValue
+                        .Where(s => s.SourceItemID.HasValue
                             && s.LastUpdated < weekAgo
-                            && (s.Comics.Any(c => c.OnSaleDate > yearAgo)
-                                || s.Comics.Any(c => string.IsNullOrEmpty(c.ReadUrl))));
+                            && (s.Books.Any(c => c.OnSaleDate > yearAgo)
+                                || s.Books.Any(c => string.IsNullOrEmpty(c.ReadUrl))));
 
                     var totalOngoingSeries = ongoingSeries.Count();
 
@@ -249,20 +282,20 @@ namespace ComicsLibrary.Services
             using (var uow = _unitOfWorkFactory())
             {
                 var inLibrary = uow.Repository<Series>()
-                    .Where(s => s.MarvelId.HasValue)
-                    .ToDictionary(s => s.MarvelId.Value, s => s.Id);
+                    .Where(s => s.SourceItemID.HasValue)
+                    .ToDictionary(s => s.SourceItemID.Value, s => s.Id);
 
                 var series = new List<ApiSeries>();
                 foreach (var result in searchResults.Results)
                 {
-                    if (!result.MarvelId.HasValue)
+                    if (!result.SourceItemID.HasValue)
                         continue;
 
-                    inLibrary.TryGetValue(result.MarvelId.Value, out int libraryId);
+                    inLibrary.TryGetValue(result.SourceItemID.Value, out int libraryId);
 
                     series.Add(new ApiSeries
                     {
-                        MarvelId = result.MarvelId.Value,
+                        SourceItemID = result.SourceItemID.Value,
                         Title = result.Title,
                         StartYear = result.StartYear,
                         EndYear = result.EndYear,
@@ -281,7 +314,7 @@ namespace ComicsLibrary.Services
             try
             {
                 var newSeriesUpdateTime = DateTime.Now;
-                var updatedComics = await _apiService.GetAllSeriesComicsAsync(series.MarvelId.Value);
+                var updatedComics = await _apiService.GetAllSeriesComicsAsync(series.SourceItemID.Value);
                 foreach (var comic in updatedComics)
                 {
                     UpdateComic(uow, comic, series.Id);
@@ -295,20 +328,20 @@ namespace ComicsLibrary.Services
             }
         }
 
-        private void UpdateComic(IUnitOfWork uow, Comic comic, int seriesId)
+        private void UpdateComic(IUnitOfWork uow, Book comic, int seriesId)
         {
             try
             {
                 if (string.IsNullOrEmpty(comic.ImageUrl) || comic.Title.EndsWith("Variant)"))
                     return;
 
-                var savedComic = uow.Repository<Comic>().SingleOrDefault(c => c.MarvelId == comic.MarvelId);
+                var savedComic = uow.Repository<Book>().SingleOrDefault(c => c.SourceItemID == comic.SourceItemID);
 
                 if (savedComic == null)
                 {
                     comic.SeriesId = seriesId;
                     comic.DateAdded = DateTime.Now;
-                    uow.Repository<Comic>().Insert(comic);
+                    uow.Repository<Book>().Insert(comic);
                 }
                 else
                 {
@@ -318,8 +351,8 @@ namespace ComicsLibrary.Services
             catch (Exception ex)
             {
                 ex.Data.Add("Series ID", seriesId);
-                ex.Data.Add("Comic Issue Number", comic.IssueNumber.HasValue ? comic.IssueNumber.ToString() : "null");
-                ex.Data.Add("Comic Marvel ID", comic.MarvelId.HasValue ? comic.MarvelId.ToString() : "null");
+                ex.Data.Add("Comic Issue Number", comic.Number.HasValue ? comic.Number.ToString() : "null");
+                ex.Data.Add("Comic Marvel ID", comic.SourceItemID.HasValue ? comic.SourceItemID.ToString() : "null");
                 _logger.Log(ex);
             }
         }
@@ -328,9 +361,11 @@ namespace ComicsLibrary.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var series = uow.Repository<Comic>()
-                    .Including(c => c.Series)
-                    .Where(c => !c.Series.Abandoned && !c.IsRead)
+                var series = uow.Repository<Book>()
+                    .Including(c => c.Series.HomeBookTypes)
+                    .Where(c => !c.Series.Abandoned 
+                        && !c.DateRead.HasValue
+                        && c.Series.HomeBookTypes.Any(t => t.BookTypeId == c.BookTypeID && t.Enabled))
                     .OrderBy(c => c.OnSaleDate)
                     .ToList();
 
@@ -344,7 +379,7 @@ namespace ComicsLibrary.Services
 
                 foreach (var g in groups)
                 {
-                    var comic = _mapper.Map<Comic, NextComicInSeries>(g.Next);
+                    var comic = _mapper.Map<Book, NextComicInSeries>(g.Next);
                     comic.UnreadIssues = g.Unread;
                     list.Add(comic);
                 }
@@ -355,22 +390,51 @@ namespace ComicsLibrary.Services
 
         private IEnumerable<Series> GetSeriesInProgress(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Comics).Where(s => !s.Abandoned && s.Comics.Any(c => c.IsRead) && s.Comics.Any(c => !c.IsRead));
+            return uow.Repository<Series>().Including(s => s.Books).Where(s => !s.Abandoned && s.Books.Any(c => c.DateRead.HasValue) && s.Books.Any(c => !c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesToRead(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Comics).Where(s => !s.Abandoned && s.Comics.All(c => !c.IsRead));
+            return uow.Repository<Series>().Including(s => s.Books).Where(s => !s.Abandoned && s.Books.All(c => !c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesFinished(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Comics).Where(s => !s.Abandoned && s.Comics.All(c => c.IsRead));
+            return uow.Repository<Series>().Including(s => s.Books).Where(s => !s.Abandoned && s.Books.All(c => c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesArchived(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Comics).Where(s => s.Abandoned);
+            return uow.Repository<Series>().Including(s => s.Books).Where(s => s.Abandoned);
+        }
+
+        public void UpdateHomeBookType(HomeBookType homeBookType)
+        {
+            try
+            {
+                using (var uow = _unitOfWorkFactory())
+                {
+                    var item = uow.Repository<HomeBookType>()
+                        .SingleOrDefault(bt => bt.BookTypeId == homeBookType.BookTypeId
+                            && bt.SeriesId == homeBookType.SeriesId);
+
+                    if (item == null)
+                    {
+                        uow.Repository<HomeBookType>().Insert(homeBookType);
+                    }
+                    else
+                    {
+                        item.Enabled = homeBookType.Enabled;
+                    }
+
+                    uow.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+            }
+
         }
     }
 }

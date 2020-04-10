@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using HomeBookType = ComicsLibrary.Common.Models.HomeBookType;
+
 
 namespace ComicsLibrary.API.Controllers
 {
@@ -40,6 +42,13 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetSeries(seriesId, limit);
         }
 
+        [Route("GetBooks")]
+        [HttpGet]
+        public List<Comic> GetBooks(int seriesId, int typeId, int limit, int offset)
+        {
+            return _service.GetBooks(seriesId, typeId, limit, offset);
+        }
+
         [Route("GetComics")]
         [HttpGet]
         public List<Comic> GetComics(int seriesId, int limit, int offset)
@@ -52,6 +61,13 @@ namespace ComicsLibrary.API.Controllers
         public async Task<int> AddToLibrary([FromBody]Series series)
         {
             return await _service.AddSeriesToLibrary(series);
+        }
+
+        [Route("SetHomeOption")]
+        [HttpPost]
+        public void SetHomeOption([FromBody]HomeBookType homeBookType)
+        {
+            _service.UpdateHomeBookType(homeBookType);
         }
 
         [Route("RemoveFromLibrary")]

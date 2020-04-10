@@ -1,7 +1,7 @@
 ﻿series = {
     id: ko.observable(),
     title: ko.observable(),
-    issues: ko.observableArray(),
+    bookLists: ko.observableArray(),
     isAbandoned: ko.observable(),
     totalIssues: ko.observable()
 };
@@ -13,7 +13,7 @@ series.load = function (id) {
 
     self.id(id);
     self.title("");
-    self.issues.removeAll();
+    self.bookLists.removeAll();
     self.isAbandoned(false);
     self.totalIssues(0);
 
@@ -22,9 +22,9 @@ series.load = function (id) {
         self.title(data.title);
         self.totalIssues(data.totalComics);
         self.isAbandoned(data.abandoned);
-        self.issues.removeAll();
-        $(data.issues).each(function (index, element) {
-            self.addIssue(element);
+
+        $(data.bookLists).each(function (index, element){
+            self.addBookList(element);
         });
     });
 }
@@ -52,16 +52,8 @@ series.deleteSeries = function () {
     });
 }
 
-series.getMoreIssues = function () {
-    API.get(URL.getComics(series.id(), series.issues().length), function (data) {
-        $(data).each(function (index, element) {
-            series.addIssue(element);
-        });
-    });
-}
-
-series.addIssue = function (element) {
-    series.issues.push({
+series.addBook = function (bookList, element) {
+    bookList.books.push({
         id: element.id,
         readUrl: element.readUrl,
         imageUrl: element.imageUrl,
@@ -69,4 +61,38 @@ series.addIssue = function (element) {
         title: element.issueTitle,
         onSaleDate: element.onSaleDate
     });
+}
+
+series.addBookList = function (element) {
+    var bookList = {
+        typeId: element.typeId,
+        typeName: element.typeName,
+        totalBooks: element.totalBooks,
+        home: ko.observable(element.home),
+        books: ko.observableArray(),
+    };
+
+    bookList.home.subscribe(function (newValue) {
+        var data = {
+            seriesId: series.id(),
+            bookTypeId: element.typeId,
+            enabled: newValue
+        };
+        API.post(URL.setHomeOption(), data);
+    });
+
+    bookList.getMoreBooks = function (data, event) {
+        var self = this;
+        API.get(URL.getBooks(series.id(), bookList.typeId, bookList.books().length), function (result) {
+            $(result).each(function (index, book) {
+                series.addBook(bookList, book);
+            });
+        });
+    }
+
+    $(element.books).each(function (index, book) {
+        series.addBook(bookList, book);
+    });
+
+    series.bookLists.push(bookList);
 }

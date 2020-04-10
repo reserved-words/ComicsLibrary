@@ -10,7 +10,7 @@ namespace ComicsLibrary.Common.Models
 
         public Series()
         {
-            Comics = new List<Comic>();
+            Books = new List<Book>();
             _splitTitle = new Lazy<Tuple<string, string>>(GetSplitTitle);
         }
 
@@ -20,7 +20,8 @@ namespace ComicsLibrary.Common.Models
         [StringLength(255)]
         public string Title { get; set; }
         public string ImageUrl { get; set; }
-        public int? MarvelId { get; set; }
+        // public int? MarvelId { get; set; }
+        public int? SourceItemID { get; set; }
         public string Url { get; set; }
         public int? StartYear { get; set; }
         public int? EndYear { get; set; }
@@ -29,9 +30,13 @@ namespace ComicsLibrary.Common.Models
         public bool IsFinished { get; set; }
         public bool Abandoned { get; set; }
 
+
+        public virtual ICollection<HomeBookType> HomeBookTypes { get; set; }
+
         public virtual Source Source { get; set; }
 
-        public virtual ICollection<Comic> Comics { get; set; }
+        //public virtual ICollection<Comic> Comics { get; set; }
+        public virtual ICollection<Book> Books { get; set; }
 
         public string MainTitle => _splitTitle.Value.Item1;
         public string SubTitle => _splitTitle.Value.Item2;

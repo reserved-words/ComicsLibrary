@@ -2,9 +2,8 @@
 using ComicsLibrary.Common.Interfaces;
 using System;
 using System.Linq;
-using Comic = ComicsLibrary.Common.Models.Comic;
 
-namespace ComicsLibrary.Services
+namespace ComicsLibrary.Common.Services
 {
     public class UpdateService : IUpdateService
     {
@@ -24,13 +23,13 @@ namespace ComicsLibrary.Services
             _asyncHelper = asyncHelper;
         }
 
-        public void UpdateSeries()
+        public void UpdateSeries(int sourceID)
         {
             try
             {
                 using (var uow = _unitOfWorkFactory())
                 {
-                    var seriesId = GetNextSeriesToUpdate(uow);
+                    var seriesId = GetNextSeriesToUpdate(uow, sourceID);
 
                     if (!seriesId.HasValue || seriesId == 0)
                         return;
@@ -44,16 +43,20 @@ namespace ComicsLibrary.Services
             }
         }
 
-        private int? GetNextSeriesToUpdate(IUnitOfWork uow)
+        private int? GetNextSeriesToUpdate(IUnitOfWork uow, int sourceID)
         {
             var weekAgo = DateTime.Now.AddDays(-7);
             var yearAgo = DateTime.Now.AddYears(-1);
 
+            // Need to change this to check if series is finished
+
             return uow.Repository<Series>()
-                .Where(s => s.MarvelId.HasValue
+                .Where(s => s.SourceItemID.HasValue
+                    && s.SourceItemID == sourceID
                     && s.LastUpdated < weekAgo
-                    && (s.Comics.Any(c => c.OnSaleDate > yearAgo)
-                        || s.Comics.Any(c => string.IsNullOrEmpty(c.ReadUrl))))
+                    && !s.IsFinished
+                    && (s.Books.Any(c => c.OnSaleDate > yearAgo)
+                        || s.Books.Any(c => string.IsNullOrEmpty(c.ReadUrl))))
                 .OrderBy(s => s.LastUpdated)
                 .Select(s => s.Id)
                 .FirstOrDefault();
@@ -61,12 +64,14 @@ namespace ComicsLibrary.Services
 
         private void UpdateSeries(IUnitOfWork uow, int seriesId)
         {
+            // May need to set to IsFinished
+
             try
             {
                 var newSeriesUpdateTime = DateTime.Now;
                 var series = uow.Repository<Series>().Single(s => s.Id == seriesId);
 
-                var comics = _asyncHelper.RunSync(() => _apiService.GetAllSeriesComicsAsync(series.MarvelId.Value));
+                var comics = _asyncHelper.RunSync(() => _apiService.GetAllSeriesComicsAsync(series.SourceItemID.Value));
                        
                 foreach (var comic in comics)
                 {
@@ -82,28 +87,28 @@ namespace ComicsLibrary.Services
             }
         }
 
-        private void TryUpdateComic(IUnitOfWork uow, Comic comic, int seriesId)
+        private void TryUpdateComic(IUnitOfWork uow, Book book, int seriesId)
         {
             try
             {
-                if (!IsValid(comic))
+                if (!IsValid(book))
                     return;
 
-                UpdateComic(uow, comic, seriesId);
+                UpdateComic(uow, book, seriesId);
             }
             catch (Exception ex)
             {
                 ex.Data.Add("Series ID", seriesId);
-                ex.Data.Add("Comic Issue Number", comic.IssueNumber.HasValue ? comic.IssueNumber.ToString() : "null");
-                ex.Data.Add("Comic Marvel ID", comic.MarvelId.HasValue ? comic.MarvelId.ToString() : "null");
+                ex.Data.Add("Comic Issue Number", book.Number.HasValue ? book.Number.ToString() : "null");
+                ex.Data.Add("Comic Source Item ID", book.SourceItemID.HasValue ? book.SourceItemID.ToString() : "null");
                 _logger.Log(ex);
             }
         }
 
-        private void UpdateComic(IUnitOfWork uow, Comic comic, int seriesId)
+        private void UpdateComic(IUnitOfWork uow, Book comic, int seriesId)
         {
-            var savedComic = uow.Repository<Comic>()
-                .SingleOrDefault(c => c.MarvelId == comic.MarvelId);
+            var savedComic = uow.Repository<Book>()
+                .SingleOrDefault(c => c.SourceItemID == comic.SourceItemID && c.SeriesId == seriesId);
 
             if (savedComic == null)
             {
@@ -115,14 +120,14 @@ namespace ComicsLibrary.Services
             }
         }
 
-        private static void AddNewComic(IUnitOfWork uow, Comic comic, int seriesId)
+        private static void AddNewComic(IUnitOfWork uow, Book comic, int seriesId)
         {
             comic.SeriesId = seriesId;
             comic.DateAdded = DateTime.Now;
-            uow.Repository<Comic>().Insert(comic);
+            uow.Repository<Book>().Insert(comic);
         }
 
-        private void UpdateExistingComic(Comic comic, Comic savedComic)
+        private void UpdateExistingComic(Book comic, Book savedComic)
         {
             var readUrlUpdated = IsReadUrlUpdated(comic, savedComic);
 
@@ -134,12 +139,12 @@ namespace ComicsLibrary.Services
             }
         }
 
-        private static bool IsReadUrlUpdated(Comic comic, Comic savedComic)
+        private static bool IsReadUrlUpdated(Book comic, Book savedComic)
         {
             return string.IsNullOrEmpty(savedComic.ReadUrl) && !string.IsNullOrEmpty(comic.ReadUrl);
         }
 
-        private bool IsValid(Comic comic)
+        private bool IsValid(Book comic)
         {
             return !string.IsNullOrEmpty(comic.ImageUrl) && !comic.Title.EndsWith("Variant)");
         }

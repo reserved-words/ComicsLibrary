@@ -2,6 +2,13 @@
     getNext: () =>
         app.apiUrl("library", "getNext"),
 
+    getBooks: (id, typeId, offset) =>
+        app.apiUrl("library", "getBooks")
+            .concat("?", "seriesId", "=", id)
+            .concat("&", "typeId", "=", typeId)
+            .concat("&", "limit", "=", app.maxFetch)
+            .concat("&", "offset", "=", offset),
+
     getSeries: (id) =>
         app.apiUrl("library", "getSeries")
             .concat("?", "seriesId", "=", id)
@@ -35,6 +42,9 @@
     markAsRead: (id) =>
         app.apiUrl("library", "markAsRead")
             .concat("?", "id", "=", id),
+
+    setHomeOption: () =>
+        app.apiUrl("library", "setHomeOption"),
 
     markAsUnread: (id) =>
         app.apiUrl("library", "markAsUnread")

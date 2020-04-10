@@ -4,6 +4,6 @@ namespace ComicsLibrary.Common.Interfaces
 {
     public interface IUpdateService
     {
-        void UpdateSeries();
+        void UpdateSeries(int sourceID);
     }
 }

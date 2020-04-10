@@ -4,14 +4,16 @@ using ComicsLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ComicsLibrary.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200410094959_AddedSourceItemIDToSeriesTable")]
+    partial class AddedSourceItemIDToSeriesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,31 +149,6 @@ namespace ComicsLibrary.Data.Migrations
                     b.ToTable("Comics");
                 });
 
-            modelBuilder.Entity("ComicsLibrary.Common.Models.HomeBookType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BookTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SeriesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookTypeId");
-
-                    b.HasIndex("SeriesId");
-
-                    b.ToTable("HomeBookTypes");
-                });
-
             modelBuilder.Entity("ComicsLibrary.Common.Models.Series", b =>
                 {
                     b.Property<int>("Id")
@@ -193,6 +170,9 @@ namespace ComicsLibrary.Data.Migrations
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("MarvelId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("SourceId")
                         .HasColumnType("int");
@@ -256,7 +236,7 @@ namespace ComicsLibrary.Data.Migrations
                         .HasForeignKey("BookTypeID");
 
                     b.HasOne("ComicsLibrary.Common.Models.Series", "Series")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -265,22 +245,7 @@ namespace ComicsLibrary.Data.Migrations
             modelBuilder.Entity("ComicsLibrary.Common.Models.Comic", b =>
                 {
                     b.HasOne("ComicsLibrary.Common.Models.Series", "Series")
-                        .WithMany()
-                        .HasForeignKey("SeriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ComicsLibrary.Common.Models.HomeBookType", b =>
-                {
-                    b.HasOne("ComicsLibrary.Common.Models.BookType", "BookType")
-                        .WithMany()
-                        .HasForeignKey("BookTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComicsLibrary.Common.Models.Series", "Series")
-                        .WithMany()
+                        .WithMany("Comics")
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

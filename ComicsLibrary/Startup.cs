@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ComicsLibrary.Common.Delegates;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Data;
-using ComicsLibrary.Services;
+using ComicsLibrary.Common.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

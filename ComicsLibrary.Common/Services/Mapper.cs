@@ -2,7 +2,7 @@
 using AutoMapper;
 using IMapper = ComicsLibrary.Common.Interfaces.IMapper;
 
-namespace ComicsLibrary.Mapper
+namespace ComicsLibrary.Services.Mapper
 {
     public class Mapper : IMapper
     {
@@ -11,7 +11,7 @@ namespace ComicsLibrary.Mapper
         public Mapper()
         {
             _autoMapper = new Lazy<AutoMapper.IMapper>(() => new AutoMapper.Mapper(new MapperConfiguration(cfg => {
-                cfg.AddProfile<ComicsProfile>();
+                cfg.AddProfile<MapperProfile>();
             })));
         }
 

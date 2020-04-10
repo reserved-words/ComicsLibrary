@@ -13,5 +13,9 @@ namespace ComicsLibrary.Common.Api
         public string OnSaleDate { get; set; }
         public int UnreadIssues { get; set; }
         public string Creators { get; set; }
+        public int SourceID { get; set; }
+        public string SourceName { get; set; }
+        public int TypeID { get; set; }
+        public string TypeName { get; set; }
     }
 }

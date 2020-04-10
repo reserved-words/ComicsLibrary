@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using ComicsLibrary.Common.Models;
 using ComicsLibrary.Common.Interfaces;
 
-using Comic = ComicsLibrary.Common.Models.Comic;
 using Series = ComicsLibrary.Common.Models.Series;
 
 using MarvelComic = MarvelSharp.Model.Comic;
@@ -14,8 +13,10 @@ using MarvelSeries = MarvelSharp.Model.Series;
 using MarvelSharp;
 using MarvelSharp.Model;
 using MarvelSharp.Criteria;
+using Microsoft.Extensions.Configuration;
+using ComicsLibrary.Common.Api;
 
-namespace ComicsLibrary.MarvelComicsApi
+namespace ComicsLibrary.MarvelUnlimited
 {
     public class Service : IApiService
     {
@@ -25,10 +26,10 @@ namespace ComicsLibrary.MarvelComicsApi
         private readonly IMapper _mapper;
         private readonly ApiService _apiService;
 
-        public Service(IMapper mapper, IMarvelAppKeys appKeys)
+        public Service(IMapper mapper, IConfiguration config)
         {
             _mapper = mapper;
-            _apiService = new ApiService(appKeys.PublicKey, appKeys.PrivateKey);
+            _apiService = new ApiService(config["MarvelApiPrivateKey"], config["MarvelApiPublicKey"]);
         }
 
         public async Task<ApiResult<Series>> SearchSeriesAsync(string titleStartsWith, int limit, int page, SearchOrder? orderBy)
@@ -38,14 +39,14 @@ namespace ComicsLibrary.MarvelComicsApi
             return _mapper.Map<Response<List<MarvelSeries>>, ApiResult<Series>>(series);
         }
 
-        public async Task<ApiResult<Comic>> GetSeriesComicsAsync(int id, int maxResults, int page)
+        public async Task<ApiResult<Book>> GetSeriesComicsAsync(int id, int maxResults, int page)
         {
             var comics = await GetSeriesComics(id, maxResults, page);
 
-            return _mapper.Map<Response<List<MarvelComic>>, ApiResult<Comic>>(comics);
+            return _mapper.Map<Response<List<MarvelComic>>, ApiResult<Book>>(comics);
         }
 
-        public async Task<List<Comic>> GetAllSeriesComicsAsync(int id)
+        public async Task<List<Book>> GetAllSeriesComicsAsync(int id)
         {
             var pageNo = 1;
 
@@ -65,7 +66,7 @@ namespace ComicsLibrary.MarvelComicsApi
                 }
             }
 
-            return _mapper.Map<List<MarvelComic>, List<Comic>>(comics);
+            return _mapper.Map<List<MarvelComic>, List<Book>>(comics);
         }
 
         private async Task<Response<List<MarvelSeries>>> GetSeries(string titleStartsWith, int limit, int page, SearchOrder? orderBy)

@@ -1,11 +1,12 @@
 ﻿using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Data;
-using ComicsLibrary.Services;
+using ComicsLibrary.Common.Services;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Logger = ComicsLibrary.Services.Logger;
+using Logger = ComicsLibrary.Common.Services.Logger;
 
 namespace ComicsLibrary.Updater
 {
@@ -19,8 +20,12 @@ namespace ComicsLibrary.Updater
 
             try
             {
-                var updateService = GetService(config);
-                updateService.UpdateSeries();
+                var services = GetServices(config);
+
+                foreach (var service in services)
+                {
+                    service.UpdateSeries(1);
+                }
             }
             catch (Exception ex)
             {
@@ -28,15 +33,16 @@ namespace ComicsLibrary.Updater
             }
         }
 
-        private static IUpdateService GetService(IConfiguration config)
+        private static List<IUpdateService> GetServices(IConfiguration config)
         {
-            var appKeys = new AppKeys(config["MarvelApiPrivateKey"], config["MarvelApiPublicKey"]);
-            var mapper = new Mapper.Mapper();
-            var apiService = new MarvelComicsApi.Service(mapper, appKeys);
+            var mapper = new MarvelUnlimited.Mapper();
+            var apiService = new MarvelUnlimited.Service(mapper, config);
             var logger = GetLogger();
             var asyncHelper = new AsyncHelper();
             Func<IUnitOfWork> unitOfWorkFactory = () => new UnitOfWork(config["UpdaterConnectionString"], config["SchemaName"]);
-            return new UpdateService(unitOfWorkFactory, mapper, apiService, logger, asyncHelper);
+            var marvelUnlimitedService = new UpdateService(unitOfWorkFactory, mapper, apiService, logger, asyncHelper);
+
+            return new List<IUpdateService> { marvelUnlimitedService };
         }
 
         private static Logger GetLogger()

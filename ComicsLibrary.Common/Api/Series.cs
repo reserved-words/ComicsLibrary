@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComicsLibrary.Common.Api
 {
@@ -22,9 +18,11 @@ namespace ComicsLibrary.Common.Api
         public int Progress { get; set; }
         public int TotalComics { get; set; }
         public int UnreadIssues { get; set; }
-        public int MarvelId { get; set; }
+        public int SourceItemID { get; set; }
         public string Url { get; set; }
+        public int SourceID { get; set; }
+        public string SourceName { get; set; }
 
-        public Comic[] Issues { get; set; }
+        public BookList[] BookLists { get; set; }
     }
 }

@@ -12,15 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Common", "ComicsLibrary.Common\ComicsLibrary.Common.csproj", "{0326EE97-BD7A-4217-84A1-2B2A11525F5C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Services", "ComicsLibrary.Services\ComicsLibrary.Services.csproj", "{68E2083F-09D8-434E-A00E-52E51CA73B16}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Data", "ComicsLibrary.Data\ComicsLibrary.Data.csproj", "{8F6E62D2-DB18-4D9B-A886-09BBCD6621DD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary", "ComicsLibrary\ComicsLibrary.csproj", "{08DBEA65-A404-4C40-809D-26DE67844CE8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.MarvelApi", "ComicsLibrary.MarvelApi\ComicsLibrary.MarvelApi.csproj", "{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Mapper", "ComicsLibrary.Mapper\ComicsLibrary.Mapper.csproj", "{15FDD981-B37E-4E71-AD84-893F14295272}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Updater", "ComicsLibrary.Updater\ComicsLibrary.Updater.csproj", "{27D18F70-2EDA-44FD-A40B-C32A07D6A5C5}"
 EndProject
@@ -29,6 +23,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.PreDeployment", "ComicsLibrary.PreDeployment\ComicsLibrary.PreDeployment.csproj", "{1C4F5A51-AA44-4D7A-BF75-4EC32112EC9E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.PostDeployment", "ComicsLibrary.PostDeployment\ComicsLibrary.PostDeployment.csproj", "{70F96209-CBCA-4F4F-8792-F87D79B4F269}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LibrarySources", "LibrarySources", "{10B04887-0875-4057-912D-7BFA834D6475}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.MarvelUnlimited", "ComicsLibrary.MarvelUnlimited\ComicsLibrary.MarvelUnlimited.csproj", "{0F079618-D716-4432-9C19-20A2B6C19C65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,18 +50,6 @@ Global
 		{0326EE97-BD7A-4217-84A1-2B2A11525F5C}.VM|Any CPU.Build.0 = Debug|Any CPU
 		{0326EE97-BD7A-4217-84A1-2B2A11525F5C}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0326EE97-BD7A-4217-84A1-2B2A11525F5C}.Web.Release|Any CPU.Build.0 = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.RssUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.RssUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.VM|Any CPU.ActiveCfg = Debug|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.VM|Any CPU.Build.0 = Debug|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68E2083F-09D8-434E-A00E-52E51CA73B16}.Web.Release|Any CPU.Build.0 = Release|Any CPU
 		{8F6E62D2-DB18-4D9B-A886-09BBCD6621DD}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F6E62D2-DB18-4D9B-A886-09BBCD6621DD}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
 		{8F6E62D2-DB18-4D9B-A886-09BBCD6621DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -88,30 +74,6 @@ Global
 		{08DBEA65-A404-4C40-809D-26DE67844CE8}.VM|Any CPU.Build.0 = Debug|Any CPU
 		{08DBEA65-A404-4C40-809D-26DE67844CE8}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08DBEA65-A404-4C40-809D-26DE67844CE8}.Web.Release|Any CPU.Build.0 = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.RssUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.RssUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.VM|Any CPU.ActiveCfg = Debug|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.VM|Any CPU.Build.0 = Debug|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44CEEFB4-0708-4A62-A16B-6760BE0E17A2}.Web.Release|Any CPU.Build.0 = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.RssUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.RssUpdater.Release|Any CPU.Build.0 = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.VM|Any CPU.ActiveCfg = Debug|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.VM|Any CPU.Build.0 = Debug|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15FDD981-B37E-4E71-AD84-893F14295272}.Web.Release|Any CPU.Build.0 = Release|Any CPU
 		{27D18F70-2EDA-44FD-A40B-C32A07D6A5C5}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27D18F70-2EDA-44FD-A40B-C32A07D6A5C5}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
 		{27D18F70-2EDA-44FD-A40B-C32A07D6A5C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -160,9 +122,24 @@ Global
 		{70F96209-CBCA-4F4F-8792-F87D79B4F269}.VM|Any CPU.Build.0 = Debug|Any CPU
 		{70F96209-CBCA-4F4F-8792-F87D79B4F269}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70F96209-CBCA-4F4F-8792-F87D79B4F269}.Web.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.RssUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.RssUpdater.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.VM|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.VM|Any CPU.Build.0 = Debug|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F079618-D716-4432-9C19-20A2B6C19C65}.Web.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0F079618-D716-4432-9C19-20A2B6C19C65} = {10B04887-0875-4057-912D-7BFA834D6475}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92332BAA-1EB3-4CD8-A636-482806952F67}
