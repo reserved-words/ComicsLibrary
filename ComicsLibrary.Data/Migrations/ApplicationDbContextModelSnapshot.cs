@@ -194,6 +194,9 @@ namespace ComicsLibrary.Data.Migrations
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("MarvelId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SourceId")
                         .HasColumnType("int");
 
@@ -274,13 +277,13 @@ namespace ComicsLibrary.Data.Migrations
             modelBuilder.Entity("ComicsLibrary.Common.Models.HomeBookType", b =>
                 {
                     b.HasOne("ComicsLibrary.Common.Models.BookType", "BookType")
-                        .WithMany()
+                        .WithMany("HomeBookTypes")
                         .HasForeignKey("BookTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ComicsLibrary.Common.Models.Series", "Series")
-                        .WithMany()
+                        .WithMany("HomeBookTypes")
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

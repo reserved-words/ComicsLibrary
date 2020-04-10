@@ -6,11 +6,6 @@ namespace ComicsLibrary.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "MarvelId",
-                schema: "ComicsLibrary",
-                table: "Series");
-
             migrationBuilder.CreateTable(
                 name: "HomeBookTypes",
                 schema: "ComicsLibrary",
@@ -59,13 +54,6 @@ namespace ComicsLibrary.Data.Migrations
             migrationBuilder.DropTable(
                 name: "HomeBookTypes",
                 schema: "ComicsLibrary");
-
-            migrationBuilder.AddColumn<int>(
-                name: "MarvelId",
-                schema: "ComicsLibrary",
-                table: "Series",
-                type: "int",
-                nullable: true);
         }
     }
 }
