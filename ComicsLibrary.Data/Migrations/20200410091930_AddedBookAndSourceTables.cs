@@ -12,8 +12,6 @@ namespace ComicsLibrary.Data.Migrations
                 table: "Series",
                 nullable: true);
 
-            migrationBuilder.Sql("UPDATE ComicsLibrary.Series SET SourceId = 1");
-
             migrationBuilder.CreateTable(
                 name: "Sources",
                 schema: "ComicsLibrary",
