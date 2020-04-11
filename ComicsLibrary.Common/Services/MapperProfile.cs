@@ -24,6 +24,7 @@ namespace ComicsLibrary.Services.Mapper
                 .ForMember(s => s.SourceName, act => act.MapFrom(src => src.Series.Source.Name))
                 .ForMember(s => s.TypeID, act => act.MapFrom(src => src.BookType.ID))
                 .ForMember(s => s.TypeName, act => act.MapFrom(src => src.BookType.Name))
+                .ForMember(s => s.IsRead, act => act.MapFrom(src => src.DateRead.HasValue))
                 .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
 
             CreateMap<Book, NextComicInSeries>()
