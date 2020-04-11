@@ -11,6 +11,8 @@ namespace ComicsLibrary.Data.Migrations
                 schema: "ComicsLibrary",
                 table: "Series",
                 nullable: true);
+
+            migrationBuilder.Sql("UPDATE ComicsLibrary.Series SET SourceItemID = MarvelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
