@@ -38,7 +38,18 @@ namespace ComicsLibrary.Updater
             var apiService = new MarvelUnlimited.Service(mapper, config);
             var marvelUnlimitedService = new MarvelUnlimited.UpdateService(config, logger, mapper);
 
-            var serviceFactory = new Func<int, ISourceUpdateService>(i => marvelUnlimitedService);
+            var altSourceService = new AltSource.UpdateService(config);
+
+            var serviceFactory = new Func<int, ISourceUpdateService>(i => 
+            {
+                if (i == 1)
+                    return marvelUnlimitedService;
+
+                if (i == 2)
+                    return altSourceService;
+
+                throw new NotImplementedException();
+            });
 
             return new Service(serviceFactory, unitOfWorkFactory, logger, asyncHelper);
         }

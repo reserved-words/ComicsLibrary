@@ -60,8 +60,8 @@ namespace ComicsLibrary.Updater
                     .Where(s => s.SourceId.HasValue
                         && s.SourceItemID.HasValue
                         && s.LastUpdated < weekAgo
-                        && (!s.EndYear.HasValue || s.EndYear > twoYearsAgo)
-                        && s.Comics.Any(c => c.DateAdded > yearAgo || c.ReadUrlAdded > yearAgo))
+                        && (!s.EndYear.HasValue || s.EndYear == 0 || s.EndYear > twoYearsAgo)
+                        && s.Books.Any(c => c.DateAdded > yearAgo || c.ReadUrlAdded > yearAgo))
                     .OrderBy(s => s.LastUpdated)
                     .Take(maxNumber)
                     .ToList();
@@ -82,11 +82,11 @@ namespace ComicsLibrary.Updater
                 {
                     var oldSeries = uow.Repository<Series>().Single(s => s.Id == series.Id);
 
-                    oldSeries.Title = newSeries.Title;
+                    oldSeries.Title = GetNewValue(oldSeries.Title, newSeries.Title);
                     oldSeries.StartYear = newSeries.StartYear;
                     oldSeries.EndYear = newSeries.EndYear;
-                    oldSeries.Url = newSeries.Url;
-                    oldSeries.ImageUrl = newSeries.ImageUrl;
+                    oldSeries.Url = GetNewValue(oldSeries.Url, newSeries.Url);
+                    oldSeries.ImageUrl = GetNewValue(oldSeries.ImageUrl, newSeries.ImageUrl);
                     oldSeries.LastUpdated = updateTime;
 
                     var oldBooks = uow.Repository<Book>().Where(b => b.SeriesId == series.Id).ToList();
@@ -149,12 +149,12 @@ namespace ComicsLibrary.Updater
         private void UpdateBook(Book oldBook, BookUpdate newBook)
         {
             oldBook.BookTypeID = _bookTypes[newBook.BookTypeName];
-            oldBook.Title = newBook.Title;
-            oldBook.Number = newBook.Number;
-            oldBook.Creators = newBook.Creators;
-            oldBook.OnSaleDate = newBook.OnSaleDate;
-            oldBook.ImageUrl = newBook.ImageUrl;
-            oldBook.ReadUrl = newBook.ReadUrl;
+            oldBook.Title = GetNewValue(oldBook.Title, newBook.Title);
+            oldBook.Number = newBook.Number ?? oldBook.Number;
+            oldBook.Creators = GetNewValue(oldBook.Creators, newBook.Creators);
+            oldBook.OnSaleDate = newBook.OnSaleDate ?? oldBook.OnSaleDate;
+            oldBook.ImageUrl = GetNewValue(oldBook.ImageUrl, newBook.ImageUrl);
+            oldBook.ReadUrl = GetNewValue(oldBook.ReadUrl, newBook.ReadUrl);
             oldBook.ReadUrlAdded = GetDateReadUrlAdded(oldBook, newBook);
         }
 
@@ -176,6 +176,11 @@ namespace ComicsLibrary.Updater
                 _logger.Log(ex);
             }
             catch { }
+        }
+
+        private string GetNewValue(string oldValue, string newValue)
+        {
+            return string.IsNullOrEmpty(newValue) ? oldValue : newValue;
         }
     }
 }

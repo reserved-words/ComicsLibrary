@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LibrarySources", "LibrarySo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.MarvelUnlimited", "ComicsLibrary.MarvelUnlimited\ComicsLibrary.MarvelUnlimited.csproj", "{0F079618-D716-4432-9C19-20A2B6C19C65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.AltSource", "ComicsLibrary.AltSource\ComicsLibrary.AltSource.csproj", "{CF77C359-B2C7-4736-9E16-B121915BD2EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ComicsUpdater.Release|Any CPU = ComicsUpdater.Release|Any CPU
@@ -134,12 +136,25 @@ Global
 		{0F079618-D716-4432-9C19-20A2B6C19C65}.VM|Any CPU.Build.0 = Debug|Any CPU
 		{0F079618-D716-4432-9C19-20A2B6C19C65}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F079618-D716-4432-9C19-20A2B6C19C65}.Web.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.RssUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.RssUpdater.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.VM|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.VM|Any CPU.Build.0 = Debug|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Web.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0F079618-D716-4432-9C19-20A2B6C19C65} = {10B04887-0875-4057-912D-7BFA834D6475}
+		{CF77C359-B2C7-4736-9E16-B121915BD2EA} = {10B04887-0875-4057-912D-7BFA834D6475}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92332BAA-1EB3-4CD8-A636-482806952F67}
