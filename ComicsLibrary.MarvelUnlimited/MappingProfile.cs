@@ -12,6 +12,7 @@ using MarvelSeries = MarvelSharp.Model.Series;
 using Comic = MarvelSharp.Model.Comic;
 
 using ComicsLibrary.Common.Api;
+using ComicsLibrary.Common;
 
 namespace ComicsLibrary.MarvelUnlimited
 {
@@ -50,6 +51,19 @@ namespace ComicsLibrary.MarvelUnlimited
                 .ForMember(dest => dest.Id, act => act.Ignore())
                 .ForMember(dest => dest.SeriesId, act => act.Ignore())
                 .ForMember(dest => dest.Series, act => act.Ignore());
+
+            CreateMap<MarvelSeries, SeriesUpdate>()
+                .ForMember(dest => dest.ImageUrl, act => act.MapFrom(src => MapImageToString(src.Thumbnail)))
+                .ForMember(dest => dest.Url, act => act.MapFrom(src => src.Urls.FirstOrDefault().Value))
+                .ForMember(dest => dest.Books, act => act.Ignore());
+
+            CreateMap<Comic, BookUpdate>()
+                .ForMember(dest => dest.BookTypeName, act => act.MapFrom(src => "Issues"))
+                .ForMember(dest => dest.SourceItemID, act => act.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Number, act => act.MapFrom(src => src.IssueNumber))
+                .ForMember(dest => dest.ImageUrl, act => act.MapFrom(src => MapImageToString(src.Thumbnail)))
+                .ForMember(dest => dest.OnSaleDate, act => act.MapFrom(src => GetOnSaleDate(src)))
+                .ForMember(dest => dest.ReadUrl, act => act.MapFrom(src => GetReaderUrl(src)));
         }
 
         private static string GetCreators(Comic comic)

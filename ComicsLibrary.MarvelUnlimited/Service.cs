@@ -103,5 +103,10 @@ namespace ComicsLibrary.MarvelUnlimited
             if (!response.Success)
                 throw new Exception(response.Status);
         }
+
+        public async Task<List<Book>> GetBooks(int sourceItemID, string url)
+        {
+            return await GetAllSeriesComicsAsync(sourceItemID);
+        }
     }
 }

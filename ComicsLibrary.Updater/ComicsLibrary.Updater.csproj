@@ -25,7 +25,6 @@
     <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj" />
     <ProjectReference Include="..\ComicsLibrary.Data\ComicsLibrary.Data.csproj" />
     <ProjectReference Include="..\ComicsLibrary.MarvelUnlimited\ComicsLibrary.MarvelUnlimited.csproj" />
-    <ProjectReference Include="..\ComicsLibrary.Marvel\ComicsLibrary.MarvelUnlimited.csproj" />
   </ItemGroup>
 
 </Project>

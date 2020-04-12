@@ -10,7 +10,6 @@ namespace ComicsLibrary.Common.Interfaces
         Task<ApiResult<Models.Series>> SearchSeriesAsync(string titleStartsWith, int limit, int page, SearchOrder? orderBy);
 
         Task<ApiResult<Book>> GetSeriesComicsAsync(int id, int maxResults, int page);
-
         Task<List<Book>> GetAllSeriesComicsAsync(int id);
     }
 }

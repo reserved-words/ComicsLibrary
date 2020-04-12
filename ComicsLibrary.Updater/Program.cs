@@ -1,9 +1,8 @@
 ﻿using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Data;
 using ComicsLibrary.Common.Services;
+using ComicsLibrary.Data;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Logger = ComicsLibrary.Common.Services.Logger;
@@ -20,12 +19,8 @@ namespace ComicsLibrary.Updater
 
             try
             {
-                var services = GetServices(config);
-
-                foreach (var service in services)
-                {
-                    service.UpdateSeries(1);
-                }
+                var service = GetService(config);
+                service.UpdateSeries(config.GetValue<int>("NumberOfSeriesToUpdate"));
             }
             catch (Exception ex)
             {
@@ -33,16 +28,19 @@ namespace ComicsLibrary.Updater
             }
         }
 
-        private static List<IUpdateService> GetServices(IConfiguration config)
+        private static Service GetService(IConfiguration config)
         {
-            var mapper = new MarvelUnlimited.Mapper();
-            var apiService = new MarvelUnlimited.Service(mapper, config);
             var logger = GetLogger();
             var asyncHelper = new AsyncHelper();
-            Func<IUnitOfWork> unitOfWorkFactory = () => new UnitOfWork(config["UpdaterConnectionString"], config["SchemaName"]);
-            var marvelUnlimitedService = new UpdateService(unitOfWorkFactory, mapper, apiService, logger, asyncHelper);
+            var unitOfWorkFactory = new Func<IUnitOfWork>(() => new UnitOfWork(config["UpdaterConnectionString"], config["SchemaName"]));
 
-            return new List<IUpdateService> { marvelUnlimitedService };
+            var mapper = new MarvelUnlimited.Mapper();
+            var apiService = new MarvelUnlimited.Service(mapper, config);
+            var marvelUnlimitedService = new MarvelUnlimited.UpdateService(config, logger, mapper);
+
+            var serviceFactory = new Func<int, ISourceUpdateService>(i => marvelUnlimitedService);
+
+            return new Service(serviceFactory, unitOfWorkFactory, logger, asyncHelper);
         }
 
         private static Logger GetLogger()
