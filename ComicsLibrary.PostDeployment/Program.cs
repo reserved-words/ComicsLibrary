@@ -19,11 +19,12 @@ namespace ComicsLibrary.PostDeployment
             var databaseName = _config["DatabaseName"];
             var schemaName = _config["SchemaName"];
             var domainName = _config["DomainName"];
+            var taskPassword = _config["ServiceUserPassword"];
 
             var postDeploymentService = new PostDeploymentService(domainName, appName, connectionString, databaseName, schemaName, ex => Log(ex));
             postDeploymentService.UpdateDatabase(() => new ApplicationDbContext(connectionString, schemaName));
 
-            postDeploymentService.CreateTaskUser();
+            postDeploymentService.CreateTaskUser(taskPassword);
             postDeploymentService.GrantTaskPermission("SELECT, INSERT, UPDATE, DELETE");
 
             postDeploymentService.CreateApiUser();
