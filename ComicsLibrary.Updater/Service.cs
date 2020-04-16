@@ -3,7 +3,6 @@ using ComicsLibrary.Common.Interfaces;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using ComicsLibrary.Common;
 
 namespace ComicsLibrary.Updater
 {
@@ -14,14 +13,16 @@ namespace ComicsLibrary.Updater
         private readonly ILogger _logger;
         private readonly IAsyncHelper _asyncHelper;
 
-        private Dictionary<string, int> _bookTypes;
+        private readonly ISeriesUpdater _updater;
 
-        public Service(Func<int, ISourceUpdateService> serviceFactory, Func<IUnitOfWork> unitOfWorkFactory, ILogger logger, IAsyncHelper asyncHelper)
+        public Service(Func<int, ISourceUpdateService> serviceFactory, Func<IUnitOfWork> unitOfWorkFactory, ILogger logger,
+            IAsyncHelper asyncHelper, ISeriesUpdater updater)
         {
             _serviceFactory = serviceFactory;
             _logger = logger;
             _unitOfWorkFactory = unitOfWorkFactory;
             _asyncHelper = asyncHelper;
+            _updater = updater;
         }
 
         public void UpdateSeries(int maxNumber)
@@ -50,8 +51,6 @@ namespace ComicsLibrary.Updater
         {
             using (var uow = _unitOfWorkFactory())
             {
-                _bookTypes = uow.Repository<BookType>().ToDictionary(bt => bt.Name, bt => bt.ID);
-
                 var twoYearsAgo = DateTime.Now.AddYears(-2).Year;
                 var weekAgo = DateTime.Now.AddDays(-7);
                 var yearAgo = DateTime.Now.AddYears(-1);
@@ -76,28 +75,9 @@ namespace ComicsLibrary.Updater
 
                 var sourceService = _serviceFactory(series.SourceId.Value);
 
-                var newSeries = _asyncHelper.RunSync(() => sourceService.GetUpdatedSeries(series.SourceItemID.Value, series.Url));
+                var updatedSeries = _asyncHelper.RunSync(() => sourceService.GetUpdatedSeries(series.SourceItemID.Value, series.Url, true));
 
-                using (var uow = _unitOfWorkFactory())
-                {
-                    var oldSeries = uow.Repository<Series>().Single(s => s.Id == series.Id);
-
-                    oldSeries.Title = GetNewValue(oldSeries.Title, newSeries.Title);
-                    oldSeries.StartYear = newSeries.StartYear;
-                    oldSeries.EndYear = newSeries.EndYear;
-                    oldSeries.Url = GetNewValue(oldSeries.Url, newSeries.Url);
-                    oldSeries.ImageUrl = GetNewValue(oldSeries.ImageUrl, newSeries.ImageUrl);
-                    oldSeries.LastUpdated = updateTime;
-
-                    var oldBooks = uow.Repository<Book>().Where(b => b.SeriesId == series.Id).ToList();
-
-                    foreach (var book in newSeries.Books)
-                    {
-                        TryUpdateBook(uow, series.Id, oldBooks, book);
-                    }
-
-                    uow.Save();
-                }
+                _updater.UpdateSeries(series.Id, updateTime, updatedSeries);
             }
             catch (Exception ex)
             {
@@ -108,67 +88,6 @@ namespace ComicsLibrary.Updater
             }
         }
 
-        private void TryUpdateBook(IUnitOfWork uow, int seriesID, List<Book> oldBooks, BookUpdate newBook)
-        {
-            try
-            {
-                var oldBook = oldBooks.SingleOrDefault(c => c.SourceItemID == newBook.SourceItemID);
-
-                if (oldBook == null)
-                {
-                    AddNewBook(uow, seriesID, newBook);
-                }
-                else
-                {
-                    UpdateBook(oldBook, newBook);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.Data.Add("Series ID", seriesID);
-                ex.Data.Add("Comic Issue Number", newBook.Number.HasValue ? newBook.Number.ToString() : "null");
-                ex.Data.Add("Comic Source Item ID", newBook.SourceItemID.HasValue ? newBook.SourceItemID.ToString() : "null");
-                TryLog(ex);
-            }
-        }
-
-        private void AddNewBook(IUnitOfWork uow, int seriesID, BookUpdate newBook)
-        {
-            var book = new Book
-            {
-                SeriesId = seriesID,
-                SourceItemID = newBook.SourceItemID,
-                DateAdded = DateTime.Now
-            };
-
-            UpdateBook(book, newBook);
-
-            uow.Repository<Book>().Insert(book);
-        }
-
-        private void UpdateBook(Book oldBook, BookUpdate newBook)
-        {
-            oldBook.BookTypeID = _bookTypes[newBook.BookTypeName];
-            oldBook.Title = GetNewValue(oldBook.Title, newBook.Title);
-            oldBook.Number = newBook.Number ?? oldBook.Number;
-            oldBook.Creators = GetNewValue(oldBook.Creators, newBook.Creators);
-            oldBook.OnSaleDate = newBook.OnSaleDate ?? oldBook.OnSaleDate;
-            oldBook.ImageUrl = GetNewValue(oldBook.ImageUrl, newBook.ImageUrl);
-            oldBook.ReadUrl = GetNewValue(oldBook.ReadUrl, newBook.ReadUrl);
-            oldBook.ReadUrlAdded = GetDateReadUrlAdded(oldBook, newBook);
-        }
-
-        private static DateTime? GetDateReadUrlAdded(Book oldBook, BookUpdate newBook)
-        {
-            if (oldBook.ReadUrlAdded.HasValue)
-                return oldBook.ReadUrlAdded;
-
-            if (!string.IsNullOrEmpty(newBook.ReadUrl))
-                return DateTime.Now;
-
-            return null;
-        }
-
         private void TryLog(Exception ex)
         {
             try
@@ -176,11 +95,6 @@ namespace ComicsLibrary.Updater
                 _logger.Log(ex);
             }
             catch { }
-        }
-
-        private string GetNewValue(string oldValue, string newValue)
-        {
-            return string.IsNullOrEmpty(newValue) ? oldValue : newValue;
         }
     }
 }

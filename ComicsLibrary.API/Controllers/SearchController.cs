@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
-using ComicsLibrary.Common.Api;
-using ComicsLibrary.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ComicsLibrary.Common.Api;
+using ComicsLibrary.Common.Models;
+using ComicsLibrary.Common;
 
 namespace ComicsLibrary.API.Controllers
 {
@@ -10,25 +11,33 @@ namespace ComicsLibrary.API.Controllers
     [Route("search")]
     public class SearchController : ControllerBase
     {
-        private readonly IService _service;
+        private readonly ISearchService _service;
 
-        public SearchController(IService service)
+
+        public SearchController(ISearchService service)
         {
             _service = service;
         }
 
-        [Route("GetComicsByMarvelId")]
+        [Route("GetComics")]
         [HttpGet]
-        public async Task<PagedResult<Comic>> GetComicsByMarvelId(int marvelId, int limit, int offset)
+        public async Task<PagedResult<Book>> GetComics(int sourceID, int sourceItemID, int limit, int offset)
         {
-            return await _service.GetComicsByMarvelId(marvelId, limit, offset);
+            return await _service.GetBooks(sourceID, sourceItemID, limit, offset);
         }
 
         [Route("SearchByTitle")]
         [HttpGet]
-        public async Task<PagedResult<Series>> SearchByTitle(string title, int sortOrder, int limit, int page)
+        public async Task<PagedResult<SearchResult>> SearchByTitle(int sourceID, string title, int sortOrder, int limit, int page)
         {
-            return await _service.SearchByTitle(title, sortOrder, limit, page);
+            return await _service.SearchByTitle(sourceID, title, sortOrder, limit, page);
+        }
+
+        [Route("AddToLibrary")]
+        [HttpPost]
+        public async Task<int> AddToLibrary([FromBody]SearchResult series)
+        {
+            return await _service.AddToLibrary(series);
         }
     }
 }

@@ -17,13 +17,10 @@ namespace ComicsLibrary.Common.Services
     {
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
         private readonly IMapper _mapper;
-        private readonly IApiService _apiService;
         private readonly ILogger _logger;
 
-        public Service(Func<IUnitOfWork> unitOfWorkFactory, IMapper mapper,
-            IApiService apiService, ILogger logger)
+        public Service(Func<IUnitOfWork> unitOfWorkFactory, IMapper mapper, ILogger logger)
         {
-            _apiService = apiService;
             _logger = logger;
             _mapper = mapper;
             _unitOfWorkFactory = unitOfWorkFactory;
@@ -36,31 +33,6 @@ namespace ComicsLibrary.Common.Services
                 var series = uow.Repository<Series>().GetById(id);
                 series.Abandoned = true;
                 uow.Save();
-            }
-        }
-
-        public async Task<int> AddSeriesToLibrary(ApiSeries series)
-        {
-            try
-            {
-                using (var uow = _unitOfWorkFactory())
-                {
-                    var s = _mapper.Map<ApiSeries, Series>(series);
-                    s.LastUpdated = DateTime.Now;
-                    s.Books = await _apiService.GetAllSeriesComicsAsync(series.SourceItemID);
-                    foreach (var c in s.Books)
-                    {
-                        c.DateAdded = DateTime.Now;
-                    }
-                    uow.Repository<Series>().Insert(s);
-                    uow.Save();
-                    return s.Id;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-                return 0;
             }
         }
 
@@ -130,21 +102,6 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public async Task<PagedResult<ApiComic>> GetComicsByMarvelId(int marvelId, int limit, int offset)
-        {
-            try
-            {
-                var page = offset / limit + 1;
-                var result = await _apiService.GetSeriesComicsAsync(marvelId, limit, page);
-                var comics = _mapper.Map<List<Book>, List<ApiComic>>(result.Results);
-                return new PagedResult<ApiComic>(comics, limit, page, result.Total);
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-                return null;
-            }
-        }
 
         public List<ApiSeries> GetSeriesByStatus(SeriesStatus status)
         {
@@ -233,127 +190,6 @@ namespace ComicsLibrary.Common.Services
 
                 uow.Repository<Series>().Delete(id);
                 uow.Save();
-            }
-        }
-
-        public async Task UpdateSeries(int numberToUpdate)
-        {
-            try
-            {
-                using (var uow = _unitOfWorkFactory())
-                {
-                    var weekAgo = DateTime.Now.AddDays(-7);
-                    var yearAgo = DateTime.Now.AddYears(-1);
-
-                    var ongoingSeries = uow.Repository<Series>()
-                        .Where(s => s.SourceItemID.HasValue
-                            && s.LastUpdated < weekAgo
-                            && (s.Books.Any(c => c.OnSaleDate > yearAgo)
-                                || s.Books.Any(c => string.IsNullOrEmpty(c.ReadUrl))));
-
-                    var totalOngoingSeries = ongoingSeries.Count();
-
-                    if (totalOngoingSeries == 0)
-                        return;
-
-                    var seriesToUpdate = ongoingSeries
-                        .OrderBy(s => s.LastUpdated)
-                        .Take(numberToUpdate)
-                        .ToList();
-
-                    foreach (var series in seriesToUpdate)
-                    {
-                        await UpdateSeries(uow, series);
-                    }
-
-                    uow.Save();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-            }
-        }
-
-        public async Task<PagedResult<ApiSeries>> SearchByTitle(string title, int sortOrder, int limit, int page)
-        {
-            var searchResults = await _apiService.SearchSeriesAsync(title, limit, page, (SearchOrder)sortOrder);
-
-            using (var uow = _unitOfWorkFactory())
-            {
-                var inLibrary = uow.Repository<Series>()
-                    .Where(s => s.SourceItemID.HasValue)
-                    .ToDictionary(s => s.SourceItemID.Value, s => s.Id);
-
-                var series = new List<ApiSeries>();
-                foreach (var result in searchResults.Results)
-                {
-                    if (!result.SourceItemID.HasValue)
-                        continue;
-
-                    inLibrary.TryGetValue(result.SourceItemID.Value, out int libraryId);
-
-                    series.Add(new ApiSeries
-                    {
-                        SourceItemID = result.SourceItemID.Value,
-                        Title = result.Title,
-                        StartYear = result.StartYear,
-                        EndYear = result.EndYear,
-                        Type = result.Type,
-                        ImageUrl = result.ImageUrl,
-                        Id = libraryId,
-                        Url = result.Url
-                    });
-                }
-                return new PagedResult<ApiSeries>(series, limit, page, searchResults.Total);
-            }
-        }
-
-        private async Task UpdateSeries(IUnitOfWork uow, Series series)
-        {
-            try
-            {
-                var newSeriesUpdateTime = DateTime.Now;
-                var updatedComics = await _apiService.GetAllSeriesComicsAsync(series.SourceItemID.Value);
-                foreach (var comic in updatedComics)
-                {
-                    UpdateComic(uow, comic, series.Id);
-                }
-                series.LastUpdated = newSeriesUpdateTime;
-            }
-            catch (Exception ex)
-            {
-                ex.Data.Add("Series ID", series.Id);
-                _logger.Log(ex);
-            }
-        }
-
-        private void UpdateComic(IUnitOfWork uow, Book comic, int seriesId)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(comic.ImageUrl) || comic.Title.EndsWith("Variant)"))
-                    return;
-
-                var savedComic = uow.Repository<Book>().SingleOrDefault(c => c.SourceItemID == comic.SourceItemID);
-
-                if (savedComic == null)
-                {
-                    comic.SeriesId = seriesId;
-                    comic.DateAdded = DateTime.Now;
-                    uow.Repository<Book>().Insert(comic);
-                }
-                else
-                {
-                    _mapper.Map(comic, savedComic);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.Data.Add("Series ID", seriesId);
-                ex.Data.Add("Comic Issue Number", comic.Number.HasValue ? comic.Number.ToString() : "null");
-                ex.Data.Add("Comic Marvel ID", comic.SourceItemID.HasValue ? comic.SourceItemID.ToString() : "null");
-                _logger.Log(ex);
             }
         }
 

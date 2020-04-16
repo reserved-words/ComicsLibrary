@@ -4,6 +4,6 @@ namespace ComicsLibrary.Common.Interfaces
 {
     public interface ISourceUpdateService
     {
-        Task<SeriesUpdate> GetUpdatedSeries(int sourceItemID, string url);
+        Task<SeriesUpdate> GetUpdatedSeries(int sourceItemID, string url, bool isBackgroundProcess);
     }
 }

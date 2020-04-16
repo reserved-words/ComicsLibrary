@@ -13,7 +13,7 @@ namespace ComicsLibrary.Common.Api
         {
             Results = results;
             Limit = limit;
-            TotalPages = (totalResults / limit) + 1;
+            TotalPages = ((totalResults-1) / limit) + 1;
             TotalResults = totalResults;
             Page = page;
             NextPage = Page == TotalPages ? (int?)null : Page + 1;

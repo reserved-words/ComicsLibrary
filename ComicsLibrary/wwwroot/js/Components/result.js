@@ -7,18 +7,16 @@
         this.pagesFetched = ko.observable(0);
         this.libraryId = ko.observable(params.libraryId);
 
-        this.marvelId = params.marvelId;
+        this.sourceId = params.sourceId;
+        this.sourceItemId = params.sourceItemId;
         this.title = params.title;
-        this.imageUrl = params.imageUrl;
-        this.startYear = params.startYear;
-        this.endYear = params.endYear;
-        this.type = params.type;
         this.url = params.url;
+        this.imageUrl = params.imageUrl;
 
         this.getMoreIssues = function (data, event) {
             var self = this;
 
-            var url = URL.getComicsByMarvelId(self.marvelId, self.issues().length);
+            var url = URL.getComicsBysourceItemId(self.sourceItemId, self.issues().length);
 
             API.get(url, function (result) {
                 self.pagesFetched(result.page);
@@ -61,12 +59,10 @@
 
         this.addToLibrary = function () {
             var data = {
-                marvelId: this.marvelId,
+                sourceId: this.sourceId,
+                sourceItemId: this.sourceItemId,
                 title: this.title,
                 imageUrl: this.imageUrl,
-                startYear: this.startYear,
-                endYear: this.endYear,
-                type: this.type,
                 url: this.url
             };
 

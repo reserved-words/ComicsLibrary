@@ -15,9 +15,9 @@ namespace ComicsLibrary.AltSource
             _service = new Comix.Services.UpdateService(config);
         }
 
-        public async Task<SeriesUpdate> GetUpdatedSeries(int sourceItemID, string url)
+        public async Task<SeriesUpdate> GetUpdatedSeries(int sourceItemID, string url, bool isBackgroundProcess)
         {
-            var series = await _service.GetUpdatedSeries(sourceItemID, url);
+            var series = await _service.GetUpdatedSeries(sourceItemID, url, isBackgroundProcess);
 
             return new SeriesUpdate
             {

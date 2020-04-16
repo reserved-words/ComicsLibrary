@@ -34,8 +34,9 @@ namespace ComicsLibrary.Updater
             var asyncHelper = new AsyncHelper();
             var unitOfWorkFactory = new Func<IUnitOfWork>(() => new UnitOfWork(config["UpdaterConnectionString"], config["SchemaName"]));
 
+            var updater = new SeriesUpdater(unitOfWorkFactory);
+
             var mapper = new MarvelUnlimited.Mapper();
-            var apiService = new MarvelUnlimited.Service(mapper, config);
             var marvelUnlimitedService = new MarvelUnlimited.UpdateService(config, logger, mapper);
 
             var altSourceService = new AltSource.UpdateService(config);
@@ -51,7 +52,7 @@ namespace ComicsLibrary.Updater
                 throw new NotImplementedException();
             });
 
-            return new Service(serviceFactory, unitOfWorkFactory, logger, asyncHelper);
+            return new Service(serviceFactory, unitOfWorkFactory, logger, asyncHelper, updater);
         }
 
         private static Logger GetLogger()

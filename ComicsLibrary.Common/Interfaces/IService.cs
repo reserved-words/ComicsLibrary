@@ -13,14 +13,9 @@ namespace ComicsLibrary.Common.Interfaces
         void ReinstateSeries(int id);
         void AbandonSeries(int id);
         void RemoveSeriesFromLibrary(int id);
-        Task<int> AddSeriesToLibrary(Api.Series series);
         Api.Series GetSeries(int id, int numberOfComics);
         List<Api.Comic> GetBooks(int seriesId, int typeId, int limit, int offset);
         List<Api.Comic> GetComics(int seriesId, int limit, int offset);
-        Task UpdateSeries(int maxNumberToUpdate);
-        Task<PagedResult<Api.Series>> SearchByTitle(string title, int sortOrder, int limit, int page);
-        Task<PagedResult<Api.Comic>> GetComicsByMarvelId(int marvelId, int limit, int offset);
-        
         List<Api.Series> GetSeriesByStatus(SeriesStatus status);
         void UpdateHomeBookType(HomeBookType homeBookType);
     }

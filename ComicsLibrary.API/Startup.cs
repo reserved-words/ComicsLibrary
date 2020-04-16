@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ComicsLibrary.Services.Mapper;
+using ComicsLibrary.Common;
 
 namespace ComicsLibrary.API
 {
@@ -45,13 +46,40 @@ namespace ComicsLibrary.API
                 .AddAuthorization();
 
             services.AddTransient<IService, Service>();
+            services.AddTransient<ISearchService, SearchService>();
             services.AddTransient<IMapper, Mapper>();
-            services.AddTransient<IApiService, MarvelUnlimited.Service>();
             services.AddTransient<ILogger, Logger>();
             services.AddTransient<IAsyncHelper, AsyncHelper>();
+            services.AddTransient<ISeriesUpdater, SeriesUpdater>();
+
+            services.AddTransient<MarvelUnlimited.SourceSearcher>();
+            services.AddTransient<MarvelUnlimited.UpdateService>();
+            services.AddTransient<AltSource.SourceSearcher>();
+            services.AddTransient<AltSource.UpdateService>();
 
             services.AddScoped(sp => new GetCurrentDateTime(() => DateTime.Now));
             services.AddScoped<Func<IUnitOfWork>>(sp => () => new UnitOfWork(ApiConnectionString, SchemaName));
+
+            services.AddScoped<Func<int, ISourceSearcher>>(sp => (i) =>
+            {
+                if (i == 1)
+                    return sp.GetService<MarvelUnlimited.SourceSearcher>();
+
+                if (i == 2)
+                    return sp.GetService<AltSource.SourceSearcher>();
+
+                throw new NotImplementedException();
+            });
+            services.AddScoped<Func<int, ISourceUpdateService>>(sp => (i) =>
+            {
+                if (i == 1)
+                    return sp.GetService<MarvelUnlimited.UpdateService>();
+
+                if (i == 2)
+                    return sp.GetService<AltSource.UpdateService>();
+
+                throw new NotImplementedException();
+            });
 
             services.AddControllers();
         }

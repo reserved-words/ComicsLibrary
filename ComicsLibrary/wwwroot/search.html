@@ -5,11 +5,19 @@
         <form>
             <div class="form-row align-items-center">
 
-                <div class="col-12 col-sm-6 mb-3">
+                <div class="col-12 col-md-6 mb-3">
                     <input type="text" class="form-control" id="inlineFormInput" placeholder="Enter search text" data-bind="value: searchText">
                 </div>
 
-                <div class="col-12 col-sm-6 mb-3">
+                <div class="col-12 col-md-6 mb-3">
+                    <div>
+                        <select id="source" name="source" class="form-control flex-grow-1" data-bind="value: sourceID, foreach: sourceOptions">
+                            <option data-bind="value: id, text: name" />
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 mb-3">
                     <div class="d-flex">
                         <select id="sortby" name="sortby" class="form-control flex-grow-1" data-bind="value: sortOrder, foreach: sortOrderOptions">
                             <option data-bind="value: id, text: name" />
@@ -17,7 +25,7 @@
                         <button data-bind="click: startSearch" type="button" class="btn btn-dark ml-2">
                             <i class="fas fa-search"></i>
                         </button>
-                    </div>                    
+                    </div>
                 </div>
 
             </div>
@@ -31,13 +39,11 @@
 <div data-bind="visible: !noResults(), foreach: results" class="accordion" id="searchResults">
 
     <result params="title: title,
-                                marvelId: marvelId,
-                                libraryId: libraryId,
-                                imageUrl: imageUrl,
-                                startYear: startYear,
-                                endYear: endYear,
-                                type: type,
-                                url: url" />
+                    sourceItemId: sourceItemId,
+                    imageUrl: imageUrl,
+                    url: url,
+                    sourceId: sourceId,
+                    libraryId: libraryId" />
 </div>
 
 <div class="text-center">

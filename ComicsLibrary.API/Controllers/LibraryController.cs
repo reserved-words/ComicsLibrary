@@ -56,13 +56,6 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetComics(seriesId, limit, offset);
         }
 
-        [Route("AddToLibrary")]
-        [HttpPost]
-        public async Task<int> AddToLibrary([FromBody]Series series)
-        {
-            return await _service.AddSeriesToLibrary(series);
-        }
-
         [Route("SetHomeOption")]
         [HttpPost]
         public void SetHomeOption([FromBody]HomeBookType homeBookType)

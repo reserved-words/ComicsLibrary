@@ -1,9 +1,14 @@
 ﻿search = {
     searchText: ko.observable(),
     sortOrder: ko.observable(),
+    sourceID: ko.observable(),
     sortOrderOptions: [
         { id: 1, name: "Sort by title" },
         { id: 2, name: "Sort by year" }
+    ],
+    sourceOptions: [
+        { id: 1, name: "Marvel Unlimited" },
+        { id: 2, name: "Alternative Source" }
     ],
     results: ko.observableArray(),
     totalPages: ko.observable(0),
@@ -23,6 +28,7 @@ search.load = function () {
 search.clearSearch = function() {
     this.results.removeAll();
     this.sortOrder(1);
+    this.sourceID(1);
     this.noResults(false);
     this.noCriteria(true);
 }
@@ -48,21 +54,19 @@ search.searchPage = function (page) {
         self.results.removeAll();
     }
 
-    API.get(URL.searchByTitle(self.searchText(), self.sortOrder(), page), function (data) {
+    API.get(URL.searchByTitle(self.sourceID(), self.searchText(), self.sortOrder(), page), function (data) {
 
         self.pagesFetched(data.page);
         self.totalPages(data.totalPages);
 
         $(data.results).each(function (index, element) {
             self.results.push({
-                libraryId: element.id,
+                libraryId: element.libraryId,
                 title: element.title,
-                marvelId: element.marvelId,
+                sourceItemId: element.sourceItemId,
+                url: element.url,
                 imageUrl: element.imageUrl,
-                startYear: element.startYear,
-                endYear: element.endYear,
-                type: element.type,
-                url: element.url
+                sourceId: element.sourceId
             });
         });
 

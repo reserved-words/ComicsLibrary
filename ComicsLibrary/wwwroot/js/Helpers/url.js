@@ -27,7 +27,7 @@
             .concat("?", "id", "=", id),
 
     addToLibrary: () =>
-        app.apiUrl("library", "addToLibrary"),
+        app.apiUrl("search", "addToLibrary"),
 
     getComics: (id, offset) =>
         app.apiUrl("library", "getComics")
@@ -50,9 +50,10 @@
         app.apiUrl("library", "markAsUnread")
             .concat("?", "id", "=", id),
 
-    searchByTitle: (title, sortOrder, page) =>
+    searchByTitle: (sourceID, title, sortOrder, page) =>
         app.apiUrl("search", "searchByTitle")
-            .concat("?", "title",     "=", title)
+            .concat("?", "sourceID",  "=", sourceID)
+            .concat("&", "title",     "=", title)
             .concat("&", "sortOrder", "=", sortOrder)
             .concat("&", "limit",     "=", app.maxFetch)
             .concat("&", "page",      "=", page),

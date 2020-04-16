@@ -27,7 +27,7 @@ namespace ComicsLibrary.MarvelUnlimited
             _mapper = mapper;
         }
 
-        public async Task<SeriesUpdate> GetUpdatedSeries(int sourceItemID, string url)
+        public async Task<SeriesUpdate> GetUpdatedSeries(int sourceItemID, string url, bool isBackgroundProcess)
         {
             var seriesResponse = await _api.GetSeriesByIdAsync(sourceItemID);
 
