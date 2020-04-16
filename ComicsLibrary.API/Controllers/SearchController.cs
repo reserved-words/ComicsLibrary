@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Models;
 using ComicsLibrary.Common;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace ComicsLibrary.API.Controllers
 {
@@ -11,12 +13,24 @@ namespace ComicsLibrary.API.Controllers
     [Route("search")]
     public class SearchController : ControllerBase
     {
+        private readonly IConfiguration _config;
         private readonly ISearchService _service;
 
 
-        public SearchController(ISearchService service)
+        public SearchController(IConfiguration config, ISearchService service)
         {
+            _config = config;
             _service = service;
+        }
+
+        [Route("GetSearchOptions")]
+        [HttpGet]
+        public object GetSearchOptions()
+        {
+            return _config.GetSection("Sources")
+                .GetChildren()
+                .Select(c => c.Get<SourceOption>())
+                .ToList();
         }
 
         [Route("GetComics")]

@@ -1,4 +1,7 @@
 ﻿URL = {
+    getSearchOptions: () =>
+        app.apiUrl("search", "getSearchOptions"),
+
     getNext: () =>
         app.apiUrl("library", "getNext"),
 
