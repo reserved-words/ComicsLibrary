@@ -166,6 +166,16 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
+        public void HideBook(int id, bool isHidden)
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                var comic = uow.Repository<Book>().GetById(id);
+                comic.Hidden = isHidden;
+                uow.Save();
+            }
+        }
+
         public void ReinstateSeries(int id)
         {
             using (var uow = _unitOfWorkFactory())
@@ -199,7 +209,8 @@ namespace ComicsLibrary.Common.Services
             {
                 var series = uow.Repository<Book>()
                     .Including(c => c.Series.HomeBookTypes)
-                    .Where(c => !c.Series.Abandoned 
+                    .Where(c => !c.Hidden
+                        && !c.Series.Abandoned 
                         && !c.DateRead.HasValue
                         && c.Series.HomeBookTypes.Any(t => t.BookTypeId == c.BookTypeID && t.Enabled))
                     .OrderBy(c => c.OnSaleDate)

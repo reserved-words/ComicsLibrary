@@ -24,5 +24,6 @@ namespace ComicsLibrary.Common.Api
         public string SourceName { get; set; }
         public int TypeID { get; set; }
         public string TypeName { get; set; }
+        public bool Hidden { get; set; }
     }
 }

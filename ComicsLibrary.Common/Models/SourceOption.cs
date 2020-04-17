@@ -4,7 +4,6 @@ using System.Text;
 
 namespace ComicsLibrary.Common.Models
 {
-
     public class SourceOption
     {
         public int ID { get; set; }

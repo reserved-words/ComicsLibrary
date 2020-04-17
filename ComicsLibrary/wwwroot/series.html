@@ -14,16 +14,27 @@
             </div>
 
             <div class="grid mb-3" data-bind="foreach: books">
-                <issue params="id: id,
+                <div data-bind="visible: show()">
+                    <issue params="id: id,
                                 readUrl: readUrl,
                                 imageUrl: imageUrl,
                                 isRead: isRead,
                                 title: title,
-                                onSaleDate: onSaleDate" />
+                                hidden: hidden" />
+                </div>
             </div>
 
             <div class="text-center">
-                <p>Fetched <span data-bind="text: books().length"></span> of <span data-bind="text: totalBooks"></span> books</p>
+                <p class="mb-0">
+                    Fetched <span data-bind="text: books().length"></span> of <span data-bind="text: totalBooks"></span> books
+                </p>
+                <p class="mb-0" data-bind="visible: hidden() > 0">
+                    <a data-bind="visible: hidden() > 0, click: toggleHidden" href="">
+                        <span data-bind="text: showHidden() ? 'Hide' : 'Show'"></span>
+                        <span data-bind="text: hidden()"></span>
+                        <span>hidden</span>
+                    </a>
+                </p>
 
                 <a class="btn btn-light btn-sm" data-bind="visible: (books().length < totalBooks), click: getMoreBooks">Show more</a>
 

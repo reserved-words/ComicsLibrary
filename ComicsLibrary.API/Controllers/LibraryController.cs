@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -98,6 +97,22 @@ namespace ComicsLibrary.API.Controllers
         public IActionResult MarkAsUnread(int id)
         {
             _service.MarkAsUnread(id);
+            return Ok();
+        }
+
+        [Route("HideBook")]
+        [HttpPost]
+        public IActionResult HideBook(int id)
+        {
+            _service.HideBook(id, true);
+            return Ok();
+        }
+
+        [Route("UnhideBook")]
+        [HttpPost]
+        public IActionResult UnhideBook(int id)
+        {
+            _service.HideBook(id, false);
             return Ok();
         }
     }

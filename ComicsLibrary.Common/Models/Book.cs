@@ -23,6 +23,7 @@ namespace ComicsLibrary.Common.Models
         public DateTime DateAdded { get; set; }
         public DateTime? ReadUrlAdded { get; set; }
         public DateTime? DateRead { get; set; }
+        public bool Hidden { get; set; }
 
         public virtual BookType BookType { get; set; }
         public virtual Series Series { get; set; }

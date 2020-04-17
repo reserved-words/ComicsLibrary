@@ -53,6 +53,14 @@
         app.apiUrl("library", "markAsUnread")
             .concat("?", "id", "=", id),
 
+    hideBook: (id) =>
+        app.apiUrl("library", "hideBook")
+            .concat("?", "id", "=", id),
+
+    unhideBook: (id) =>
+        app.apiUrl("library", "unhideBook")
+            .concat("?", "id", "=", id),
+
     searchByTitle: (sourceID, title, sortOrder, page) =>
         app.apiUrl("search", "searchByTitle")
             .concat("?", "sourceID",  "=", sourceID)

@@ -10,12 +10,20 @@
     </div>
     <div class="card-body">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-light" data-bind="click: markAsUnread, class: isRead ? '' : 'active'">
-                <input type="radio" name="read-status" id="unread" autocomplete="off" data-bind="checked: !isRead"> Unread
-            </label>
-            <label class="btn btn-light" data-bind="click: markAsRead, class: isRead ? 'active' : ''">
-                <input type="radio" name="read-status" id="read" autocomplete="off" data-bind="checked: isRead"> Read
-            </label>
+            <div class="btn-group" role="group">
+                <button class="btn btn-light" type="button" data-bind="click: markAsUnread, visible: isRead()">
+                    <i class="far fa-check-square"></i>
+                </button>
+                <button class="btn btn-light" type="button" data-bind="click: markAsRead, visible: !isRead()">
+                    <i class="far fa-square"></i>
+                </button>
+                <button class="btn btn-light" type="button" data-bind="click: hide, visible: !hidden()">
+                    <i class="far fa-eye-slash"></i>
+                </button>
+                <button class="btn btn-light" type="button" data-bind="click: unhide, visible: hidden()">
+                    <i class="far fa-eye"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>

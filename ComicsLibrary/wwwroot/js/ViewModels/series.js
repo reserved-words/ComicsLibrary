@@ -8,6 +8,23 @@
 
 // Add methods to archive / reinstate / delete series
 
+series.hideBook = function (id, isHidden) {
+    var total = series.bookLists().length;
+    for (var i = 0; i < total; i++) {
+        var bookList = series.bookLists()[i];
+        var totalBooks = bookList.books().length;
+        for (var j = 0; j < totalBooks; j++) {
+            var book = bookList.books()[j];
+            if (book.id === id) {
+                book.hidden(isHidden);
+                book.show(bookList.showHidden());
+                var diff = isHidden ? 1 : -1;
+                bookList.hidden(bookList.hidden() + diff);
+            }
+        }
+    }
+}
+
 series.load = function (id) {
     var self = this;
 
@@ -59,8 +76,13 @@ series.addBook = function (bookList, element) {
         imageUrl: element.imageUrl,
         isRead: element.isRead,
         title: element.issueTitle,
-        onSaleDate: element.onSaleDate
+        hidden: ko.observable(element.hidden),
+        show: ko.observable(!element.hidden)
     });
+
+    if (element.hidden) {
+        bookList.hidden(bookList.hidden() + 1);
+    }
 }
 
 series.addBookList = function (element) {
@@ -70,6 +92,18 @@ series.addBookList = function (element) {
         totalBooks: element.totalBooks,
         home: ko.observable(element.home),
         books: ko.observableArray(),
+        hidden: ko.observable(0),
+        showHidden: ko.observable(false),
+        toggleHidden: function (data, event) {
+            this.showHidden(!this.showHidden());
+            var total = this.books().length;
+            for (var j = 0; j < total; j++) {
+                var book = this.books()[j];
+                if (book.hidden()) {
+                    book.show(!book.show());
+                }
+            }
+        }
     };
 
     bookList.home.subscribe(function (newValue) {
