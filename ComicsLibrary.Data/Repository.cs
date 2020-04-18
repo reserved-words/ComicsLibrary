@@ -25,6 +25,26 @@ namespace ComicsLibrary.Data
             return dbSet.Include(property);
         }
 
+        public virtual IQueryable<TEntity> Including<TProperty1, TProperty2>(
+            Expression<Func<TEntity, TProperty1>> property1,
+            Expression<Func<TEntity, TProperty2>> property2)
+        {
+            return dbSet.Include(property1).Include(property2);
+        }
+
+
+        public virtual IQueryable<TEntity> Including<TProperty>(params Expression<Func<TEntity, TProperty>>[] properties)
+        {
+            var set = dbSet.Include(properties[0]);
+
+            for (var i = 1; i < properties.Count(); i++)
+            {
+                set = set.Include(properties[i]);
+            }
+
+            return set;
+        }
+
         public TEntity GetById(object id)
         {
             return dbSet.Find(id);

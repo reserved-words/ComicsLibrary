@@ -11,10 +11,10 @@
     <div class="card-body">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <div class="btn-group" role="group">
-                <button class="btn btn-light" type="button" data-bind="click: markAsUnread, visible: isRead()">
+                <button class="btn btn-light" type="button" data-bind="click: markAsUnread, visible: (isRead() && !hidden())">
                     <i class="far fa-check-square"></i>
                 </button>
-                <button class="btn btn-light" type="button" data-bind="click: markAsRead, visible: !isRead()">
+                <button class="btn btn-light" type="button" data-bind="click: markAsRead, visible: (!isRead() && !hidden())">
                     <i class="far fa-square"></i>
                 </button>
                 <button class="btn btn-light" type="button" data-bind="click: hide, visible: !hidden()">

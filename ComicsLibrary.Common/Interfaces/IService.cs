@@ -19,5 +19,6 @@ namespace ComicsLibrary.Common.Interfaces
         List<Api.Comic> GetComics(int seriesId, int limit, int offset);
         List<Api.Series> GetSeriesByStatus(SeriesStatus status);
         void UpdateHomeBookType(HomeBookType homeBookType);
+        NextComicInSeries GetFirstUnread(int seriesId);
     }
 }

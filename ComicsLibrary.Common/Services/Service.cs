@@ -135,6 +135,23 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
+        public NextComicInSeries GetFirstUnread(int seriesId)
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                var next = uow.Repository<Book>()
+                    .Including(c => c.Series)
+                    .Where(c => c.SeriesId == seriesId && !c.DateRead.HasValue)
+                    .OrderBy(c => c.OnSaleDate)
+                    .ThenBy(c => c.SourceItemID)
+                    .FirstOrDefault();
+
+                return next == null
+                    ? null
+                    : _mapper.Map<Book, NextComicInSeries>(next);
+            }
+        }
+
         public NextComicInSeries MarkAsRead(int id)
         {
             using (var uow = _unitOfWorkFactory())
@@ -237,22 +254,37 @@ namespace ComicsLibrary.Common.Services
 
         private IEnumerable<Series> GetSeriesInProgress(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Books).Where(s => !s.Abandoned && s.Books.Any(c => c.DateRead.HasValue) && s.Books.Any(c => !c.DateRead.HasValue));
+            return uow.Repository<Series>()
+                .Including(s => s.Books, s => s.HomeBookTypes)
+                .Where(s => !s.Abandoned 
+                    && s.Books.Any(c => !c.Hidden && c.DateRead.HasValue) 
+                    && s.Books.Any(c => !c.Hidden && !c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesToRead(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Books).Where(s => !s.Abandoned && s.Books.All(c => !c.DateRead.HasValue));
+            return uow.Repository<Series>()
+                .Including(s => s.Books, s => s.HomeBookTypes)
+                .Where(s => !s.Abandoned 
+                    && s.Books.Any(c => !c.Hidden)
+                    && s.Books.All(c => c.Hidden || !c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesFinished(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Books).Where(s => !s.Abandoned && s.Books.All(c => c.DateRead.HasValue));
+            return uow.Repository<Series>()
+                .Including(s => s.Books, s => s.HomeBookTypes)
+                .Where(s => !s.Abandoned
+                    && s.Books.Any(c => !c.Hidden)
+                    && s.Books.All(c => c.Hidden || c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesArchived(IUnitOfWork uow)
         {
-            return uow.Repository<Series>().Including(s => s.Books).Where(s => s.Abandoned);
+            return uow.Repository<Series>()
+                .Including(s => s.Books, s => s.HomeBookTypes)
+                .Where(s => s.Abandoned
+                    || s.Books.All(c => c.Hidden));
         }
 
         public void UpdateHomeBookType(HomeBookType homeBookType)

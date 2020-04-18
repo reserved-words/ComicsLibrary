@@ -5,6 +5,10 @@
     getNext: () =>
         app.apiUrl("library", "getNext"),
 
+    getNextInSeries: (id) =>
+        app.apiUrl("library", "getNextInSeries")
+            .concat("?", "seriesId", "=", id),
+
     getBooks: (id, typeId, offset) =>
         app.apiUrl("library", "getBooks")
             .concat("?", "seriesId", "=", id)

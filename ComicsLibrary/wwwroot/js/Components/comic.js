@@ -32,11 +32,11 @@
         }
 
         this.markAsRead = function (data, event) {
-            home.markAsRead(data.id);
+            update.markAsRead(data.id, data.seriesId);
         }
 
         this.archiveSeries = function (data, event) {
-            home.archiveSeries(data.seriesId);
+            update.archiveSeries(data.seriesId);
         }
     }
 

@@ -38,7 +38,7 @@ namespace ComicsLibrary.Services.Mapper
                 .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
 
             CreateMap<Series, ApiSeries>()
-                .ForMember(s => s.ImageUrl, act => act.MapFrom(src => src.Books.FirstOrDefault().ImageUrl))
+                .ForMember(s => s.ImageUrl, act => act.MapFrom(src => GetImageUrl(src)))
                 .ForMember(s => s.MainTitle, act => act.MapFrom(src => GetTitle(src, false)))
                 .ForMember(s => s.SubTitle, act => act.MapFrom(src => GetTitle(src, true)))
                 .ForMember(s => s.YearsActive, act => act.MapFrom(src => GetYearsActive(src)))
@@ -69,9 +69,39 @@ namespace ComicsLibrary.Services.Mapper
                 .ForAllOtherMembers(act => act.Ignore());
         }
 
+        private string GetImageUrl(Series series)
+        {
+            var validTypes = series.HomeBookTypes
+                .Where(bt => bt.Enabled)
+                .Select(bt => bt.BookTypeId)
+                .ToList();
+
+            var validBooks = series.Books
+                .Where(b => !b.Hidden
+                    && b.BookTypeID.HasValue
+                    && validTypes.Contains(b.BookTypeID.Value));
+
+            return validBooks
+                .OrderBy(b => b.Number)
+                .First().ImageUrl;
+        }
+
         private static int GetProgress(Series series)
         {
-            return (int)Math.Round(100 * (double)series.Books.Count(c => c.DateRead.HasValue) / series.Books.Count());
+            var validTypes = series.HomeBookTypes
+                .Where(bt => bt.Enabled)
+                .Select(bt => bt.BookTypeId)
+                .ToList();
+
+            var validBooks = series.Books
+                .Where(b => !b.Hidden
+                    && b.BookTypeID.HasValue
+                    && validTypes.Contains(b.BookTypeID.Value));
+
+            var read = validBooks.Count(c => c.DateRead.HasValue && !c.Hidden);
+            var total = validBooks.Count(c => !c.Hidden);
+
+            return (int)Math.Round(100 *(double)read/total);
         }
 
         private static string GetBookTitle(Book book)

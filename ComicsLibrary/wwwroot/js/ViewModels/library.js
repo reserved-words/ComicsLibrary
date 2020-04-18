@@ -1,4 +1,5 @@
-﻿library = {
+﻿
+library = {
     shelves: [
         { id: 1, title: "Reading", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
         { id: 2, title: "To Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
@@ -9,35 +10,40 @@
         library.setSelected(data.id);
     },
     archiveSeries: function (data, event) {
-        API.post(URL.abandonSeries(data.id), null, function () {
-            library.onSeriesArchived(data.id);
-        });
+        update.archiveSeries(data.id);
     },
     reinstateSeries: function (data, event) {
-        API.post(URL.reinstateSeries(data.id), null, function () {
-            library.onSeriesReinstated(data.id);
-        });
+        update.reinstateSeries(data.id);
     },
     deleteSeries: function (data, event) {
         if (!confirm("Delete this series?"))
             return;
 
-        API.post(URL.deleteSeries(data.id), null, function () {
-            library.onSeriesDeleted(data.id);
-        });
+        update.deleteSeries(data.id);
     },
     goToSeries: function (data, event) {
         index.loadSeries(data.id);
     },
-    onIssueRead: function (seriesId) {
+    onBookRead: function (seriesId) {
         var result = this.find(seriesId);
         result.series.unreadIssues--;
-        this.move(result.series, result.shelf, newShelf);
+        this.move(result.series, result.shelf);
+        alert("TO DO: Update progress");
     },
-    onIssueUnread: function (seriesId) {
+    onBookUnread: function (seriesId) {
         var result = this.find(seriesId);
         result.series.unreadIssues++;
         this.move(result.series, result.shelf);
+        alert("TO DO: Update progress");
+    },
+    onBookHidden: function (bookId, seriesId) {
+        alert("TO DO: Update series tab and progress");
+    },
+    onBookUnhidden: function (bookId, seriesId) {
+        alert("TO DO: Update series tab and progress");
+    },
+    onHomeOptionUpdated: function (seriesId) {
+        alert("TO DO: Update Library page on home option changed - will affect progress");
     },
     onSeriesArchived: function (seriesId) {
         var result = this.find(seriesId);
@@ -81,11 +87,11 @@
         var foundShelf = null;
         var foundSeries = null;
 
-        $.each(library.shelves, function (i, shelf) {
+        $(library.shelves).each(function (i, shelf) {
             if (foundShelf) {
                 return false;
             }
-            $.each(shelf.items(), function (j, series) {
+            $(shelf.items()).each(function (j, series) {
                 if (series.id === seriesId) {
                     foundShelf = shelf;
                     foundSeries = series;
@@ -99,7 +105,8 @@
             series: foundSeries
         };
     },
-    insertItem: function (shelf, item) {
+    insertItem: function (shelfIndex, item) {
+        var shelf = library.shelves[shelfIndex];
         for (var i in shelf.items()) {
             if (shelf.items()[i].title > item.title) {
                 shelf.items.splice(i, 0, item);

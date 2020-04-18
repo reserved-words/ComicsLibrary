@@ -6,8 +6,6 @@
     totalIssues: ko.observable()
 };
 
-// Add methods to archive / reinstate / delete series
-
 series.hideBook = function (id, isHidden) {
     var total = series.bookLists().length;
     for (var i = 0; i < total; i++) {
@@ -48,23 +46,21 @@ series.load = function (id) {
 
 series.abandonSeries = function () {
     var self = this;
-    API.post(URL.abandonSeries(self.id()), null, function (result) {
+    update.archiveSeries(self.id(), function () {
         self.isAbandoned(true);
     });
 }
 
 series.reinstateSeries = function () {
     var self = this;
-    API.post(URL.reinstateSeries(self.id()), null, function (result) {
-        self.isAbandoned(false);
+    update.reinstateSeries(self.id(), function () {
+        self.isAbandoned(true);
     });
 }
 
 series.deleteSeries = function () {
-    if (!confirm("Delete this series?"))
-        return;
     var self = this;
-    API.post(URL.removeFromLibrary(self.id()), null, function (result) {
+    update.deleteSeries(self.id(), function () {
         index.loadSeries(0);
     });
 }
@@ -72,6 +68,7 @@ series.deleteSeries = function () {
 series.addBook = function (bookList, element) {
     bookList.books.push({
         id: element.id,
+        seriesId: series.id(),
         readUrl: element.readUrl,
         imageUrl: element.imageUrl,
         isRead: element.isRead,
@@ -112,7 +109,7 @@ series.addBookList = function (element) {
             bookTypeId: element.typeId,
             enabled: newValue
         };
-        API.post(URL.setHomeOption(), data);
+        update.updateHomeOption(data);
     });
 
     bookList.getMoreBooks = function (data, event) {

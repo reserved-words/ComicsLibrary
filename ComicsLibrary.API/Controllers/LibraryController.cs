@@ -27,6 +27,13 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetAllNextIssues();
         }
 
+        [Route("GetNextInSeries")]
+        [HttpGet]
+        public NextComicInSeries GetNextInSeries(int seriesId)
+        {
+            return _service.GetFirstUnread(seriesId);
+        }
+
         [Route("GetSeriesByStatus")]
         [HttpGet]
         public List<Series> GetSeriesByStatus(SeriesStatus status)

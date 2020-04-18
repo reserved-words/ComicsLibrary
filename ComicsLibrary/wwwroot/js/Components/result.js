@@ -23,7 +23,6 @@
                 self.totalPages(result.totalPages);
 
                 $(result.results).each(function (index, element) {
-
                     self.issues.push({
                         id: element.id,
                         title: element.issueTitle,
@@ -68,13 +67,12 @@
 
             var self = this;
 
-            API.post(URL.addToLibrary(), data, function (result) {
-                
-                if (!result) {
+            update.addSeries(data, function (newId) {
+                if (!newId) {
                     alert("Error");
                     return;
                 }
-                self.libraryId(result);
+                self.libraryId(newId);
             });
         }
     }
