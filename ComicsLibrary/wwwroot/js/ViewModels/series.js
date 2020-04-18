@@ -14,7 +14,7 @@ series.hideBook = function (id, isHidden) {
         for (var j = 0; j < totalBooks; j++) {
             var book = bookList.books()[j];
             if (book.id === id) {
-                book.hidden(isHidden);
+                book.hidden = isHidden;
                 book.show(bookList.showHidden());
                 var diff = isHidden ? 1 : -1;
                 bookList.hidden(bookList.hidden() + diff);
@@ -73,7 +73,7 @@ series.addBook = function (bookList, element) {
         imageUrl: element.imageUrl,
         isRead: element.isRead,
         title: element.issueTitle,
-        hidden: ko.observable(element.hidden),
+        hidden: element.hidden,
         show: ko.observable(!element.hidden)
     });
 
@@ -96,7 +96,7 @@ series.addBookList = function (element) {
             var total = this.books().length;
             for (var j = 0; j < total; j++) {
                 var book = this.books()[j];
-                if (book.hidden()) {
+                if (book.hidden) {
                     book.show(!book.show());
                 }
             }

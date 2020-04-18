@@ -5,16 +5,16 @@
     <div class="card-body">
         <div class="caption">
             <h5 class="card-title" data-bind="text: title"></h5>
-            <span class="card-text" data-bind="text: onSaleDate"></span>
+            <!--<span class="card-text" data-bind="text: onSaleDate"></span>-->
         </div>
     </div>
     <div class="card-body">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <div class="btn-group" role="group">
-                <button class="btn btn-light" type="button" data-bind="click: markAsUnread, visible: (isRead() && !hidden())">
+                <button class="btn btn-light" type="button" data-bind="click: markAsUnread, visible: isRead()">
                     <i class="far fa-check-square"></i>
                 </button>
-                <button class="btn btn-light" type="button" data-bind="click: markAsRead, visible: (!isRead() && !hidden())">
+                <button class="btn btn-light" type="button" data-bind="click: markAsRead, visible: !isRead()">
                     <i class="far fa-square"></i>
                 </button>
                 <button class="btn btn-light" type="button" data-bind="click: hide, visible: !hidden()">

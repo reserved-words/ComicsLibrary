@@ -9,7 +9,7 @@
         this.readUrl = params.readUrl;
         this.onSaleDate = params.onSaleDate;
         this.isRead = ko.observable(params.isRead);
-        this.hidden = params.hidden;
+        this.hidden = ko.observable(params.hidden);
 
         this.markAsRead = function (data, event) {
             update.markAsRead(data.id, data.seriesId, function () {
@@ -24,11 +24,15 @@
         }
 
         this.hide = function (data, event) {
-            update.hideBook(data.id, data.seriesId);
+            update.hideBook(data.id, data.seriesId, function () {
+                data.hidden(true);
+            });
         }
 
         this.unhide = function (data, event) {
-            update.unhideBook(data.id, data.seriesId);
+            update.unhideBook(data.id, data.seriesId, function () {
+                data.hidden(false);
+            });
         }
     }
 

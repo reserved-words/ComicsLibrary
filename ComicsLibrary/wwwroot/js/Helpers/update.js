@@ -6,7 +6,7 @@
                 onSuccess();
             }
             home.onBookStatusUpdated(seriesId);
-            library.onBookStatusUpdated(data.seriesId);
+            library.onBookStatusUpdated(seriesId);
         });
     },
 
@@ -16,7 +16,7 @@
                 onSuccess();
             }
             home.onBookStatusUpdated(seriesId);
-            library.onBookStatusUpdated(data.seriesId);
+            library.onBookStatusUpdated(seriesId);
         });
     },
 

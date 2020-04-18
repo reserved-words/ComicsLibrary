@@ -41,7 +41,7 @@
     onSeriesAdded: function (id) {
         this.addSeries(id);
     },
-    onSeriesReinstated: function (seriesId) {
+    onSeriesReinstated: function (id) {
         this.addSeries(id);
     },
     removeSeries: function (id) {

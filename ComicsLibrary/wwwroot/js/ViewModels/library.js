@@ -41,8 +41,19 @@ library = {
         result.series.abandoned = false;
         this.move(result.series, result.shelf);
     },
-    onSeriesAdded: function (series) {
-        this.move(series, null, newShelf);
+    onSeriesAdded: function (seriesId) {
+        API.get(URL.getSeries(seriesId, 0), function (element) {
+            var series = {
+                id: element.id,
+                title: element.title,
+                imageUrl: element.imageUrl,
+                abandoned: element.abandoned,
+                progress: element.progress,
+                unreadIssues: element.unreadIssues,
+                totalComics: element.totalComics
+            }
+            library.move(series, null);
+        });
     },
     onSeriesDeleted: function (seriesId) {
         var result = this.find(seriesId);

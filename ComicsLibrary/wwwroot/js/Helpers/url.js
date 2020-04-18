@@ -20,10 +20,10 @@
             .concat("&", "limit", "=", app.maxFetch)
             .concat("&", "offset", "=", offset),
 
-    getSeries: (id) =>
+    getSeries: (id, limit) =>
         app.apiUrl("library", "getSeries")
             .concat("?", "seriesId", "=", id)
-            .concat("&", "limit",    "=", app.maxFetch),
+            .concat("&", "limit", "=", (limit ? limit : app.maxFetch)),
 
     abandonSeries: (id) =>
         app.apiUrl("library", "abandonSeries")
