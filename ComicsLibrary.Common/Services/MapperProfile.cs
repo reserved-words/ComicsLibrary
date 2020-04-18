@@ -9,6 +9,7 @@ using ApiComic = ComicsLibrary.Common.Api.Comic;
 using ApiSeries = ComicsLibrary.Common.Api.Series;
 
 using NextComicInSeries = ComicsLibrary.Common.Api.NextComicInSeries;
+using ComicsLibrary.Common;
 
 namespace ComicsLibrary.Services.Mapper
 {
@@ -42,7 +43,7 @@ namespace ComicsLibrary.Services.Mapper
                 .ForMember(s => s.MainTitle, act => act.MapFrom(src => GetTitle(src, false)))
                 .ForMember(s => s.SubTitle, act => act.MapFrom(src => GetTitle(src, true)))
                 .ForMember(s => s.YearsActive, act => act.MapFrom(src => GetYearsActive(src)))
-                .ForMember(s => s.Progress, act => act.MapFrom(src => GetProgress(src)))
+                .ForMember(s => s.Progress, act => act.MapFrom(src => src.GetProgress()))
                 .ForMember(s => s.TotalComics, act => act.MapFrom(src => src.Books.Count))
                 .ForMember(s => s.SourceID, act => act.MapFrom(src => src.Source.ID))
                 .ForMember(s => s.SourceName, act => act.MapFrom(src => src.Source.Name))
@@ -84,24 +85,6 @@ namespace ComicsLibrary.Services.Mapper
             return validBooks
                 .OrderBy(b => b.Number)
                 .First().ImageUrl;
-        }
-
-        private static int GetProgress(Series series)
-        {
-            var validTypes = series.HomeBookTypes
-                .Where(bt => bt.Enabled)
-                .Select(bt => bt.BookTypeId)
-                .ToList();
-
-            var validBooks = series.Books
-                .Where(b => !b.Hidden
-                    && b.BookTypeID.HasValue
-                    && validTypes.Contains(b.BookTypeID.Value));
-
-            var read = validBooks.Count(c => c.DateRead.HasValue && !c.Hidden);
-            var total = validBooks.Count(c => !c.Hidden);
-
-            return (int)Math.Round(100 *(double)read/total);
         }
 
         private static string GetBookTitle(Book book)

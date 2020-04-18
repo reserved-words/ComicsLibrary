@@ -9,6 +9,10 @@
         app.apiUrl("library", "getNextInSeries")
             .concat("?", "seriesId", "=", id),
 
+    getProgress: (id) =>
+        app.apiUrl("library", "getProgress")
+            .concat("?", "seriesId", "=", id),
+
     getBooks: (id, typeId, offset) =>
         app.apiUrl("library", "getBooks")
             .concat("?", "seriesId", "=", id)

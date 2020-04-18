@@ -107,8 +107,6 @@ namespace ComicsLibrary.Common.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                // TODO - change to prevent fetching all comics from each series - only need the first
-
                 var series = status == SeriesStatus.Reading
                     ? GetSeriesInProgress(uow)
                     : status == SeriesStatus.ToRead
@@ -139,16 +137,7 @@ namespace ComicsLibrary.Common.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var next = uow.Repository<Book>()
-                    .Including(c => c.Series)
-                    .Where(c => c.SeriesId == seriesId && !c.DateRead.HasValue)
-                    .OrderBy(c => c.OnSaleDate)
-                    .ThenBy(c => c.SourceItemID)
-                    .FirstOrDefault();
-
-                return next == null
-                    ? null
-                    : _mapper.Map<Book, NextComicInSeries>(next);
+                return GetNextIssue(seriesId, uow);
             }
         }
 
@@ -160,16 +149,7 @@ namespace ComicsLibrary.Common.Services
                 comic.DateRead = DateTime.Now;
                 uow.Save();
 
-                var next = uow.Repository<Book>()
-                    .Including(c => c.Series)
-                    .Where(c => c.SeriesId == comic.SeriesId && !c.DateRead.HasValue)
-                    .OrderBy(c => c.OnSaleDate)
-                    .FirstOrDefault();
-
-                if (next == null)
-                    return null;
-
-                return _mapper.Map<Book, NextComicInSeries>(next);
+                return GetNextIssue(comic.SeriesId, uow);
             }
         }
 
@@ -218,6 +198,27 @@ namespace ComicsLibrary.Common.Services
                 uow.Repository<Series>().Delete(id);
                 uow.Save();
             }
+        }
+
+        private NextComicInSeries GetNextIssue(int seriesId, IUnitOfWork uow)
+        {
+            var unreadBooks = uow.Repository<Book>()
+                    .Including(c => c.Series.HomeBookTypes)
+                    .Where(c => c.SeriesId == seriesId
+                        && !c.DateRead.HasValue
+                        && !c.Hidden
+                        && c.Series.HomeBookTypes.Any(t => t.BookTypeId == c.BookTypeID && t.Enabled))
+                    .OrderBy(c => c.OnSaleDate)
+                    .ThenBy(c => c.SourceItemID);
+
+            var next = unreadBooks.FirstOrDefault();
+
+            if (next == null)
+                return null;
+
+            var mapped =_mapper.Map<Book, NextComicInSeries>(next);
+            mapped.UnreadIssues = unreadBooks.Count();
+            return mapped;
         }
 
         public List<NextComicInSeries> GetAllNextIssues()
@@ -314,6 +315,17 @@ namespace ComicsLibrary.Common.Services
                 _logger.Log(ex);
             }
 
+        }
+
+        public int GetProgress(int seriesId)
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                return uow.Repository<Series>()
+                    .Including(s => s.Books, s => s.HomeBookTypes)
+                    .Single(s => s.Id == seriesId)
+                    .GetProgress();
+            }
         }
     }
 }

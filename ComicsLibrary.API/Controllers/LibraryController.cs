@@ -27,6 +27,13 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetAllNextIssues();
         }
 
+        [Route("GetProgress")]
+        [HttpGet]
+        public int GetProgress(int seriesId)
+        {
+            return _service.GetProgress(seriesId);
+        }
+
         [Route("GetNextInSeries")]
         [HttpGet]
         public NextComicInSeries GetNextInSeries(int seriesId)

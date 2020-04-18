@@ -24,26 +24,12 @@ library = {
     goToSeries: function (data, event) {
         index.loadSeries(data.id);
     },
-    onBookRead: function (seriesId) {
-        var result = this.find(seriesId);
-        result.series.unreadIssues--;
-        this.move(result.series, result.shelf);
-        alert("TO DO: Update progress");
-    },
-    onBookUnread: function (seriesId) {
-        var result = this.find(seriesId);
-        result.series.unreadIssues++;
-        this.move(result.series, result.shelf);
-        alert("TO DO: Update progress");
-    },
-    onBookHidden: function (bookId, seriesId) {
-        alert("TO DO: Update series tab and progress");
-    },
-    onBookUnhidden: function (bookId, seriesId) {
-        alert("TO DO: Update series tab and progress");
-    },
-    onHomeOptionUpdated: function (seriesId) {
-        alert("TO DO: Update Library page on home option changed - will affect progress");
+    onBookStatusUpdated: function (seriesId) {
+        API.get(URL.getProgress(seriesId), function (progress) {
+            var result = library.find(seriesId);
+            result.series.progress = progress;
+            library.move(result.series, result.shelf);
+        });
     },
     onSeriesArchived: function (seriesId) {
         var result = this.find(seriesId);
@@ -77,9 +63,9 @@ library = {
     getShelf(series) {
         return series.abandoned
             ? 3
-            : series.unreadIssues === 0
+            : series.progress === 100
                 ? 2
-                : series.unreadIssues === series.totalComics
+                : series.progress === 0
                     ? 1
                     : 0;
     },

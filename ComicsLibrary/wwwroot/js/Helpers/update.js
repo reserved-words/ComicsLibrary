@@ -6,7 +6,7 @@
                 onSuccess();
             }
             home.onBookStatusUpdated(seriesId);
-            library.onBookRead(seriesId);
+            library.onBookStatusUpdated(data.seriesId);
         });
     },
 
@@ -16,7 +16,7 @@
                 onSuccess();
             }
             home.onBookStatusUpdated(seriesId);
-            library.onBookUnread(seriesId);
+            library.onBookStatusUpdated(data.seriesId);
         });
     },
 
@@ -27,7 +27,7 @@
             }
             series.hideBook(bookId, true);
             home.onBookStatusUpdated(seriesId);
-            library.onBookHidden(bookId, seriesId);
+            library.onBookStatusUpdated(seriesId);
         });
     },
 
@@ -38,7 +38,7 @@
             }
             series.hideBook(bookId, false);
             home.onBookStatusUpdated(seriesId);
-            library.onBookUnhidden(bookId, seriesId);
+            library.onBookStatusUpdated(seriesId);
         });
     },
 
@@ -88,10 +88,10 @@
     updateHomeOption: function (data, onSuccess) {
         API.post(URL.setHomeOption(), data, function () {
             if (onSuccess) {
-                onSuccess(newId);
+                onSuccess();
             }
-            home.onBookStatusUpdated(seriesId);
-            library.onHomeOptionUpdated(seriesId);
+            home.onBookStatusUpdated(data.seriesId);
+            library.onBookStatusUpdated(data.seriesId);
         });
     }
 }
