@@ -15,13 +15,13 @@
 
             <div class="grid mb-3" data-bind="foreach: books">
                 <div data-bind="visible: show()">
-                    <issue params="id: id,
-                                seriesId: seriesId,
-                                readUrl: readUrl,
-                                imageUrl: imageUrl,
-                                isRead: isRead,
-                                title: title,
-                                hidden: hidden" />
+                    <series-book params="id: id,
+                                        seriesId: seriesId,
+                                        readUrl: readUrl,
+                                        imageUrl: imageUrl,
+                                        isRead: isRead,
+                                        title: title,
+                                        hidden: hidden" />
                 </div>
             </div>
 

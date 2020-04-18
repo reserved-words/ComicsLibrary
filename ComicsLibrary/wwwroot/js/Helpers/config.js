@@ -25,17 +25,17 @@ requirejs.config({
     }
 });
 
-ko.components.register('comic', {
-    viewModel: { require: app.baseUrl + '/js/Components/comic.js' },
-    template: { require: 'text!../js/Templates/comic.html' }
+ko.components.register('home-book', {
+    viewModel: { require: app.baseUrl + '/js/Components/home-book.js' },
+    template: { require: 'text!../js/Templates/home-book.html' }
 });
 
-ko.components.register('issue', {
-    viewModel: { require: app.baseUrl + '/js/Components/issue.js' },
-    template: { require: 'text!../js/Templates/issue.html' }
+ko.components.register('series-book', {
+    viewModel: { require: app.baseUrl + '/js/Components/series-book.js' },
+    template: { require: 'text!../js/Templates/series-book.html' }
 });
 
-ko.components.register('result', {
-    viewModel: { require: app.baseUrl + '/js/Components/result.js' },
-    template: { require: 'text!../js/Templates/result.html' }
+ko.components.register('search-result', {
+    viewModel: { require: app.baseUrl + '/js/Components/search-result.js' },
+    template: { require: 'text!../js/Templates/search-result.html' }
 });

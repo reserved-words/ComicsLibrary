@@ -11,7 +11,7 @@
   <ItemGroup>
     <None Include="compilerconfig.json" />
     <None Include="Views\Shared\callback.cshtml" />
-    <None Include="wwwroot\js\Templates\comic.html" />
+    <None Include="wwwroot\js\Templates\home-book.html" />
   </ItemGroup>
 
   <ItemGroup>
