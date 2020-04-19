@@ -11,7 +11,6 @@
                     imageUrl: element.imageUrl,
                     readUrl: element.readUrl,
                     seriesId: element.seriesId,
-                    onSaleDate: element.onSaleDate,
                     unreadIssues: element.unreadIssues,
                     creators: element.creators
                 });
@@ -68,7 +67,6 @@
             imageUrl: element.imageUrl,
             readUrl: element.readUrl,
             seriesId: element.seriesId,
-            onSaleDate: element.onSaleDate,
             unreadIssues: element.unreadIssues,
             creators: element.creators
         };

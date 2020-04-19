@@ -8,7 +8,6 @@
         this.imageUrl = params.imageUrl;
         this.readUrl = params.readUrl;
         this.seriesId = params.seriesId;
-        this.onSaleDate = params.onSaleDate;
         this.unreadIssues = params.unreadIssues;
         this.creators = params.creators;
 

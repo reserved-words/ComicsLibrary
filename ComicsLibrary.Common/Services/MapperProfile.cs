@@ -28,6 +28,11 @@ namespace ComicsLibrary.Services.Mapper
                 .ForMember(s => s.IsRead, act => act.MapFrom(src => src.DateRead.HasValue))
                 .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
 
+            CreateMap<Book, NextComicInSeries>()
+                .ForMember(s => s.SeriesId, act => act.MapFrom(src => src.SeriesId))
+                .ForMember(s => s.SeriesTitle, act => act.MapFrom(src => src.Series.Title))
+                .ForMember(s => s.IssueTitle, act => act.MapFrom(src => GetBookTitle(src)));
+
             CreateMap<Series, ApiSeries>()
                 .ForMember(s => s.ImageUrl, act => act.MapFrom(src => GetImageUrl(src)))
                 .ForMember(s => s.MainTitle, act => act.MapFrom(src => GetTitle(src, false)))
@@ -37,7 +42,7 @@ namespace ComicsLibrary.Services.Mapper
                 .ForMember(s => s.TotalComics, act => act.MapFrom(src => src.Books.Count))
                 .ForMember(s => s.SourceID, act => act.MapFrom(src => src.Source.ID))
                 .ForMember(s => s.SourceName, act => act.MapFrom(src => src.Source.Name))
-                .ForMember(s => s.UnreadIssues, act => act.MapFrom(src => 
+                .ForMember(s => s.UnreadIssues, act => act.MapFrom(src =>
                     src.Books.Count(c => !c.DateRead.HasValue)));
 
             CreateMap<ApiSeries, Series>()
@@ -50,14 +55,14 @@ namespace ComicsLibrary.Services.Mapper
                 .ForMember(s => s.Url, act => act.MapFrom(src => src.Url))
                 .ForAllOtherMembers(s => s.Ignore());
 
-        CreateMap<Book, Book>()
-                .ForMember(src => src.Title, act => act.MapFrom(src => src.Title))
-                .ForMember(src => src.ImageUrl, act => act.MapFrom(src => src.ImageUrl))
-                .ForMember(src => src.ReadUrl, act => act.MapFrom(src => src.ReadUrl))
-                .ForMember(src => src.Number, act => act.MapFrom(src => src.Number))
-                .ForMember(src => src.Creators, act => act.MapFrom(src => src.Creators))
-                .ForMember(src => src.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate))
-                .ForAllOtherMembers(act => act.Ignore());
+            CreateMap<Book, Book>()
+                    .ForMember(src => src.Title, act => act.MapFrom(src => src.Title))
+                    .ForMember(src => src.ImageUrl, act => act.MapFrom(src => src.ImageUrl))
+                    .ForMember(src => src.ReadUrl, act => act.MapFrom(src => src.ReadUrl))
+                    .ForMember(src => src.Number, act => act.MapFrom(src => src.Number))
+                    .ForMember(src => src.Creators, act => act.MapFrom(src => src.Creators))
+                    .ForMember(src => src.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate))
+                    .ForAllOtherMembers(act => act.Ignore());
         }
 
         private string GetImageUrl(Series series)
@@ -98,7 +103,7 @@ namespace ComicsLibrary.Services.Mapper
             }
 
             return subtitle
-                ? series.Title.Substring(parenthesesStartAt) 
+                ? series.Title.Substring(parenthesesStartAt)
                 : series.Title.Substring(0, parenthesesStartAt - 1);
         }
 
@@ -111,13 +116,6 @@ namespace ComicsLibrary.Services.Mapper
                 return series.StartYear.ToString();
 
             return $"{series.StartYear} - {series.EndYear}";
-        }
-
-        private static string GetSeriesTitle(Series series)
-        {
-            return series.StartYear == null
-                ? series.MainTitle
-                : $"{series.MainTitle} ({series.StartYear})";
         }
     }
 }
