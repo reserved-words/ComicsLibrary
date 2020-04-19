@@ -24,9 +24,6 @@ library = {
     onBookStatusUpdated: function (seriesId) {
         var result = this.find(seriesId);
         if (!result.series) {
-            //API.get(URL.getSeries(seriesId, 0), function (series) {
-            //    library.move(series, null);
-            //})
             library.onSeriesAdded(seriesId);
         }
         else {
@@ -40,9 +37,6 @@ library = {
         var result = this.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
-            //API.get(URL.getSeries(seriesId, 0), function (series) {
-            //    library.move(series, null);
-            //})
         }
         else {
             result.series.abandoned = true;
@@ -53,9 +47,6 @@ library = {
         var result = this.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
-            //API.get(URL.getSeries(seriesId, 0), function (series) {
-            //    library.move(series, null);
-            //})
         }
         else {
             result.series.abandoned = false;
@@ -83,8 +74,7 @@ library = {
         result.shelf.items.remove(result.series);
     },
     move: function (item, oldShelf) {
-        var newShelfId = this.getShelf(series);
-
+        var newShelfId = this.getShelf(item);
         if (oldShelf) {
             if (oldShelf.id === newShelfId) {
                 return;

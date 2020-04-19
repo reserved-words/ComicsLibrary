@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 
@@ -258,9 +257,11 @@ namespace ComicsLibrary.Common.Services
         {
             return uow.Repository<Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
-                .Where(s => !s.Abandoned 
-                    && s.Books.Any(c => !c.Hidden && c.DateRead.HasValue) 
-                    && s.Books.Any(c => !c.Hidden && !c.DateRead.HasValue));
+                .Where(s => !s.Abandoned
+                    // Series has some readable and read books
+                    && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) && c.DateRead.HasValue)
+                    // Series has some readable and unread books
+                    && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) && !c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesToRead(IUnitOfWork uow)
@@ -268,8 +269,10 @@ namespace ComicsLibrary.Common.Services
             return uow.Repository<Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
                 .Where(s => !s.Abandoned 
-                    && s.Books.Any(c => !c.Hidden)
-                    && s.Books.All(c => c.Hidden || !c.DateRead.HasValue));
+                    // Series has some readable books
+                    && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled))
+                    // All readable books are unread
+                    && s.Books.All(c => c.Hidden || !s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) || !c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesFinished(IUnitOfWork uow)
@@ -277,16 +280,15 @@ namespace ComicsLibrary.Common.Services
             return uow.Repository<Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
                 .Where(s => !s.Abandoned
-                    && s.Books.Any(c => !c.Hidden)
-                    && s.Books.All(c => c.Hidden || c.DateRead.HasValue));
+                    // All readable books are read
+                    && s.Books.All(c => c.Hidden || !s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) || c.DateRead.HasValue));
         }
 
         private IEnumerable<Series> GetSeriesArchived(IUnitOfWork uow)
         {
             return uow.Repository<Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
-                .Where(s => s.Abandoned
-                    || s.Books.All(c => c.Hidden));
+                .Where(s => s.Abandoned);
         }
 
         public void UpdateHomeBookType(HomeBookType homeBookType)
