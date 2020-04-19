@@ -28,7 +28,7 @@ namespace ComicsLibrary.PostDeployment
             postDeploymentService.GrantTaskPermission("SELECT, INSERT, UPDATE, DELETE");
 
             postDeploymentService.CreateApiUser();
-            postDeploymentService.GrantApiPermission("SELECT, INSERT, UPDATE, DELETE");
+            postDeploymentService.GrantApiPermission("SELECT, INSERT, UPDATE, DELETE, EXECUTE");
         }
 
         private static void Log(Exception ex)
