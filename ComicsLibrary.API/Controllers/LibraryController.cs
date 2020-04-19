@@ -101,9 +101,10 @@ namespace ComicsLibrary.API.Controllers
 
         [Route("MarkAsRead")]
         [HttpPost]
-        public NextComicInSeries MarkAsRead(int id)
+        public IActionResult MarkAsRead(int id)
         {
-            return _service.MarkAsRead(id);
+            _service.MarkAsRead(id);
+            return Ok();
         }
 
         [Route("MarkAsUnread")]

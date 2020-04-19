@@ -144,15 +144,13 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public NextComicInSeries MarkAsRead(int id)
+        public void MarkAsRead(int id)
         {
             using (var uow = _unitOfWorkFactory())
             {
                 var comic = uow.Repository<Book>().GetById(id);
                 comic.DateRead = DateTime.Now;
                 uow.Save();
-
-                return GetNextIssue(comic.SeriesId, uow);
             }
         }
 
