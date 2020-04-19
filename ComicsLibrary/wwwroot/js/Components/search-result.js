@@ -1,6 +1,6 @@
 ﻿define(['knockout'], function () {
 
-    function ResultViewModel(params) {
+    function SearchResultViewModel(params) {
         this.selected = ko.observable(false);
         this.issues = ko.observableArray([]);
         this.totalPages = ko.observable(0);
@@ -77,5 +77,5 @@
         }
     }
 
-    return ResultViewModel;
+    return SearchResultViewModel;
 });

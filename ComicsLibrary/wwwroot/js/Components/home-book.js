@@ -1,6 +1,6 @@
-﻿define(['knockout'], function (ko) {
+﻿define(['knockout'], function () {
 
-    function ComicViewModel(params) {
+    function HomeBookViewModel(params) {
 
         this.id = params.id;
         this.seriesTitle = params.seriesTitle;
@@ -32,7 +32,7 @@
         }
 
         this.markAsRead = function (data, event) {
-            update.markAsRead(data.id, data.seriesId);
+            update.markAsRead(data.id, data.seriesId, function () { return; });
         }
 
         this.archiveSeries = function (data, event) {
@@ -40,5 +40,5 @@
         }
     }
 
-    return ComicViewModel;
+    return HomeBookViewModel;
 });

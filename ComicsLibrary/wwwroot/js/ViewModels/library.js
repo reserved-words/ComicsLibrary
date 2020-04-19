@@ -1,10 +1,10 @@
 ﻿
 library = {
     shelves: [
-        { id: 1, title: "Reading", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
-        { id: 2, title: "To Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
-        { id: 3, title: "Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
-        { id: 4, title: "Archived", items: ko.observableArray(), fetched: false, selected: ko.observable(false) }
+        { id: 0, title: "Reading", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
+        { id: 1, title: "To Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
+        { id: 2, title: "Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
+        { id: 3, title: "Archived", items: ko.observableArray(), fetched: false, selected: ko.observable(false) }
     ],
     select: function (data, event) {
         library.setSelected(data.id);
@@ -16,30 +16,51 @@ library = {
         update.reinstateSeries(data.id);
     },
     deleteSeries: function (data, event) {
-        if (!confirm("Delete this series?"))
-            return;
-
         update.deleteSeries(data.id);
     },
     goToSeries: function (data, event) {
         index.loadSeries(data.id);
     },
     onBookStatusUpdated: function (seriesId) {
-        API.get(URL.getProgress(seriesId), function (progress) {
-            var result = library.find(seriesId);
-            result.series.progress = progress;
-            library.move(result.series, result.shelf);
-        });
+        var result = this.find(seriesId);
+        if (!result.series) {
+            //API.get(URL.getSeries(seriesId, 0), function (series) {
+            //    library.move(series, null);
+            //})
+            library.onSeriesAdded(seriesId);
+        }
+        else {
+            API.get(URL.getProgress(seriesId), function (progress) {
+                result.series.progress = progress;
+                library.move(result.series, result.shelf);
+            })
+        }
     },
     onSeriesArchived: function (seriesId) {
         var result = this.find(seriesId);
-        result.series.abandoned = true;
-        this.move(result.series, result.shelf);
+        if (!result.series) {
+            library.onSeriesAdded(seriesId);
+            //API.get(URL.getSeries(seriesId, 0), function (series) {
+            //    library.move(series, null);
+            //})
+        }
+        else {
+            result.series.abandoned = true;
+            library.move(result.series, result.shelf);
+        }
     },
     onSeriesReinstated: function (seriesId) {
         var result = this.find(seriesId);
-        result.series.abandoned = false;
-        this.move(result.series, result.shelf);
+        if (!result.series) {
+            library.onSeriesAdded(seriesId);
+            //API.get(URL.getSeries(seriesId, 0), function (series) {
+            //    library.move(series, null);
+            //})
+        }
+        else {
+            result.series.abandoned = false;
+            library.move(result.series, result.shelf);
+        }
     },
     onSeriesAdded: function (seriesId) {
         API.get(URL.getSeries(seriesId, 0), function (element) {
@@ -57,19 +78,22 @@ library = {
     },
     onSeriesDeleted: function (seriesId) {
         var result = this.find(seriesId);
+        if (!result.series)
+            return;
         result.shelf.items.remove(result.series);
     },
     move: function (item, oldShelf) {
-        var newShelf = this.getShelf(series);
-
-        if (oldShelf.id === newShelf.id)
-            return;
+        var newShelfId = this.getShelf(series);
 
         if (oldShelf) {
+            if (oldShelf.id === newShelfId) {
+                return;
+            }   
+
             oldShelf.items.remove(item);
         }
 
-        this.insertItem(newShelf, item);
+        this.insertItem(newShelfId, item);
     },
     getShelf(series) {
         return series.abandoned
@@ -104,6 +128,9 @@ library = {
     },
     insertItem: function (shelfIndex, item) {
         var shelf = library.shelves[shelfIndex];
+        if (!shelf.fetched)
+            return;
+
         for (var i in shelf.items()) {
             if (shelf.items()[i].title > item.title) {
                 shelf.items.splice(i, 0, item);
@@ -144,5 +171,5 @@ library.setSelected = function(selectedId){
 }
 
 library.load = function () {
-    library.setSelected(1);
+    library.setSelected(0);
 }

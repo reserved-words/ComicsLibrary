@@ -1,6 +1,6 @@
-﻿define(['knockout'], function (ko) {
+﻿define(['knockout'], function () {
 
-    function IssueViewModel(params) {
+    function SeriesBookViewModel(params) {
 
         this.id = params.id;
         this.seriesId = params.seriesId;
@@ -12,29 +12,33 @@
         this.hidden = ko.observable(params.hidden);
 
         this.markAsRead = function (data, event) {
+            var self = this;
             update.markAsRead(data.id, data.seriesId, function () {
-                data.isRead(true);
+                self.isRead(true);
             });
         }
 
         this.markAsUnread = function (data, event) {
-            update.markAsUnread(data.id, data.seriesId, function () {
-                data.isRead(false);
+            var self = this;
+            update.markAsUnread(self.id, self.seriesId, function () {
+                self.isRead(false);
             });
         }
 
         this.hide = function (data, event) {
-            update.hideBook(data.id, data.seriesId, function () {
-                data.hidden(true);
+            var self = this;
+            update.hideBook(self.id, self.seriesId, function () {
+                self.hidden(true);
             });
         }
 
         this.unhide = function (data, event) {
-            update.unhideBook(data.id, data.seriesId, function () {
-                data.hidden(false);
+            var self = this;
+            update.unhideBook(self.id, self.seriesId, function () {
+                self.hidden(false);
             });
         }
     }
 
-    return IssueViewModel;
+    return SeriesBookViewModel;
 });

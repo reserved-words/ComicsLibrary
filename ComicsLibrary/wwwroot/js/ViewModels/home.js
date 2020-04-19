@@ -30,11 +30,16 @@
     updateSeries: function (seriesId) {
         API.get(URL.getNextInSeries(seriesId), function (result) {
             var oldComic = home.comics().filter(c => c.seriesId === seriesId)[0];
-            if (!result) {
-                home.comics.remove(oldComic);
+            if (oldComic) {
+                if (!result) {
+                    home.comics.remove(oldComic);
+                }
+                else {
+                    home.comics.replace(oldComic, result);
+                }
             }
-            else {
-                home.comics.replace(oldComic, result);
+            else if (result) {
+                home.insertSeries(result);
             }
         });
     },
@@ -49,27 +54,31 @@
     },
     addSeries: function (id) {
         API.get(URL.getNextInSeries(id), function (element) {
-            if (element) {
-                var item = {
-                    id: element.id,
-                    seriesTitle: element.seriesTitle,
-                    issueTitle: element.issueTitle,
-                    imageUrl: element.imageUrl,
-                    readUrl: element.readUrl,
-                    seriesId: element.seriesId,
-                    onSaleDate: element.onSaleDate,
-                    unreadIssues: element.unreadIssues,
-                    creators: element.creators
-                };
-
-                for (var i in home.comics()) {
-                    if (home.comics()[i].seriesTitle > item.seriesTitle) {
-                        home.comics.splice(i, 0, item);
-                        return false;
-                    }
-                }
-                home.comics.push(item);
-            }
+            home.insertSeries(element);
         });
+    },
+    insertSeries: function (element) {
+        if (!element)
+            return;
+
+        var item = {
+            id: element.id,
+            seriesTitle: element.seriesTitle,
+            issueTitle: element.issueTitle,
+            imageUrl: element.imageUrl,
+            readUrl: element.readUrl,
+            seriesId: element.seriesId,
+            onSaleDate: element.onSaleDate,
+            unreadIssues: element.unreadIssues,
+            creators: element.creators
+        };
+
+        for (var i in home.comics()) {
+            if (home.comics()[i].seriesTitle > item.seriesTitle) {
+                home.comics.splice(i, 0, item);
+                return false;
+            }
+        }
+        home.comics.push(item);
     }
 };

@@ -44,6 +44,11 @@ namespace ComicsLibrary.Common.Services
                     .Including(s => s.Books)
                     .Single(c => c.Id == seriesId);
 
+                var series = _mapper.Map<Series, ApiSeries>(dbSeries);
+
+                if (numberOfComics == 0)
+                    return series;
+
                 var dbBookTypes = uow.Repository<BookType>()
                     .Including(bt => bt.HomeBookTypes)
                     .Select(bt => new 
@@ -53,8 +58,6 @@ namespace ComicsLibrary.Common.Services
                         Home = bt.HomeBookTypes.Any(t => t.SeriesId == seriesId && t.Enabled)  
                     })
                     .ToDictionary(t => t.ID, t => new { Name = t.Name, Home = t.Home });
-
-                var series = _mapper.Map<Series, ApiSeries>(dbSeries);
 
                 series.BookLists = dbSeries.Books
                     .GroupBy(b => b.BookTypeID)
