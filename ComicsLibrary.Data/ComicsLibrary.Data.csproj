@@ -18,4 +18,19 @@
     <ProjectReference Include="..\ComicsLibrary.Common\ComicsLibrary.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="StoredProcedures.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StoredProcedures.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="StoredProcedures.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StoredProcedures.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

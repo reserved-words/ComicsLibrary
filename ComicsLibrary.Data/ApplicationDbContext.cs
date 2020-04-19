@@ -1,4 +1,5 @@
-﻿using ComicsLibrary.Common.Models;
+﻿using ComicsLibrary.Common;
+using ComicsLibrary.Common.Models;
 using Microsoft.EntityFrameworkCore;
 using PostDeploymentTools;
 
@@ -25,5 +26,6 @@ namespace ComicsLibrary.Data
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<HomeBookType> HomeBookTypes { get; set; }
 
+        public virtual DbSet<NextComicInSeries> HomeBooks { get; set; }
     }
 }

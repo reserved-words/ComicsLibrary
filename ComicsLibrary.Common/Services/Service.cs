@@ -225,31 +225,10 @@ namespace ComicsLibrary.Common.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var series = uow.Repository<Book>()
-                    .Including(c => c.Series.HomeBookTypes)
-                    .Where(c => !c.Hidden
-                        && !c.Series.Abandoned 
-                        && !c.DateRead.HasValue
-                        && c.Series.HomeBookTypes.Any(t => t.BookTypeId == c.BookTypeID && t.Enabled))
-                    .OrderBy(c => c.OnSaleDate)
+                return uow.Repository<NextComicInSeries>()
+                    .GetFromSql("ComicsLibrary.GetHomeBooks")
                     .ToList();
 
-                var groups = series
-                     .GroupBy(c => c.SeriesId)
-                     .Select(g => new { Unread = g.Count(), Next = g.First() })
-                     .OrderBy(c => c.Next.Series.Title)
-                     .ToList();
-
-                var list = new List<NextComicInSeries>();
-
-                foreach (var g in groups)
-                {
-                    var comic = _mapper.Map<Book, NextComicInSeries>(g.Next);
-                    comic.UnreadIssues = g.Unread;
-                    list.Add(comic);
-                }
-
-                return list;
             }
         }
 

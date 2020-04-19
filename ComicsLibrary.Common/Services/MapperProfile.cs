@@ -8,7 +8,7 @@ using Series = ComicsLibrary.Common.Models.Series;
 using ApiComic = ComicsLibrary.Common.Api.Comic;
 using ApiSeries = ComicsLibrary.Common.Api.Series;
 
-using NextComicInSeries = ComicsLibrary.Common.Api.NextComicInSeries;
+using NextComicInSeries = ComicsLibrary.Common.NextComicInSeries;
 using ComicsLibrary.Common;
 
 namespace ComicsLibrary.Services.Mapper
@@ -26,16 +26,6 @@ namespace ComicsLibrary.Services.Mapper
                 .ForMember(s => s.TypeID, act => act.MapFrom(src => src.BookType.ID))
                 .ForMember(s => s.TypeName, act => act.MapFrom(src => src.BookType.Name))
                 .ForMember(s => s.IsRead, act => act.MapFrom(src => src.DateRead.HasValue))
-                .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
-
-            CreateMap<Book, NextComicInSeries>()
-                .ForMember(s => s.SeriesId, act => act.MapFrom(src => src.SeriesId))
-                .ForMember(s => s.SeriesTitle, act => act.MapFrom(src => GetSeriesTitle(src.Series)))
-                .ForMember(s => s.IssueTitle, act => act.MapFrom(src => GetBookTitle(src)))
-                .ForMember(s => s.SourceID, act => act.MapFrom(src => src.Series.Source.ID))
-                .ForMember(s => s.SourceName, act => act.MapFrom(src => src.Series.Source.Name))
-                .ForMember(s => s.TypeID, act => act.MapFrom(src => src.BookType.ID))
-                .ForMember(s => s.TypeName, act => act.MapFrom(src => src.BookType.Name))
                 .ForMember(s => s.OnSaleDate, act => act.MapFrom(src => src.OnSaleDate.HasValue ? src.OnSaleDate.Value.Date.ToShortDateString() : ""));
 
             CreateMap<Series, ApiSeries>()

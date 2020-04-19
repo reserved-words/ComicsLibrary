@@ -97,5 +97,10 @@ namespace ComicsLibrary.Data
         {
             return dbSet.AsQueryable().GetEnumerator();
         }
+
+        public IQueryable<TEntity> GetFromSql(string sql)
+        {
+            return context.Set<TEntity>().FromSqlRaw(sql);
+        }
     }
 }
