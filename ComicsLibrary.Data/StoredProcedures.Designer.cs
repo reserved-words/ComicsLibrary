@@ -115,6 +115,33 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetHomeBooks]
+        ///	@SeriesID INT = NULL
+        ///AS
+        ///BEGIN
+        ///
+        ///		WITH [ReadableBooks] AS (
+        ///		SELECT 
+        ///			S.[Id] [SeriesId], 
+        ///			B.[Id] [BookId],
+        ///			B.[Title], 
+        ///			B.[Number], 
+        ///			B.[ImageUrl],
+        ///			B.[ReadUrl],
+        ///			B.[Creators],
+        ///			T.[Name] [BookTypeName],
+        ///			T.[ID] [BookTypeID],
+        ///			DENSE_RANK() OVER (PARTITION BY S.[Id] ORDER BY B.[OnSaleDate], B.[Number], B.[SourceItemID]) [Rank]
+        ///		FROM [ComicsLibrary].[Series] S
+        ///			INNER JOIN [ComicsLibrary].[Books] B ON B.[SeriesId] = S.[I [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetHomeBooks_v3 {
+            get {
+                return ResourceManager.GetString("Create_GetHomeBooks_v3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IF EXISTS (
         ///	SELECT object_id 
         ///	FROM SYS.OBJECTS O

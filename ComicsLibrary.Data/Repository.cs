@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+using Microsoft.Data.SqlClient;
 
 namespace ComicsLibrary.Data
 {
@@ -98,9 +98,9 @@ namespace ComicsLibrary.Data
             return dbSet.AsQueryable().GetEnumerator();
         }
 
-        public IQueryable<TEntity> GetFromSql(string sql)
+        public IQueryable<TEntity> GetFromSql(string sql, params SqlParameter[] parameters)
         {
-            return context.Set<TEntity>().FromSqlRaw(sql);
+            return context.Set<TEntity>().FromSqlRaw(sql, parameters);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -6,7 +7,7 @@ namespace ComicsLibrary.Common.Interfaces
 {
     public interface IRepository<TEntity> : IRepository, IQueryable<TEntity> where TEntity : class
     {
-        IQueryable<TEntity> GetFromSql(string sql);
+        IQueryable<TEntity> GetFromSql(string sql, params SqlParameter[] parameters);
 
         IQueryable<TEntity> Including<TProperty>(Expression<Func<TEntity, TProperty>> property);
         IQueryable<TEntity> Including<TProperty1, TProperty2>(Expression<Func<TEntity, TProperty1>> property1, Expression<Func<TEntity, TProperty2>> property2);

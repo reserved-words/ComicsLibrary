@@ -9,6 +9,7 @@ using ApiSeries = ComicsLibrary.Common.Api.Series;
 using Series = ComicsLibrary.Common.Models.Series;
 
 using ComicsLibrary.Common.Models;
+using Microsoft.Data.SqlClient;
 
 namespace ComicsLibrary.Common.Services
 {
@@ -139,7 +140,13 @@ namespace ComicsLibrary.Common.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                return GetNextIssue(seriesId, uow);
+                var parameterName = "SeriesID";
+                var parameter = new SqlParameter(parameterName, seriesId);
+
+                return uow.Repository<NextComicInSeries>()
+                    .GetFromSql($"ComicsLibrary.GetHomeBooks @{parameterName}", parameter)
+                    .ToList()
+                    .Single();
             }
         }
 
@@ -200,35 +207,34 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        private NextComicInSeries GetNextIssue(int seriesId, IUnitOfWork uow)
-        {
-            var unreadBooks = uow.Repository<Book>()
-                    .Including(c => c.Series.HomeBookTypes)
-                    .Where(c => c.SeriesId == seriesId
-                        && !c.DateRead.HasValue
-                        && !c.Hidden
-                        && c.Series.HomeBookTypes.Any(t => t.BookTypeId == c.BookTypeID && t.Enabled))
-                    .OrderBy(c => c.OnSaleDate)
-                    .ThenBy(c => c.SourceItemID);
+        //private NextComicInSeries GetNextIssue(int seriesId, IUnitOfWork uow)
+        //{
+        //    //var unreadBooks = uow.Repository<Book>()
+        //    //        .Including(c => c.Series.HomeBookTypes)
+        //    //        .Where(c => c.SeriesId == seriesId
+        //    //            && !c.DateRead.HasValue
+        //    //            && !c.Hidden
+        //    //            && c.Series.HomeBookTypes.Any(t => t.BookTypeId == c.BookTypeID && t.Enabled))
+        //    //        .OrderBy(c => c.OnSaleDate)
+        //    //        .ThenBy(c => c.SourceItemID);
 
-            var next = unreadBooks.FirstOrDefault();
+        //    //var next = unreadBooks.FirstOrDefault();
 
-            if (next == null)
-                return null;
+        //    //if (next == null)
+        //    //    return null;
 
-            var mapped =_mapper.Map<Book, NextComicInSeries>(next);
-            mapped.UnreadIssues = unreadBooks.Count();
-            return mapped;
-        }
+        //    //var mapped =_mapper.Map<Book, NextComicInSeries>(next);
+        //    //mapped.UnreadIssues = unreadBooks.Count();
+        //    //return mapped;
+        //}
 
         public List<NextComicInSeries> GetAllNextIssues()
         {
             using (var uow = _unitOfWorkFactory())
             {
                 return uow.Repository<NextComicInSeries>()
-                    .GetFromSql("ComicsLibrary.GetHomeBooks")
+                    .GetFromSql($"ComicsLibrary.GetHomeBooks")
                     .ToList();
-
             }
         }
 
