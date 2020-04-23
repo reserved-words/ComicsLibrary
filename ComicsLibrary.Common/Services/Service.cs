@@ -26,7 +26,7 @@ namespace ComicsLibrary.Common.Services
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public void AbandonSeries(int id)
+        public void ArchiveSeries(int id)
         {
             using (var uow = _unitOfWorkFactory())
             {
@@ -44,7 +44,7 @@ namespace ComicsLibrary.Common.Services
                     .Including(s => s.Books)
                     .Single(c => c.Id == seriesId);
 
-                var series = _mapper.Map<Series, ApiSeries>(dbSeries);
+                var series = _mapper.Map(dbSeries);
 
                 if (numberOfComics == 0)
                     return series;
@@ -69,7 +69,7 @@ namespace ComicsLibrary.Common.Services
                         Home = dbBookTypes[g.Key.Value].Home,
                         Books = g.OrderByDescending(c => c.Number)
                             .Take(numberOfComics)
-                            .Select(b => _mapper.Map<Book, ApiComic>(b))
+                            .Select(b => _mapper.Map(b))
                             .ToArray()
                     })
                     .ToArray();
@@ -82,29 +82,15 @@ namespace ComicsLibrary.Common.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                return _mapper.Map<List<Book>, List<ApiComic>>(uow.Repository<Book>()
+                return uow.Repository<Book>()
                     .Where(s => s.SeriesId == seriesId && s.BookTypeID == typeId)
                     .OrderByDescending(c => c.Number)
                     .Skip(offset)
                     .Take(limit)
-                    .ToList());
+                    .Select(b => _mapper.Map(b))
+                    .ToList();
             }
         }
-
-        public List<ApiComic> GetComics(int seriesId, int limit, int offset)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return _mapper.Map<List<Book>, List<ApiComic>>(uow.Repository<Book>()
-                    .Including(s => s.Series)
-                    .Where(s => s.SeriesId == seriesId)
-                    .OrderByDescending(c => c.Number)
-                    .Skip(offset)
-                    .Take(limit)
-                    .ToList());
-            }
-        }
-
 
         public List<ApiSeries> GetSeriesByStatus(SeriesStatus status)
         {
@@ -120,7 +106,7 @@ namespace ComicsLibrary.Common.Services
 
                 var list = series.OrderBy(s => s.Title)
                     .ToList()
-                    .Select(c => _mapper.Map<Series, ApiSeries>(c))
+                    .Select(c => _mapper.Map(c))
                     .ToList();
 
                 if (status == SeriesStatus.ToRead)
@@ -136,7 +122,7 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public NextComicInSeries GetFirstUnread(int seriesId)
+        public NextComicInSeries GetNextUnread(int seriesId)
         {
             using (var uow = _unitOfWorkFactory())
             {
@@ -206,27 +192,6 @@ namespace ComicsLibrary.Common.Services
                 uow.Save();
             }
         }
-
-        //private NextComicInSeries GetNextIssue(int seriesId, IUnitOfWork uow)
-        //{
-        //    //var unreadBooks = uow.Repository<Book>()
-        //    //        .Including(c => c.Series.HomeBookTypes)
-        //    //        .Where(c => c.SeriesId == seriesId
-        //    //            && !c.DateRead.HasValue
-        //    //            && !c.Hidden
-        //    //            && c.Series.HomeBookTypes.Any(t => t.BookTypeId == c.BookTypeID && t.Enabled))
-        //    //        .OrderBy(c => c.OnSaleDate)
-        //    //        .ThenBy(c => c.SourceItemID);
-
-        //    //var next = unreadBooks.FirstOrDefault();
-
-        //    //if (next == null)
-        //    //    return null;
-
-        //    //var mapped =_mapper.Map<Book, NextComicInSeries>(next);
-        //    //mapped.UnreadIssues = unreadBooks.Count();
-        //    //return mapped;
-        //}
 
         public List<NextComicInSeries> GetAllNextIssues()
         {

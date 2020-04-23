@@ -15,7 +15,6 @@ namespace ComicsLibrary.Common.Api
         public int SeriesId { get; set; }
         public string OnSaleDate { get; set; }
         public bool IsRead { get; set; }
-        public bool ToReadNext { get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime? ReadUrlAdded { get; set; }
         public DateTime? DateRead { get; set; }

@@ -22,7 +22,6 @@ namespace ComicsLibrary.Data
 
         public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<Series> Series { get; set; }
-        public virtual DbSet<Comic> Comics { get; set; }
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<HomeBookType> HomeBookTypes { get; set; }
 

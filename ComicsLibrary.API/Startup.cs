@@ -52,6 +52,7 @@ namespace ComicsLibrary.API
             services.AddTransient<IAsyncHelper, AsyncHelper>();
             services.AddTransient<ISeriesUpdater, SeriesUpdater>();
 
+            services.AddTransient<MarvelUnlimited.IMapper, MarvelUnlimited.Mapper>();
             services.AddTransient<MarvelUnlimited.SourceSearcher>();
             services.AddTransient<MarvelUnlimited.UpdateService>();
             services.AddTransient<AltSource.SourceSearcher>();

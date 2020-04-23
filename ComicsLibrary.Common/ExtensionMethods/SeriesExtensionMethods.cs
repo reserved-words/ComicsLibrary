@@ -10,20 +10,12 @@ namespace ComicsLibrary.Common
     {
         public static int GetProgress(this Series series)
         {
-            var validTypes = series.HomeBookTypes
-                .Where(bt => bt.Enabled)
-                .Select(bt => bt.BookTypeId)
-                .ToList();
-
-            var validBooks = series.Books
-                .Where(b => !b.Hidden
-                    && b.BookTypeID.HasValue
-                    && validTypes.Contains(b.BookTypeID.Value));
+            var validBooks = series.GetValidBooks();
 
             var read = validBooks.Count(c => c.DateRead.HasValue && !c.Hidden);
             var total = validBooks.Count(c => !c.Hidden);
 
-            return (int)Math.Round(100 * (double)read / total);
+            return total == 0 ? 0 : (int)Math.Round(100 * (double)read / total);
         }
     }
 }

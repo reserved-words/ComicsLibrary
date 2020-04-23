@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace ComicsLibrary.Common.Models
 {
@@ -20,7 +21,6 @@ namespace ComicsLibrary.Common.Models
         [StringLength(255)]
         public string Title { get; set; }
         public string ImageUrl { get; set; }
-        public int? MarvelId { get; set; }
         public int? SourceItemID { get; set; }
         public string Url { get; set; }
         public int? StartYear { get; set; }
@@ -35,7 +35,6 @@ namespace ComicsLibrary.Common.Models
 
         public virtual Source Source { get; set; }
 
-        public virtual ICollection<Comic> Comics { get; set; }
         public virtual ICollection<Book> Books { get; set; }
 
         public string MainTitle => _splitTitle.Value.Item1;
@@ -69,6 +68,23 @@ namespace ComicsLibrary.Common.Models
 
                 return $"{StartYear} - {EndYear}";
             }
+        }
+
+        public IEnumerable<Book> GetValidBooks()
+        {
+            if (HomeBookTypes == null || Books == null)
+                return new List<Book>();
+
+            var validTypes = HomeBookTypes
+                .Where(bt => bt.Enabled)
+                .Select(bt => bt.BookTypeId)
+                .ToList();
+
+            return Books
+                .Where(b => !b.Hidden
+                    && b.BookTypeID.HasValue
+                    && validTypes.Contains(b.BookTypeID.Value));
+
         }
     }
 }

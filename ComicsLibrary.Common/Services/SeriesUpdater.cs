@@ -3,7 +3,6 @@ using ComicsLibrary.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ComicsLibrary.Common.Services
 {
@@ -60,6 +59,7 @@ namespace ComicsLibrary.Common.Services
                 uow.Save();
             }
         }
+
         private void TryUpdateBook(IUnitOfWork uow, int seriesID, List<Book> oldBooks, BookUpdate newBook)
         {
             var oldBook = oldBooks.SingleOrDefault(c => c.SourceItemID == newBook.SourceItemID);

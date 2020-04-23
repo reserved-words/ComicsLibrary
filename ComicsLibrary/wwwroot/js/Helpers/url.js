@@ -1,85 +1,88 @@
 ﻿URL = {
+    // Search
+
     getSearchOptions: () =>
         app.apiUrl("search", "getSearchOptions"),
 
+    addToLibrary: () =>
+        app.apiUrl("search", "addToLibrary"),
+
+    searchByTitle: (sourceID, title, sortOrder, page) =>
+        app.apiUrl("search", "searchByTitle")
+            .concat("?", "sourceID", "=", sourceID)
+            .concat("&", "title", "=", title)
+            .concat("&", "sortOrder", "=", sortOrder)
+            .concat("&", "limit", "=", app.maxFetch)
+            .concat("&", "page", "=", page),
+
+    getComicsBySourceItemId: (sourceID, sourceItemID, offset) =>
+        app.apiUrl("search", "getComics")
+            .concat("?", "sourceID", "=", sourceID)
+            .concat("&", "sourceItemID", "=", sourceItemID)
+            .concat("&", "limit", "=", app.maxFetch)
+            .concat("&", "offset", "=", offset),
+
+    // Series
+
     getNext: () =>
-        app.apiUrl("library", "getNext"),
+        app.apiUrl("series", "getAllNextUnread"),
 
     getNextInSeries: (id) =>
-        app.apiUrl("library", "getNextInSeries")
+        app.apiUrl("series", "getNextUnread")
             .concat("?", "seriesId", "=", id),
 
     getProgress: (id) =>
-        app.apiUrl("library", "getProgress")
+        app.apiUrl("series", "getProgress")
             .concat("?", "seriesId", "=", id),
 
     getBooks: (id, typeId, offset) =>
-        app.apiUrl("library", "getBooks")
+        app.apiUrl("series", "getBooks")
             .concat("?", "seriesId", "=", id)
             .concat("&", "typeId", "=", typeId)
             .concat("&", "limit", "=", app.maxFetch)
             .concat("&", "offset", "=", offset),
 
     getSeries: (id, limit) =>
-        app.apiUrl("library", "getSeries")
+        app.apiUrl("series", "getByID")
             .concat("?", "seriesId", "=", id)
             .concat("&", "limit", "=", (limit ? limit : app.maxFetch)),
 
     abandonSeries: (id) =>
-        app.apiUrl("library", "abandonSeries")
+        app.apiUrl("series", "archive")
             .concat("?", "id", "=", id),
 
     reinstateSeries: (id) =>
-        app.apiUrl("library", "reinstateSeries")
+        app.apiUrl("series", "reinstate")
             .concat("?", "id", "=", id),
 
     removeFromLibrary: (id) =>
-        app.apiUrl("library", "removeFromLibrary")
+        app.apiUrl("series", "remove")
             .concat("?", "id", "=", id),
-
-    addToLibrary: () =>
-        app.apiUrl("search", "addToLibrary"),
-
-    getComics: (id, offset) =>
-        app.apiUrl("library", "getComics")
-            .concat("?", "seriesId", "=", id)
-            .concat("&", "limit",    "=", app.maxFetch)
-            .concat("&", "offset",   "=", offset),
 
     getSeriesByStatus: (id) =>
-        app.apiUrl("library", "getSeriesByStatus")
+        app.apiUrl("series", "getByStatus")
             .concat("?", "status", "=", id),
 
+    setHomeOption: () =>
+        app.apiUrl("series", "setHomeOption"),
+
+    // Books
+
     markAsRead: (id) =>
-        app.apiUrl("library", "markAsRead")
+        app.apiUrl("books", "markAsRead")
             .concat("?", "id", "=", id),
 
-    setHomeOption: () =>
-        app.apiUrl("library", "setHomeOption"),
-
     markAsUnread: (id) =>
-        app.apiUrl("library", "markAsUnread")
+        app.apiUrl("books", "markAsUnread")
             .concat("?", "id", "=", id),
 
     hideBook: (id) =>
-        app.apiUrl("library", "hideBook")
+        app.apiUrl("books", "hide")
             .concat("?", "id", "=", id),
 
     unhideBook: (id) =>
-        app.apiUrl("library", "unhideBook")
+        app.apiUrl("books", "unhide")
             .concat("?", "id", "=", id),
 
-    searchByTitle: (sourceID, title, sortOrder, page) =>
-        app.apiUrl("search", "searchByTitle")
-            .concat("?", "sourceID",  "=", sourceID)
-            .concat("&", "title",     "=", title)
-            .concat("&", "sortOrder", "=", sortOrder)
-            .concat("&", "limit",     "=", app.maxFetch)
-            .concat("&", "page",      "=", page),
 
-    getComicsByMarvelId: (id, offset) =>
-        app.apiUrl("search", "getComicsByMarvelId")
-            .concat("?", "marvelId", "=", id)
-            .concat("&", "limit",    "=", app.maxFetch)
-            .concat("&", "offset",   "=", offset)
 };

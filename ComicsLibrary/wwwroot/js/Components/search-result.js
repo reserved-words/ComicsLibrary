@@ -16,7 +16,7 @@
         this.getMoreIssues = function (data, event) {
             var self = this;
 
-            var url = URL.getComicsBysourceItemId(self.sourceItemId, self.issues().length);
+            var url = URL.getComicsBySourceItemId(self.sourceItemId, self.issues().length);
 
             API.get(url, function (result) {
                 self.pagesFetched(result.page);

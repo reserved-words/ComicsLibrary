@@ -1,7 +1,6 @@
 ﻿using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Common.Models;
-using ComicsLibrary.Common;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -32,6 +31,9 @@ namespace ComicsLibrary.MarvelUnlimited
             var results = await GetSeries(title, limit, page, (SearchOrder)sortOrder);
 
             var list = new List<SearchResult>();
+
+            if (!results.Success)
+                throw new Exception("Search failed");
 
             foreach (var result in results.Data.Result)
             {

@@ -12,14 +12,13 @@ namespace ComicsLibrary.Common.Interfaces
         void HideBook(int id, bool isHidden);
         void MarkAsRead(int id);
         void ReinstateSeries(int id);
-        void AbandonSeries(int id);
+        void ArchiveSeries(int id);
         void RemoveSeriesFromLibrary(int id);
         Api.Series GetSeries(int id, int numberOfComics);
         List<Api.Comic> GetBooks(int seriesId, int typeId, int limit, int offset);
-        List<Api.Comic> GetComics(int seriesId, int limit, int offset);
         List<Api.Series> GetSeriesByStatus(SeriesStatus status);
         void UpdateHomeBookType(HomeBookType homeBookType);
         int GetProgress(int seriesId);
-        NextComicInSeries GetFirstUnread(int seriesId);
+        NextComicInSeries GetNextUnread(int seriesId);
     }
 }

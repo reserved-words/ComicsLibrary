@@ -33,7 +33,7 @@ namespace ComicsLibrary.MarvelUnlimited
 
             CheckSeriesResponse(seriesResponse, sourceItemID);
 
-            var updatedSeries = _mapper.Map<Series, SeriesUpdate>(seriesResponse.Data.Result);
+            var updatedSeries = _mapper.Map(seriesResponse.Data.Result);
 
             var comics = new List<Comic>();
             var fetchMoreComics = true;
@@ -44,7 +44,7 @@ namespace ComicsLibrary.MarvelUnlimited
             }
 
             updatedSeries.Books = comics
-                .Select(c => _mapper.Map<Comic,BookUpdate>(c))
+                .Select(c => _mapper.Map(c))
                 .Where(c => IsValid(c))
                 .ToList();
 

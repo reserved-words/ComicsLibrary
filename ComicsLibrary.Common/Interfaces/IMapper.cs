@@ -1,7 +1,15 @@
-﻿namespace ComicsLibrary.Common.Interfaces
+﻿using ComicsLibrary.Common.Models;
+using System.Collections.Generic;
+
+using ApiComic = ComicsLibrary.Common.Api.Comic;
+using ApiSeries = ComicsLibrary.Common.Api.Series;
+using Series = ComicsLibrary.Common.Models.Series;
+
+namespace ComicsLibrary.Common.Interfaces
 {
     public interface IMapper
     {
-        T1 Map<T2, T1>(T2 source, T1 destination = null) where T1 : class where T2 : class;
+        ApiSeries Map(Series source);
+        ApiComic Map(Book source);
     }
 }
