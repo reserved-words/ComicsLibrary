@@ -15,15 +15,20 @@ namespace ComicsLibrary.MarvelUnlimited
     public class SourceSearcher : ISourceSearcher
     {
         private readonly ApiService _api;
+        private readonly IMapper _mapper;
 
-        public SourceSearcher(IConfiguration config)
+        public SourceSearcher(IConfiguration config, IMapper mapper)
         {
             _api = new ApiService(config["MarvelApiPublicKey"], config["MarvelApiPrivateKey"]);
+            _mapper = mapper;
         }
 
-        public Task<PagedResult<Book>> GetBooks(int sourceItemID, int limit, int offset)
+        public async Task<PagedResult<Book>> GetBooks(int sourceItemID, int limit, int offset)
         {
-            throw new NotImplementedException();
+            var page = offset / limit + 1;
+            var result = await _api.GetSeriesComicsAsync(sourceItemID, limit, page);
+            var comics = result.Data.Result.Select(r => _mapper.Map(r)).ToList();
+            return new PagedResult<Book>(comics, limit, page, result.Data.Total ?? comics.Count);
         }
 
         public async Task<PagedResult<SearchResult>> SearchByTitle(string title, int sortOrder, int limit, int page)
@@ -46,24 +51,10 @@ namespace ComicsLibrary.MarvelUnlimited
                     SourceItemId = result.Id.Value,
                     Title = result.Title,
                     Url = result.Urls.FirstOrDefault()?.Value,
-                    ImageUrl = MapImageToString(result.Thumbnail) // Move to mapper
+                    ImageUrl = result.Thumbnail.MapToString()
                 });
             }
             return new PagedResult<SearchResult>(list, limit, page, results.Data.Total ?? list.Count());
-        }
-        private const string NoImagePlaceholder = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg";
-
-        private static string MapImageToString(Image image)
-        {
-            if (image == null || string.IsNullOrEmpty(image.Path) || string.IsNullOrEmpty(image.Extension))
-                return string.Empty;
-
-            var url = $"{image.Path}.{image.Extension}";
-
-            if (url == NoImagePlaceholder)
-                return string.Empty;
-
-            return url;
         }
 
         private async Task<Response<List<MarvelSharp.Model.Series>>> GetSeries(string titleStartsWith, int limit, int page, SearchOrder? orderBy)
@@ -85,23 +76,5 @@ namespace ComicsLibrary.MarvelUnlimited
                 }
             });
         }
-
-
-        //public async Task<PagedResult<ApiComic>> GetComicsByMarvelId(int marvelId, int limit, int offset)
-        //{
-        //    try
-        //    {
-        //        var page = offset / limit + 1;
-        //        var result = await _apiService.GetSeriesComicsAsync(marvelId, limit, page);
-        //        var comics = _mapper.Map<List<Book>, List<ApiComic>>(result.Results);
-        //        return new PagedResult<ApiComic>(comics, limit, page, result.Total);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Log(ex);
-        //        return null;
-        //    }
-        //}
-
     }
 }

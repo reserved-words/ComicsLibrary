@@ -22,18 +22,24 @@
             .concat("&", "limit", "=", app.maxFetch)
             .concat("&", "offset", "=", offset),
 
-    // Series
+    // Library
 
     getNext: () =>
-        app.apiUrl("series", "getAllNextUnread"),
+        app.apiUrl("library", "getAllNextUnread"),
 
     getNextInSeries: (id) =>
-        app.apiUrl("series", "getNextUnread")
+        app.apiUrl("library", "getNextUnread")
             .concat("?", "seriesId", "=", id),
 
     getProgress: (id) =>
-        app.apiUrl("series", "getProgress")
+        app.apiUrl("library", "getProgress")
             .concat("?", "seriesId", "=", id),
+
+    setHomeOption: () =>
+        app.apiUrl("library", "setHomeOption"),
+
+
+    // Series
 
     getBooks: (id, typeId, offset) =>
         app.apiUrl("series", "getBooks")
@@ -62,9 +68,6 @@
     getSeriesByStatus: (id) =>
         app.apiUrl("series", "getByStatus")
             .concat("?", "status", "=", id),
-
-    setHomeOption: () =>
-        app.apiUrl("series", "setHomeOption"),
 
     // Books
 

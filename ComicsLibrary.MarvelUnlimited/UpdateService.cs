@@ -44,7 +44,7 @@ namespace ComicsLibrary.MarvelUnlimited
             }
 
             updatedSeries.Books = comics
-                .Select(c => _mapper.Map(c))
+                .Select(c => _mapper.MapToUpdate(c))
                 .Where(c => IsValid(c))
                 .ToList();
 

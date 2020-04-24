@@ -46,10 +46,13 @@ namespace ComicsLibrary.API
                 .AddAuthorization();
 
             services.AddTransient<IBookService, BookService>();
-            services.AddTransient<IService, Service>();
+            services.AddTransient<ILibraryService, LibraryService>();
             services.AddTransient<ISearchService, SearchService>();
+            services.AddTransient<ISeriesService, SeriesService>();
+
             services.AddTransient<IMapper, Mapper>();
             services.AddTransient<ILogger, Logger>();
+            
             services.AddTransient<IAsyncHelper, AsyncHelper>();
             services.AddTransient<ISeriesUpdater, SeriesUpdater>();
 

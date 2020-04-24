@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using ComicsLibrary.Common;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using HomeBookType = ComicsLibrary.Common.Models.HomeBookType;
 
 namespace ComicsLibrary.API.Controllers
 {
@@ -13,46 +10,25 @@ namespace ComicsLibrary.API.Controllers
     [Route("series")]
     public class SeriesController : ControllerBase
     {
-        private readonly IService _service;
+        private readonly ISeriesService _service;
 
-        public SeriesController(IService service)
+        public SeriesController(ISeriesService service)
         {
             _service = service;
-        }
-
-        [Route("GetAllNextUnread")]
-        [HttpGet]
-        public List<NextComicInSeries> GetAllNextUnread()
-        {
-            return _service.GetAllNextIssues();
-        }
-
-        [Route("GetNextUnread")]
-        [HttpGet]
-        public NextComicInSeries GetNextUnread(int seriesId)
-        {
-            return _service.GetNextUnread(seriesId);
-        }
-
-        [Route("GetProgress")]
-        [HttpGet]
-        public int GetProgress(int seriesId)
-        {
-            return _service.GetProgress(seriesId);
         }
 
         [Route("GetByStatus")]
         [HttpGet]
         public List<Series> GetByStatus(SeriesStatus status)
         {
-            return _service.GetSeriesByStatus(status);
+            return _service.GetByStatus(status);
         }
 
         [Route("GetByID")]
         [HttpGet]
         public Series GetByID(int seriesId, int limit)
         {
-            return _service.GetSeries(seriesId, limit);
+            return _service.GetById(seriesId, limit);
         }
 
         [Route("GetBooks")]
@@ -62,25 +38,18 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetBooks(seriesId, typeId, limit, offset);
         }
 
-        [Route("SetHomeOption")]
-        [HttpPost]
-        public void SetHomeOption([FromBody]HomeBookType homeBookType)
-        {
-            _service.UpdateHomeBookType(homeBookType);
-        }
-
         [Route("Remove")]
         [HttpPost]
         public void Remove(int id)
         {
-            _service.RemoveSeriesFromLibrary(id);
+            _service.Remove(id);
         }
 
         [Route("Archive")]
         [HttpPost]
         public IActionResult Archive(int id)
         {
-            _service.ArchiveSeries(id);
+            _service.Archive(id);
             return Ok();
         }
 
@@ -88,7 +57,7 @@ namespace ComicsLibrary.API.Controllers
         [HttpPost]
         public IActionResult Reinstate(int id)
         {
-            _service.ReinstateSeries(id);
+            _service.Reinstate(id);
             return Ok();
         }
     }

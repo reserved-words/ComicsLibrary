@@ -1,46 +1,66 @@
-﻿using System;
+﻿using ComicsLibrary.Common.Api;
+using ComicsLibrary.Common.Interfaces;
+using ComicsLibrary.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ComicsLibrary.Common.Api;
-using ComicsLibrary.Common.Interfaces;
-
-using ApiComic = ComicsLibrary.Common.Api.Comic;
-using ApiSeries = ComicsLibrary.Common.Api.Series;
-using Series = ComicsLibrary.Common.Models.Series;
-
-using ComicsLibrary.Common.Models;
-using Microsoft.Data.SqlClient;
 
 namespace ComicsLibrary.Common.Services
 {
-    public class Service : IService
+    public class SeriesService : ISeriesService
     {
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
 
-        public Service(Func<IUnitOfWork> unitOfWorkFactory, IMapper mapper, ILogger logger)
+        public SeriesService(Func<IUnitOfWork> unitOfWorkFactory, IMapper mapper)
         {
-            _logger = logger;
             _mapper = mapper;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public void ArchiveSeries(int id)
+
+        public void Archive(int id)
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var series = uow.Repository<Series>().GetById(id);
+                var series = uow.Repository<Models.Series>().GetById(id);
                 series.Abandoned = true;
                 uow.Save();
             }
         }
 
-        public ApiSeries GetSeries(int seriesId, int numberOfComics)
+        public void Reinstate(int id)
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var dbSeries = uow.Repository<Series>()
+                var series = uow.Repository<Models.Series>().GetById(id);
+                series.Abandoned = false;
+                uow.Save();
+            }
+        }
+
+
+        public void Remove(int id)
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                var comicsToDelete = uow.Repository<Book>().Where(c => c.SeriesId == id).Select(c => c.Id).ToList();
+
+                foreach (var comic in comicsToDelete)
+                {
+                    uow.Repository<Book>().Delete(comic);
+                }
+
+                uow.Repository<Models.Series>().Delete(id);
+                uow.Save();
+            }
+        }
+
+        public Api.Series GetById(int seriesId, int numberOfComics)
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                var dbSeries = uow.Repository<Models.Series>()
                     .Including(s => s.Books)
                     .Single(c => c.Id == seriesId);
 
@@ -51,11 +71,11 @@ namespace ComicsLibrary.Common.Services
 
                 var dbBookTypes = uow.Repository<BookType>()
                     .Including(bt => bt.HomeBookTypes)
-                    .Select(bt => new 
-                    { 
-                        ID = bt.ID, 
-                        Name = bt.Name, 
-                        Home = bt.HomeBookTypes.Any(t => t.SeriesId == seriesId && t.Enabled)  
+                    .Select(bt => new
+                    {
+                        ID = bt.ID,
+                        Name = bt.Name,
+                        Home = bt.HomeBookTypes.Any(t => t.SeriesId == seriesId && t.Enabled)
                     })
                     .ToDictionary(t => t.ID, t => new { Name = t.Name, Home = t.Home });
 
@@ -78,7 +98,7 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public List<ApiComic> GetBooks(int seriesId, int typeId, int limit, int offset)
+        public List<Comic> GetBooks(int seriesId, int typeId, int limit, int offset)
         {
             using (var uow = _unitOfWorkFactory())
             {
@@ -92,7 +112,7 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public List<ApiSeries> GetSeriesByStatus(SeriesStatus status)
+        public List<Api.Series> GetByStatus(SeriesStatus status)
         {
             using (var uow = _unitOfWorkFactory())
             {
@@ -122,60 +142,9 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public NextComicInSeries GetNextUnread(int seriesId)
+        private IEnumerable<Models.Series> GetSeriesInProgress(IUnitOfWork uow)
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var parameterName = "SeriesID";
-                var parameter = new SqlParameter(parameterName, seriesId);
-
-                return uow.Repository<NextComicInSeries>()
-                    .GetFromSql($"ComicsLibrary.GetHomeBooks @{parameterName}", parameter)
-                    .ToList()
-                    .Single();
-            }
-        }
-
-        public void ReinstateSeries(int id)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var series = uow.Repository<Series>().GetById(id);
-                series.Abandoned = false;
-                uow.Save();
-            }
-        }
-
-
-        public void RemoveSeriesFromLibrary(int id)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var comicsToDelete = uow.Repository<Book>().Where(c => c.SeriesId == id).Select(c => c.Id).ToList();
-
-                foreach (var comic in comicsToDelete)
-                {
-                    uow.Repository<Book>().Delete(comic);
-                }
-
-                uow.Repository<Series>().Delete(id);
-                uow.Save();
-            }
-        }
-
-        public List<NextComicInSeries> GetAllNextIssues()
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<NextComicInSeries>()
-                    .GetFromSql($"ComicsLibrary.GetHomeBooks")
-                    .ToList();
-            }
-        }
-
-        private IEnumerable<Series> GetSeriesInProgress(IUnitOfWork uow)
-        {
-            return uow.Repository<Series>()
+            return uow.Repository<Models.Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
                 .Where(s => !s.Abandoned
                     // Series has some readable and read books
@@ -184,71 +153,33 @@ namespace ComicsLibrary.Common.Services
                     && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) && !c.DateRead.HasValue));
         }
 
-        private IEnumerable<Series> GetSeriesToRead(IUnitOfWork uow)
+        private IEnumerable<Models.Series> GetSeriesToRead(IUnitOfWork uow)
         {
-            return uow.Repository<Series>()
+            return uow.Repository<Models.Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
-                .Where(s => !s.Abandoned 
+                .Where(s => !s.Abandoned
                     // Series has some readable books
                     && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled))
                     // All readable books are unread
                     && s.Books.All(c => c.Hidden || !s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) || !c.DateRead.HasValue));
         }
 
-        private IEnumerable<Series> GetSeriesFinished(IUnitOfWork uow)
+        private IEnumerable<Models.Series> GetSeriesFinished(IUnitOfWork uow)
         {
-            return uow.Repository<Series>()
+            return uow.Repository<Models.Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
                 .Where(s => !s.Abandoned
                     // All readable books are read
                     && s.Books.All(c => c.Hidden || !s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) || c.DateRead.HasValue));
         }
 
-        private IEnumerable<Series> GetSeriesArchived(IUnitOfWork uow)
+        private IEnumerable<Models.Series> GetSeriesArchived(IUnitOfWork uow)
         {
-            return uow.Repository<Series>()
+            return uow.Repository<Models.Series>()
                 .Including(s => s.Books, s => s.HomeBookTypes)
                 .Where(s => s.Abandoned);
         }
 
-        public void UpdateHomeBookType(HomeBookType homeBookType)
-        {
-            try
-            {
-                using (var uow = _unitOfWorkFactory())
-                {
-                    var item = uow.Repository<HomeBookType>()
-                        .SingleOrDefault(bt => bt.BookTypeId == homeBookType.BookTypeId
-                            && bt.SeriesId == homeBookType.SeriesId);
 
-                    if (item == null)
-                    {
-                        uow.Repository<HomeBookType>().Insert(homeBookType);
-                    }
-                    else
-                    {
-                        item.Enabled = homeBookType.Enabled;
-                    }
-
-                    uow.Save();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-            }
-
-        }
-
-        public int GetProgress(int seriesId)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<Series>()
-                    .Including(s => s.Books, s => s.HomeBookTypes)
-                    .Single(s => s.Id == seriesId)
-                    .GetProgress();
-            }
-        }
     }
 }

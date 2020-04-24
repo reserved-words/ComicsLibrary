@@ -12,12 +12,10 @@ namespace ComicsLibrary.AltSource
     public class SourceSearcher : ISourceSearcher
     {
         private readonly Comix.Services.SearchService _searchService;
-        private readonly Comix.Services.UpdateService _updateService;
 
         public SourceSearcher(IConfiguration config)
         {
             _searchService = new Comix.Services.SearchService(config);
-            _updateService = new Comix.Services.UpdateService(config);
         }
 
         public Task<PagedResult<Book>> GetBooks(int sourceItemID, int limit, int offset)
