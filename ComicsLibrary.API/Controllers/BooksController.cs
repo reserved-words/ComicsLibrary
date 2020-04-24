@@ -8,9 +8,9 @@ namespace ComicsLibrary.API.Controllers
     [Route("books")]
     public class BooksController : ControllerBase
     {
-        private readonly IService _service;
+        private readonly IBookService _service;
 
-        public BooksController(IService service)
+        public BooksController(IBookService service)
         {
             _service = service;
         }
@@ -35,7 +35,7 @@ namespace ComicsLibrary.API.Controllers
         [HttpPost]
         public IActionResult Hide(int id)
         {
-            _service.HideBook(id, true);
+            _service.Hide(id);
             return Ok();
         }
 
@@ -43,7 +43,7 @@ namespace ComicsLibrary.API.Controllers
         [HttpPost]
         public IActionResult Unhide(int id)
         {
-            _service.HideBook(id, false);
+            _service.Unhide(id);
             return Ok();
         }
     }

@@ -16,10 +16,10 @@ namespace ComicsLibrary.Services.Mapper
             {
                 Id = source.Id,
                 Title = source.Title,
-                ImageUrl = GetImageUrl(source),
+                ImageUrl = source.GetImageUrl(),
                 MainTitle = GetTitle(source, false),
                 SubTitle = GetTitle(source, true),
-                YearsActive = GetYearsActive(source),
+                YearsActive = source.YearsActive(),
                 Progress = source.GetProgress(),
                 TotalComics = source.Books.Count,
                 SourceID = source.Source?.ID ?? 0,
@@ -43,7 +43,7 @@ namespace ComicsLibrary.Services.Mapper
                 Title = source.Title,
                 SeriesId = source.SeriesId,
                 SeriesTitle = source.Series?.Title,
-                IssueTitle = GetBookTitle(source),
+                IssueTitle = source.GetBookTitle(),
                 SourceID = source.Series?.SourceId ?? 0,
                 SourceItemID = source.SourceItemID,
                 SourceName = source.Series?.Source?.Name,
@@ -64,22 +64,6 @@ namespace ComicsLibrary.Services.Mapper
             };
         }
 
-        private string GetImageUrl(Series series)
-        {
-            return series.GetValidBooks()
-                .OrderBy(b => b.Number)
-                .FirstOrDefault()?.ImageUrl ?? series.ImageUrl;
-        }
-
-        private static string GetBookTitle(Book book)
-        {
-            return book.BookTypeID == 1
-                ? $"#{book.Number}"
-                : book.BookTypeID == 2
-                ? $"Vol. {book.Number}"
-                : "";
-        }
-
         private static string GetTitle(Series series, bool subtitle)
         {
             if (series.Title == null)
@@ -95,17 +79,5 @@ namespace ComicsLibrary.Services.Mapper
                 ? series.Title.Substring(parenthesesStartAt)
                 : series.Title.Substring(0, parenthesesStartAt - 1);
         }
-
-        private static string GetYearsActive(Series series)
-        {
-            if (series.StartYear == null)
-                return series.EndYear?.ToString();
-
-            if (series.EndYear == null || series.StartYear == series.EndYear)
-                return series.StartYear.ToString();
-
-            return $"{series.StartYear} - {series.EndYear}";
-        }
-
     }
 }

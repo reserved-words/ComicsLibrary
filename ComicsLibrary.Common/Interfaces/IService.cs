@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Models;
 
@@ -8,9 +7,6 @@ namespace ComicsLibrary.Common.Interfaces
     public interface IService
     {
         List<NextComicInSeries> GetAllNextIssues();
-        void MarkAsUnread(int id);
-        void HideBook(int id, bool isHidden);
-        void MarkAsRead(int id);
         void ReinstateSeries(int id);
         void ArchiveSeries(int id);
         void RemoveSeriesFromLibrary(int id);

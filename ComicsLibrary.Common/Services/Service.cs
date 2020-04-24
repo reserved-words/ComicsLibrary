@@ -136,36 +136,6 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public void MarkAsRead(int id)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var comic = uow.Repository<Book>().GetById(id);
-                comic.DateRead = DateTime.Now;
-                uow.Save();
-            }
-        }
-
-        public void MarkAsUnread(int id)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var comic = uow.Repository<Book>().GetById(id);
-                comic.DateRead = null;
-                uow.Save();
-            }
-        }
-
-        public void HideBook(int id, bool isHidden)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var comic = uow.Repository<Book>().GetById(id);
-                comic.Hidden = isHidden;
-                uow.Save();
-            }
-        }
-
         public void ReinstateSeries(int id)
         {
             using (var uow = _unitOfWorkFactory())

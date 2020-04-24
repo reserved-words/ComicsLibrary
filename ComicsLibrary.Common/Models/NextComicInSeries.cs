@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ComicsLibrary.Common
+﻿namespace ComicsLibrary.Common
 {
 
     public class NextComicInSeries
