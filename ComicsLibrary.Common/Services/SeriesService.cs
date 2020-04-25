@@ -23,7 +23,7 @@ namespace ComicsLibrary.Common.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var series = uow.Repository<Models.Series>().GetById(id);
+                var series = uow.Repository<Series>().GetById(id);
                 series.Abandoned = true;
                 uow.Save();
             }
@@ -33,7 +33,7 @@ namespace ComicsLibrary.Common.Services
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var series = uow.Repository<Models.Series>().GetById(id);
+                var series = uow.Repository<Series>().GetById(id);
                 series.Abandoned = false;
                 uow.Save();
             }
@@ -56,15 +56,19 @@ namespace ComicsLibrary.Common.Services
             }
         }
 
-        public Api.Series GetById(int seriesId, int numberOfComics)
+        public SeriesBookLists GetById(int seriesId, int numberOfComics)
         {
             using (var uow = _unitOfWorkFactory())
             {
-                var dbSeries = uow.Repository<Models.Series>()
+                var dbSeries = uow.Repository<Series>()
                     .Including(s => s.Books)
                     .Single(c => c.Id == seriesId);
 
-                var series = _mapper.Map(dbSeries);
+                var series = new SeriesBookLists
+                {
+                    Id = dbSeries.Id,
+                    Title = dbSeries.Title
+                };
 
                 if (numberOfComics == 0)
                     return series;
@@ -111,75 +115,5 @@ namespace ComicsLibrary.Common.Services
                     .ToList();
             }
         }
-
-        public List<Api.Series> GetByStatus(SeriesStatus status)
-        {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var series = status == SeriesStatus.Reading
-                    ? GetSeriesInProgress(uow)
-                    : status == SeriesStatus.ToRead
-                    ? GetSeriesToRead(uow)
-                    : status == SeriesStatus.Read
-                    ? GetSeriesFinished(uow)
-                    : GetSeriesArchived(uow);
-
-                var list = series.OrderBy(s => s.Title)
-                    .ToList()
-                    .Select(c => _mapper.Map(c))
-                    .ToList();
-
-                if (status == SeriesStatus.ToRead)
-                {
-                    list.ForEach(s => s.Progress = 0);
-                }
-                else if (status == SeriesStatus.Read)
-                {
-                    list.ForEach(s => s.Progress = 100);
-                }
-
-                return list;
-            }
-        }
-
-        private IEnumerable<Models.Series> GetSeriesInProgress(IUnitOfWork uow)
-        {
-            return uow.Repository<Models.Series>()
-                .Including(s => s.Books, s => s.HomeBookTypes)
-                .Where(s => !s.Abandoned
-                    // Series has some readable and read books
-                    && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) && c.DateRead.HasValue)
-                    // Series has some readable and unread books
-                    && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) && !c.DateRead.HasValue));
-        }
-
-        private IEnumerable<Models.Series> GetSeriesToRead(IUnitOfWork uow)
-        {
-            return uow.Repository<Models.Series>()
-                .Including(s => s.Books, s => s.HomeBookTypes)
-                .Where(s => !s.Abandoned
-                    // Series has some readable books
-                    && s.Books.Any(c => !c.Hidden && s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled))
-                    // All readable books are unread
-                    && s.Books.All(c => c.Hidden || !s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) || !c.DateRead.HasValue));
-        }
-
-        private IEnumerable<Models.Series> GetSeriesFinished(IUnitOfWork uow)
-        {
-            return uow.Repository<Models.Series>()
-                .Including(s => s.Books, s => s.HomeBookTypes)
-                .Where(s => !s.Abandoned
-                    // All readable books are read
-                    && s.Books.All(c => c.Hidden || !s.HomeBookTypes.Any(h => h.BookTypeId == c.BookTypeID && h.Enabled) || c.DateRead.HasValue));
-        }
-
-        private IEnumerable<Models.Series> GetSeriesArchived(IUnitOfWork uow)
-        {
-            return uow.Repository<Models.Series>()
-                .Including(s => s.Books, s => s.HomeBookTypes)
-                .Where(s => s.Abandoned);
-        }
-
-
     }
 }

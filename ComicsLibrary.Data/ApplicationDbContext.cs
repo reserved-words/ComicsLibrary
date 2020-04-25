@@ -26,5 +26,11 @@ namespace ComicsLibrary.Data
         public virtual DbSet<HomeBookType> HomeBookTypes { get; set; }
 
         public virtual DbSet<NextComicInSeries> HomeBooks { get; set; }
+        public virtual DbSet<LibrarySeries> LibrarySeries { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

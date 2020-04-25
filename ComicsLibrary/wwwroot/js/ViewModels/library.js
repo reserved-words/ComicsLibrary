@@ -1,11 +1,6 @@
 ﻿
 library = {
-    shelves: [
-        { id: 0, title: "Reading", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
-        { id: 1, title: "To Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
-        { id: 2, title: "Read", items: ko.observableArray(), fetched: false, selected: ko.observable(false) },
-        { id: 3, title: "Archived", items: ko.observableArray(), fetched: false, selected: ko.observable(false) }
-    ],
+    shelves: ko.observableArray(),
     select: function (data, event) {
         library.setSelected(data.id);
     },
@@ -54,7 +49,7 @@ library = {
         }
     },
     onSeriesAdded: function (seriesId) {
-        API.get(URL.getSeries(seriesId, 0), function (element) {
+        API.get(URL.getLibrarySeries(seriesId, 0), function (element) {
             var series = {
                 id: element.id,
                 title: element.title,
@@ -132,34 +127,40 @@ library = {
 };
 
 library.setSelected = function(selectedId){
-    var selectedShelf = library.shelves.filter(s => s.id === selectedId)[0];
+    var selectedShelf = library.shelves().filter(s => s.id === selectedId)[0];
 
-    $.each(library.shelves, function (index, value) {
+    $.each(library.shelves(), function (index, value) {
         value.selected(false);
     });
 
     selectedShelf.selected(true);
-
-    if (selectedShelf.fetched)
-        return;
-
-    API.get(URL.getSeriesByStatus(selectedId), function (data) {
-        selectedShelf.items.removeAll();
-        selectedShelf.fetched = true;
-        $(data).each(function (index, element) {
-            selectedShelf.items.push({
-                id: element.id,
-                title: element.title,
-                imageUrl: element.imageUrl,
-                abandoned: element.abandoned,
-                progress: element.progress,
-                unreadIssues: element.unreadIssues,
-                totalComics: element.totalComics
-            });
-        });
-    });
 }
 
 library.load = function () {
-    library.setSelected(0);
+    API.get(URL.getLibraryShelves(), function (data) {
+        $(data).each(function (index, element) {
+            var shelf = {
+                id: element.statusId,
+                title: element.status,
+                items: ko.observableArray(),
+                selected: ko.observable(false)
+            };
+
+            library.shelves.push(shelf);
+
+            $(element.series).each(function (j, series) {
+                shelf.items.push({
+                    id: series.id,
+                    title: series.title,
+                    imageUrl: series.imageUrl,
+                    abandoned: series.archived,
+                    progress: series.progress,
+                    unreadIssues: series.unreadBooks,
+                    totalComics: series.totalBooks
+                });
+            });
+        });
+
+        library.setSelected(0);
+    });
 }

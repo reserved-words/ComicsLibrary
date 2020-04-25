@@ -86,6 +86,29 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetAllSeries]
+        ///    @SeriesID INT = NULL
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		S.Id,
+        ///        S.Title,
+        ///        B.ImageUrl,
+        ///        (SELECT COUNT([BookId]) FROM [ComicsLibrary].[SeriesUnreadBooks] WHERE [SeriesId] = S.[Id]) UnreadBooks,
+        ///        (SELECT COUNT([BookId]) FROM [ComicsLibrary].[SeriesAllBooks] WHERE [SeriesId] = S.[Id]) TotalBooks,
+        ///        [Abandoned] [Archived]
+        ///	FROM [ComicsLibrary].[Series] S
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] U ON U.[SeriesId] = S.[Id]
+        ///		 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetAllSeries_v2 {
+            get {
+                return ResourceManager.GetString("Create_GetAllSeries_v2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetHomeBooks]
         ///AS
         ///BEGIN

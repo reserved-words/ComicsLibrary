@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Common.Models;
 using Microsoft.Data.SqlClient;
@@ -22,11 +23,11 @@ namespace ComicsLibrary.Common.Services
 
         public NextComicInSeries GetNextUnread(int seriesId)
         {
+            var parameterName = "SeriesID";
+            var parameter = new SqlParameter(parameterName, seriesId);
+
             using (var uow = _unitOfWorkFactory())
             {
-                var parameterName = "SeriesID";
-                var parameter = new SqlParameter(parameterName, seriesId);
-
                 return uow.Repository<NextComicInSeries>()
                     .GetFromSql($"ComicsLibrary.GetHomeBooks @{parameterName}", parameter)
                     .ToList()
@@ -81,6 +82,48 @@ namespace ComicsLibrary.Common.Services
                     .Including(s => s.Books, s => s.HomeBookTypes)
                     .Single(s => s.Id == seriesId)
                     .GetProgress();
+            }
+        }
+
+        public List<LibraryShelf> GetShelves()
+        {
+            using (var uow = _unitOfWorkFactory())
+            {
+                var shelves = uow.Repository<LibrarySeries>()
+                     .GetFromSql($"ComicsLibrary.GetAllSeries")
+                     .ToList()
+                     .GroupBy(s => s.Status)
+                     .ToDictionary(s => s.Key, s => s.ToList());
+
+                var list = new List<LibraryShelf>();
+
+                foreach (var status in Enum.GetValues(typeof(SeriesStatus)).OfType<SeriesStatus>())
+                {
+                    list.Add(new LibraryShelf
+                    {
+                        StatusId = (int)status,
+                        Status = status.ToString(),
+                        Series = shelves.TryGetValue(status, out List<LibrarySeries> series)
+                            ? series
+                            : new List<LibrarySeries>()
+                    });
+                }
+
+                return list;
+            }
+        }
+
+        public LibrarySeries GetSeries(int id)
+        {
+            var parameterName = "SeriesID";
+            var parameter = new SqlParameter(parameterName, id);
+
+            using (var uow = _unitOfWorkFactory())
+            {
+                return uow.Repository<LibrarySeries>()
+                    .GetFromSql($"ComicsLibrary.GetAllSeries @{parameterName}", parameter)
+                    .ToList()
+                    .Single();
             }
         }
     }

@@ -9,5 +9,7 @@ namespace ComicsLibrary.Common.Interfaces
         void UpdateHomeBookType(HomeBookType homeBookType);
         int GetProgress(int seriesId);
         NextComicInSeries GetNextUnread(int seriesId);
+        List<LibraryShelf> GetShelves();
+        LibrarySeries GetSeries(int id);
     }
 }

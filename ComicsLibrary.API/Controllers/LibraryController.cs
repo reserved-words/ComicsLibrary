@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ComicsLibrary.Common;
 using ComicsLibrary.Common.Interfaces;
+using ComicsLibrary.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,6 +46,20 @@ namespace ComicsLibrary.API.Controllers
         public void SetHomeOption([FromBody]HomeBookType homeBookType)
         {
             _service.UpdateHomeBookType(homeBookType);
+        }
+
+        [Route("Shelves")]
+        [HttpGet]
+        public List<LibraryShelf> GetShelves()
+        {
+            return _service.GetShelves();
+        }
+
+        [Route("Series")]
+        [HttpGet]
+        public LibrarySeries GetSeries(int id)
+        {
+            return _service.GetSeries(id);
         }
     }
 }

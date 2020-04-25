@@ -38,6 +38,13 @@
     setHomeOption: () =>
         app.apiUrl("library", "setHomeOption"),
 
+    getLibraryShelves: () =>
+        app.apiUrl("library", "shelves"),
+
+    getLibrarySeries: (id) =>
+        app.apiUrl("library", "series")
+            .concat("?", "id", "=", id),
+
 
     // Series
 

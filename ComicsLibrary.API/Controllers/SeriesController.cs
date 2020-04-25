@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
+using ComicsLibrary.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,16 +18,9 @@ namespace ComicsLibrary.API.Controllers
             _service = service;
         }
 
-        [Route("GetByStatus")]
-        [HttpGet]
-        public List<Series> GetByStatus(SeriesStatus status)
-        {
-            return _service.GetByStatus(status);
-        }
-
         [Route("GetByID")]
         [HttpGet]
-        public Series GetByID(int seriesId, int limit)
+        public SeriesBookLists GetByID(int seriesId, int limit)
         {
             return _service.GetById(seriesId, limit);
         }
