@@ -61,6 +61,31 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetAllSeries]
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		S.Id,
+        ///        S.Title,
+        ///        B.ImageUrl,
+        ///        (SELECT COUNT([BookId]) FROM [ComicsLibrary].[SeriesUnreadBooks] WHERE [SeriesId] = S.[Id]) UnreadBooks,
+        ///        (SELECT COUNT([BookId]) FROM [ComicsLibrary].[SeriesAllBooks] WHERE [SeriesId] = S.[Id]) TotalBooks,
+        ///        S.SourceID,
+        ///        SRC.[Name] SourceName,
+        ///        [StartYear],
+        ///        [EndYear],
+        ///        [LastUpdated],
+        ///        [Abandoned] [Archived],
+        ///        S.[Sourc [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetAllSeries {
+            get {
+                return ResourceManager.GetString("Create_GetAllSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetHomeBooks]
         ///AS
         ///BEGIN
@@ -138,6 +163,52 @@ namespace ComicsLibrary.Data {
         internal static string Create_GetHomeBooks_v3 {
             get {
                 return ResourceManager.GetString("Create_GetHomeBooks_v3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetHomeBooks]
+        ///	@SeriesID INT = NULL
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		 B.[Id]
+        ///		  ,S.[Id] SeriesId
+        ///		  ,s.Title SeriesTitle
+        ///		  ,CASE
+        ///			WHEN b.BookTypeID = 1 THEN CONCAT(&apos;#&apos;, CAST(b.Number AS VARCHAR))
+        ///			WHEN b.BookTypeID = 2 THEN CONCAT(&apos;Vol. &apos;, CAST(b.Number AS VARCHAR))
+        ///			ELSE &apos;&apos;
+        ///			END IssueTitle
+        ///		  ,b.ImageUrl
+        ///		  ,b.ReadUrl
+        ///		  ,(SELECT COUNT(BookId) FROM [ComicsLibrary].[SeriesUnreadBooks] WHERE SeriesId = S.Id) UnreadIssues
+        ///		  ,b.Creators
+        ///	FROM [ComicsLibr [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetHomeBooks_v4 {
+            get {
+                return ResourceManager.GetString("Create_GetHomeBooks_v4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;GetAllSeries&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[GetAllSeries]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_GetAllSeries {
+            get {
+                return ResourceManager.GetString("Drop_GetAllSeries", resourceCulture);
             }
         }
         

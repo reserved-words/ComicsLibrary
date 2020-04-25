@@ -25,12 +25,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>StoredProcedures.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Views.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="StoredProcedures.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StoredProcedures.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Views.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
