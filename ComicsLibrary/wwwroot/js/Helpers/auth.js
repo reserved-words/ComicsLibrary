@@ -22,7 +22,6 @@ function authorize(onAuthorized) {
                     mgr.signinRedirect()
                         .catch(function (e) {
                             console.error(e);
-                            index.loading(false);
                             alert("Failed to load sign-in page. Please try again.");
                         });
                 }

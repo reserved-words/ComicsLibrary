@@ -15,8 +15,6 @@ API = {
 };
 
 function authorizeAndSend(xhr, data, onLoaded) {
-    index.loading(true);
-
     xhr.onreadystatechange = function (oEvent) {
         onReadyStateChange(xhr, onLoaded);
     };
@@ -37,7 +35,6 @@ function onReadyStateChange(xhr, onLoaded) {
         return;
 
     if (xhr.status === 200 || xhr.status === 204) {
-        index.loading(false);
         if (onLoaded) {
             onLoaded(xhr.responseText ? JSON.parse(xhr.responseText) : '');
         }

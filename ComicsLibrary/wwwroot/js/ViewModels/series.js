@@ -24,6 +24,9 @@ series.hideBook = function (id, isHidden) {
 }
 
 series.load = function (id) {
+    if (!id)
+        return;
+
     var self = this;
 
     self.id(id);
