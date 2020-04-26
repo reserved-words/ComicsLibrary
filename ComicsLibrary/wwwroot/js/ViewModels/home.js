@@ -15,6 +15,7 @@
                     creators: element.creators
                 });
             });
+            index.loading(false);
         });
     },
     onBookStatusUpdated: function (seriesId) {

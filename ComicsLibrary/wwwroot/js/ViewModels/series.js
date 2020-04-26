@@ -27,6 +27,8 @@ series.load = function (id) {
     if (!id)
         return;
 
+    index.loading(true);
+
     var self = this;
 
     self.id(id);
@@ -44,6 +46,8 @@ series.load = function (id) {
         $(data.bookLists).each(function (index, element){
             self.addBookList(element);
         });
+
+        index.loading(false);
     });
 }
 
