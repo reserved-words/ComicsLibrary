@@ -1,6 +1,7 @@
 ﻿
 library = {
     shelves: ko.observableArray(),
+    loaded: false,
     select: function (data, event) {
         library.setSelected(data.id);
     },
@@ -17,6 +18,9 @@ library = {
         index.loadSeries(data.id);
     },
     onBookStatusUpdated: function (seriesId) {
+        if (!this.loaded)
+            return;
+
         var result = this.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
@@ -29,6 +33,9 @@ library = {
         }
     },
     onSeriesArchived: function (seriesId) {
+        if (!this.loaded)
+            return;
+
         var result = this.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
@@ -39,6 +46,9 @@ library = {
         }
     },
     onSeriesReinstated: function (seriesId) {
+        if (!this.loaded)
+            return;
+
         var result = this.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
@@ -49,6 +59,9 @@ library = {
         }
     },
     onSeriesAdded: function (seriesId) {
+        if (!this.loaded)
+            return;
+
         API.get(URL.getLibrarySeries(seriesId, 0), function (element) {
             var series = {
                 id: element.id,
@@ -63,6 +76,9 @@ library = {
         });
     },
     onSeriesDeleted: function (seriesId) {
+        if (!this.loaded)
+            return;
+
         var result = this.find(seriesId);
         if (!result.series)
             return;
@@ -93,7 +109,7 @@ library = {
         var foundShelf = null;
         var foundSeries = null;
 
-        $(library.shelves).each(function (i, shelf) {
+        $(library.shelves()).each(function (i, shelf) {
             if (foundShelf) {
                 return false;
             }
@@ -112,9 +128,10 @@ library = {
         };
     },
     insertItem: function (shelfIndex, item) {
-        var shelf = library.shelves[shelfIndex];
-        if (!shelf.fetched)
+        if (!this.loaded)
             return;
+
+        var shelf = library.shelves()[shelfIndex];
 
         for (var i in shelf.items()) {
             if (shelf.items()[i].title > item.title) {
@@ -122,6 +139,7 @@ library = {
                 return false;
             }
         }
+
         shelf.items.push(item);
     }
 };
@@ -138,6 +156,7 @@ library.setSelected = function(selectedId){
 
 library.load = function () {
     API.get(URL.getLibraryShelves(), function (data) {
+
         $(data).each(function (index, element) {
             var shelf = {
                 id: element.statusId,
@@ -160,6 +179,8 @@ library.load = function () {
                 });
             });
         });
+
+        library.loaded = true;
 
         library.setSelected(0);
     });

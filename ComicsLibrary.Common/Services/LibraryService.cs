@@ -31,7 +31,7 @@ namespace ComicsLibrary.Common.Services
                 return uow.Repository<NextComicInSeries>()
                     .GetFromSql($"ComicsLibrary.GetHomeBooks @{parameterName}", parameter)
                     .ToList()
-                    .Single();
+                    .SingleOrDefault();
             }
         }
 
@@ -76,13 +76,7 @@ namespace ComicsLibrary.Common.Services
 
         public int GetProgress(int seriesId)
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<Series>()
-                    .Including(s => s.Books, s => s.HomeBookTypes)
-                    .Single(s => s.Id == seriesId)
-                    .GetProgress();
-            }
+            return GetSeries(seriesId).Progress;
         }
 
         public List<LibraryShelf> GetShelves()
@@ -90,7 +84,7 @@ namespace ComicsLibrary.Common.Services
             using (var uow = _unitOfWorkFactory())
             {
                 var shelves = uow.Repository<LibrarySeries>()
-                     .GetFromSql($"ComicsLibrary.GetAllSeries")
+                     .GetFromSql($"ComicsLibrary.GetSeries")
                      .ToList()
                      .GroupBy(s => s.Status)
                      .ToDictionary(s => s.Key, s => s.ToList());
@@ -121,7 +115,7 @@ namespace ComicsLibrary.Common.Services
             using (var uow = _unitOfWorkFactory())
             {
                 return uow.Repository<LibrarySeries>()
-                    .GetFromSql($"ComicsLibrary.GetAllSeries @{parameterName}", parameter)
+                    .GetFromSql($"ComicsLibrary.GetSeries @{parameterName}", parameter)
                     .ToList()
                     .Single();
             }

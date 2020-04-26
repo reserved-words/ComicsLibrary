@@ -217,6 +217,29 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetSeries]
+        ///    @SeriesID INT = NULL
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		S.Id,
+        ///        S.Title,
+        ///        B.ImageUrl,
+        ///        (SELECT COUNT([BookId]) FROM [ComicsLibrary].[SeriesUnreadBooks] WHERE [SeriesId] = S.[Id]) UnreadBooks,
+        ///        (SELECT COUNT([BookId]) FROM [ComicsLibrary].[SeriesAllBooks] WHERE [SeriesId] = S.[Id]) TotalBooks,
+        ///        [Abandoned] [Archived]
+        ///	FROM [ComicsLibrary].[Series] S
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] U ON U.[SeriesId] = S.[Id]
+        ///		INN [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetSeries {
+            get {
+                return ResourceManager.GetString("Create_GetSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IF EXISTS (
         ///	SELECT object_id 
         ///	FROM SYS.OBJECTS O
@@ -251,6 +274,25 @@ namespace ComicsLibrary.Data {
         internal static string Drop_GetHomeBooks {
             get {
                 return ResourceManager.GetString("Drop_GetHomeBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;GetSeries&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[GetSeries]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_GetSeries {
+            get {
+                return ResourceManager.GetString("Drop_GetSeries", resourceCulture);
             }
         }
     }

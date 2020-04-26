@@ -1,5 +1,4 @@
-﻿using ComicsLibrary.Common.Api;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ComicsLibrary.Common.Models
 {

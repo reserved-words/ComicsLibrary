@@ -11,7 +11,7 @@ namespace ComicsLibrary.Common.Models
         public int TotalBooks { get; set; }
         public bool Archived { get; set; }
 
-        public int Progress => 100 * UnreadBooks / TotalBooks;
+        public int Progress => 100 - (100 * UnreadBooks / TotalBooks);
 
         public SeriesStatus Status => GetStatus();
 
