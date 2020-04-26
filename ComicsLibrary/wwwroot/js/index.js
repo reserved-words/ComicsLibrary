@@ -37,7 +37,6 @@ var onAuthorized = function () {
     ko.applyBindings(index);
     index.loading(true);
 
-    
     $(index.pages).each(function (i, page) {
         $("#" + page.name).load(app.baseUrl + page.name + ".html", function () {
             ko.cleanNode($("#" + page.name)[0]);

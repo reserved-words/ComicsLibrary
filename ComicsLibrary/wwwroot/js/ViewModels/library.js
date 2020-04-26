@@ -18,10 +18,10 @@ library = {
         index.loadSeries(data.id);
     },
     onBookStatusUpdated: function (seriesId) {
-        if (!this.loaded)
+        if (!library.loaded)
             return;
 
-        var result = this.find(seriesId);
+        var result = library.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
         }
@@ -29,7 +29,7 @@ library = {
             API.get(URL.getProgress(seriesId), function (progress) {
                 result.series.progress = progress;
                 library.move(result.series, result.shelf);
-            })
+            });
         }
     },
     onSeriesArchived: function (seriesId) {
@@ -85,7 +85,7 @@ library = {
         result.shelf.items.remove(result.series);
     },
     move: function (item, oldShelf) {
-        var newShelfId = this.getShelf(item);
+        var newShelfId = library.getShelf(item);
         if (oldShelf) {
             if (oldShelf.id === newShelfId) {
                 return;
