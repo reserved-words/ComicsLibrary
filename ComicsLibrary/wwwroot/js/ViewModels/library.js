@@ -26,8 +26,8 @@ library = {
             library.onSeriesAdded(seriesId);
         }
         else {
-            API.get(URL.getProgress(seriesId), function (progress) {
-                result.series.progress = progress;
+            API.get(URL.getProgress(seriesId), function (value) {
+                result.series.progress(value);
                 library.move(result.series, result.shelf);
             });
         }
@@ -68,7 +68,7 @@ library = {
                 title: element.title,
                 imageUrl: element.imageUrl,
                 abandoned: element.abandoned,
-                progress: element.progress,
+                progress: ko.observable(element.progress),
                 unreadIssues: element.unreadIssues,
                 totalComics: element.totalComics
             }
@@ -99,9 +99,9 @@ library = {
     getShelf(series) {
         return series.abandoned
             ? 3
-            : series.progress === 100
+            : series.progress() === 100
                 ? 2
-                : series.progress === 0
+                : series.progress() === 0
                     ? 1
                     : 0;
     },
@@ -173,7 +173,7 @@ library.load = function () {
                     title: series.title,
                     imageUrl: series.imageUrl,
                     abandoned: series.archived,
-                    progress: series.progress,
+                    progress: ko.observable(series.progress),
                     unreadIssues: series.unreadBooks,
                     totalComics: series.totalBooks
                 });
