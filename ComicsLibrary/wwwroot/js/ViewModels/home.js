@@ -29,18 +29,16 @@
     },
     updateSeries: function (seriesId) {
         API.get(URL.getNextInSeries(seriesId), function (result) {
+
             var oldComic = home.comics().filter(c => c.seriesId === seriesId)[0];
             if (oldComic) {
-                if (!result) {
-                    home.comics.remove(oldComic);
-                }
-                else {
-                    home.comics.replace(oldComic, result);
-                }
+                home.comics.remove(oldComic);
             }
-            else if (result) {
+
+            if (result) {
                 home.insertSeries(result);
             }
+
         });
     },
     onSeriesAdded: function (id) {

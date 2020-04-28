@@ -10,6 +10,7 @@
         this.seriesId = params.seriesId;
         this.unreadIssues = params.unreadIssues;
         this.creators = params.creators;
+        this.loading = ko.observable(false);
 
         var query = params.seriesTitle
             .concat(" ", params.issueTitle, " ", params.creators)
@@ -31,6 +32,7 @@
         }
 
         this.markAsRead = function (data, event) {
+            this.loading(true);
             update.markAsRead(data.id, data.seriesId);
         }
 
