@@ -235,9 +235,8 @@ namespace ComicsLibrary.Data {
         ///		,b.ReadUrl
         ///		,P.UnreadBooks
         ///		,b.Creators
-        ///		--,P.ReadBooks
-        ///		--,P.TotalBooks
-        ///		,CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGE [rest of string was truncated]&quot;;.
+        ///		,CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGER) [Progress]
+        ///	FROM [ComicsLibrary]. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Create_GetHomeBooks_v5 {
             get {
@@ -265,6 +264,31 @@ namespace ComicsLibrary.Data {
         internal static string Create_GetSeries {
             get {
                 return ResourceManager.GetString("Create_GetSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetSeries]
+        ///    @SeriesID INT = NULL
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		S.Id,
+        ///        S.Title,
+        ///        B.ImageUrl,
+        ///        P.UnreadBooks,
+        ///        P.TotalBooks,
+        ///        [Abandoned] [Archived],
+        ///		CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGER) [Progress]
+        ///	FROM [ComicsLibrary].[Series] S
+        ///		INNER JOIN [ComicsLibrary].[SeriesProgress] P ON P.[Id] = S.[Id]
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] U ON U.[SeriesId] = S.[Id]
+        ///		INNER JOIN [C [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetSeries_v2 {
+            get {
+                return ResourceManager.GetString("Create_GetSeries_v2", resourceCulture);
             }
         }
         

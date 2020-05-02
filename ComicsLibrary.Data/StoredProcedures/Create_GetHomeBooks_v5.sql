@@ -16,8 +16,6 @@ BEGIN
 		,b.ReadUrl
 		,P.UnreadBooks
 		,b.Creators
-		--,P.ReadBooks
-		--,P.TotalBooks
 		,CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGER) [Progress]
 	FROM [ComicsLibrary].[Series] S
 		INNER JOIN [ComicsLibrary].[SeriesProgress] P ON P.[Id] = S.[Id]
