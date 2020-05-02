@@ -8,8 +8,9 @@
         this.imageUrl = params.imageUrl;
         this.readUrl = params.readUrl;
         this.seriesId = params.seriesId;
-        this.unreadIssues = params.unreadIssues;
+        this.unreadBooks = params.unreadBooks;
         this.creators = params.creators;
+        this.progress = params.progress;
         this.loading = ko.observable(false);
 
         var query = params.seriesTitle

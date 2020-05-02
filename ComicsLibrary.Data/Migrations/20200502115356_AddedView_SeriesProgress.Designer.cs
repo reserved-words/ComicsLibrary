@@ -4,14 +4,16 @@ using ComicsLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ComicsLibrary.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200502115356_AddedView_SeriesProgress")]
+    partial class AddedView_SeriesProgress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,7 +251,7 @@ namespace ComicsLibrary.Data.Migrations
                     b.Property<string>("SeriesTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UnreadBooks")
+                    b.Property<int>("UnreadIssues")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

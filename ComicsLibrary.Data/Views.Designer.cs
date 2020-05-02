@@ -82,6 +82,63 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE VIEW [ComicsLibrary].[SeriesProgress]
+        ///AS
+        ///	SELECT S.[Id], COUNT(R.[BookId]) [ReadBooks], COUNT(U.[BookId]) [UnreadBooks], COUNT(A.[BookId]) [TotalBooks]
+        ///	FROM [ComicsLibrary].[Series] S
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] A ON A.[SeriesId] = S.[Id]
+        ///		LEFT JOIN [ComicsLibrary].[SeriesUnreadBooks] U ON U.[SeriesId] = S.[Id] AND A.[BookId] = U.[BookId]
+        ///		LEFT JOIN [ComicsLibrary].[SeriesReadBooks] R ON R.[SeriesId] = S.[Id] AND A.[BookId] = R.[BookId]
+        ///	WHERE [Id] = 1
+        ///	GROUP BY S.[Id]
+        ///G [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_SeriesProgress {
+            get {
+                return ResourceManager.GetString("Create_SeriesProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE VIEW [ComicsLibrary].[SeriesProgress]
+        ///AS
+        ///	SELECT S.[Id], COUNT(R.[BookId]) [ReadBooks], COUNT(U.[BookId]) [UnreadBooks], COUNT(A.[BookId]) [TotalBooks]
+        ///	FROM [ComicsLibrary].[Series] S
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] A ON A.[SeriesId] = S.[Id]
+        ///		LEFT JOIN [ComicsLibrary].[SeriesUnreadBooks] U ON U.[SeriesId] = S.[Id] AND A.[BookId] = U.[BookId]
+        ///		LEFT JOIN [ComicsLibrary].[SeriesReadBooks] R ON R.[SeriesId] = S.[Id] AND A.[BookId] = R.[BookId]
+        ///	GROUP BY S.[Id]
+        ///GO.
+        /// </summary>
+        internal static string Create_SeriesProgress_v2 {
+            get {
+                return ResourceManager.GetString("Create_SeriesProgress_v2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE VIEW [ComicsLibrary].[SeriesReadBooks]
+        ///AS
+        ///SELECT 
+        ///	S.[Id] [SeriesId], 
+        ///	B.[Id] [BookId],
+        ///	DENSE_RANK() OVER (PARTITION BY S.[Id] ORDER BY B.[OnSaleDate], B.[Number], B.[SourceItemID]) [Rank]
+        ///FROM [ComicsLibrary].[Series] S
+        ///	INNER JOIN [ComicsLibrary].[Books] B ON B.[SeriesId] = S.[Id]
+        ///		AND B.[Hidden] = 0
+        ///		AND B.[DateRead] IS NOT NULL
+        ///	INNER JOIN [ComicsLibrary].[HomeBookTypes] H ON H.[SeriesId] = S.[Id] 
+        ///		AND H.BookTypeId = B.BookTypeID
+        ///		AND H.[Enabled] = 1
+        ///	INNER JOIN [ComicsLibrary [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_SeriesReadBooks {
+            get {
+                return ResourceManager.GetString("Create_SeriesReadBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE VIEW [ComicsLibrary].[SeriesUnreadBooks]
         ///AS
         ///SELECT 
@@ -119,6 +176,44 @@ namespace ComicsLibrary.Data {
         internal static string Drop_SeriesAllBooks {
             get {
                 return ResourceManager.GetString("Drop_SeriesAllBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id
+        ///	FROM SYS.VIEWS V
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = V.schema_id
+        ///	WHERE V.[Name] = &apos;SeriesProgress&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP VIEW [ComicsLibrary].[SeriesProgress]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_SeriesProgress {
+            get {
+                return ResourceManager.GetString("Drop_SeriesProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id
+        ///	FROM SYS.VIEWS V
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = V.schema_id
+        ///	WHERE V.[Name] = &apos;SeriesReadBooks&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP VIEW [ComicsLibrary].[SeriesReadBooks]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_SeriesReadBooks {
+            get {
+                return ResourceManager.GetString("Drop_SeriesReadBooks", resourceCulture);
             }
         }
         

@@ -136,6 +136,9 @@
   <data name="Create_GetHomeBooks_v4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_gethomebooks_v4.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Create_GetHomeBooks_v5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\create_gethomebooks_v5.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Create_GetSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_getseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

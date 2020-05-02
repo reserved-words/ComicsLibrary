@@ -121,11 +121,26 @@
   <data name="Create_SeriesAllBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>views\create_seriesallbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Create_SeriesProgress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>views\create_seriesprogress.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Create_SeriesProgress_v2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>views\create_seriesprogress_v2.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Create_SeriesReadBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>views\create_seriesreadbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Create_SeriesUnreadBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>views\create_seriesunreadbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Drop_SeriesAllBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>views\drop_seriesallbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Drop_SeriesProgress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>views\drop_seriesprogress.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Drop_SeriesReadBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>views\drop_seriesreadbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Drop_SeriesUnreadBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>views\drop_seriesunreadbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

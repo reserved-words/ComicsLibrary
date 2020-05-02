@@ -9,7 +9,8 @@
         public string IssueTitle { get; set; }
         public string ImageUrl { get; set; }
         public string ReadUrl { get; set; }
-        public int UnreadIssues { get; set; }
+        public int UnreadBooks { get; set; }
         public string Creators { get; set; }
+        public int Progress { get; set; }
     }
 }

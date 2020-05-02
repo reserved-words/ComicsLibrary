@@ -11,8 +11,9 @@
                     imageUrl: element.imageUrl,
                     readUrl: element.readUrl,
                     seriesId: element.seriesId,
-                    unreadIssues: element.unreadIssues,
-                    creators: element.creators
+                    unreadBooks: element.unreadBooks,
+                    creators: element.creators,
+                    progress: element.progress
                 });
             });
             index.loading(false);
@@ -66,8 +67,9 @@
             imageUrl: element.imageUrl,
             readUrl: element.readUrl,
             seriesId: element.seriesId,
-            unreadIssues: element.unreadIssues,
-            creators: element.creators
+            unreadBooks: element.unreadBooks,
+            creators: element.creators,
+            progress: element.progress
         };
 
         for (var i in home.comics()) {
