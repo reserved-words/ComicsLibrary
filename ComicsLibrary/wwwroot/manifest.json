@@ -23,7 +23,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/",
+  "start_url": "/ComicsLibrary/",
   "background_color": "#fafafa",
   "theme_color": "indigo",
   "display": "standalone",
