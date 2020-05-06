@@ -28,5 +28,5 @@
   "theme_color": "indigo",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "/"
+  "scope": "/ComicsLibrary/"
 }
