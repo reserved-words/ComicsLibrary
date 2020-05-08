@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using ComicsLibrary.Common;
 using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Models;
+using ComicsLibrary.Common.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using HomeBookType = ComicsLibrary.Common.Models.HomeBookType;
+using HomeBookType = ComicsLibrary.Common.Data.HomeBookType;
 
 namespace ComicsLibrary.API.Controllers
 {

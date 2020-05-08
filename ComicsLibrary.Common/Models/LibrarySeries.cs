@@ -1,6 +1,4 @@
-﻿using ComicsLibrary.Common.Api;
-
-namespace ComicsLibrary.Common.Models
+﻿namespace ComicsLibrary.Common
 {
     public class LibrarySeries
     {

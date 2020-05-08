@@ -1,6 +1,5 @@
-﻿using ComicsLibrary.Common.Api;
-using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Models;
+﻿using ComicsLibrary.Common.Interfaces;
+using ComicsLibrary.Common.Data;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace ComicsLibrary.Common.Services
 
         public async Task<int> AddToLibrary(SearchResult searchResult)
         {
-            var series = new Models.Series
+            var series = new Data.Series
             {
                 SourceId = searchResult.SourceId,
                 SourceItemID = searchResult.SourceItemId,
@@ -36,7 +35,7 @@ namespace ComicsLibrary.Common.Services
 
             using (var uow = _unitOfWorkFactory())
             {
-                uow.Repository<Models.Series>().Insert(series);
+                uow.Repository<Data.Series>().Insert(series);
                 uow.Save();
             }
 
@@ -62,7 +61,7 @@ namespace ComicsLibrary.Common.Services
 
             using (var uow = _unitOfWorkFactory())
             {
-                var inLibrary = uow.Repository<Common.Models.Series>()
+                var inLibrary = uow.Repository<Common.Data.Series>()
                     .Where(s => s.SourceId == sourceID)
                     .ToDictionary(s => s.SourceItemID.Value, s => s.Id);
 

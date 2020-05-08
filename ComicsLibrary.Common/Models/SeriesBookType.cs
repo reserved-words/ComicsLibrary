@@ -1,4 +1,4 @@
-﻿namespace ComicsLibrary.Common.Models
+﻿namespace ComicsLibrary.Common
 {
     public class SeriesBookType
     {

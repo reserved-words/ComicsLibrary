@@ -1,5 +1,5 @@
 ﻿
-namespace ComicsLibrary.Common.Api
+namespace ComicsLibrary.Common
 {
     public class SearchResult
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComicsLibrary.Common.Api
+namespace ComicsLibrary.Common
 {
     public class Comic
     {

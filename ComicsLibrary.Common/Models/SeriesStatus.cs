@@ -1,7 +1,4 @@
-﻿
-using System.Runtime.Serialization;
-
-namespace ComicsLibrary.Common.Api
+﻿namespace ComicsLibrary.Common
 {
     public enum SeriesStatus
     {

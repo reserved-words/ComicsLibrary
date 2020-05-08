@@ -1,6 +1,8 @@
 ﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Models;
-using MarvelSharp.Model;
+using ComicsLibrary.Common.Data;
+
+using Comic = MarvelSharp.Model.Comic;
+using Series = MarvelSharp.Model.Series;
 
 namespace ComicsLibrary.MarvelUnlimited
 {
@@ -8,6 +10,6 @@ namespace ComicsLibrary.MarvelUnlimited
     {
         Book Map(Comic source);
         BookUpdate MapToUpdate(Comic source);
-        SeriesUpdate Map(MarvelSharp.Model.Series source);
+        SeriesUpdate Map(Series source);
     }
 }

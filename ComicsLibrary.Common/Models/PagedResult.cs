@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ComicsLibrary.Common.Api
+namespace ComicsLibrary.Common
 {
     public class PagedResult<T>
     {

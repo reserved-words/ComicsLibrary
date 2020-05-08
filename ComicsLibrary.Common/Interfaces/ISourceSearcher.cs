@@ -1,5 +1,4 @@
-﻿using ComicsLibrary.Common.Api;
-using ComicsLibrary.Common.Models;
+﻿using ComicsLibrary.Common.Data;
 using System.Threading.Tasks;
 
 namespace ComicsLibrary.Common.Interfaces

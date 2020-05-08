@@ -1,7 +1,6 @@
 ﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Models;
+using ComicsLibrary.Common.Data;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;

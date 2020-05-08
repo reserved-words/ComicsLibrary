@@ -1,4 +1,4 @@
-﻿using ComicsLibrary.Common.Models;
+﻿using ComicsLibrary.Common.Data;
 using ComicsLibrary.Common.Interfaces;
 using System;
 using System.Linq;

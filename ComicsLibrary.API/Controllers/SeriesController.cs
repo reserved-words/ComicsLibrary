@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using ComicsLibrary.Common.Api;
+using ComicsLibrary.Common;
 using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

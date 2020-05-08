@@ -1,4 +1,4 @@
-﻿using ComicsLibrary.Common.Models;
+﻿using ComicsLibrary.Common.Data;
 
 namespace ComicsLibrary.Common
 {

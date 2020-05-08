@@ -35,7 +35,7 @@ namespace ComicsLibrary.MarvelUnlimited
 
             var updatedSeries = _mapper.Map(seriesResponse.Data.Result);
 
-            var comics = new List<Comic>();
+            var comics = new List<MarvelSharp.Model.Comic>();
             var fetchMoreComics = true;
 
             while (fetchMoreComics)
@@ -51,7 +51,7 @@ namespace ComicsLibrary.MarvelUnlimited
             return updatedSeries;
         }
 
-        private async Task<bool> AddComics(int id, List<Comic> comics)
+        private async Task<bool> AddComics(int id, List<MarvelSharp.Model.Comic> comics)
         {
             var offset = comics.Count;
 
@@ -80,7 +80,7 @@ namespace ComicsLibrary.MarvelUnlimited
             }
         }
 
-        private void CheckComicsResponse(Response<List<Comic>> response, int id, int offset)
+        private void CheckComicsResponse(Response<List<MarvelSharp.Model.Comic>> response, int id, int offset)
         {
             if (!response.Success)
             {

@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ComicsLibrary.Common.Api;
-using ComicsLibrary.Common.Models;
+using ComicsLibrary.Common.Data;
 using ComicsLibrary.Common;
 using Microsoft.Extensions.Configuration;
 using System.Linq;

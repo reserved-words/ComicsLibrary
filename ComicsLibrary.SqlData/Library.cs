@@ -1,5 +1,5 @@
 ﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Models;
+using ComicsLibrary.Common.Data;
 using System.Collections.Generic;
 
 namespace ComicsLibrary.SqlData

@@ -1,4 +1,4 @@
-﻿namespace ComicsLibrary.Common.Models
+﻿namespace ComicsLibrary.Common.Data
 {
     public class HomeBookType
     {

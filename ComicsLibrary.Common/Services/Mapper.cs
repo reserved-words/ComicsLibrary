@@ -1,9 +1,8 @@
 ﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Models;
+using ComicsLibrary.Common.Data;
 using System.Linq;
-using Series = ComicsLibrary.Common.Models.Series;
+using Series = ComicsLibrary.Common.Data.Series;
 
 namespace ComicsLibrary.Services.Mapper
 {

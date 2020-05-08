@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ComicsLibrary.Common.Api;
+using ComicsLibrary.Common.Data;
 using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Models;
 
 namespace ComicsLibrary.Common.Services
 {

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ComicsLibrary.Common.Data;
+using System.Collections.Generic;
 
-namespace ComicsLibrary.Common.Models
+namespace ComicsLibrary.Common
 {
     public class BookType
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ComicsLibrary.Common.Models
+namespace ComicsLibrary.Common
 {
     public class SourceOption
     {

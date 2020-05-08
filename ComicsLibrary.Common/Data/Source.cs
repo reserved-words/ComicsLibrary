@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ComicsLibrary.Common.Models
+namespace ComicsLibrary.Common.Data
 {
     public class Source
     {
