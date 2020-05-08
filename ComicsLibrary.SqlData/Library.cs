@@ -1,73 +1,52 @@
 ﻿using ComicsLibrary.Common;
 using ComicsLibrary.Common.Models;
-using Dapper;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
 
 namespace ComicsLibrary.SqlData
 {
     public class Library : ILibrary
     {
-        private readonly IConfiguration _config;
+        private readonly IDatabase _db;
 
-        public Library(IConfiguration config)
+        public Library(IDatabase db)
         {
-            _config = config;
+            _db = db;
         }
 
         public List<NextComicInSeries> GetAllNextIssues()
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("Library"));
-            return connection.Query<NextComicInSeries>(
-                "ComicsLibrary.GetHomeBooks",
-                commandType: CommandType.StoredProcedure).ToList();
+            return _db.Query<NextComicInSeries>("GetHomeBooks");
         }
 
         public NextComicInSeries GetNextUnread(int seriesId)
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("Library"));
-            return connection.QuerySingle<NextComicInSeries>(
-                "ComicsLibrary.GetHomeBooks", new 
-                { 
-                    SeriesId = seriesId 
-                },
-                commandType: CommandType.StoredProcedure);
+            return _db.QuerySingle<NextComicInSeries>("GetHomeBooks", new 
+            { 
+                SeriesId = seriesId 
+            });
         }
 
         public List<LibrarySeries> GetSeries()
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("Library"));
-            return connection.Query<LibrarySeries>(
-                "ComicsLibrary.GetSeries", 
-                commandType: CommandType.StoredProcedure).ToList();
+            return _db.Query<LibrarySeries>("GetSeries");
         }
 
         public LibrarySeries GetSeries(int seriesId)
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("Library"));
-            return connection.QuerySingle<LibrarySeries>(
-                "ComicsLibrary.GetSeries", new 
-                { 
-                    SeriesId = seriesId 
-                }, 
-                commandType: CommandType.StoredProcedure);
+            return _db.QuerySingle<LibrarySeries>("GetSeries", new 
+            { 
+                SeriesId = seriesId 
+            });
         }
 
         public void UpdateHomeBookType(HomeBookType homeBookType)
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("Library"));
-            connection.Execute(
-                "ComicsLibrary.UpdateHomeBookType", 
-                new 
-                { 
-                    SeriesId = homeBookType.SeriesId, 
-                    BookTypeId = homeBookType.BookTypeId, 
-                    Enabled = homeBookType.Enabled 
-                }, 
-                commandType: CommandType.StoredProcedure);
+            _db.Execute("UpdateHomeBookType", new 
+            { 
+                SeriesId = homeBookType.SeriesId, 
+                BookTypeId = homeBookType.BookTypeId, 
+                Enabled = homeBookType.Enabled 
+            });
         }
     }
 }

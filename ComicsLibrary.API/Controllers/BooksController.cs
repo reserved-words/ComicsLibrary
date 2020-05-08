@@ -1,4 +1,4 @@
-﻿using ComicsLibrary.Common.Interfaces;
+﻿using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +8,9 @@ namespace ComicsLibrary.API.Controllers
     [Route("books")]
     public class BooksController : ControllerBase
     {
-        private readonly IBookService _service;
+        private readonly IBookRepository _service;
 
-        public BooksController(IBookService service)
+        public BooksController(IBookRepository service)
         {
             _service = service;
         }

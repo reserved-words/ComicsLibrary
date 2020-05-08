@@ -293,6 +293,46 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[UpdateBookHideStatus]
+        ///    @Id INT,
+        ///    @Hide BIT
+        ///AS
+        ///BEGIN
+        ///
+        ///    UPDATE [ComicsLibrary].[Books]
+        ///    SET [Hidden] = @Hide
+        ///    WHERE [Id] = @Id
+        ///
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Create_UpdateBookHideStatus {
+            get {
+                return ResourceManager.GetString("Create_UpdateBookHideStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[UpdateBookReadStatus]
+        ///    @Id INT,
+        ///    @Read BIT
+        ///AS
+        ///BEGIN
+        ///
+        ///    UPDATE [ComicsLibrary].[Books]
+        ///    SET [DateRead] = CASE WHEN @Read = 1 THEN GETDATE() ELSE NULL END
+        ///    WHERE [Id] = @Id
+        ///
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Create_UpdateBookReadStatus {
+            get {
+                return ResourceManager.GetString("Create_UpdateBookReadStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[UpdateHomeBookType]
         ///    @SeriesId INT,
         ///    @BookTypeId INT,
@@ -381,6 +421,44 @@ namespace ComicsLibrary.Data {
         internal static string Drop_GetSeries {
             get {
                 return ResourceManager.GetString("Drop_GetSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;UpdateBookHideStatus&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[UpdateBookHideStatus]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_UpdateBookHideStatus {
+            get {
+                return ResourceManager.GetString("Drop_UpdateBookHideStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;UpdateBookReadStatus&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[UpdateBookReadStatus]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_UpdateBookReadStatus {
+            get {
+                return ResourceManager.GetString("Drop_UpdateBookReadStatus", resourceCulture);
             }
         }
         

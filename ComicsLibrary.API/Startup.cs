@@ -46,12 +46,14 @@ namespace ComicsLibrary.API
                 .AddMvcOptions(opt => opt.EnableEndpointRouting = false)
                 .AddAuthorization();
 
-            services.AddTransient<IBookService, BookService>();
             services.AddTransient<ILibraryService, LibraryService>();
             services.AddTransient<ISearchService, SearchService>();
             services.AddTransient<ISeriesService, SeriesService>();
 
+            services.AddTransient<IDatabase, Database>();
             services.AddTransient<ILibrary, Library>();
+            services.AddTransient<IBookRepository, BookRepository>();
+
             services.AddTransient<IMapper, Mapper>();
             services.AddTransient<ILogger, Logger>();
             
