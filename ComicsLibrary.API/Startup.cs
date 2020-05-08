@@ -53,6 +53,7 @@ namespace ComicsLibrary.API
             services.AddTransient<IDatabase, Database>();
             services.AddTransient<ILibrary, Library>();
             services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<ISeriesRepository, SeriesRepository>();
 
             services.AddTransient<IMapper, Mapper>();
             services.AddTransient<ILogger, Logger>();

@@ -7,5 +7,6 @@ namespace ComicsLibrary.Common.Interfaces
     {
         LibrarySeries Map(Series source);
         Comic Map(Book source);
+        Comic Map(SeriesBook source);
     }
 }

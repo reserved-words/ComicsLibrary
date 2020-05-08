@@ -12,5 +12,14 @@ namespace ComicsLibrary.Common
                 ? $"Vol. {book.Number}"
                 : "";
         }
+
+        public static string GetBookTitle(this SeriesBook book)
+        {
+            return book.BookTypeID == 1
+                ? $"#{book.Number}"
+                : book.BookTypeID == 2
+                ? $"Vol. {book.Number}"
+                : "";
+        }
     }
 }

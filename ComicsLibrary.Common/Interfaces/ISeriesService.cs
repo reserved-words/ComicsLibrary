@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ComicsLibrary.Common.Api;
-using ComicsLibrary.Common.Models;
 
 namespace ComicsLibrary.Common.Interfaces
 {

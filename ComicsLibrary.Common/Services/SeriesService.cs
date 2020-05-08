@@ -9,111 +9,74 @@ namespace ComicsLibrary.Common.Services
 {
     public class SeriesService : ISeriesService
     {
-        private readonly Func<IUnitOfWork> _unitOfWorkFactory;
         private readonly IMapper _mapper;
+        private readonly ISeriesRepository _repository;
 
-        public SeriesService(Func<IUnitOfWork> unitOfWorkFactory, IMapper mapper)
+        public SeriesService(ISeriesRepository repository, IMapper mapper)
         {
             _mapper = mapper;
-            _unitOfWorkFactory = unitOfWorkFactory;
+            _repository = repository;
         }
 
 
         public void Archive(int id)
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var series = uow.Repository<Series>().GetById(id);
-                series.Abandoned = true;
-                uow.Save();
-            }
+            _repository.Archive(id);
         }
 
         public void Reinstate(int id)
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var series = uow.Repository<Series>().GetById(id);
-                series.Abandoned = false;
-                uow.Save();
-            }
+            _repository.Reinstate(id);
         }
 
 
         public void Remove(int id)
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var comicsToDelete = uow.Repository<Book>().Where(c => c.SeriesId == id).Select(c => c.Id).ToList();
-
-                foreach (var comic in comicsToDelete)
-                {
-                    uow.Repository<Book>().Delete(comic);
-                }
-
-                uow.Repository<Models.Series>().Delete(id);
-                uow.Save();
-            }
+            _repository.Remove(id);
         }
 
         public SeriesBookLists GetById(int seriesId, int numberOfComics)
         {
-            using (var uow = _unitOfWorkFactory())
+            // TODO: Limit number of comics fetched
+            // TODO: If number of comics = 0 just get series details
+
+            var seriesWithBooks = _repository.GetSeriesWithBooks(seriesId);
+
+            var series = new SeriesBookLists
             {
-                var dbSeries = uow.Repository<Series>()
-                    .Including(s => s.Books)
-                    .Single(c => c.Id == seriesId);
+                Id = seriesWithBooks.Summary.Id,
+                Title = seriesWithBooks.Summary.Title
+            };
 
-                var series = new SeriesBookLists
-                {
-                    Id = dbSeries.Id,
-                    Title = dbSeries.Title
-                };
-
-                if (numberOfComics == 0)
-                    return series;
-
-                var dbBookTypes = uow.Repository<BookType>()
-                    .Including(bt => bt.HomeBookTypes)
-                    .Select(bt => new
-                    {
-                        ID = bt.ID,
-                        Name = bt.Name,
-                        Home = bt.HomeBookTypes.Any(t => t.SeriesId == seriesId && t.Enabled)
-                    })
-                    .ToDictionary(t => t.ID, t => new { Name = t.Name, Home = t.Home });
-
-                series.BookLists = dbSeries.Books
-                    .GroupBy(b => b.BookTypeID)
-                    .Select(g => new BookList
-                    {
-                        TypeId = g.Key.Value,
-                        TypeName = dbBookTypes[g.Key.Value].Name,
-                        TotalBooks = g.Count(),
-                        Home = dbBookTypes[g.Key.Value].Home,
-                        Books = g.OrderByDescending(c => c.Number)
-                            .Take(numberOfComics)
-                            .Select(b => _mapper.Map(b))
-                            .ToArray()
-                    })
-                    .ToArray();
-
+            if (numberOfComics == 0)
                 return series;
-            }
+
+            var bookTypes = seriesWithBooks.BookTypes
+                .ToDictionary(t => t.Id, t => new { Name = t.Name, Enabled = t.Enabled });
+
+            series.BookLists = seriesWithBooks.Books
+                .GroupBy(b => b.BookTypeID)
+                .Select(g => new BookList
+                {
+                    TypeId = g.Key,
+                    TypeName = bookTypes[g.Key].Name,
+                    TotalBooks = g.Count(),
+                    Home = bookTypes[g.Key].Enabled,
+                    Books = g.OrderByDescending(c => c.Number)
+                        .Take(numberOfComics)
+                        .Select(b => _mapper.Map(b))
+                        .ToArray()
+                })
+                .ToArray();
+
+            return series;
         }
 
         public List<Comic> GetBooks(int seriesId, int typeId, int limit, int offset)
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<Book>()
-                    .Where(s => s.SeriesId == seriesId && s.BookTypeID == typeId)
-                    .OrderByDescending(c => c.Number)
-                    .Skip(offset)
-                    .Take(limit)
-                    .Select(b => _mapper.Map(b))
-                    .ToList();
-            }
+            return _repository.GetBooks(seriesId, typeId, limit, offset)
+                .Select(b => _mapper.Map(b))
+                .ToList();
         }
     }
 }

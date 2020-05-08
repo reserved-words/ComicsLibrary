@@ -1,8 +1,8 @@
 ﻿using ComicsLibrary.Common;
+using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Common.Models;
 using System.Linq;
-using ApiComic = ComicsLibrary.Common.Api.Comic;
 using Series = ComicsLibrary.Common.Models.Series;
 
 namespace ComicsLibrary.Services.Mapper
@@ -22,9 +22,9 @@ namespace ComicsLibrary.Services.Mapper
             };
         }
 
-        public ApiComic Map(Book source)
+        public Comic Map(Book source)
         {
-            return new ApiComic
+            return new Comic
             {
                 Id = source.Id,
                 Title = source.Title,
@@ -47,6 +47,22 @@ namespace ComicsLibrary.Services.Mapper
                 IssueNumber = source.Number,
                 DateRead = source.DateRead,
                 Creators = source.Creators,
+                Hidden = source.Hidden
+            };
+        }
+
+        public Comic Map(SeriesBook source)
+        {
+            return new Comic
+            {
+                Id = source.Id,
+                Title = source.Title,
+                IssueTitle = source.GetBookTitle(),
+                TypeID = source.BookTypeID,
+                IsRead = source.IsRead,
+                ImageUrl = source.ImageUrl,
+                ReadUrl = source.ReadUrl,
+                IssueNumber = source.Number,
                 Hidden = source.Hidden
             };
         }
