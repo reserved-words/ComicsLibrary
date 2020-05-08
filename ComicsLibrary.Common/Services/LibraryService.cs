@@ -4,74 +4,31 @@ using System.Linq;
 using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Common.Models;
-using Microsoft.Data.SqlClient;
-
-using Series = ComicsLibrary.Common.Models.Series;
 
 namespace ComicsLibrary.Common.Services
 {
     public class LibraryService : ILibraryService
     {
-        private readonly Func<IUnitOfWork> _unitOfWorkFactory;
-        private readonly ILogger _logger;
+        private readonly ILibrary _library;
 
-        public LibraryService(Func<IUnitOfWork> unitOfWorkFactory, ILogger logger)
+        public LibraryService(ILibrary library)
         {
-            _logger = logger;
-            _unitOfWorkFactory = unitOfWorkFactory;
+            _library = library;
         }
 
         public NextComicInSeries GetNextUnread(int seriesId)
         {
-            var parameterName = "SeriesID";
-            var parameter = new SqlParameter(parameterName, seriesId);
-
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<NextComicInSeries>()
-                    .GetFromSql($"ComicsLibrary.GetHomeBooks @{parameterName}", parameter)
-                    .ToList()
-                    .SingleOrDefault();
-            }
+            return _library.GetNextUnread(seriesId);
         }
 
         public List<NextComicInSeries> GetAllNextIssues()
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<NextComicInSeries>()
-                    .GetFromSql($"ComicsLibrary.GetHomeBooks")
-                    .ToList();
-            }
+            return _library.GetAllNextIssues();
         }
 
         public void UpdateHomeBookType(HomeBookType homeBookType)
         {
-            try
-            {
-                using (var uow = _unitOfWorkFactory())
-                {
-                    var item = uow.Repository<HomeBookType>()
-                        .SingleOrDefault(bt => bt.BookTypeId == homeBookType.BookTypeId
-                            && bt.SeriesId == homeBookType.SeriesId);
-
-                    if (item == null)
-                    {
-                        uow.Repository<HomeBookType>().Insert(homeBookType);
-                    }
-                    else
-                    {
-                        item.Enabled = homeBookType.Enabled;
-                    }
-
-                    uow.Save();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-            }
-
+            _library.UpdateHomeBookType(homeBookType);
         }
 
         public int GetProgress(int seriesId)
@@ -81,44 +38,25 @@ namespace ComicsLibrary.Common.Services
 
         public List<LibraryShelf> GetShelves()
         {
-            using (var uow = _unitOfWorkFactory())
-            {
-                var shelves = uow.Repository<LibrarySeries>()
-                     .GetFromSql($"ComicsLibrary.GetSeries")
-                     .ToList()
-                     .GroupBy(s => s.Status)
-                     .ToDictionary(s => s.Key, s => s.ToList());
+            var shelves = _library.GetSeries()
+                .GroupBy(s => s.Status)
+                .ToDictionary(s => s.Key, s => s.ToList());
 
-                var list = new List<LibraryShelf>();
-
-                foreach (var status in Enum.GetValues(typeof(SeriesStatus)).OfType<SeriesStatus>())
+            return Enum.GetValues(typeof(SeriesStatus)).OfType<SeriesStatus>()
+                .Select(status => new LibraryShelf
                 {
-                    list.Add(new LibraryShelf
-                    {
-                        StatusId = (int)status,
-                        Status = status.ToString(),
-                        Series = shelves.TryGetValue(status, out List<LibrarySeries> series)
-                            ? series
-                            : new List<LibrarySeries>()
-                    });
-                }
-
-                return list;
-            }
+                    StatusId = (int)status,
+                    Status = status.ToString(),
+                    Series = shelves.TryGetValue(status, out List<LibrarySeries> series)
+                        ? series
+                        : new List<LibrarySeries>()
+                })
+                .ToList();
         }
 
         public LibrarySeries GetSeries(int id)
         {
-            var parameterName = "SeriesID";
-            var parameter = new SqlParameter(parameterName, id);
-
-            using (var uow = _unitOfWorkFactory())
-            {
-                return uow.Repository<LibrarySeries>()
-                    .GetFromSql($"ComicsLibrary.GetSeries @{parameterName}", parameter)
-                    .ToList()
-                    .Single();
-            }
+            return _library.GetSeries(id);
         }
     }
 }

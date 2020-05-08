@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ComicsLibrary.Services.Mapper;
 using ComicsLibrary.Common;
+using ComicsLibrary.SqlData;
 
 namespace ComicsLibrary.API
 {
@@ -50,6 +51,7 @@ namespace ComicsLibrary.API
             services.AddTransient<ISearchService, SearchService>();
             services.AddTransient<ISeriesService, SeriesService>();
 
+            services.AddTransient<ILibrary, Library>();
             services.AddTransient<IMapper, Mapper>();
             services.AddTransient<ILogger, Logger>();
             

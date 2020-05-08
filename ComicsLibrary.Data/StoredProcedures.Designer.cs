@@ -293,6 +293,41 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[UpdateHomeBookType]
+        ///    @SeriesId INT,
+        ///    @BookTypeId INT,
+        ///    @Enabled BIT
+        ///AS
+        ///BEGIN
+        ///
+        ///    IF NOT EXISTS (
+        ///		SELECT [Id] 
+        ///		FROM [ComicsLibrary].[HomeBookTypes]
+        ///		WHERE [SeriesId] = @SeriesId 
+        ///			AND [BookTypeId] = @BookTypeId
+        ///	)
+        ///	BEGIN
+        ///		INSERT INTO [ComicsLibrary].[HomeBookTypes] (
+        ///			[SeriesId],
+        ///			[BookTypeId],
+        ///			[Enabled]
+        ///		)
+        ///		VALUES (
+        ///			@SeriesId, 
+        ///			@BookTypeId, 
+        ///			@Enabled)
+        ///	END
+        ///
+        ///	UPDATE [ComicsLibrary].[HomeBookTypes]
+        ///	SET [Enabled] = [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_UpdateHomeBookType {
+            get {
+                return ResourceManager.GetString("Create_UpdateHomeBookType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IF EXISTS (
         ///	SELECT object_id 
         ///	FROM SYS.OBJECTS O
@@ -346,6 +381,25 @@ namespace ComicsLibrary.Data {
         internal static string Drop_GetSeries {
             get {
                 return ResourceManager.GetString("Drop_GetSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;UpdateHomeBookType&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[UpdateHomeBookType]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_UpdateHomeBookType {
+            get {
+                return ResourceManager.GetString("Drop_UpdateHomeBookType", resourceCulture);
             }
         }
     }

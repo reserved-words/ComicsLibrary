@@ -28,7 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LibrarySources", "LibrarySo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.MarvelUnlimited", "ComicsLibrary.MarvelUnlimited\ComicsLibrary.MarvelUnlimited.csproj", "{0F079618-D716-4432-9C19-20A2B6C19C65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.AltSource", "ComicsLibrary.AltSource\ComicsLibrary.AltSource.csproj", "{CF77C359-B2C7-4736-9E16-B121915BD2EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.AltSource", "ComicsLibrary.AltSource\ComicsLibrary.AltSource.csproj", "{CF77C359-B2C7-4736-9E16-B121915BD2EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.SqlData", "ComicsLibrary.SqlData\ComicsLibrary.SqlData.csproj", "{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -148,6 +150,18 @@ Global
 		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.VM|Any CPU.Build.0 = Debug|Any CPU
 		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF77C359-B2C7-4736-9E16-B121915BD2EA}.Web.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.ComicsUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.ComicsUpdater.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.RssUpdater.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.RssUpdater.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.VM|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.VM|Any CPU.Build.0 = Debug|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.Web.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}.Web.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
