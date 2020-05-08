@@ -1,4 +1,5 @@
-﻿using ComicsLibrary.Common.Api;
+﻿using ComicsLibrary.Common;
+using ComicsLibrary.Common.Api;
 using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Common.Models;
 using Microsoft.Extensions.Configuration;
@@ -35,8 +36,8 @@ namespace ComicsLibrary.AltSource
                     SourceId = 2,
                     SourceItemId = item.ID,
                     Title = item.Title,
-                    Url = item.Url,
-                    ImageUrl = item.ImageUrl
+                    Url = item.Url.Secure(),
+                    ImageUrl = item.ImageUrl.Secure()
                 });
             }
 

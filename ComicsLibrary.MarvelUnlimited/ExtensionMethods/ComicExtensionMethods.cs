@@ -9,13 +9,22 @@ namespace ComicsLibrary.MarvelUnlimited
         public static string GetCreators(this Comic comic)
         {
             var roles = new[] { "writer", "artist" };
+            
+            var creatorNames = comic.Creators.Items
+                .Where(i => roles.Contains(i.Role.ToLower()))
+                .Select(c => c.Name);
 
-            return string.Join(", ", comic.Creators.Items.Where(i => roles.Contains(i.Role.ToLower())).Select(i => i.Name));
+            return string.Join(", ", creatorNames);
         }
 
         public static DateTimeOffset? GetOnSaleDate(this Comic comic)
         {
             return comic.Dates.Where(d => d.Type.ToLower() == "onsaledate").Select(d => d.Date).Min();
+        }
+
+        public static string GetImageUrl(this Comic comic)
+        {
+            return comic.Thumbnail.MapToString();
         }
 
         public static string GetReaderUrl(this Comic comic)

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using MarvelSharp.Model;
 using MarvelSharp.Criteria;
 using System.Linq;
+using ComicsLibrary.Common;
 
 namespace ComicsLibrary.MarvelUnlimited
 {
@@ -50,8 +51,8 @@ namespace ComicsLibrary.MarvelUnlimited
                     SourceId = 1,
                     SourceItemId = result.Id.Value,
                     Title = result.Title,
-                    Url = result.Urls.FirstOrDefault()?.Value,
-                    ImageUrl = result.Thumbnail.MapToString()
+                    Url = result.Urls.FirstOrDefault()?.Value.Secure(),
+                    ImageUrl = result.Thumbnail.MapToString().Secure()
                 });
             }
             return new PagedResult<SearchResult>(list, limit, page, results.Data.Total ?? list.Count());

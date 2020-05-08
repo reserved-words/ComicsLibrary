@@ -24,15 +24,15 @@ namespace ComicsLibrary.AltSource
                 Title = series.Title,
                 StartYear = series.StartYear,
                 EndYear = series.EndYear,
-                Url = series.Url,
+                Url = series.Url.Secure(),
                 Books = series.Books.Select(b => new BookUpdate
                 {
                     BookTypeName = b.BookTypeName,
                     SourceItemID = b.SourceItemID,
                     Title = b.Title,
                     Number = b.Number,
-                    ImageUrl = b.ImageUrl,
-                    ReadUrl = b.ReadUrl
+                    ImageUrl = b.ImageUrl.Secure(),
+                    ReadUrl = b.ReadUrl.Secure()
                 })
                 .ToList()
             };

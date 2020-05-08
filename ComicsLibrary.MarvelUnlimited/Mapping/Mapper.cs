@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using ComicsLibrary.Common;
+﻿using ComicsLibrary.Common;
 using ComicsLibrary.Common.Models;
 using MarvelSharp.Model;
 
 namespace ComicsLibrary.MarvelUnlimited
 {
+
     public class Mapper : IMapper
     {
         public SeriesUpdate Map(MarvelSharp.Model.Series source)
@@ -14,8 +14,8 @@ namespace ComicsLibrary.MarvelUnlimited
                 Title = source.Title,
                 StartYear = source.StartYear,
                 EndYear = source.EndYear,
-                Url = source.Urls.FirstOrDefault()?.Value,
-                ImageUrl = source.Thumbnail.MapToString()
+                Url = source.GetUrl().Secure(),
+                ImageUrl = source.GetImageUrl().Secure()
             };
         }
 
@@ -23,8 +23,8 @@ namespace ComicsLibrary.MarvelUnlimited
         {
             return new BookUpdate
             {
-                ImageUrl = source.Thumbnail.MapToString(),
-                ReadUrl = source.GetReaderUrl(),
+                ImageUrl = source.GetImageUrl().Secure(),
+                ReadUrl = source.GetReaderUrl().Secure(),
                 SourceItemID = source.Id,
                 Creators = source.GetCreators(),
                 OnSaleDate = source.GetOnSaleDate(),
@@ -38,7 +38,7 @@ namespace ComicsLibrary.MarvelUnlimited
         {
             return new Book
             {
-                ImageUrl = source.Thumbnail.MapToString(),
+                ImageUrl = source.GetImageUrl(),
                 ReadUrl = source.GetReaderUrl(),
                 SourceItemID = source.Id,
                 Creators = source.GetCreators(),
