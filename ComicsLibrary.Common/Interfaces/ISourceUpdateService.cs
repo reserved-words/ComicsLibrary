@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ComicsLibrary.Common.Interfaces
+namespace ComicsLibrary.Common
 {
     public interface ISourceUpdateService
     {

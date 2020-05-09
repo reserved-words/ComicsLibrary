@@ -1,7 +1,7 @@
 ﻿using ComicsLibrary.Common.Data;
 using System.Threading.Tasks;
 
-namespace ComicsLibrary.Common.Interfaces
+namespace ComicsLibrary.Common
 {
     public interface ISourceSearcher
     {

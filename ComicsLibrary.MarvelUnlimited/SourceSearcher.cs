@@ -1,4 +1,4 @@
-﻿using ComicsLibrary.Common.Interfaces;
+﻿using ComicsLibrary.Common;
 using ComicsLibrary.Common.Data;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using MarvelSharp.Model;
 using MarvelSharp.Criteria;
 using System.Linq;
-using ComicsLibrary.Common;
 
 namespace ComicsLibrary.MarvelUnlimited
 {

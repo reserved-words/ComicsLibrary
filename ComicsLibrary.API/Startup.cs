@@ -1,13 +1,9 @@
 using System;
-using ComicsLibrary.Common.Delegates;
-using ComicsLibrary.Common.Interfaces;
 using ComicsLibrary.Data;
-using ComicsLibrary.Common.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ComicsLibrary.Services.Mapper;
 using ComicsLibrary.Common;
 using ComicsLibrary.SqlData;
 

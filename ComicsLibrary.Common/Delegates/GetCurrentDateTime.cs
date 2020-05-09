@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComicsLibrary.Common.Delegates
+namespace ComicsLibrary.Common
 {
     public delegate DateTime GetCurrentDateTime();
 }

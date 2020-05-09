@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ComicsLibrary.Common.Data;
-using ComicsLibrary.Common.Interfaces;
 
-namespace ComicsLibrary.Common.Services
+namespace ComicsLibrary.Common
 {
     public class LibraryService : ILibraryService
     {

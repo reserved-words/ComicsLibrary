@@ -1,10 +1,8 @@
-﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Data;
+﻿using ComicsLibrary.Common.Data;
 using System.Linq;
 using Series = ComicsLibrary.Common.Data.Series;
 
-namespace ComicsLibrary.Services.Mapper
+namespace ComicsLibrary.Common
 {
     public class Mapper : IMapper
     {

@@ -1,5 +1,4 @@
 ﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;

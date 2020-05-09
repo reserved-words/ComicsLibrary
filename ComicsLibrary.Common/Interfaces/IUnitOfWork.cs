@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComicsLibrary.Common.Interfaces
+namespace ComicsLibrary.Common
 {
     public interface IUnitOfWork : IDisposable
     {

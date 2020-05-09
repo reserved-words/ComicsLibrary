@@ -1,4 +1,4 @@
-﻿using ComicsLibrary.Common.Interfaces;
+﻿using ComicsLibrary.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;

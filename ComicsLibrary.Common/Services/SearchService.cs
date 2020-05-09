@@ -1,10 +1,9 @@
-﻿using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Data;
+﻿using ComicsLibrary.Common.Data;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ComicsLibrary.Common.Services
+namespace ComicsLibrary.Common
 {
     public class SearchService : ISearchService
     {

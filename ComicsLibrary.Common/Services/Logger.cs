@@ -1,9 +1,8 @@
-﻿using ComicsLibrary.Common.Interfaces;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System;
 using ErrorLogger = ErrorLog.Logger.Logger;
 
-namespace ComicsLibrary.Common.Services
+namespace ComicsLibrary.Common
 {
     public class Logger : ILogger
     {

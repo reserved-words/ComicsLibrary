@@ -1,11 +1,11 @@
-﻿using ComicsLibrary.Common.Interfaces;
-using ComicsLibrary.Common.Services;
+﻿using ComicsLibrary.Common;
 using ComicsLibrary.Data;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 using System.Reflection;
-using Logger = ComicsLibrary.Common.Services.Logger;
+
+using Logger = ComicsLibrary.Common.Logger;
 
 namespace ComicsLibrary.Updater
 {

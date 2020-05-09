@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using ComicsLibrary.Common.Data;
 
-namespace ComicsLibrary.Common.Interfaces
+namespace ComicsLibrary.Common
 {
     public interface ISeriesService
     {

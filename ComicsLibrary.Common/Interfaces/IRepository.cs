@@ -1,9 +1,8 @@
 ﻿using System;
-using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ComicsLibrary.Common.Interfaces
+namespace ComicsLibrary.Common
 {
     public interface IRepository<TEntity> : IRepository, IQueryable<TEntity> where TEntity : class
     {

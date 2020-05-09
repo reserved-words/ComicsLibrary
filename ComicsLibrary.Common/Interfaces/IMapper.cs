@@ -1,6 +1,6 @@
 ﻿using ComicsLibrary.Common.Data;
 
-namespace ComicsLibrary.Common.Interfaces
+namespace ComicsLibrary.Common
 {
     public interface IMapper
     {

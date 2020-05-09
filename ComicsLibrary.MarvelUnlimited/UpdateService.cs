@@ -1,5 +1,4 @@
 ﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Interfaces;
 using MarvelSharp;
 using MarvelSharp.Criteria;
 using MarvelSharp.Model;

@@ -1,10 +1,7 @@
-﻿using ComicsLibrary.Common.Data;
-using ComicsLibrary.Common.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ComicsLibrary.Common.Services
+namespace ComicsLibrary.Common
 {
     public class SeriesService : ISeriesService
     {
