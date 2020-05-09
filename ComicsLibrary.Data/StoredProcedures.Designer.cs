@@ -352,6 +352,29 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetSeriesIds]
+        ///    @SourceId INT
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		[SourceItemID] [SourceItemId],
+        ///		[Id] [LibraryId]
+        ///	FROM
+        ///		[ComicsLibrary].[Series]
+        ///	WHERE
+        ///		[SourceId] = @SourceId
+        ///
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Create_GetSeriesIds {
+            get {
+                return ResourceManager.GetString("Create_GetSeriesIds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetSeriesWithBooks]
         ///    @SeriesId INT
         ///AS
@@ -442,6 +465,75 @@ namespace ComicsLibrary.Data {
         internal static string Create_GetSeriesWithBooks_v3 {
             get {
                 return ResourceManager.GetString("Create_GetSeriesWithBooks_v3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[InsertSeries]
+        ///    @SourceId INT,
+        ///    @SourceItemID INT,
+        ///    @Title NVARCHAR(255),
+        ///    @Url NVARCHAR(255),
+        ///    @ImageUrl NVARCHAR(255),
+        ///    @Id INT OUTPUT
+        ///AS
+        ///BEGIN
+        ///
+        ///	INSERT INTO [ComicsLibrary].[Series] (
+        ///        [SourceId],
+        ///        [SourceItemID],
+        ///        [Title],
+        ///        [Url],
+        ///        [ImageUrl]
+        ///    )
+        ///    VALUES (
+        ///        @SourceId,
+        ///        @SourceItemID,
+        ///        @Title,
+        ///        @Url,
+        ///        @ImageUrl
+        ///    )
+        ///
+        ///    SET @Id = SCOPE_IDENTITY()
+        ///
+        ///END        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_InsertSeries {
+            get {
+                return ResourceManager.GetString("Create_InsertSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[InsertSeries]
+        ///    @SourceId INT,
+        ///    @SourceItemID INT,
+        ///    @Title NVARCHAR(255),
+        ///    @Url NVARCHAR(255),
+        ///    @ImageUrl NVARCHAR(255),
+        ///    @Id INT OUTPUT
+        ///AS
+        ///BEGIN
+        ///
+        ///	INSERT INTO [ComicsLibrary].[Series] (
+        ///        [SourceId],
+        ///        [SourceItemID],
+        ///        [Title],
+        ///        [Url],
+        ///        [ImageUrl],
+        ///        [IsFinished],
+        ///        [LastUpdated],
+        ///        [Abandoned]
+        ///    )
+        ///    VALUES (
+        ///        @SourceId,
+        ///        @SourceItemID,
+        ///        @Title,
+        ///        @Url [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_InsertSeries_v2 {
+            get {
+                return ResourceManager.GetString("Create_InsertSeries_v2", resourceCulture);
             }
         }
         
@@ -640,6 +732,25 @@ namespace ComicsLibrary.Data {
         ///	SELECT object_id 
         ///	FROM SYS.OBJECTS O
         ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;GetSeriesIds&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[GetSeriesIds]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_GetSeriesIds {
+            get {
+                return ResourceManager.GetString("Drop_GetSeriesIds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
         ///	WHERE O.[Name] = &apos;GetSeriesWithBooks&apos;
         ///		AND S.[Name] = &apos;ComicsLibrary&apos;
         ///)
@@ -651,6 +762,25 @@ namespace ComicsLibrary.Data {
         internal static string Drop_GetSeriesWithBooks {
             get {
                 return ResourceManager.GetString("Drop_GetSeriesWithBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;InsertSeries&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[InsertSeries]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_InsertSeries {
+            get {
+                return ResourceManager.GetString("Drop_InsertSeries", resourceCulture);
             }
         }
         

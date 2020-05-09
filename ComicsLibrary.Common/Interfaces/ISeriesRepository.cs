@@ -10,5 +10,7 @@ namespace ComicsLibrary.Common
         SeriesWithBooks GetSeriesWithBooks(int seriesId);
         void Reinstate(int id);
         void Remove(int id);
+        int Insert(Series series);
+        List<SeriesIds> GetAllIds(int sourceId);
     }
 }

@@ -148,6 +148,9 @@
   <data name="Create_GetSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_getseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Create_GetSeriesIds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\create_getseriesids.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Create_GetSeriesWithBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_getserieswithbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -159,6 +162,12 @@
   </data>
   <data name="Create_GetSeries_v2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_getseries_v2.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Create_InsertSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\create_insertseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Create_InsertSeries_v2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\create_insertseries_v2.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Create_UpdateArchivedStatus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_updatearchivedstatus.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -187,8 +196,14 @@
   <data name="Drop_GetSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\drop_getseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Drop_GetSeriesIds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\drop_getseriesids.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Drop_GetSeriesWithBooks" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\drop_getserieswithbooks.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Drop_InsertSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\drop_insertseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Drop_UpdateArchivedStatus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\drop_updatearchivedstatus.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

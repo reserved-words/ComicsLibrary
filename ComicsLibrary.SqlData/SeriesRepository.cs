@@ -40,5 +40,23 @@ namespace ComicsLibrary.SqlData
         {
             return _db.Query<Book>("GetBooks", new { SeriesId = seriesId, TypeId = typeId, Limit = limit, Offset = offset });
         }
+
+        public int Insert(Series series)
+        {
+            _db.Execute("InsertSeries", new {
+                SourceId = series.SourceId,
+                SourceItemID = series.SourceItemID,
+                Title = series.Title,
+                Url = series.Url,
+                ImageUrl = series.ImageUrl
+            }, out int id);
+
+            return id;
+        }
+
+        public List<SeriesIds> GetAllIds(int sourceId)
+        {
+            return _db.Query<SeriesIds>("GetSeriesIds", new { SourceId = sourceId });
+        }
     }
 }
