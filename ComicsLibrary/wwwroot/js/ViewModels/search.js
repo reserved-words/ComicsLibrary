@@ -29,18 +29,22 @@
 };
 
 search.load = function () {
-    this.clearSearch();
-    var self = this;
+    index.loading(true);
+
+    search.clearSearch();
+
     API.get(URL.getSearchOptions(), function (data) {
         $(data).each(function (index, element) {
-            self.sourceOptions.push({
+            search.sourceOptions.push({
                 id: element.id,
                 name: element.name,
                 sortOptions: element.sortOptions
             });
         });
-        self.source(self.sourceOptions[0]);
-        self.sourceChanged();
+        search.source(self.sourceOptions[0]);
+        search.sourceChanged();
+
+        index.loading(false);
     });
 }
 

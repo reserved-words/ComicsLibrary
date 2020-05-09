@@ -24,12 +24,12 @@ series.hideBook = function (id, isHidden) {
 }
 
 series.load = function (id) {
-    if (!id)
+    if (!id || series.id() == id)
         return;
 
-    index.loading(true);
-
     var self = this;
+
+    index.loading(true);
 
     self.id(id);
     self.title("");

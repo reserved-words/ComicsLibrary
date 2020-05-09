@@ -1,24 +1,5 @@
 ﻿home = {
     comics: ko.observableArray(),
-    load: function () {
-        API.get(URL.getNext(), function (data) {
-            home.comics.removeAll();
-            $(data).each(function (index, element) {
-                home.comics.push({
-                    id: element.id,
-                    seriesTitle: element.seriesTitle,
-                    issueTitle: element.issueTitle,
-                    imageUrl: element.imageUrl,
-                    readUrl: element.readUrl,
-                    seriesId: element.seriesId,
-                    unreadBooks: element.unreadBooks,
-                    creators: element.creators,
-                    progress: element.progress
-                });
-            });
-            index.loading(false);
-        });
-    },
     onBookStatusUpdated: function (seriesId) {
         this.updateSeries(seriesId);
     },
@@ -81,3 +62,25 @@
         home.comics.push(item);
     }
 };
+
+home.load = function () {
+    index.loading(true);
+
+    API.get(URL.getNext(), function (data) {
+        home.comics.removeAll();
+        $(data).each(function (index, element) {
+            home.comics.push({
+                id: element.id,
+                seriesTitle: element.seriesTitle,
+                issueTitle: element.issueTitle,
+                imageUrl: element.imageUrl,
+                readUrl: element.readUrl,
+                seriesId: element.seriesId,
+                unreadBooks: element.unreadBooks,
+                creators: element.creators,
+                progress: element.progress
+            });
+        });
+        index.loading(false);
+    });
+}

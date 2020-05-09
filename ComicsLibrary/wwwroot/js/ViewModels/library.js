@@ -1,7 +1,6 @@
 ﻿
 library = {
     shelves: ko.observableArray(),
-    loaded: false,
     select: function (data, event) {
         library.setSelected(data.id);
     },
@@ -18,9 +17,6 @@ library = {
         index.loadSeries(data.id);
     },
     onBookStatusUpdated: function (seriesId) {
-        if (!library.loaded)
-            return;
-
         var result = library.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
@@ -33,9 +29,6 @@ library = {
         }
     },
     onSeriesArchived: function (seriesId) {
-        if (!this.loaded)
-            return;
-
         var result = this.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
@@ -46,9 +39,6 @@ library = {
         }
     },
     onSeriesReinstated: function (seriesId) {
-        if (!this.loaded)
-            return;
-
         var result = this.find(seriesId);
         if (!result.series) {
             library.onSeriesAdded(seriesId);
@@ -59,9 +49,6 @@ library = {
         }
     },
     onSeriesAdded: function (seriesId) {
-        if (!this.loaded)
-            return;
-
         API.get(URL.getLibrarySeries(seriesId, 0), function (element) {
             var series = {
                 id: element.id,
@@ -76,9 +63,6 @@ library = {
         });
     },
     onSeriesDeleted: function (seriesId) {
-        if (!this.loaded)
-            return;
-
         var result = this.find(seriesId);
         if (!result.series)
             return;
@@ -128,9 +112,6 @@ library = {
         };
     },
     insertItem: function (shelfIndex, item) {
-        if (!this.loaded)
-            return;
-
         var shelf = library.shelves()[shelfIndex];
 
         for (var i in shelf.items()) {
@@ -155,6 +136,8 @@ library.setSelected = function(selectedId){
 }
 
 library.load = function () {
+    index.loading(true);
+
     API.get(URL.getLibraryShelves(), function (data) {
 
         $(data).each(function (index, element) {
@@ -180,8 +163,7 @@ library.load = function () {
             });
         });
 
-        library.loaded = true;
-
         library.setSelected(0);
+        index.loading(false);
     });
 }

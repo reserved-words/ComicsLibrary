@@ -1,21 +1,22 @@
 ﻿index = {
-    loading: ko.observable(false),
+    loading: ko.observable(true),
     pages: [
-        { name: "Home", isActive: ko.observable(true), viewModel: home, menu: true },
-        { name: "Library", isActive: ko.observable(false), viewModel: library, menu: true },
-        { name: "Search", isActive: ko.observable(false), viewModel: search, menu: true },
-        { name: "Series", isActive: ko.observable(false), viewModel: series, menu: false }
+        { name: "Home", isActive: ko.observable(true), viewModel: home, loaded: false, menu: true },
+        { name: "Library", isActive: ko.observable(false), viewModel: library, loaded: false, menu: true },
+        { name: "Search", isActive: ko.observable(false), viewModel: search, loaded: false, menu: true },
+        { name: "Series", isActive: ko.observable(false), viewModel: series, loaded: false, menu: false }
     ],
     menuClick: function (data, event) {
+        loadContent(data);
         setPageActive(data);
     },
     loadSeries: function (seriesId) {
-        index.pages[3].viewModel.load(seriesId);
+        loadContent(index.pages[3], seriesId);
         setPageActive(index.pages[3]);
     }
 };
 
-var setPageActive = function(activePage) {
+var setPageActive = function (activePage) {
     $.each(index.pages, function (i, page) {
         page.isActive(false);
     });
@@ -24,15 +25,20 @@ var setPageActive = function(activePage) {
     }
 }
 
+var loadContent = function (page, id) {
+    if (page.loaded && !id)
+        return;
+
+    page.viewModel.load(id);
+    page.loaded = true;
+}
+
 var onAuthorized = function () {
     ko.applyBindings(index);
-    index.loading(true);
-
     $(index.pages).each(function (i, page) {
         $("#" + page.name).load(app.baseUrl + page.name + ".html", function () {
             ko.cleanNode($("#" + page.name)[0]);
             ko.applyBindings(page.viewModel, $("#" + page.name)[0]);
-            page.viewModel.load();
 
             if (i === 0) {
                 index.menuClick(page, null);
