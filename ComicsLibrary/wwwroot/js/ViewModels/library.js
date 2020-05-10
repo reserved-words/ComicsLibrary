@@ -117,6 +117,9 @@ library = {
     insertItem: function (shelfIndex, item) {
         var shelf = library.shelves[shelfIndex];
 
+        if (!shelf.loaded)
+            return;
+
         for (var i in shelf.items()) {
             if (shelf.items()[i].title > item.title) {
                 shelf.items.splice(i, 0, item);
