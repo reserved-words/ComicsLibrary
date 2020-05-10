@@ -41,6 +41,10 @@
     getLibraryShelves: () =>
         app.apiUrl("library", "shelves"),
 
+    getLibraryShelf: (id) =>
+        app.apiUrl("library", "shelf")
+            .concat("?", "status", "=", id),
+
     getLibrarySeries: (id) =>
         app.apiUrl("library", "series")
             .concat("?", "id", "=", id),

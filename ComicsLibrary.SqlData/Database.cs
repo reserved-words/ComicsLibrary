@@ -90,7 +90,9 @@ namespace ComicsLibrary.SqlData
         public T QuerySingle<T>(string storedProcedure, object parameters = null)
         {
             using var connection = GetConnection();
-            return connection.QuerySingle<T>(Format(storedProcedure), parameters, commandType: CommandType.StoredProcedure);
+            return connection
+                .Query<T>(Format(storedProcedure), parameters, commandType: CommandType.StoredProcedure)
+                .SingleOrDefault();
         }
 
         private SqlConnection GetConnection()

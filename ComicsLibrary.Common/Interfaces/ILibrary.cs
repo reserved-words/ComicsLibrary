@@ -1,7 +1,5 @@
 ﻿using ComicsLibrary.Common.Data;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ComicsLibrary.Common
 {
@@ -9,6 +7,7 @@ namespace ComicsLibrary.Common
     {
         List<NextComicInSeries> GetAllNextIssues();
         NextComicInSeries GetNextUnread(int seriesId);
+        List<LibrarySeries> GetSeries(SeriesStatus status);
         List<LibrarySeries> GetSeries();
         LibrarySeries GetSeries(int seriesId);
         void UpdateHomeBookType(HomeBookType homeBookType);

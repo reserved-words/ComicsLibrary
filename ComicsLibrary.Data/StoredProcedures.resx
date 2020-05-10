@@ -148,6 +148,9 @@
   <data name="Create_GetSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_getseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Create_GetSeriesByStatus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\create_getseriesbystatus.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Create_GetSeriesIds" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_getseriesids.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -195,6 +198,9 @@
   </data>
   <data name="Drop_GetSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\drop_getseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Drop_GetSeriesByStatus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>storedprocedures\drop_getseriesbystatus.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Drop_GetSeriesIds" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\drop_getseriesids.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

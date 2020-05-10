@@ -1,6 +1,11 @@
 ﻿
 library = {
-    shelves: ko.observableArray(),
+    shelves: [
+        { id: 0, title: "Reading", items: ko.observableArray(), selected: ko.observable(true), loaded: false },
+        { id: 1, title: "New", items: ko.observableArray(), selected: ko.observable(false), loaded: false },
+        { id: 2, title: "Finished", items: ko.observableArray(), selected: ko.observable(false), loaded: false },
+        { id: 3, title: "Archived", items: ko.observableArray(), selected: ko.observable(false), loaded: false }
+    ],
     select: function (data, event) {
         library.setSelected(data.id);
     },
@@ -55,9 +60,7 @@ library = {
                 title: element.title,
                 imageUrl: element.imageUrl,
                 abandoned: element.abandoned,
-                progress: ko.observable(element.progress),
-                unreadIssues: element.unreadIssues,
-                totalComics: element.totalComics
+                progress: ko.observable(element.progress)
             }
             library.move(series, null);
         });
@@ -93,7 +96,7 @@ library = {
         var foundShelf = null;
         var foundSeries = null;
 
-        $(library.shelves()).each(function (i, shelf) {
+        $(library.shelves).each(function (i, shelf) {
             if (foundShelf) {
                 return false;
             }
@@ -112,7 +115,7 @@ library = {
         };
     },
     insertItem: function (shelfIndex, item) {
-        var shelf = library.shelves()[shelfIndex];
+        var shelf = library.shelves[shelfIndex];
 
         for (var i in shelf.items()) {
             if (shelf.items()[i].title > item.title) {
@@ -126,44 +129,41 @@ library = {
 };
 
 library.setSelected = function(selectedId){
-    var selectedShelf = library.shelves().filter(s => s.id === selectedId)[0];
+    var selectedShelf = library.shelves.filter(s => s.id === selectedId)[0];
 
-    $.each(library.shelves(), function (index, value) {
+    if (!selectedShelf.loaded) {
+        library.populateShelf(selectedShelf);
+    }
+
+    $.each(library.shelves, function (index, value) {
         value.selected(false);
     });
 
     selectedShelf.selected(true);
+
 }
 
-library.load = function () {
+library.populateShelf = function (shelf) {
     index.loading(true);
 
-    API.get(URL.getLibraryShelves(), function (data) {
+    shelf.loaded = true;
 
-        $(data).each(function (index, element) {
-            var shelf = {
-                id: element.statusId,
-                title: element.status,
-                items: ko.observableArray(),
-                selected: ko.observable(false)
-            };
+    API.get(URL.getLibraryShelf(shelf.id), function (data) {
 
-            library.shelves.push(shelf);
-
-            $(element.series).each(function (j, series) {
-                shelf.items.push({
-                    id: series.id,
-                    title: series.title,
-                    imageUrl: series.imageUrl,
-                    abandoned: series.archived,
-                    progress: ko.observable(series.progress),
-                    unreadIssues: series.unreadBooks,
-                    totalComics: series.totalBooks
-                });
+        $(data).each(function (index, series) {
+            shelf.items.push({
+                id: series.id,
+                title: series.title,
+                imageUrl: series.imageUrl,
+                abandoned: series.archived,
+                progress: ko.observable(series.progress)
             });
         });
 
-        library.setSelected(0);
         index.loading(false);
     });
+}
+
+library.load = function () {
+    library.setSelected(0);
 }

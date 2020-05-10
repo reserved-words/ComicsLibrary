@@ -13,8 +13,7 @@ namespace ComicsLibrary.Common
                 Id = source.Id,
                 Title = source.Title,
                 ImageUrl = source.GetImageUrl(),
-                TotalBooks = source.Books.Count,
-                UnreadBooks = source.GetValidBooks().Count(b => !b.DateRead.HasValue), 
+                Progress = source.GetProgress(),
                 Archived = source.Abandoned,
             };
         }

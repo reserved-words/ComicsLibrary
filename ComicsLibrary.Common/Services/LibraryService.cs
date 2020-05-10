@@ -34,6 +34,11 @@ namespace ComicsLibrary.Common
             return GetSeries(seriesId).Progress;
         }
 
+        public List<LibrarySeries> GetShelf(SeriesStatus status)
+        {
+            return _library.GetSeries(status);
+        }
+
         public List<LibraryShelf> GetShelves()
         {
             var shelves = _library.GetSeries()

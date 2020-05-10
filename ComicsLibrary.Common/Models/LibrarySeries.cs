@@ -5,8 +5,6 @@
         public int Id { get; set; }
         public string Title { get; set; }
         public string ImageUrl { get; set; }
-        public int UnreadBooks { get; set; }
-        public int TotalBooks { get; set; }
         public bool Archived { get; set; }
         public int Progress { get; set; }
 

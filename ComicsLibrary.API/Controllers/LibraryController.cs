@@ -53,6 +53,13 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetShelves();
         }
 
+        [Route("Shelf")]
+        [HttpGet]
+        public List<LibrarySeries> GetShelf(SeriesStatus status)
+        {
+            return _service.GetShelf(status);
+        }
+
         [Route("Series")]
         [HttpGet]
         public LibrarySeries GetSeries(int id)

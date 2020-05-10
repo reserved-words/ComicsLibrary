@@ -352,6 +352,33 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetSeriesByStatus]
+        ///    @Status INT
+        ///AS
+        ///BEGIN
+        ///
+        ///	-- Reading = 0,
+        ///	-- New = 1,
+        ///	-- Finished = 2,
+        ///	-- Archived = 3
+        ///
+        ///	SELECT 
+        ///		S.Id,
+        ///        S.Title,
+        ///        B.ImageUrl,
+        ///		CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGER) [Progress],
+        ///		S.[Abandoned] [Archived]
+        ///	FROM [ComicsLibrary].[Series] S
+        ///		INNER JOIN [ComicsLibrary].[SeriesProgress] P ON P.[Id] = S.[Id]
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] U ON U.[SeriesId] = S.[I [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetSeriesByStatus {
+            get {
+                return ResourceManager.GetString("Create_GetSeriesByStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetSeriesIds]
         ///    @SourceId INT
         ///AS
@@ -724,6 +751,25 @@ namespace ComicsLibrary.Data {
         internal static string Drop_GetSeries {
             get {
                 return ResourceManager.GetString("Drop_GetSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;GetSeriesByStatus&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[GetSeriesByStatus]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_GetSeriesByStatus {
+            get {
+                return ResourceManager.GetString("Drop_GetSeriesByStatus", resourceCulture);
             }
         }
         
