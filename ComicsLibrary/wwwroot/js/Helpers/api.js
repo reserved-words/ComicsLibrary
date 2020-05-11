@@ -25,7 +25,7 @@ function authorizeAndSend(xhr, data, onLoaded) {
             xhr.send(data);
         }
         else {
-            mgr.signinRedirect()
+            mgr.signinRedirect();
         }
     });
 }
@@ -34,12 +34,19 @@ function onReadyStateChange(xhr, onLoaded) {
     if (xhr.readyState !== 4)
         return;
 
+    if (xhr.status === 401) {
+        alert("Your session has expired");
+        mgr.signinRedirect();
+        // Ideally want the callback to then retry the request
+        return;
+    }
+
     if (xhr.status === 200 || xhr.status === 204) {
         if (onLoaded) {
             onLoaded(xhr.responseText ? JSON.parse(xhr.responseText) : '');
         }
     } else {
-        alert("Error");
+        alert("Error: " + xhr.statusText);
         console.error(xhr.statusText);
     }
 }
