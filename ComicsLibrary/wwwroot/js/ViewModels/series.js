@@ -120,11 +120,12 @@ series.addBookList = function (element) {
     });
 
     bookList.getMoreBooks = function (data, event) {
-        var self = this;
+        index.loading(true);
         API.get(URL.getBooks(series.id(), bookList.typeId, bookList.books().length), function (result) {
             $(result).each(function (index, book) {
                 series.addBook(bookList, book);
             });
+            index.loading(false);
         });
     }
 
