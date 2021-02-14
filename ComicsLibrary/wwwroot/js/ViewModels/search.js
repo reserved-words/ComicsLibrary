@@ -41,7 +41,7 @@ search.load = function () {
                 sortOptions: element.sortOptions
             });
         });
-        search.source(self.sourceOptions[0]);
+        search.source(search.sourceOptions[0]);
         search.sourceChanged();
 
         index.loading(false);
