@@ -46,8 +46,7 @@ namespace ComicsLibrary.Common
 
         public async Task<PagedResult<Book>> GetBooks(int sourceID, int sourceItemID, int limit, int offset)
         {
-            var results = await _searcherFactory(sourceID).GetBooks(sourceItemID, limit, offset);
-            throw new NotImplementedException();
+            return await _searcherFactory(sourceID).GetBooks(sourceItemID, limit, offset);
         }
 
         public async Task<PagedResult<SearchResult>> SearchByTitle(int sourceId, string title, int sortOrder, int limit, int page)
