@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace ComicsLibrary.Common
 {
     public interface ILogger
     {
-        void Log(Exception ex);
+        Task Log(Exception ex, int level);
     }
 }

@@ -60,7 +60,7 @@ namespace ComicsLibrary.MarvelUnlimited
                 NoVariants = true
             });
 
-            CheckComicsResponse(response, id, offset);
+            await CheckComicsResponse(response, id, offset);
 
             comics.AddRange(response.Data.Result);
 
@@ -79,7 +79,7 @@ namespace ComicsLibrary.MarvelUnlimited
             }
         }
 
-        private void CheckComicsResponse(Response<List<MarvelSharp.Model.Comic>> response, int id, int offset)
+        private async Task CheckComicsResponse(Response<List<MarvelSharp.Model.Comic>> response, int id, int offset)
         {
             if (!response.Success)
             {
@@ -94,7 +94,7 @@ namespace ComicsLibrary.MarvelUnlimited
                 var exception = new Exception($"WARNING: Series has more than {MaxResults} comics");
                 exception.Data.Add("TotalComics", response.Data.Total);
                 exception.Data.Add("SourceItemID", id);
-                _logger.Log(exception);
+                await _logger.Log(exception, 2);
             }
         }
 

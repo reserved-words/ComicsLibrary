@@ -4,14 +4,14 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 using System.Reflection;
-
+using System.Threading.Tasks;
 using Logger = ComicsLibrary.Common.Logger;
 
 namespace ComicsLibrary.Updater
 {
     public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var config = GetConfig();
 
@@ -20,11 +20,11 @@ namespace ComicsLibrary.Updater
             try
             {
                 var service = GetService(config);
-                service.UpdateSeries(config.GetValue<int>("NumberOfSeriesToUpdate"));
+                await service.UpdateSeries(config.GetValue<int>("NumberOfSeriesToUpdate"));
             }
             catch (Exception ex)
             {
-                logger.Log(ex);
+                await logger.Log(ex, 3);
             }
         }
 

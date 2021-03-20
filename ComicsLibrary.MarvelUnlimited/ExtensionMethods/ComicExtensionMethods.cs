@@ -1,6 +1,7 @@
 ﻿using MarvelSharp.Model;
 using System;
 using System.Linq;
+using System.Web;
 
 namespace ComicsLibrary.MarvelUnlimited
 {
@@ -35,17 +36,9 @@ namespace ComicsLibrary.MarvelUnlimited
                 return string.Empty;
             }
 
-            var readerId = 0;
-
-            foreach (var keyValuePair in readerLink.Replace(Url.ReaderLinkUrlBase, "")
-                .Split('&'))
-            {
-                var splitPair = keyValuePair.Split('=');
-                if (splitPair[0] == "iid")
-                {
-                    readerId = int.Parse(splitPair[1]);
-                }
-            }
+            var uri = new Uri(readerLink);
+            var parameters = HttpUtility.ParseQueryString(uri.Query);
+            var readerId = int.Parse(parameters.Get("iid"));
 
             if (readerId == 0)
             {

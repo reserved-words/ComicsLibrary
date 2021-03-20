@@ -3,6 +3,7 @@ using ComicsLibrary.Common;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ComicsLibrary.Updater
 {
@@ -25,7 +26,7 @@ namespace ComicsLibrary.Updater
             _updater = updater;
         }
 
-        public void UpdateSeries(int maxNumber)
+        public async Task UpdateSeries(int maxNumber)
         {
             var seriesToUpdate = GetSeriesToUpdate(maxNumber);
 
@@ -33,16 +34,16 @@ namespace ComicsLibrary.Updater
             {
                 try
                 {
-                    TryLog(new Exception($"Updating series {series.Id}"));
+                    await TryLog(new Exception($"Updating series {series.Id}"), 1);
 
-                    UpdateSeries(series);
+                    await UpdateSeries(series);
                 }
                 catch (Exception ex)
                 {
                     ex.Data.Add("Series ID", series.Id);
                     ex.Data.Add("Source ID", series.SourceId);
                     ex.Data.Add("Source Item ID", series.SourceItemID);
-                    TryLog(ex);
+                    await TryLog(ex, 3);
                 }
             }
         }
@@ -67,7 +68,7 @@ namespace ComicsLibrary.Updater
             }
         }
 
-        private void UpdateSeries(Series series)
+        private async Task UpdateSeries(Series series)
         {
             try
             {
@@ -84,15 +85,15 @@ namespace ComicsLibrary.Updater
                 ex.Data.Add("Series ID", series.Id);
                 ex.Data.Add("Source ID", series.SourceItemID);
                 ex.Data.Add("Source Item ID", series.SourceItemID);
-                TryLog(ex);
+                await TryLog(ex, 3);
             }
         }
 
-        private void TryLog(Exception ex)
+        private async Task TryLog(Exception ex, int level)
         {
             try
             {
-                _logger.Log(ex);
+                await _logger.Log(ex, level);
             }
             catch { }
         }
