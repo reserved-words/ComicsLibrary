@@ -38,9 +38,9 @@ namespace ComicsLibrary.Blazor.Shared.Components
         {
             if (string.IsNullOrWhiteSpace(SearchString))
                 return true;
-            if (element.Publisher.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            if (element.Publisher != null && element.Publisher.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if (element.Title.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            if (element.Title != null && element.Title.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
                 return true;
             return false;
         }

@@ -3,21 +3,25 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Color=Color.Default>@Series.PublisherIcon</MudAvatar>
+            <MudAvatar Style="@Background">@Series.PublisherIcon</MudAvatar>
         </CardHeaderAvatar>
         <CardHeaderContent>
             <MudText Typo="Typo.body1">@Series.Title</MudText>
             <MudText Typo="Typo.body2">@Series.Years</MudText>
         </CardHeaderContent>
-        @*<CardHeaderActions>
-            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
-        </CardHeaderActions>*@
+        <CardHeaderActions>
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Label="Offset Left" Variant="Variant.Filled" Color="Color.Default" Direction="Direction.Left" OffsetX="true">
+                @foreach (var action in Series.Actions)
+                {
+                    <MudMenuItem OnClick="@action.Callback">@action.Caption</MudMenuItem>
+                }
+            </MudMenu>
+        </CardHeaderActions>
     </MudCardHeader>
-    <MudProgressLinear Color=Color.Default Value="@Series.Progress" />
-    <MudCardMedia Image="@Series.ImageUrl" Height="250" />
-    <MudCardActions>
-        <MudIconButton Icon="@Icons.Material.Filled.LibraryBooks" Color="Color.Default" />
-        <MudIconButton Icon="@Icons.Material.Filled.Archive" Color="Color.Default" />
-        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Default" />
-    </MudCardActions>
+    <MudProgressLinear Color="Color.Primary" Value="@Series.Progress" />
+    <MudCardMedia Image="@Series.ImageUrl" Height="350" />
 </MudCard>
+ 
+@code {
+    public string Background => $"background-color: {Series.Color};";
+} 

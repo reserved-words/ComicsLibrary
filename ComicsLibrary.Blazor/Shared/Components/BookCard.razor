@@ -3,23 +3,43 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Style="@($"background-color: {Book.Color};")">@Book.Publisher</MudAvatar>
+            <MudAvatar Style="@Background">@Book.Publisher</MudAvatar>
         </CardHeaderAvatar>
         <CardHeaderContent>
             <MudText Typo="Typo.body1">@Book.SeriesTitle</MudText>
             <MudText Typo="Typo.body2">@Book.Years</MudText>
         </CardHeaderContent>
+        <CardHeaderActions>
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Label="Offset Left" Variant="Variant.Filled" Color="Color.Default" Direction="Direction.Left" OffsetX="true">
+                <MudMenuItem>View Series</MudMenuItem>
+                <MudMenuItem>Archive</MudMenuItem>
+            </MudMenu>
+        </CardHeaderActions>
     </MudCardHeader>
-    <MudProgressLinear Color="Color.Inherit" Value="@Book.Progress" />
-    <MudLink Href="@Book.ReadUrl" Target="_blank">
-        <MudCardMedia Image="@Book.ImageUrl" Height="250" />
-    </MudLink>
-    <MudCardContent>
-        <MudText Typo="Typo.body2">@Book.IssueTitle</MudText>
-    </MudCardContent>
-    <MudCardActions>
-        <MudIconButton Icon="@Icons.Material.Filled.SkipNext" Color="Color.Default" />
-        <MudIconButton Icon="@Icons.Material.Filled.LibraryBooks" Color="Color.Default" />
-        <MudIconButton Icon="@Icons.Material.Filled.Archive" Color="Color.Default" />
-    </MudCardActions>
+    <MudProgressLinear Color="Color.Primary" Value="@Book.Progress" />
+
+    <MudPaper>
+        @if (!string.IsNullOrEmpty(Book.ReadUrl))
+        {
+            <MudLink Href="@Book.ReadUrl" Target="_blank">
+                <MudCardMedia Image="@Book.ImageUrl" Height="350" />
+            </MudLink>
+        }
+        else
+        {
+            <MudCardMedia Image="@Book.ImageUrl" Height="350" Style="opacity: 0.5;">
+            </MudCardMedia>
+        }
+    </MudPaper>
+
+    @*<MudCardActions>
+        <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.ArrowBackIos" Size="Size.Small" Class="mr-auto" Style="@Foreground" />
+        <MudText>@Book.IssueTitle</MudText>
+        <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.ArrowForwardIos" Size="Size.Small" Class="ml-auto" Style="@Foreground" />
+    </MudCardActions>*@
 </MudCard>
+
+@code {
+    public string Background => $"background-color: {Book.Color};";
+    public string Foreground => $"color: {Book.Color};";
+}

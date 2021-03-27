@@ -1,15 +1,18 @@
 ﻿@inherits Components.SeriesTableBase
 
 <MudTable Class="@(Visible ? "" : "d-none")" Items="@Series" Dense="true" Hover="true" Filter="@Filter" @bind-SelectedItem="SelectedItem">
-    <HeaderContent>
-        <MudTh>Id</MudTh>
-        <MudTh>Name</MudTh>
-        <MudTh>Publisher</MudTh>
-    </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Id">@context.Id</MudTd>
         <MudTd DataLabel="Name">@context.Title</MudTd>
+        <MudTd DataLabel="Name">@context.Years</MudTd>
         <MudTd DataLabel="Publisher">@context.Publisher</MudTd>
+        <MudTd DataLabel="Actions" Style="text-align: right;">
+            @foreach (var action in context.Actions)
+            {
+                <MudTooltip Text="@action.Caption">
+                    <MudIconButton Icon="@action.Icon" Color="Color.Default" OnClick="@action.Callback" />
+                </MudTooltip>
+            }
+        </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager />

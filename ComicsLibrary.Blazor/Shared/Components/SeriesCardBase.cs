@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Common.Data;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +14,9 @@ namespace ComicsLibrary.Blazor.Shared.Components
     {
         [Parameter]
         public Model.Series Series { get; set; }
+
+        public List<SeriesAction> Actions { get; set; }
     }
+
+    
 }

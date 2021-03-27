@@ -1,14 +1,13 @@
 ﻿@inherits Components.LibraryBase
 
-<MudContainer Class="mt-8 px-8" MaxWidth="MaxWidth.False">
-    <MudText Typo="Typo.h3">Library</MudText>
-    <MudText Typo="Typo.h4">@ShelfName</MudText>
+<MudContainer Class="px-8" MaxWidth="MaxWidth.False">
 
-    <MudToolBar>
-        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    <MudToolBar Class="pa-0 mb-8">
+        <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
         <MudToolBarSpacer />
-        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.GridView" Size="Size.Small" IconSize="Size.Small" Label="Grid View" Class="ma-2" Disabled="@GridView" OnClick="@EnableGridView" />
-        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.TableView" Size="Size.Small" IconSize="Size.Small" Label="Table View" Class="ma-2" Disabled="@TableView" OnClick="@EnableTableView" />
+        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.GridView" Size="Size.Small" IconSize="Size.Small" Class="ml-2" Disabled="@GridView" OnClick="@EnableGridView" />
+        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.TableView" Size="Size.Small" IconSize="Size.Small" Class="ml-2" Disabled="@TableView" OnClick="@EnableTableView" />
     </MudToolBar>
 
     <SeriesGrid Series="@Items" Visible="@GridView" />
@@ -16,3 +15,13 @@
     <SeriesTable Series="@Items" Visible="@TableView" Filter="new Func<Series,bool>(FilterFunc)" />
 
 </MudContainer>
+
+
+@code {
+    private List<BreadcrumbItem> _items => new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "#"),
+        new BreadcrumbItem("Library", href: "/library"),
+        new BreadcrumbItem(ShelfName, href: null, disabled: true)
+    };
+}
