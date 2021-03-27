@@ -3,7 +3,7 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Color="@Series.Color">@Series.PublisherIcon</MudAvatar>
+            <MudAvatar Color=Color.Default>@Series.PublisherIcon</MudAvatar>
         </CardHeaderAvatar>
         <CardHeaderContent>
             <MudText Typo="Typo.body1">@Series.Title</MudText>
@@ -13,7 +13,7 @@
             <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
         </CardHeaderActions>*@
     </MudCardHeader>
-    <MudProgressLinear Color="Series.Color" Value="@Series.Progress" />
+    <MudProgressLinear Color=Color.Default Value="@Series.Progress" />
     <MudCardMedia Image="@Series.ImageUrl" Height="250" />
     <MudCardActions>
         <MudIconButton Icon="@Icons.Material.Filled.LibraryBooks" Color="Color.Default" />

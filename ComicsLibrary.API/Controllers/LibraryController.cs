@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ComicsLibrary.Common;
+using ComicsLibrary.Common.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,9 +56,9 @@ namespace ComicsLibrary.API.Controllers
 
         [Route("Shelf")]
         [HttpGet]
-        public List<LibrarySeries> GetShelf(SeriesStatus status)
+        public List<LibrarySeries> GetShelf(Shelf shelf)
         {
-            return _service.GetShelf(status);
+            return _service.GetShelf(shelf);
         }
 
         [Route("Series")]

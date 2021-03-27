@@ -524,6 +524,30 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetShelf]
+        ///    @Shelf INT
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		S.Id,
+        ///        S.Title,
+        ///        B.ImageUrl,
+        ///		CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGER) [Progress],
+        ///		S.[Abandoned] [Archived]
+        ///	FROM [ComicsLibrary].[Series] S
+        ///		INNER JOIN [ComicsLibrary].[SeriesProgress] P ON P.[Id] = S.[Id]
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] U ON U.[SeriesId] = S.[Id]
+        ///		INNER JOIN [ComicsLibrary].[Books] B ON B.[Id] = U.[BookId]
+        ///		INNER JOIN [ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetShelf {
+            get {
+                return ResourceManager.GetString("Create_GetShelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[InsertSeries]
         ///    @SourceId INT,
         ///    @SourceItemID INT,
@@ -836,6 +860,25 @@ namespace ComicsLibrary.Data {
         internal static string Drop_GetSeriesWithBooks {
             get {
                 return ResourceManager.GetString("Drop_GetSeriesWithBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;GetShelf&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[GetShelf]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_GetShelf {
+            get {
+                return ResourceManager.GetString("Drop_GetShelf", resourceCulture);
             }
         }
         

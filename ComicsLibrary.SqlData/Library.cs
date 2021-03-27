@@ -26,9 +26,9 @@ namespace ComicsLibrary.SqlData
             });
         }
 
-        public List<LibrarySeries> GetSeries(SeriesStatus status)
+        public List<LibrarySeries> GetSeries(Shelf shelf)
         {
-            return _db.Query<LibrarySeries>("GetSeriesByStatus", new { Status = (int)status });
+            return _db.Query<LibrarySeries>("GetShelf", new { Shelf = (int)shelf });
         }
 
         public List<LibrarySeries> GetSeries()

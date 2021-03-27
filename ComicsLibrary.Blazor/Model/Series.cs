@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using ComicsLibrary.Common;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,17 +7,26 @@ using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Model
 {
-    public class Series
+    public class Series : LibrarySeries
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public int Number { get; set; }
-        public string Publisher { get; set; }
-        public string PublisherIcon { get; set; }
+        public Series(LibrarySeries series)
+        {
+            Id = series.Id;
+            ImageUrl = series.ImageUrl;
+            Archived = series.Archived;
+            Progress = series.Progress;
+            Publisher = series.Publisher;
+            PublisherIcon = series.PublisherIcon;
+            Color = series.Color;
+            Shelf = series.Shelf;
+
+            (var title, var years) = series.SplitSeriesTitle();
+
+            Title = title;
+            Years = years;
+        }
+
         public string Years { get; set; }
-        public Color Color { get; set; }
-        public string ImageUrl { get; set; }
-        public int Progress { get; set; }
         public bool Visible { get; set; } = true;
     }
 }

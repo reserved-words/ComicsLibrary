@@ -34,18 +34,18 @@ namespace ComicsLibrary.Common
             return GetSeries(seriesId).Progress;
         }
 
-        public List<LibrarySeries> GetShelf(SeriesStatus status)
+        public List<LibrarySeries> GetShelf(Shelf shelf)
         {
-            return _library.GetSeries(status);
+            return _library.GetSeries(shelf);
         }
 
         public List<LibraryShelf> GetShelves()
         {
             var shelves = _library.GetSeries()
-                .GroupBy(s => s.Status)
+                .GroupBy(s => s.Shelf)
                 .ToDictionary(s => s.Key, s => s.ToList());
 
-            return Enum.GetValues(typeof(SeriesStatus)).OfType<SeriesStatus>()
+            return Enum.GetValues(typeof(Shelf)).OfType<Shelf>()
                 .Select(status => new LibraryShelf
                 {
                     StatusId = (int)status,

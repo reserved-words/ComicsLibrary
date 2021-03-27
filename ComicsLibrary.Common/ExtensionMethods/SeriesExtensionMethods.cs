@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ComicsLibrary.Common
 {
@@ -51,6 +52,26 @@ namespace ComicsLibrary.Common
             return series.GetValidBooks()
                 .OrderBy(b => b.Number)
                 .FirstOrDefault()?.ImageUrl ?? series.ImageUrl;
+        }
+
+
+        public static (string Title, string Years) SplitSeriesTitle(this LibrarySeries series)
+        {
+            var pattern = @"^(.+)\s*\(([0-9]+)\s*\-\s*(.*)\)$";
+            var regex = new Regex(pattern);
+            var matches = regex.Matches(series.Title);
+
+            if (!matches.Any())
+                return (series.Title, null);
+
+            var match = matches[0];
+            var title = match.Groups[1].Value;
+            var startYear = match.Groups[2].Value;
+            var endYear = int.TryParse(match.Groups[3].Value, out int result)
+                ? match.Groups[3].Value
+                : "";
+
+            return (title, $"{startYear}-{endYear}");
         }
     }
 }

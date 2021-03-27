@@ -42,8 +42,6 @@ namespace ComicsLibrary.Blazor.Shared.Components
                 return true;
             if (element.Title.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if ($"{element.Number}".Contains(SearchString))
-                return true;
             return false;
         }
 
