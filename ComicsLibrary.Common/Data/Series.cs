@@ -13,6 +13,7 @@ namespace ComicsLibrary.Common.Data
 
         public int Id { get; set; }
         public int? SourceId { get; set; }
+        public int? PublisherId { get; set; }
         [Required]
         [StringLength(255)]
         public string Title { get; set; }
@@ -25,8 +26,10 @@ namespace ComicsLibrary.Common.Data
         public DateTime LastUpdated { get; set; }
         public bool IsFinished { get; set; }
         public bool Abandoned { get; set; }
+        public Shelf? Shelf { get; set; }
 
         public virtual Source Source { get; set; }
+        public virtual Publisher Publisher { get; set; }
 
         public virtual ICollection<HomeBookType> HomeBookTypes { get; set; }
         public virtual ICollection<Book> Books { get; set; }
