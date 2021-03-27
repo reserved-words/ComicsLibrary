@@ -1,37 +1,22 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">ComicsLibrary.Blazor</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-    </ul>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+﻿
+<MudPaper Width="250px" Class="py-3" Square="true">
+    <MudNavMenu>
+        @*<MudText Typo="Typo.h6" Class="px-4">Menu</MudText>
+        <MudDivider Class="my-2" />*@
+        <MudNavLink Href="/" Icon="@Icons.Filled.Home">Home</MudNavLink>
+        <MudNavGroup Title="Library" Icon="@Icons.Filled.LocalLibrary" Expanded="true">
+            <MudNavLink Href="/library">All</MudNavLink>
+            <MudNavLink Href="/library/current">Currently Reading</MudNavLink>
+            <MudNavLink Href="/library/toRead">To Read Next</MudNavLink>
+            <MudNavLink Href="/library/putAside">Put Aside</MudNavLink>
+            <MudNavLink Href="/library/unread">Unread</MudNavLink>
+            <MudNavLink Href="/library/finished">Finished</MudNavLink>
+            <MudNavLink Href="/library/archived">Archived</MudNavLink>
+        </MudNavGroup>
+        <MudNavGroup Title="Search" Icon="@Icons.Filled.Search" Expanded="true">
+            <MudNavLink Href="/search/mu">Marvel Unlimited</MudNavLink>
+            <MudNavLink Href="/search/comixology">Comixology</MudNavLink>
+            <MudNavLink Href="/search/gd">Google Drive</MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+</MudPaper>

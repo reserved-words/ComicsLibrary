@@ -28,25 +28,17 @@ namespace ComicsLibrary.SqlData
 
         public void Execute(string storedProcedure, object parameters, out int id)
         {
-            try
+            var dp = new DynamicParameters();
+            var props = parameters.GetType().GetProperties();
+            foreach (var p in props)
             {
-                var dp = new DynamicParameters();
-                var props = parameters.GetType().GetProperties();
-                foreach (var p in props)
-                {
-                    dp.Add(p.Name, p.GetValue(parameters));
-                }
-                dp.Add("Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-                using var connection = GetConnection();
-                connection.Execute(Format(storedProcedure), dp, commandType: CommandType.StoredProcedure);
-                id = dp.Get<int>("Id");
+                dp.Add(p.Name, p.GetValue(parameters));
             }
-            catch (Exception ex)
-            {
+            dp.Add("Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                throw;
-            }
+            using var connection = GetConnection();
+            connection.Execute(Format(storedProcedure), dp, commandType: CommandType.StoredProcedure);
+            id = dp.Get<int>("Id");
         }
 
         public void Populate<T>(T model, string storedProcedure, object parameters = null)
