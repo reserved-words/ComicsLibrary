@@ -1,0 +1,11 @@
+﻿@inherits Components.SeriesGridBase
+
+<MudGrid Class="@(Visible ? "" : "d-none")">
+
+    @foreach (var item in Series)
+    {
+        <MudItem xs="6" sm="3">
+            <SeriesCard Series="@item" />
+        </MudItem>
+    }
+</MudGrid>

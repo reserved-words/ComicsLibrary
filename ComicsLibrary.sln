@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.AltSource", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.SqlData", "ComicsLibrary.SqlData\ComicsLibrary.SqlData.csproj", "{E7F25AC1-EF1F-42DA-BDE6-1B2A04188468}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComicsLibrary.Blazor", "ComicsLibrary.Blazor\ComicsLibrary.Blazor.csproj", "{8D41D337-1F21-4864-876A-54D2EA93EA09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComicsLibrary.Blazor", "ComicsLibrary.Blazor\ComicsLibrary.Blazor.csproj", "{8D41D337-1F21-4864-876A-54D2EA93EA09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

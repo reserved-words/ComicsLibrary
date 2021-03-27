@@ -1,0 +1,23 @@
+﻿@inherits Components.BookCardBase
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudAvatar Color="@Book.Color">@Book.PublisherIcon</MudAvatar>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body1">@Book.SeriesTitle</MudText>
+            <MudText Typo="Typo.body2">@Book.Years</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudProgressLinear Color="Book.Color" Value="@Book.Progress" />
+    <MudCardMedia Image="@Book.ImageUrl" Height="250" />
+    <MudCardContent>
+        <MudText Typo="Typo.body2">@Book.IssueTitle</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudIconButton Icon="@Icons.Material.Filled.SkipNext" Color="Color.Default" />
+        <MudIconButton Icon="@Icons.Material.Filled.LibraryBooks" Color="Color.Default" />
+        <MudIconButton Icon="@Icons.Material.Filled.Archive" Color="Color.Default" />
+    </MudCardActions>
+</MudCard>

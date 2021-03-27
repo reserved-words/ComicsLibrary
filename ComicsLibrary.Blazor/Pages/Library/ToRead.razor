@@ -1,6 +1,4 @@
 ﻿@page "/library/toRead"
+@inherits Pages.Library.ToReadBase
 
-<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
-    <MudText Typo="Typo.h3">Library</MudText>
-    <MudText Typo="Typo.h4">To Read Next</MudText>
-</MudContainer>
+<Library Items="@Items" ShelfName="To Read Next" />

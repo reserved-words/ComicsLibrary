@@ -1,6 +1,18 @@
 ﻿@page "/"
+@inherits Pages.IndexBase
 
-<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+<MudContainer Class="mt-8 px-8" MaxWidth="MaxWidth.False">
     <MudText Typo="Typo.h3">Home</MudText>
-</MudContainer>
+    <MudText Typo="Typo.h4">Currently Reading</MudText>
 
+    <MudGrid>
+
+        @foreach (var item in Books)
+        {
+            <MudItem xs="6" sm="3">
+                <BookCard Book="@item" />
+            </MudItem>
+        }
+    </MudGrid>
+
+</MudContainer>

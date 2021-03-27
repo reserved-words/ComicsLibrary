@@ -1,0 +1,18 @@
+﻿@inherits Components.LibraryBase
+
+<MudContainer Class="mt-8 px-8" MaxWidth="MaxWidth.False">
+    <MudText Typo="Typo.h3">Library</MudText>
+    <MudText Typo="Typo.h4">@ShelfName</MudText>
+
+    <MudToolBar>
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudToolBarSpacer />
+        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.GridView" Size="Size.Small" IconSize="Size.Small" Label="Grid View" Class="ma-2" Disabled="@gridView" OnClick="@EnableGridView" />
+        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.TableView" Size="Size.Small" IconSize="Size.Small" Label="Table View" Class="ma-2" Disabled="@tableView" OnClick="@EnableTableView" />
+    </MudToolBar>
+
+    <SeriesGrid Series="@Items" Visible="@gridView" />
+
+    <SeriesTable Series="@Items" Visible="@tableView" Filter="new Func<Series,bool>(FilterFunc)" />
+
+</MudContainer>

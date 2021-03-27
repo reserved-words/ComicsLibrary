@@ -1,7 +1,4 @@
 ﻿@page "/library/finished"
+@inherits Pages.Library.FinishedBase
 
-<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
-    <MudText Typo="Typo.h3">Library</MudText>
-    <MudText Typo="Typo.h4">Finished</MudText>
-</MudContainer>
-
+<Library Items="@Items" ShelfName="Finished" />
