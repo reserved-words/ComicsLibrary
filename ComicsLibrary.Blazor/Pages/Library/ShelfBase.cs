@@ -6,6 +6,6 @@ namespace ComicsLibrary.Blazor.Pages.Library
 {
     public class ShelfBase : ComponentBase
     {
-        public List<Series> Items { get; set; }
+        public List<Series> Items { get; set; } = new List<Series>();
     }
 }

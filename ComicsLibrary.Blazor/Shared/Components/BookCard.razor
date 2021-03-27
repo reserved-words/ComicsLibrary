@@ -3,15 +3,17 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Color="@Book.Color">@Book.PublisherIcon</MudAvatar>
+            <MudAvatar Style="@($"background-color: {Book.Color};")">@Book.Publisher</MudAvatar>
         </CardHeaderAvatar>
         <CardHeaderContent>
             <MudText Typo="Typo.body1">@Book.SeriesTitle</MudText>
             <MudText Typo="Typo.body2">@Book.Years</MudText>
         </CardHeaderContent>
     </MudCardHeader>
-    <MudProgressLinear Color="Book.Color" Value="@Book.Progress" />
-    <MudCardMedia Image="@Book.ImageUrl" Height="250" />
+    <MudProgressLinear Color="Color.Inherit" Value="@Book.Progress" />
+    <MudLink Href="@Book.ReadUrl" Target="_blank">
+        <MudCardMedia Image="@Book.ImageUrl" Height="250" />
+    </MudLink>
     <MudCardContent>
         <MudText Typo="Typo.body2">@Book.IssueTitle</MudText>
     </MudCardContent>

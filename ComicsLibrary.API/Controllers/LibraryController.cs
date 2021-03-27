@@ -7,7 +7,7 @@ using HomeBookType = ComicsLibrary.Common.Data.HomeBookType;
 
 namespace ComicsLibrary.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("library")]
     public class LibraryController : ControllerBase
     {

@@ -1,12 +1,17 @@
 ﻿using ComicsLibrary.Blazor.Model;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Pages.Library
 {
     public class IndexBase : ShelfBase
     {
+        [Inject]
+        public HttpClient HttpClient { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             Items = new List<Series>

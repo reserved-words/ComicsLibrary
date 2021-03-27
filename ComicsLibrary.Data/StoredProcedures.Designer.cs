@@ -304,6 +304,34 @@ namespace ComicsLibrary.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetHomeBooks]
+        ///	@SeriesID INT = NULL
+        ///AS
+        ///BEGIN
+        ///
+        ///	SELECT 
+        ///		B.[Id]
+        ///		,S.[Id] SeriesId
+        ///		,s.Title SeriesTitle
+        ///		,CASE
+        ///		WHEN b.BookTypeID = 1 THEN CONCAT(&apos;#&apos;, CAST(b.Number AS VARCHAR))
+        ///		WHEN b.BookTypeID = 2 THEN CONCAT(&apos;Vol. &apos;, CAST(b.Number AS VARCHAR))
+        ///		ELSE &apos;&apos;
+        ///		END IssueTitle
+        ///		,b.ImageUrl
+        ///		,b.ReadUrl
+        ///		,P.UnreadBooks
+        ///		,b.Creators
+        ///		,CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGER) [Progress]
+        ///		,Pub.ShortName [Publ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Create_GetHomeBooks_v6 {
+            get {
+                return ResourceManager.GetString("Create_GetHomeBooks_v6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[GetSeries]
         ///    @SeriesID INT = NULL
         ///AS

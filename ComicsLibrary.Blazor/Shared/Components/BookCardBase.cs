@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ComicsLibrary.Common;
+using Microsoft.AspNetCore.Components;
 
 namespace ComicsLibrary.Blazor.Shared.Components
 {
     public class BookCardBase : ComponentBase
     {
         [Parameter]
-        public Model.Book Book { get; set; }
+        public NextComicInSeries Book { get; set; }
     }
 }

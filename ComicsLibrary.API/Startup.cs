@@ -28,13 +28,13 @@ namespace ComicsLibrary.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = ApiAuthorityUrl;
-                    options.RequireHttpsMetadata = false;
-                    options.Audience = ApiName;
-                });
+            //services.AddAuthentication("Bearer")
+            //    .AddJwtBearer("Bearer", options =>
+            //    {
+            //        options.Authority = ApiAuthorityUrl;
+            //        options.RequireHttpsMetadata = false;
+            //        options.Audience = ApiName;
+            //    });
 
             services.AddCors();
 
@@ -100,7 +100,7 @@ namespace ComicsLibrary.API
                     .AllowAnyHeader()
             );
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseMvc();
         }
     }
