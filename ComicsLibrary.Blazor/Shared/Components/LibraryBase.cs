@@ -7,41 +7,56 @@ namespace ComicsLibrary.Blazor.Shared.Components
 {
     public class LibraryBase : ComponentBase
     {
-        protected string searchString = "";
+        private string _searchString;
+
+        protected string SearchString 
+        {
+            get { return _searchString; }
+            set 
+            { 
+                _searchString = value;
+                OnFilter();
+            } 
+        }
+
         protected Series selectedItem = null;
-        protected HashSet<Series> selectedItems = new HashSet<Series>();
-        protected bool tableView = false;
-        protected bool gridView = true;
+        protected bool TableView = false;
+        protected bool GridView = true;
 
         [Parameter]
-        public IEnumerable<Series> Items { get; set; }
+        public List<Series> Items { get; set; }
         
         [Parameter]
         public string ShelfName { get; set; }
 
+        protected void OnFilter()
+        {
+            Items.ForEach(i => i.Visible = FilterFunc(i));
+        }
+
         protected bool FilterFunc(Series element)
         {
-            if (string.IsNullOrWhiteSpace(searchString))
+            if (string.IsNullOrWhiteSpace(SearchString))
                 return true;
-            if (element.Publisher.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            if (element.Publisher.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if (element.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            if (element.Title.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if ($"{element.Number}".Contains(searchString))
+            if ($"{element.Number}".Contains(SearchString))
                 return true;
             return false;
         }
 
         protected void EnableTableView()
         {
-            tableView = true;
-            gridView = false;
+            TableView = true;
+            GridView = false;
         }
 
         protected void EnableGridView()
         {
-            tableView = false;
-            gridView = true;
+            TableView = false;
+            GridView = true;
         }
     }
 }

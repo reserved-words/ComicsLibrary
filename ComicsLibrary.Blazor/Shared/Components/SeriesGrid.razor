@@ -4,7 +4,7 @@
 
     @foreach (var item in Series)
     {
-        <MudItem xs="6" sm="3">
+        <MudItem xs="6" sm="3" Class="@(item.Visible ? "" : "d-none")">
             <SeriesCard Series="@item" />
         </MudItem>
     }

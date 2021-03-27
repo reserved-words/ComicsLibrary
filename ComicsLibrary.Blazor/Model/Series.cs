@@ -17,5 +17,6 @@ namespace ComicsLibrary.Blazor.Model
         public Color Color { get; set; }
         public string ImageUrl { get; set; }
         public int Progress { get; set; }
+        public bool Visible { get; set; } = true;
     }
 }

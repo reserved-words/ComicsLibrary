@@ -5,14 +5,14 @@
     <MudText Typo="Typo.h4">@ShelfName</MudText>
 
     <MudToolBar>
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         <MudToolBarSpacer />
-        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.GridView" Size="Size.Small" IconSize="Size.Small" Label="Grid View" Class="ma-2" Disabled="@gridView" OnClick="@EnableGridView" />
-        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.TableView" Size="Size.Small" IconSize="Size.Small" Label="Table View" Class="ma-2" Disabled="@tableView" OnClick="@EnableTableView" />
+        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.GridView" Size="Size.Small" IconSize="Size.Small" Label="Grid View" Class="ma-2" Disabled="@GridView" OnClick="@EnableGridView" />
+        <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.TableView" Size="Size.Small" IconSize="Size.Small" Label="Table View" Class="ma-2" Disabled="@TableView" OnClick="@EnableTableView" />
     </MudToolBar>
 
-    <SeriesGrid Series="@Items" Visible="@gridView" />
+    <SeriesGrid Series="@Items" Visible="@GridView" />
 
-    <SeriesTable Series="@Items" Visible="@tableView" Filter="new Func<Series,bool>(FilterFunc)" />
+    <SeriesTable Series="@Items" Visible="@TableView" Filter="new Func<Series,bool>(FilterFunc)" />
 
 </MudContainer>
