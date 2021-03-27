@@ -26,7 +26,7 @@ namespace ComicsLibrary.Common.Data
         public DateTime LastUpdated { get; set; }
         public bool IsFinished { get; set; }
         public bool Abandoned { get; set; }
-        public Shelf? Shelf { get; set; }
+        public Shelf Shelf { get; set; }
 
         public virtual Source Source { get; set; }
         public virtual Publisher Publisher { get; set; }
