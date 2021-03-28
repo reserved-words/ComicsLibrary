@@ -1,6 +1,8 @@
 ﻿using ComicsLibrary.Blazor.Model;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Series = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Shared.Components
@@ -12,5 +14,8 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
         [Parameter]
         public List<SeriesAction> Actions { get; set; }
+
+        [Parameter]
+        public Func<Series, SeriesAction, Task> OnAction { get; set; }
     }
 }

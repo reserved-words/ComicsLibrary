@@ -13,7 +13,7 @@
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" Label="Offset Left" Variant="Variant.Filled" Color="Color.Default" Direction="Direction.Left" OffsetX="true">
                 @foreach (var action in Actions)
                 {
-                    <MudMenuItem OnClick="@action.ClickAction">@action.Caption</MudMenuItem>
+                    <MudMenuItem OnClick="() => OnAction(Series, action)" >@action.Caption</MudMenuItem>
                 }
             </MudMenu>
         </CardHeaderActions>

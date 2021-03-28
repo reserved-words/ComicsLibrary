@@ -1,6 +1,7 @@
 ﻿using ComicsLibrary.Blazor.Model;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Series = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Shared.Components
@@ -15,5 +16,10 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
         [Parameter]
         public bool Visible { get; set; }
+
+        public async Task OnAction(Series series, SeriesAction action)
+        {
+            await action.ClickAction(series);
+        }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using ComicsLibrary.Common.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Series = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Model
 {
@@ -12,7 +9,7 @@ namespace ComicsLibrary.Blazor.Model
     {
         public string Caption { get; set; }
         public string Icon { get; set; }
-        public Action<MouseEventArgs> ClickAction { get; set; }
+        public Func<Series, Task> ClickAction { get; set; }
         public Shelf MoveToShelf { get; set; }
     }
 }

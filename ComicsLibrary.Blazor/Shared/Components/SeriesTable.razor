@@ -9,7 +9,7 @@
             @foreach (var action in Actions)
             {
                 <MudTooltip Text="@action.Caption">
-                    <MudIconButton Icon="@action.Icon" Color="Color.Default" OnClick="@action.ClickAction" />
+                    <MudIconButton Icon="@action.Icon" Color="Color.Default" OnClick="() => OnAction(context, action)" />
                 </MudTooltip>
             }
         </MudTd>

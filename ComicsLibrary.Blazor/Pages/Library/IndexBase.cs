@@ -2,18 +2,19 @@
 using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common.Data;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using Series = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Pages.Library
 {
     public class IndexBase : ComponentBase
     {
+        [Inject] private IDialogService DialogService { get; set; }
+
         [Inject]
         public ISeriesRepository Repository { get; set; }
 
@@ -26,12 +27,12 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
         public List<SeriesAction> Actions { get; set; } = new List<SeriesAction>();
 
-        public List<Model.Series> Items { get; set; } = new List<Model.Series>();
+        public List<Series> Items { get; set; } = new List<Series>();
 
         protected override async Task OnParametersSetAsync()
         {
             Actions = new List<SeriesAction>();
-            Items = new List<Model.Series>();
+            Items = new List<Series>();
 
             Shelf = Enum.Parse<Shelf>(ShelfId);
 
@@ -46,7 +47,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
             var items = await Repository.GetShelf(Shelf, false);
 
-            Items = items.Select(b => new Model.Series(b)).ToList();
+            Items = items.Select(b => new Series(b)).ToList();
         }
 
         private List<SeriesAction> GetActions()
@@ -85,12 +86,17 @@ namespace ComicsLibrary.Blazor.Pages.Library
             return Actions;
         }
 
-        protected void Archive(MouseEventArgs args)
+        private async Task MoveToShelf(Series series, Shelf shelf)
         {
-            //MoveToShelf(Series, Shelf.Archived);
+            await DialogService.ShowMessageBox("Series Action", $"Move series {series.Title} to shelf {shelf}");
         }
 
-        protected void Unarchive(MouseEventArgs args)
+        protected async Task Archive(Series series)
+        {
+            await MoveToShelf(series, Shelf.Archived);
+        }
+
+        protected async Task Unarchive(Series series)
         {
             //MoveToShelf(Series, Series.Progress == 0
             //        ? Shelf.Unread
@@ -99,27 +105,27 @@ namespace ComicsLibrary.Blazor.Pages.Library
             //        : Shelf.PutAside);
         }
 
-        protected void AddToReadNext(MouseEventArgs args)
+        protected async Task AddToReadNext(Series series)
         {
             //MoveToShelf(Series, Shelf.ToReadNext);
         }
 
-        protected void RemoveFromReadNext(MouseEventArgs args)
+        protected async Task RemoveFromReadNext(Series series)
         {
             //MoveToShelf(Series, Shelf.Unread);
         }
 
-        protected void ReadNow(MouseEventArgs args)
+        protected async Task ReadNow(Series series)
         {
             //MoveToShelf(Series, Shelf.Reading);
         }
 
-        protected void PutAside(MouseEventArgs args)
+        protected async Task PutAside(Series series)
         {
             //MoveToShelf(Series, Shelf.PutAside);
         }
 
-        protected void Delete(MouseEventArgs args)
+        protected async Task Delete(Series series)
         {
 
         }
