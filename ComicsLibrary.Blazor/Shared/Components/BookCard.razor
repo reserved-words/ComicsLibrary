@@ -31,12 +31,11 @@
             </MudCardMedia>
         }
     </MudPaper>
-
-    @*<MudCardActions>
-        <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.ArrowBackIos" Size="Size.Small" Class="mr-auto" Style="@Foreground" />
-        <MudText>@Book.IssueTitle</MudText>
-        <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.ArrowForwardIos" Size="Size.Small" Class="ml-auto" Style="@Foreground" />
-    </MudCardActions>*@
+    <MudCardActions>
+        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipPrevious" Style="@Foreground" Class="mr-auto" OnClick="SkipNext" />
+        <MudText Typo="Typo.body2">@Book.IssueTitle</MudText>
+        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipNext" Style="@Foreground" Class="ml-auto" OnClick="SkipPrevious"/>
+    </MudCardActions>
 </MudCard>
 
 @code {

@@ -10,13 +10,13 @@ namespace ComicsLibrary.Blazor.Pages
     public class IndexBase : ComponentBase
     {
         [Inject]
-        public IReadingRepository Repository { get; set; }
+        private IReadingRepository _repository { get; set; }
 
         public List<NextComicInSeries> Books { get; set; } = new List<NextComicInSeries>();
 
         protected override async Task OnInitializedAsync()
         {
-            var books = await Repository.GetNextToRead(false);
+            var books = await _repository.GetNextToRead(false);
 
             foreach (var book in books)
             {
@@ -27,5 +27,16 @@ namespace ComicsLibrary.Blazor.Pages
 
             Books = books.ToList();
         }
+
+        protected async Task<bool> SkipNext(NextComicInSeries book)
+        {
+            // DB - mark book as read (returns next book in response)
+            // Update book to new values
+        }
+
+        protected async Task<bool> SkipPrevious(NextComicInSeries book)
+        {
+            // DB - mark previous book as uread (returns previous book in response)
+            // Update book to new values        }
+        }
     }
-}

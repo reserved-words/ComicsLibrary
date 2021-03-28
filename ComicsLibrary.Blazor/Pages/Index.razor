@@ -10,7 +10,7 @@
         @foreach (var item in Books)
         {
             <MudItem xs="12" sm="4" md="3" lg="2">
-                <BookCard Book="@item" />
+                <BookCard Book="@item" SkipNext="@SkipNext" SkipPrevious="@SkipPrevious" />
             </MudItem>
         }
     </MudGrid>
