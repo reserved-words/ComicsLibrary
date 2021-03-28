@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Series = ComicsLibrary.Blazor.Model.Series;
 
@@ -13,7 +12,8 @@ namespace ComicsLibrary.Blazor.Pages.Library
 {
     public class IndexBase : ComponentBase
     {
-        [Inject] private IDialogService DialogService { get; set; }
+        [Inject] 
+        private ISnackbar Snackbar { get; set; }
 
         [Inject]
         public ISeriesRepository Repository { get; set; }
@@ -45,9 +45,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
             Actions = GetActions();
 
-            var items = await Repository.GetShelf(Shelf, false);
-
-            Items = items.Select(b => new Series(b)).ToList();
+            Items = await Repository.GetShelf(Shelf, false);
         }
 
         private List<SeriesAction> GetActions()
@@ -88,7 +86,13 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
         private async Task MoveToShelf(Series series, Shelf shelf)
         {
-            await DialogService.ShowMessageBox("Series Action", $"Move series {series.Title} to shelf {shelf}");
+            // await DialogService.ShowMessageBox("Series Action", $"Move series {series.Title} to shelf {shelf}");
+            await Repository.UpdateShelf(series, shelf);
+            Snackbar.Add($"{series.Title} moved to shelf {shelf}", Severity.Success, opt =>
+            {
+                opt.SnackbarVariant = Variant.Filled;
+                opt.VisibleStateDuration = 3000;
+            });
         }
 
         protected async Task Archive(Series series)
@@ -98,36 +102,36 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
         protected async Task Unarchive(Series series)
         {
-            //MoveToShelf(Series, Series.Progress == 0
-            //        ? Shelf.Unread
-            //        : Series.Progress == 100
-            //        ? Shelf.Finished
-            //        : Shelf.PutAside);
+            await MoveToShelf(series, series.Progress == 0
+                    ? Shelf.Unread
+                    : series.Progress == 100
+                    ? Shelf.Finished
+                    : Shelf.PutAside);
         }
 
         protected async Task AddToReadNext(Series series)
         {
-            //MoveToShelf(Series, Shelf.ToReadNext);
+            await MoveToShelf(series, Shelf.ToReadNext);
         }
 
         protected async Task RemoveFromReadNext(Series series)
         {
-            //MoveToShelf(Series, Shelf.Unread);
+            await MoveToShelf(series, Shelf.Unread);
         }
 
         protected async Task ReadNow(Series series)
         {
-            //MoveToShelf(Series, Shelf.Reading);
+            await MoveToShelf(series, Shelf.Reading);
         }
 
         protected async Task PutAside(Series series)
         {
-            //MoveToShelf(Series, Shelf.PutAside);
+            await MoveToShelf(series, Shelf.PutAside);
         }
 
         protected async Task Delete(Series series)
         {
-
+            Snackbar.Add($"Deleted series {series.Title}");
         }
     }
 }

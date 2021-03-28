@@ -20,6 +20,8 @@ namespace ComicsLibrary.Blazor.Shared.Components
         public async Task OnAction(Series series, SeriesAction action)
         {
             await action.ClickAction(series);
+            Items.Remove(series);
+            StateHasChanged();
         }
     }
 }
