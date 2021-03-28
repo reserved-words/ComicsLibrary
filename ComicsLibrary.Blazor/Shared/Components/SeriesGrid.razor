@@ -2,10 +2,10 @@
 
 <MudGrid Class="@(Visible ? "" : "d-none")">
 
-    @foreach (var item in Series)
+    @foreach (var item in Items)
     {
         <MudItem xs="12" sm="4" md="3" lg="2" Class="@(item.Visible ? "" : "d-none")">
-            <SeriesCard Series="@item" />
+            <SeriesCard Series="@item" Actions="@Actions" />
         </MudItem>
     }
 </MudGrid>

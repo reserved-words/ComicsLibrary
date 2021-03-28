@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ComicsLibrary.Common.Data;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace ComicsLibrary.Blazor.Model
     {
         public string Caption { get; set; }
         public string Icon { get; set; }
-        public EventCallback<MouseEventArgs> Callback { get; set; }
+        public Action<MouseEventArgs> ClickAction { get; set; }
+        public Shelf MoveToShelf { get; set; }
     }
 }

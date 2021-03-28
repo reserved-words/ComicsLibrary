@@ -7,14 +7,8 @@ using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Shared.Components
 {
-    public class SeriesTableBase : ComponentBase
+    public class SeriesTableBase : SeriesDisplayBase
     {
-        [Parameter]
-        public IEnumerable<Series> Series { get; set; }
-
-        [Parameter]
-        public bool Visible { get; set; }
-
         [Parameter]
         public Func<Series, bool> Filter { get; set; }
 

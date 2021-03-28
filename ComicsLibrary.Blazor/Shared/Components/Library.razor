@@ -10,9 +10,9 @@
         <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.TableView" Size="Size.Small" IconSize="Size.Small" Class="ml-2" Disabled="@TableView" OnClick="@EnableTableView" />
     </MudToolBar>
 
-    <SeriesGrid Series="@Items" Visible="@GridView" />
+    <SeriesGrid Items="@Items" Visible="@GridView" Actions="@Actions" />
 
-    <SeriesTable Series="@Items" Visible="@TableView" Filter="new Func<Series,bool>(FilterFunc)" />
+    <SeriesTable Items="@Items" Visible="@TableView" Actions="@Actions" Filter="new Func<Series,bool>(FilterFunc)" />
 
 </MudContainer>
 

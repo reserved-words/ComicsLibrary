@@ -1,7 +1,9 @@
 ﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Common.Data;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using Series = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Shared.Components
 {
@@ -25,9 +27,15 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
         [Parameter]
         public List<Series> Items { get; set; }
+
+        [Parameter]
+        public Shelf Shelf { get; set; }
         
         [Parameter]
         public string ShelfName { get; set; }
+
+        [Parameter]
+        public List<SeriesAction> Actions { get; set; }
 
         protected void OnFilter()
         {

@@ -1,18 +1,12 @@
-﻿using ComicsLibrary.Blazor.Model;
+﻿using ComicsLibrary.Common.Data;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Series = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Shared.Components
 {
-    public class SeriesGridBase : ComponentBase
+    public class SeriesGridBase : SeriesDisplayBase
     {
-        [Parameter]
-        public IEnumerable<Series> Series { get; set; }
-
-        [Parameter]
-        public bool Visible { get; set; }
     }
 }

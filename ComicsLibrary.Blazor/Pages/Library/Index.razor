@@ -1,4 +1,4 @@
-﻿@page "/library"
+﻿@page "/library/{ShelfId}"
 @inherits Pages.Library.IndexBase
 
-<Library Items="@Items" ShelfName="All Series" />
+<Library Items="@Items" Shelf="@Shelf" ShelfName="@ShelfName" Actions="@Actions" />
