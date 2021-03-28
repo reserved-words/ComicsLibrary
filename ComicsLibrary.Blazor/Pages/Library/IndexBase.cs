@@ -1,5 +1,5 @@
 ﻿using ComicsLibrary.Blazor.Model;
-using ComicsLibrary.Common;
+using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -7,8 +7,7 @@ using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Pages.Library
@@ -16,7 +15,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
     public class IndexBase : ComponentBase
     {
         [Inject]
-        public HttpClient HttpClient { get; set; }
+        public ISeriesRepository Repository { get; set; }
 
         [Parameter]
         public string ShelfId { get; set; }
@@ -31,8 +30,8 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
         protected override async Task OnParametersSetAsync()
         {
-            Actions.Clear();
-            Items.Clear();
+            Actions = new List<SeriesAction>();
+            Items = new List<Model.Series>();
 
             Shelf = Enum.Parse<Shelf>(ShelfId);
 
@@ -43,12 +42,11 @@ namespace ComicsLibrary.Blazor.Pages.Library
                 _ => Shelf.ToString()
             };
 
-            var shelf = (int)Shelf;
-            var url = $"http://localhost:58281/Library/Shelf?shelf={shelf}";
-            var series = await HttpClient.GetFromJsonAsync<LibrarySeries[]>(url);
-            Items = series.Select(b => new Model.Series(b)).ToList();
-
             Actions = GetActions();
+
+            var items = await Repository.GetShelf(Shelf, false);
+
+            Items = items.Select(b => new Model.Series(b)).ToList();
         }
 
         private List<SeriesAction> GetActions()
