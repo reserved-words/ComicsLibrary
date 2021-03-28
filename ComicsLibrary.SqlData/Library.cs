@@ -53,5 +53,14 @@ namespace ComicsLibrary.SqlData
                 Enabled = homeBookType.Enabled 
             });
         }
+
+        public void UpdateSeriesShelf(int id, int shelf)
+        {
+            _db.Execute("UpdateSeriesShelf", new
+            {
+                SeriesId = id,
+                Shelf = shelf
+            });
+        }
     }
 }

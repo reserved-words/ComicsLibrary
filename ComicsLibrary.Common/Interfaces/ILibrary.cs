@@ -11,5 +11,6 @@ namespace ComicsLibrary.Common
         List<LibrarySeries> GetSeries();
         LibrarySeries GetSeries(int seriesId);
         void UpdateHomeBookType(HomeBookType homeBookType);
+        void UpdateSeriesShelf(int id, int shelf);
     }
 }

@@ -534,12 +534,14 @@ namespace ComicsLibrary.Data {
         ///        S.Title,
         ///        B.ImageUrl,
         ///		CAST(100 * CAST(P.ReadBooks AS DECIMAL) / CAST(P.TotalBooks AS DECIMAL) AS INTEGER) [Progress],
-        ///		S.[Abandoned] [Archived]
+        ///		S.[Abandoned] [Archived],
+        ///		PUB.ShortName PublisherIcon,
+        ///		PUB.FullName Publisher,
+        ///		PUB.Colour Color,
+        ///		S.Shelf
         ///	FROM [ComicsLibrary].[Series] S
         ///		INNER JOIN [ComicsLibrary].[SeriesProgress] P ON P.[Id] = S.[Id]
-        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] U ON U.[SeriesId] = S.[Id]
-        ///		INNER JOIN [ComicsLibrary].[Books] B ON B.[Id] = U.[BookId]
-        ///		INNER JOIN [ [rest of string was truncated]&quot;;.
+        ///		INNER JOIN [ComicsLibrary].[SeriesAllBooks] U ON U.[Serie [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Create_GetShelf {
             get {
@@ -708,6 +710,26 @@ namespace ComicsLibrary.Data {
         internal static string Create_UpdateHomeBookType {
             get {
                 return ResourceManager.GetString("Create_UpdateHomeBookType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE PROCEDURE [ComicsLibrary].[UpdateSeriesShelf]
+        ///    @SeriesId INT,
+        ///	@Shelf INT
+        ///AS
+        ///BEGIN
+        ///
+        ///	UPDATE [ComicsLibrary].[Series]
+        ///	SET [Shelf] = @Shelf
+        ///	WHERE [Id] = @SeriesId
+        ///
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Create_UpdateSeriesShelf {
+            get {
+                return ResourceManager.GetString("Create_UpdateSeriesShelf", resourceCulture);
             }
         }
         
@@ -974,6 +996,25 @@ namespace ComicsLibrary.Data {
         internal static string Drop_UpdateHomeBookType {
             get {
                 return ResourceManager.GetString("Drop_UpdateHomeBookType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF EXISTS (
+        ///	SELECT object_id 
+        ///	FROM SYS.OBJECTS O
+        ///		INNER JOIN SYS.SCHEMAS S ON S.schema_id = O.schema_id
+        ///	WHERE O.[Name] = &apos;UpdateSeriesShelf&apos;
+        ///		AND S.[Name] = &apos;ComicsLibrary&apos;
+        ///)
+        ///BEGIN
+        ///	DROP PROCEDURE [ComicsLibrary].[UpdateSeriesShelf]
+        ///END
+        ///GO.
+        /// </summary>
+        internal static string Drop_UpdateSeriesShelf {
+            get {
+                return ResourceManager.GetString("Drop_UpdateSeriesShelf", resourceCulture);
             }
         }
     }

@@ -190,6 +190,9 @@
   <data name="Create_UpdateHomeBookType" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\create_updatehomebooktype.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Create_UpdateSeriesShelf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>StoredProcedures\Create_UpdateSeriesShelf.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Drop_DeleteSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\drop_deleteseries.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -231,5 +234,8 @@
   </data>
   <data name="Drop_UpdateHomeBookType" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>storedprocedures\drop_updatehomebooktype.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Drop_UpdateSeriesShelf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>StoredProcedures\Drop_UpdateSeriesShelf.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

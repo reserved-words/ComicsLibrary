@@ -61,5 +61,10 @@ namespace ComicsLibrary.Common
         {
             return _library.GetSeries(id);
         }
+
+        public void MoveSeries(int id, int shelf)
+        {
+            _library.UpdateSeriesShelf(id, shelf);
+        }
     }
 }

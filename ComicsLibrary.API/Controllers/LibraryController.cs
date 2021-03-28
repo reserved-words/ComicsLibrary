@@ -61,11 +61,24 @@ namespace ComicsLibrary.API.Controllers
             return _service.GetShelf(shelf);
         }
 
+        [Route("Move")]
+        [HttpPost]
+        public void MoveSeries([FromBody] MoveSeriesRequest request)
+        {
+            _service.MoveSeries(request.Id, request.Shelf);
+        }
+
         [Route("Series")]
         [HttpGet]
         public LibrarySeries GetSeries(int id)
         {
             return _service.GetSeries(id);
+        }
+
+        public class MoveSeriesRequest
+        {
+            public int Id { get; set; }
+            public int Shelf { get; set; }
         }
     }
 }

@@ -12,5 +12,6 @@ namespace ComicsLibrary.Common
         List<LibrarySeries> GetShelf(Shelf shelf);
         List<LibraryShelf> GetShelves();
         LibrarySeries GetSeries(int id);
+        void MoveSeries(int id, int shelf);
     }
 }

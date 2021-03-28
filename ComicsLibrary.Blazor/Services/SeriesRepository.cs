@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Series = ComicsLibrary.Blazor.Model.Series;
 
@@ -41,7 +43,10 @@ namespace ComicsLibrary.Blazor.Services
 
         public async Task UpdateShelf(Series series, Shelf newShelf)
         {
-            // Call the relevant API method - should now just mean updating the Shelf column?
+            var url = $"http://localhost:58281/Library/Move";
+            var body = new { id = series.Id, shelf = (int)newShelf };
+            var json = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, json);
 
             if (_cache.ContainsKey(series.Shelf))
             {
