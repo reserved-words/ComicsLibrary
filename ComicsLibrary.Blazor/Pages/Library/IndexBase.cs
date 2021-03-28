@@ -13,10 +13,10 @@ namespace ComicsLibrary.Blazor.Pages.Library
     public class IndexBase : ComponentBase
     {
         [Inject] 
-        private ISnackbar Snackbar { get; set; }
+        private IMessenger _messenger { get; set; }
 
         [Inject]
-        public ISeriesRepository Repository { get; set; }
+        private ISeriesRepository _repository { get; set; }
 
         [Parameter]
         public string ShelfId { get; set; }
@@ -45,7 +45,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
             Actions = GetActions();
 
-            Items = await Repository.GetShelf(Shelf, false);
+            Items = await _repository.GetShelf(Shelf, false);
         }
 
         private List<SeriesAction> GetActions()
@@ -84,54 +84,60 @@ namespace ComicsLibrary.Blazor.Pages.Library
             return Actions;
         }
 
-        private async Task MoveToShelf(Series series, Shelf shelf)
+        private async Task<bool> MoveToShelf(Series series, Shelf shelf)
         {
-            // await DialogService.ShowMessageBox("Series Action", $"Move series {series.Title} to shelf {shelf}");
-            await Repository.UpdateShelf(series, shelf);
-            Snackbar.Add($"{series.Title} moved to shelf {shelf}", Severity.Success, opt =>
+            var success = await _repository.UpdateShelf(series, shelf);
+
+            if (success)
             {
-                opt.SnackbarVariant = Variant.Filled;
-                opt.VisibleStateDuration = 3000;
-            });
+                _messenger.DisplaySuccessAlert($"{series.Title} moved to shelf {shelf}");
+            }
+            else
+            {
+                _messenger.DisplayErrorAlert($"An error was encountered moving {series.Title} to shelf {shelf}");
+            }
+
+            return success;
         }
 
-        protected async Task Archive(Series series)
+        protected async Task<bool> Archive(Series series)
         {
-            await MoveToShelf(series, Shelf.Archived);
+            return await MoveToShelf(series, Shelf.Archived);
         }
 
-        protected async Task Unarchive(Series series)
+        protected async Task<bool> Unarchive(Series series)
         {
-            await MoveToShelf(series, series.Progress == 0
+            return await MoveToShelf(series, series.Progress == 0
                     ? Shelf.Unread
                     : series.Progress == 100
                     ? Shelf.Finished
                     : Shelf.PutAside);
         }
 
-        protected async Task AddToReadNext(Series series)
+        protected async Task<bool> AddToReadNext(Series series)
         {
-            await MoveToShelf(series, Shelf.ToReadNext);
+            return await MoveToShelf(series, Shelf.ToReadNext);
         }
 
-        protected async Task RemoveFromReadNext(Series series)
+        protected async Task<bool> RemoveFromReadNext(Series series)
         {
-            await MoveToShelf(series, Shelf.Unread);
+            return await MoveToShelf(series, Shelf.Unread);
         }
 
-        protected async Task ReadNow(Series series)
+        protected async Task<bool> ReadNow(Series series)
         {
-            await MoveToShelf(series, Shelf.Reading);
+            return await MoveToShelf(series, Shelf.Reading);
         }
 
-        protected async Task PutAside(Series series)
+        protected async Task<bool> PutAside(Series series)
         {
-            await MoveToShelf(series, Shelf.PutAside);
+            return await MoveToShelf(series, Shelf.PutAside);
         }
 
-        protected async Task Delete(Series series)
+        protected async Task<bool> Delete(Series series)
         {
-            Snackbar.Add($"Deleted series {series.Title}");
+            _messenger.DisplayErrorAlert("Deletion not currently available");
+            return false;
         }
     }
 }

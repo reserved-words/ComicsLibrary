@@ -18,6 +18,7 @@ namespace ComicsLibrary.Blazor
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddMudServices();
 
+            builder.Services.AddTransient<IMessenger, Messenger>();
             builder.Services.AddTransient<IReadingRepository, ReadingRepository>();
             builder.Services.AddTransient<ISeriesRepository, SeriesRepository>();
 

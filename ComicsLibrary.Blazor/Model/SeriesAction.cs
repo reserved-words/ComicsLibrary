@@ -9,7 +9,7 @@ namespace ComicsLibrary.Blazor.Model
     {
         public string Caption { get; set; }
         public string Icon { get; set; }
-        public Func<Series, Task> ClickAction { get; set; }
+        public Func<Series, Task<bool>> ClickAction { get; set; }
         public Shelf MoveToShelf { get; set; }
     }
 }

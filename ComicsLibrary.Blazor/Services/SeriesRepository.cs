@@ -41,25 +41,34 @@ namespace ComicsLibrary.Blazor.Services
             return items;
         }
 
-        public async Task UpdateShelf(Series series, Shelf newShelf)
+        public async Task<bool> UpdateShelf(Series series, Shelf newShelf)
         {
             var url = $"http://localhost:58281/Library/Move";
             var body = new { id = series.Id, shelf = (int)newShelf };
             var json = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(url, json);
 
-            if (_cache.ContainsKey(series.Shelf))
+            if (response.IsSuccessStatusCode)
             {
-                _cache[series.Shelf].Remove(series);
+                if (_cache.ContainsKey(series.Shelf))
+                {
+                    _cache[series.Shelf].Remove(series);
+                }
+
+                series.Shelf = newShelf;
+
+                if (_cache.ContainsKey(newShelf))
+                {
+                    _cache[series.Shelf].Add(series);
+                    _cache[series.Shelf] = _cache[series.Shelf].OrderBy(s => s.Title).ToList();
+                }
+
+                return true;
             }
 
-            series.Shelf = newShelf;
+            // Log error
 
-            if (_cache.ContainsKey(newShelf))
-            {
-                _cache[series.Shelf].Add(series);
-                _cache[series.Shelf] = _cache[series.Shelf].OrderBy(s => s.Title).ToList();
-            }
+            return false;
         }
     }
 }
