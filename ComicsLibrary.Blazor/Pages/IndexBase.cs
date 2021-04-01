@@ -1,6 +1,7 @@
 ﻿using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,13 +31,16 @@ namespace ComicsLibrary.Blazor.Pages
 
         protected async Task<bool> SkipNext(NextComicInSeries book)
         {
+            throw new NotImplementedException();
             // DB - mark book as read (returns next book in response)
             // Update book to new values
         }
 
         protected async Task<bool> SkipPrevious(NextComicInSeries book)
         {
+            throw new NotImplementedException();
             // DB - mark previous book as uread (returns previous book in response)
             // Update book to new values        }
         }
     }
+}

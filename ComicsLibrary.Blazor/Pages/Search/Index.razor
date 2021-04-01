@@ -1,0 +1,126 @@
+﻿@page "/Search"
+@inherits Search.IndexBase
+
+<MudContainer Class="px-8" MaxWidth="MaxWidth.False">
+
+    <MudToolBar Class="pa-0 mb-8">
+        <MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
+    </MudToolBar>
+
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="Search Form" IsExpanded="@ShowSearch" Class="mb-3">
+            <MudForm @ref="form" @bind-IsValid="@Success" @bind-Errors="@errors">
+                <MudGrid>
+                    <MudItem xs="12" Class="@(errors.Any() ? "" : "d-none")">
+                        <MudAlert Severity="Severity.Error">Please fill in all required fields</MudAlert>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="SearchText" Label="Search" Required="true" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search" AdornmentColor="Color.Default" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudSelect @bind-Value="Source" Label="Source" Required="true">
+                            <MudSelectItem Value="@("Marvel")">Marvel Unlimited</MudSelectItem>
+                            <MudSelectItem Value="@("Comixology")">Comixology</MudSelectItem>
+                            <MudSelectItem Value="@("Drive")">Google Drive</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudSelect @bind-Value="SortOrder" Label="Sort by" Required="true">
+                            <MudSelectItem Value="@("Title")">Title</MudSelectItem>
+                            <MudSelectItem Value="@("Year")">Year</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Search">Search</MudButton>
+                        @*<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>form.Validate())">Search</MudButton>*@
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@(()=>Reset())" Class="mx-2">Reset</MudButton>
+                    </MudItem>
+
+                </MudGrid>
+            </MudForm>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+
+    <MudText Class="@(ShowNoResults ? "" : "d-none")">
+        No results found
+    </MudText>
+
+    <MudTable Class="@(ShowResults ? "" : "d-none")" Items="@Results" Dense="true" Hover="true" Bordered="false" Striped="true" @bind-SelectedItem="selectedItem">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Results</MudText>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Title</MudTh>
+            <MudTh>Publisher</MudTh>
+            <MudTh></MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.Title</MudTd>
+            <MudTd DataLabel="Sign">@context.Publisher</MudTd>
+            <MudTd Style="text-align: right;">
+                <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBooks(context))">@((context.ShowBooks == true)? "Hide" : "Show") Books</MudButton>
+            </MudTd>
+            <MudTd Style="width: 40px; text-align: center;">
+                @if (context.Adding)
+                {
+                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" Class="ma-2" />
+                }
+                else if (context.Id.HasValue)
+                {
+                    <MudTooltip Text="View Series">
+                        <MudIconButton Icon="@Icons.Material.Filled.LibraryBooks" OnClick="() => GoToSeries(context.Id.Value)"></MudIconButton>
+                    </MudTooltip>
+                }
+                else
+                {
+                    <MudTooltip Text="Add to Library">
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="() => AddSeries(context)"></MudIconButton>
+                    </MudTooltip>
+                }
+            </MudTd>
+        </RowTemplate>
+        <ChildRowContent>
+            @if (context.ShowBooks)
+            {
+                <MudTr>
+                    <td colspan="4">
+                        <MudCard Elevation="0">
+                            <MudCardContent Class="pa-3" Style="text-align: center;">
+                                @if (context.GettingBooks)
+                                {
+                                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Medium" />
+                                }
+                                else
+                                {
+                                    <MudGrid>
+                                        @foreach (var item in context.Books)
+                                        {
+                                            <MudItem>
+                                                <MudCard>
+                                                    <MudCardHeader>
+                                                        <MudText>@item.Title</MudText>
+                                                    </MudCardHeader>
+                                                </MudCard>
+                                            </MudItem>
+                                        }
+                                    </MudGrid>
+
+                                    @if (context.MoreToFetch)
+                                    {
+                                        <MudButton OnClick="() => FetchBooks(context)" Class="ma-2">Fetch More</MudButton>
+                                    }
+                                }
+                            </MudCardContent>
+                        </MudCard>
+                    </td>
+                </MudTr>}
+        </ChildRowContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+
+</MudContainer>
