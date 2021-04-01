@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace ComicsLibrary.Blazor.Model
 {
@@ -14,7 +13,7 @@ namespace ComicsLibrary.Blazor.Model
         public bool Adding { get; set; }
         public bool GettingBooks { get; set; }
         public int TotalBooks { get; set; }
-        public List<SearchResultBook> Books { get; set; } = new List<SearchResultBook>();
-        public bool MoreToFetch => Books.Count() < TotalBooks;
+        public List<Common.Data.Book> Books { get; set; } = new List<Common.Data.Book>();
+        public bool MoreToFetch { get; set; }
     }
 }

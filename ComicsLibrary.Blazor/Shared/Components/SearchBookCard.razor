@@ -1,0 +1,25 @@
+﻿@inherits Components.SearchBookCardBase
+
+<MudCard>
+    @*<MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body1">@Book.Title</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>*@
+    <MudPaper>
+        @if (!string.IsNullOrEmpty(Book.ReadUrl))
+        {
+            <MudLink Href="@Book.ReadUrl" Target="_blank">
+                <MudCardMedia Image="@Book.ImageUrl" Height="350" />
+            </MudLink>
+        }
+        else
+        {
+            <MudCardMedia Image="@Book.ImageUrl" Height="350" Style="opacity: 0.5;">
+            </MudCardMedia>
+        }
+    </MudPaper>
+    <MudCardActions>
+        <MudText Typo="Typo.body2">@Book.Title</MudText>
+    </MudCardActions>
+</MudCard>

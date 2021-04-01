@@ -21,6 +21,7 @@ namespace ComicsLibrary.Blazor
             builder.Services.AddTransient<IMessenger, Messenger>();
             builder.Services.AddTransient<IReadingRepository, ReadingRepository>();
             builder.Services.AddTransient<ISeriesRepository, SeriesRepository>();
+            builder.Services.AddTransient<ISearchService, SearchService>();
 
             await builder.Build().RunAsync();
         }

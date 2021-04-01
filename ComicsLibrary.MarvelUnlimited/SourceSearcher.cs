@@ -25,7 +25,12 @@ namespace ComicsLibrary.MarvelUnlimited
         public async Task<PagedResult<Book>> GetBooks(int sourceItemID, int limit, int offset)
         {
             var page = offset / limit + 1;
-            var result = await _api.GetSeriesComicsAsync(sourceItemID, limit, page);
+            var result = await _api.GetSeriesComicsAsync(sourceItemID, limit, offset, new ComicCriteria { OrderBy = new List<ComicOrder> 
+                { 
+                    ComicOrder.IssueNumberAscending 
+                }, 
+                NoVariants = true
+            });
             var comics = result.Data.Result.Select(r => _mapper.Map(r)).ToList();
             return new PagedResult<Book>(comics, limit, page, result.Data.Total ?? comics.Count);
         }

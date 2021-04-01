@@ -1,4 +1,5 @@
 ﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Blazor.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System;
@@ -13,6 +14,9 @@ namespace ComicsLibrary.Blazor.Pages.Search
         [Inject]
         private IDialogService _dialogService { get; set; }
 
+        [Inject]
+        private ISearchService _searchService { get; set; }
+
         public List<BreadcrumbItem> Breadcrumbs => new List<BreadcrumbItem>
         {
             new BreadcrumbItem("Home", href: "#"),
@@ -23,8 +27,8 @@ namespace ComicsLibrary.Blazor.Pages.Search
         protected MudForm form;
 
         public bool Success { get; set; }
-        public string SortOrder { get; set; }
-        public string Source { get; set; }
+        public int SortOrder { get; set; }
+        public int Source { get; set; }
         public string SearchText { get; set; }
         public int ItemsPerPage = 10;
 
@@ -34,40 +38,31 @@ namespace ComicsLibrary.Blazor.Pages.Search
         public int NumberOfResults { get; set; }
         public List<SearchResult> Results { get; set; } = new List<SearchResult>();
         public string ResultSearchText { get; set; }
-        public SearchResult selectedItem;
+        
+        public bool Searching { get; set; }
 
-        public void Search()
+        public async Task Search()
         {
             Results.Clear();
+            NumberOfResults = 0;
             ShowNoResults = false;
             ShowResults = false;
-            NumberOfResults = 0;
-
+            
             form.Validate();
 
             if (!errors.Any())
             {
+                Searching = true;
                 ShowSearch = false;
-                var random = new Random(DateTime.Now.Second);
-                NumberOfResults = random.Next(0, 10);
 
-                for (var i = 0; i < NumberOfResults; i++)
-                {
-                    var isInLibrary = random.Next(0, 10) > 7;
-                    var id = isInLibrary ? (100 * i + 1) : (int?)null;
+                var results = await _searchService.Search(Source, SearchText, SortOrder, ItemsPerPage, 1);
 
-                    Results.Add(new SearchResult
-                    {
-                        Id = id,
-                        SourceId = 1,
-                        SourceItemId = i + 1,
-                        Title = $"Series {i + 1}",
-                        Publisher = "Marvel Comics"
-                    });
-                }
+                NumberOfResults = results.TotalResults;
+                Results = results.Results;
 
                 ShowNoResults = NumberOfResults == 0;
                 ShowResults = !ShowNoResults;
+                Searching = false;
             }
         }
 
@@ -75,11 +70,12 @@ namespace ComicsLibrary.Blazor.Pages.Search
         {
             Results.Clear();
             NumberOfResults = 0;
-            SearchText = null;
-            SortOrder = null;
-            Source = null;
             ShowResults = false;
             ShowNoResults = false;
+
+            SearchText = null;
+            SortOrder = 0;
+            Source = 0;
             ShowSearch = true;
             form.Reset();
         }
@@ -106,26 +102,24 @@ namespace ComicsLibrary.Blazor.Pages.Search
                 return;
             }
 
-            result.GettingBooks = true;
-            await Task.Delay(3000);
-            result.TotalBooks = new Random(DateTime.Now.Second).Next(1, 50);
             await FetchBooks(result);
-
-            result.GettingBooks = false;
         }
 
         public async Task FetchBooks(SearchResult result)
         {
-            var remainingToFetch = result.TotalBooks - result.Books.Count();
+            result.GettingBooks = true;
 
-            var fetchNumber = Math.Min(remainingToFetch, ItemsPerPage);
+            var numberFetched = result.Books.Count();
 
-            var firstId = result.Books.Count() + 1;
+            var nextResults = await _searchService.GetBooks(result.SourceId, result.SourceItemId, ItemsPerPage, numberFetched);
 
-            for (var i = 0; i < fetchNumber; i++)
-            {
-                result.Books.Add(new SearchResultBook { Id = firstId + i });
-            }
+            result.TotalBooks = nextResults.TotalResults;
+
+            result.Books.AddRange(nextResults.Results);
+
+            result.MoreToFetch = result.Books.Count() < result.TotalBooks;
+
+            result.GettingBooks = false;
         }
     }
 }

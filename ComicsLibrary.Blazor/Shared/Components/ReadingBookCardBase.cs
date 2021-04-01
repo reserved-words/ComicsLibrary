@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Shared.Components
 {
-    public class BookCardBase : ComponentBase
+    public class ReadingBookCardBase : ComponentBase
     {
         [Parameter]
         public NextComicInSeries Book { get; set; }

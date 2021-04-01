@@ -20,15 +20,17 @@
                     </MudItem>
                     <MudItem xs="12">
                         <MudSelect @bind-Value="Source" Label="Source" Required="true">
-                            <MudSelectItem Value="@("Marvel")">Marvel Unlimited</MudSelectItem>
-                            <MudSelectItem Value="@("Comixology")">Comixology</MudSelectItem>
-                            <MudSelectItem Value="@("Drive")">Google Drive</MudSelectItem>
+                            <MudSelectItem Value=0></MudSelectItem>
+                            <MudSelectItem Value=1>Marvel Unlimited</MudSelectItem>
+                            <MudSelectItem Value=2>Comixology</MudSelectItem>
+                            <MudSelectItem Value=3>Google Drive</MudSelectItem>
                         </MudSelect>
                     </MudItem>
                     <MudItem xs="12">
                         <MudSelect @bind-Value="SortOrder" Label="Sort by" Required="true">
-                            <MudSelectItem Value="@("Title")">Title</MudSelectItem>
-                            <MudSelectItem Value="@("Year")">Year</MudSelectItem>
+                            <MudSelectItem Value=0></MudSelectItem>
+                            <MudSelectItem Value=1>Title</MudSelectItem>
+                            <MudSelectItem Value=2>Year</MudSelectItem>
                         </MudSelect>
                     </MudItem>
 
@@ -43,11 +45,15 @@
         </MudExpansionPanel>
     </MudExpansionPanels>
 
+    <MudContainer Class="@(Searching ? "" : "d-none")" Style="text-align: center;">
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" Class="ma-2" />
+    </MudContainer>
+
     <MudText Class="@(ShowNoResults ? "" : "d-none")">
         No results found
     </MudText>
 
-    <MudTable Class="@(ShowResults ? "" : "d-none")" Items="@Results" Dense="true" Hover="true" Bordered="false" Striped="true" @bind-SelectedItem="selectedItem">
+    <MudTable Class="@(ShowResults ? "" : "d-none")" Items="@Results" Dense="true" Hover="true" Bordered="false" Striped="true">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Results</MudText>
         </ToolBarContent>
@@ -89,34 +95,27 @@
                     <td colspan="4">
                         <MudCard Elevation="0">
                             <MudCardContent Class="pa-3" Style="text-align: center;">
+                                <MudGrid>
+                                    @foreach (var item in context.Books)
+                                    {
+                                        <MudItem xs="12" sm="4" md="3" lg="2">
+                                            <SearchBookCard Book="@item" />
+                                        </MudItem>
+                                    }
+                                </MudGrid>
                                 @if (context.GettingBooks)
                                 {
-                                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Medium" />
+                                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Medium" Class="ma-3" />
                                 }
-                                else
+                                else if (context.MoreToFetch)
                                 {
-                                    <MudGrid>
-                                        @foreach (var item in context.Books)
-                                        {
-                                            <MudItem>
-                                                <MudCard>
-                                                    <MudCardHeader>
-                                                        <MudText>@item.Title</MudText>
-                                                    </MudCardHeader>
-                                                </MudCard>
-                                            </MudItem>
-                                        }
-                                    </MudGrid>
-
-                                    @if (context.MoreToFetch)
-                                    {
-                                        <MudButton OnClick="() => FetchBooks(context)" Class="ma-2">Fetch More</MudButton>
-                                    }
+                                    <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.FileDownload" Color="Color.Default" OnClick="() => FetchBooks(context)" Class="ma-3">Fetch More</MudButton>
                                 }
                             </MudCardContent>
                         </MudCard>
                     </td>
-                </MudTr>}
+                </MudTr>
+            }
         </ChildRowContent>
         <PagerContent>
             <MudTablePager />

@@ -9,5 +9,6 @@ namespace ComicsLibrary.Common
         public int LibraryId { get; set; }
         public string Url { get; set; }
         public string ImageUrl { get; set; }
+        public string Publisher { get; set; }
     }
 }

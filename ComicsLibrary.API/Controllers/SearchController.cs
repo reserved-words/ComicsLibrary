@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ComicsLibrary.Common.Data;
 using ComicsLibrary.Common;
@@ -8,7 +7,7 @@ using System.Linq;
 
 namespace ComicsLibrary.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("search")]
     public class SearchController : ControllerBase
     {
