@@ -5,21 +5,29 @@
 
     <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
 
-    <MudGrid>
+    @if (Books == null)
+    {
+        <Loading />
+    }
+    else
+    {
+        <MudGrid>
 
-        @foreach (var item in Books)
-        {
-            <MudItem xs="12" sm="4" md="3" lg="2">
-                <ReadingBookCard Book="@item" SkipNext="@SkipNext" SkipPrevious="@SkipPrevious" />
-            </MudItem>
-        }
-    </MudGrid>
+            @foreach (var item in Books)
+            {
+                <MudItem xs="12" sm="4" md="3" lg="2">
+                    <ReadingBookCard Book="@item" SkipNext="@SkipNext" SkipPrevious="@SkipPrevious" />
+                </MudItem>
+            }
+        </MudGrid>
+
+    }
 
 </MudContainer>
 
-@code  { 
+@code  {
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
-    {
+{
         new BreadcrumbItem("Home", href: "#"),
         new BreadcrumbItem("Currently Reading", href: null, disabled: true)
     };

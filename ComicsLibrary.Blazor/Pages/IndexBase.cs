@@ -13,7 +13,7 @@ namespace ComicsLibrary.Blazor.Pages
         [Inject]
         private IReadingRepository _repository { get; set; }
 
-        public List<NextComicInSeries> Books { get; set; } = new List<NextComicInSeries>();
+        public List<NextComicInSeries> Books { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

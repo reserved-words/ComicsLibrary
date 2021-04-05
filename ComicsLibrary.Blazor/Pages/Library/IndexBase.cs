@@ -27,12 +27,12 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
         public List<SeriesAction> Actions { get; set; } = new List<SeriesAction>();
 
-        public List<Series> Items { get; set; } = new List<Series>();
+        public List<Series> Items { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
             Actions = new List<SeriesAction>();
-            Items = new List<Series>();
+            Items = null;
 
             Shelf = Enum.Parse<Shelf>(ShelfId);
 
