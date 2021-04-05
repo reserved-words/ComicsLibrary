@@ -3,7 +3,7 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Style="@Background">@Book.Publisher</MudAvatar>
+            <MudAvatar Color="@Book.MudColor()">@Book.Publisher</MudAvatar>
         </CardHeaderAvatar>
         <CardHeaderContent>
             <MudText Typo="Typo.body1">@Book.SeriesTitle</MudText>
@@ -16,7 +16,7 @@
             </MudMenu>
         </CardHeaderActions>
     </MudCardHeader>
-    <MudProgressLinear Color="Color.Primary" Value="@Book.Progress" />
+    <MudProgressLinear Color="@Book.MudColor()" Value="@Book.Progress" />
 
     <MudPaper>
         @if (!string.IsNullOrEmpty(Book.ReadUrl))
@@ -32,13 +32,8 @@
         }
     </MudPaper>
     <MudCardActions>
-        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipPrevious" Style="@Foreground" Class="mr-auto"  />
+        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipPrevious" Color="@Book.MudColor()" Class="mr-auto"  />
         <MudText Typo="Typo.body2">@Book.IssueTitle</MudText>
-        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipNext" Style="@Foreground" Class="ml-auto" />
+        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipNext" Color="@Book.MudColor()" Class="ml-auto" />
     </MudCardActions>
 </MudCard>
-
-@code {
-    public string Background => $"background-color: {Book.Color};";
-    public string Foreground => $"color: {Book.Color};";
-}

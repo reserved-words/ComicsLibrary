@@ -3,7 +3,7 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
-            <MudAvatar Style="@Background">@Series.PublisherIcon</MudAvatar>
+            <MudAvatar Color="@Series.MudColor()">@Series.PublisherIcon</MudAvatar>
         </CardHeaderAvatar>
         <CardHeaderContent>
             <MudText Typo="Typo.body1">@Series.Title</MudText>
@@ -18,10 +18,6 @@
             </MudMenu>
         </CardHeaderActions>
     </MudCardHeader>
-    <MudProgressLinear Color="Color.Primary" Value="@Series.Progress" />
+    <MudProgressLinear Color="@Series.MudColor()" Value="@Series.Progress" />
     <MudCardMedia Image="@Series.ImageUrl" Height="350" />
 </MudCard>
- 
-@code {
-    public string Background => $"background-color: {Series.Color};";
-} 
