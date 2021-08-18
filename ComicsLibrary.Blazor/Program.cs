@@ -1,3 +1,4 @@
+using ComicsLibrary.Blazor.Mocks;
 using ComicsLibrary.Blazor.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,9 +20,16 @@ namespace ComicsLibrary.Blazor
             builder.Services.AddMudServices();
 
             builder.Services.AddTransient<IMessenger, Messenger>();
+
+#if DEBUG
+            builder.Services.AddTransient<IReadingRepository, MockReadingRepository>();
+            builder.Services.AddTransient<ISeriesRepository, MockSeriesRepository>();
+            builder.Services.AddTransient<ISearchService, MockSearchService>();
+#else
             builder.Services.AddTransient<IReadingRepository, ReadingRepository>();
             builder.Services.AddTransient<ISeriesRepository, SeriesRepository>();
             builder.Services.AddTransient<ISearchService, SearchService>();
+#endif
 
             await builder.Build().RunAsync();
         }
