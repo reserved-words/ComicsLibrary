@@ -20,14 +20,14 @@ namespace ComicsLibrary.Blazor
             builder.Services.AddMudServices();
 
             builder.Services.AddTransient<IMessenger, Messenger>();
-
-#if DEBUG
-            builder.Services.AddTransient<IReadingRepository, MockReadingRepository>();
-            builder.Services.AddTransient<ISeriesRepository, MockSeriesRepository>();
-            builder.Services.AddTransient<ISearchService, MockSearchService>();
-#else
             builder.Services.AddTransient<IReadingRepository, ReadingRepository>();
             builder.Services.AddTransient<ISeriesRepository, SeriesRepository>();
+#if DEBUG
+            builder.Services.AddTransient<ILibrary, MockLibrary>();
+            builder.Services.AddTransient<ISearchService, MockSearchService>();
+#else
+
+            builder.Services.AddTransient<ILibrary, Library>();
             builder.Services.AddTransient<ISearchService, SearchService>();
 #endif
 

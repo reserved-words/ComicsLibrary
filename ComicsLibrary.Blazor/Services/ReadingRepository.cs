@@ -1,5 +1,4 @@
 ﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,13 +9,13 @@ namespace ComicsLibrary.Blazor.Services
 {
     public class ReadingRepository : IReadingRepository
     {
-        private readonly HttpClient _httpClient;
+        private readonly ILibrary _library;
 
         private List<NextComicInSeries> _cache = null;
 
-        public ReadingRepository(HttpClient httpClient)
+        public ReadingRepository(ILibrary library)
         {
-            _httpClient = httpClient;
+            _library = library;
         }
 
         public async Task<List<NextComicInSeries>> GetNextToRead(bool refreshCache)
@@ -28,9 +27,7 @@ namespace ComicsLibrary.Blazor.Services
 
             if (_cache == null)
             {
-                var url = "http://localhost:58281/Library/GetAllNextUnread";
-                var books = await _httpClient.GetFromJsonAsync<NextComicInSeries[]>(url);
-                _cache = books.ToList();
+                _cache = await _library.GetNextToRead();
             }
 
             return _cache;

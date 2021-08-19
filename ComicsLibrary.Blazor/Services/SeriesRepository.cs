@@ -1,11 +1,6 @@
-﻿using ComicsLibrary.Common;
-using ComicsLibrary.Common.Data;
+﻿using ComicsLibrary.Common.Data;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Series = ComicsLibrary.Blazor.Model.Series;
 
@@ -13,13 +8,13 @@ namespace ComicsLibrary.Blazor.Services
 {
     public class SeriesRepository : ISeriesRepository
     {
-        private readonly HttpClient _httpClient;
+        private readonly ILibrary _library;
 
         private readonly Dictionary<Shelf, List<Series>> _cache = new Dictionary<Shelf, List<Series>>();
 
-        public SeriesRepository(HttpClient httpClient)
+        public SeriesRepository(ILibrary library)
         {
-            _httpClient = httpClient;
+            _library = library;
         }
 
         public async Task<List<Series>> GetShelf(Shelf shelf, bool refreshCache)
@@ -31,10 +26,7 @@ namespace ComicsLibrary.Blazor.Services
 
             if (!_cache.TryGetValue(shelf, out List<Series> items))
             {
-                var shelfId = (int)shelf;
-                var url = $"http://localhost:58281/Library/Shelf?shelf={shelfId}";
-                var result = await _httpClient.GetFromJsonAsync<LibrarySeries[]>(url);
-                items = result.Select(b => new Series(b)).ToList();
+                items = await _library.GetShelf((int)shelf);
                 _cache.Add(shelf, items);
             }
 
@@ -43,12 +35,9 @@ namespace ComicsLibrary.Blazor.Services
 
         public async Task<bool> UpdateShelf(Series series, Shelf newShelf)
         {
-            var url = $"http://localhost:58281/Library/Move";
-            var body = new { id = series.Id, shelf = (int)newShelf };
-            var json = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(url, json);
+            var success = await _library.UpdateShelf(series.Id, (int)newShelf);
 
-            if (response.IsSuccessStatusCode)
+            if (success)
             {
                 if (_cache.ContainsKey(series.Shelf))
                 {

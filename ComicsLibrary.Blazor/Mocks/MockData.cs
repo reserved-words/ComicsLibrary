@@ -3,73 +3,50 @@ using ComicsLibrary.Common.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Mocks
 {
-    public class MockSeriesRepository : Services.ISeriesRepository
+    public class MockData
     {
         public static readonly List<LibrarySeries> AllSeries;
         public static readonly Dictionary<int, List<Comic>> AllBooks;
 
-        static MockSeriesRepository()
+        static MockData()
         {
             AllSeries = new List<LibrarySeries>();
             AllBooks = new Dictionary<int, List<Comic>>();
             PopulateSeries();
         }
 
-        public static List<Model.Series> GetShelf(Shelf shelf)
-        {
-            return AllSeries
-                .Where(s => s.Shelf == shelf)
-                .Select(s => new Model.Series(s))
-                .ToList();
-        }
-
-        public async Task<List<Model.Series>> GetShelf(Shelf shelf, bool refreshCache)
-        {
-            return GetShelf(shelf);
-        }
-
-        public async Task<bool> UpdateShelf(Model.Series series, Shelf newShelf)
-        {
-            var seriesToMove = AllSeries.Single(s => s.Id == series.Id);
-            seriesToMove.Shelf = newShelf;
-            if (newShelf == Shelf.Finished)
-            {
-                seriesToMove.Progress = 100;
-            }
-            else if (newShelf == Shelf.Unread)
-            {
-                seriesToMove.Progress = 0;
-            }
-
-            return true;
-        }
-
         private static void PopulateSeries()
         {
             AllSeries.AddSeries(Shelf.Reading, "M", "Black Widow", 2020, null, "https://i.annihil.us/u/prod/marvel/i/mg/c/40/5f3d36dc73d2a.jpg")
-                .AddBook("#1", true, "")
-                .AddBook("#2", true, "")
-                .AddBook("#3", true, "")
-                .AddBook("#4", true, "")
-                .AddBook("#5", false, "https://i.annihil.us/u/prod/marvel/i/mg/9/70/6026d186cfbc7.jpg", "https://read.marvel.com/#/book/56005");
+                .AddBook("#1", true, "https://i.annihil.us/u/prod/marvel/i/mg/c/40/5f3d36dc73d2a.jpg")
+                .AddBook("#2", true, "https://i.annihil.us/u/prod/marvel/i/mg/6/f0/5f735c594a0e9.jpg")
+                .AddBook("#3", true, "https://i.annihil.us/u/prod/marvel/i/mg/5/b0/601af793d000e.jpg")
+                .AddBook("#4", true, "https://i.annihil.us/u/prod/marvel/i/mg/2/80/601afd2412732.jpg")
+                .AddBook("#5", false, "https://i.annihil.us/u/prod/marvel/i/mg/9/70/6026d186cfbc7.jpg", "https://read.marvel.com/#/book/56005")
+                .AddBook("#6", false, "https://i.annihil.us/u/prod/marvel/i/mg/9/20/607717bae5be1.jpg")
+                .AddBook("#7", false, "https://i.annihil.us/u/prod/marvel/i/mg/b/d0/60afe2f70cd22.jpg")
+                .AddBook("#8", false, "https://i.annihil.us/u/prod/marvel/i/mg/4/50/609ece2894980.jpg")
+                .AddBook("#9", false, "https://i.annihil.us/u/prod/marvel/i/mg/9/20/60fad343bf338.jpg")
+                .AddBook("#10", false, "https://i.annihil.us/u/prod/marvel/i/mg/6/10/60e5e16d261c4.jpg");
 
             AllSeries.AddSeries(Shelf.ToReadNext, "DC", "Harley Quinn", 2016, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/439438/439438._SX312_QL80_TTD_.jpg")
                 .AddBook("Vol. 1", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/439438/439438._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/74153/439438")
-                .AddBook("Vol. 2", false, "")
-                .AddBook("Vol. 3", false, "")
-                .AddBook("Vol. 4", false, "")
-                .AddBook("Vol. 5", false, "");
-            
+                .AddBook("Vol. 2", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/531028/531028._SX312_QL80_TTD_.jpg")
+                .AddBook("Vol. 3", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/572264/572264._SX312_QL80_TTD_.jpg")
+                .AddBook("Vol. 4", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/618830/618830._SX312_QL80_TTD_.jpg")
+                .AddBook("Vol. 5", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/651046/651046._SX312_QL80_TTD_.jpg");
+
             AllSeries.AddSeries(Shelf.Finished, "M", "Alias", 2001, 2003, "https://i.annihil.us/u/prod/marvel/i/mg/4/20/56966d674b06d.jpg");
-            
+
             AllSeries.AddSeries(Shelf.Archived, "DC", "Action Comics", 2016, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/439423/439423._SX312_QL80_TTD_.jpg");
-            
+
             AllSeries.AddSeries(Shelf.Archived, "I", "Bitch Planet", null, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/294324/294324._SX360_QL80_TTD_.jpg");
         }
+
+
     }
 
     public static class HelperMethods
@@ -81,7 +58,7 @@ namespace ComicsLibrary.Blazor.Mocks
             var years = startYear == null
                 ? ""
                 : endYear == null
-                ? $" ({startYear} - Present)" 
+                ? $" ({startYear} - Present)"
                 : startYear == endYear
                 ? $" ({startYear})"
                 : $" ({startYear} - {endYear})";
@@ -111,14 +88,14 @@ namespace ComicsLibrary.Blazor.Mocks
 
             list.Add(series);
 
-            MockSeriesRepository.AllBooks.Add(id, new List<Comic>());
+            MockData.AllBooks.Add(id, new List<Comic>());
 
             return series;
         }
 
         public static LibrarySeries AddBook(this LibrarySeries series, string title, bool read, string imageUrl, string readUrl = null)
         {
-            var numberOfComicsAdded = MockSeriesRepository.AllBooks.Sum(s => s.Value.Count);
+            var numberOfComicsAdded = MockData.AllBooks.Sum(s => s.Value.Count);
 
             var comic = new Comic
             {
@@ -126,11 +103,11 @@ namespace ComicsLibrary.Blazor.Mocks
                 IssueTitle = title,
                 SeriesTitle = series.Title,
                 IsRead = read,
-                ImageUrl = imageUrl, 
+                ImageUrl = imageUrl,
                 ReadUrl = readUrl
             };
 
-            var seriesComics = MockSeriesRepository.AllBooks[series.Id];
+            var seriesComics = MockData.AllBooks[series.Id];
 
             seriesComics.Add(comic);
 
@@ -140,5 +117,6 @@ namespace ComicsLibrary.Blazor.Mocks
 
             return series;
         }
+
     }
 }
