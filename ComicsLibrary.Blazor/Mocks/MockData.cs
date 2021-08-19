@@ -46,23 +46,11 @@ namespace ComicsLibrary.Blazor.Mocks
             AllSeries.AddSeries(Shelf.Archived, "I", "Bitch Planet", null, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/294324/294324._SX360_QL80_TTD_.jpg");
         }
 
-        public static void UpdateSeriesProgress(int seriesId)
-        {
-            var series = GetSeries(seriesId);
-            var comics = AllBooks[seriesId];
-
-            var progress = 100 * (double)comics.Count(c => c.IsRead) / (double)comics.Count;
-
-            series.Progress = (int)Math.Round(progress, 0);
-        }
-
         public static LibrarySeries GetSeries(int seriesId)
         {
             return AllSeries
                 .Single(c => c.Id == seriesId);
         }
-
-
     }
 
     public static class HelperMethods
@@ -125,8 +113,6 @@ namespace ComicsLibrary.Blazor.Mocks
             };
 
             MockData.AllBooks[series.Id].Add(comic);
-
-            MockData.UpdateSeriesProgress(series.Id);
 
             return series;
         }

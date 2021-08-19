@@ -23,42 +23,7 @@ namespace ComicsLibrary.Blazor.Mocks
 
             return list;
         }
-
-        private static NextComicInSeries GetFirstUnreadBook(Model.Series series)
-        {
-            var unreadBooks = MockData
-                .AllBooks[series.Id]
-                .Where(b => !b.IsRead)
-                .OrderBy(b => b.Id);
-
-            var firstUnread = unreadBooks.First();
-
-            return Map(firstUnread, series);
-        }
-
-        private static NextComicInSeries Map(Comic book, Model.Series series)
-        {
-            var unreadBooks = MockData
-                .AllBooks[series.Id]
-                .Where(b => !b.IsRead);
-
-            return new NextComicInSeries
-            {
-                Id = book.Id,
-                SeriesId = series.Id,
-                SeriesTitle = series.Title,
-                Years = series.Years,
-                Publisher = series.Publisher,
-                Color = series.Color,
-                IssueTitle = book.IssueTitle,
-                ImageUrl = book.ImageUrl,
-                ReadUrl = book.ReadUrl,
-                UnreadBooks = unreadBooks.Count(),
-                Creators = "",
-                Progress = series.Progress
-            };
-        }
-
+        
         public async Task<List<Model.Series>> GetShelf(int shelfId)
         {
             return MockData.AllSeries
@@ -126,11 +91,54 @@ namespace ComicsLibrary.Blazor.Mocks
             return Map(lastRead, series);
         }
 
+
+
+        private static NextComicInSeries GetFirstUnreadBook(Model.Series series)
+        {
+            var unreadBooks = MockData
+                .AllBooks[series.Id]
+                .Where(b => !b.IsRead)
+                .OrderBy(b => b.Id);
+
+            var firstUnread = unreadBooks.First();
+
+            return Map(firstUnread, series);
+        }
+
+        private static NextComicInSeries Map(Comic book, Model.Series series)
+        {
+            var allBooks = MockData.AllBooks[series.Id];
+            var total = allBooks.Count();
+            var unread = allBooks.Count(b => !b.IsRead);
+            var read = allBooks.Count(b => b.IsRead);
+
+            return new NextComicInSeries
+            {
+                Id = book.Id,
+                SeriesId = series.Id,
+                SeriesTitle = series.Title,
+                Years = series.Years,
+                Publisher = series.Publisher,
+                Color = series.Color,
+                IssueTitle = book.IssueTitle,
+                ImageUrl = book.ImageUrl,
+                ReadUrl = book.ReadUrl,
+                UnreadBooks = unread,
+                Creators = "",
+                Progress = GetProgress(read, total)
+            };
+        }
+
+        private static int GetProgress(int read, int total)
+        {
+            var progress = 100 * (double)read / (double)total;
+            return (int)Math.Round(progress, 0);
+        }
+
         private static void UpdateReadStatus(Comic comic, bool read)
         {
             comic.IsRead = read;
             comic.DateRead = read ? DateTime.Now : (DateTime?)null;
-            MockData.UpdateSeriesProgress(comic.SeriesId);
         }
 
         private static NextComicInSeries GetFirstUnreadBook(int seriesId)
