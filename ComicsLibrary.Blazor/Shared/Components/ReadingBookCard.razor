@@ -32,8 +32,8 @@
         }
     </MudPaper>
     <MudCardActions>
-        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipPrevious" Color="@Book.MudColor()" Class="mr-auto"  />
+        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipPrevious" Color="@Book.MudColor()" Class="mr-auto" OnClick="SkipPrevious1" Disabled="@PreventSkipPrevious" />
         <MudText Typo="Typo.body2">@Book.IssueTitle</MudText>
-        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipNext" Color="@Book.MudColor()" Class="ml-auto" />
+        <MudIconButton Icon="@MudBlazor.Icons.Rounded.SkipNext" Color="@Book.MudColor()" Class="ml-auto" OnClick="SkipNext1" Disabled="@PreventSkipNext" />
     </MudCardActions>
 </MudCard>

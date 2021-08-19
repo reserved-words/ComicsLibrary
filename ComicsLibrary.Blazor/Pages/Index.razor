@@ -16,7 +16,7 @@
             @foreach (var item in Books)
             {
                 <MudItem xs="12" sm="4" md="3" lg="2">
-                    <ReadingBookCard Book="@item" SkipNext="@SkipNext" SkipPrevious="@SkipPrevious" />
+                    <ReadingBookCard Book="@item" SkipNext="@SkipNext" SkipPrevious="@SkipPrevious" @key="item" />
                 </MudItem>
             }
         </MudGrid>

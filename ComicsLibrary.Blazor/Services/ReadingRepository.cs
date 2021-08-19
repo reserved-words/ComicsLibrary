@@ -32,5 +32,15 @@ namespace ComicsLibrary.Blazor.Services
 
             return _cache;
         }
+
+        public async Task<NextComicInSeries> MoveNext(NextComicInSeries current)
+        {
+            return await _library.MarkReadAndGetNext(current.Id);
+        }
+
+        public async Task<NextComicInSeries> MovePrevious(NextComicInSeries current)
+        {
+            return await _library.MarkPreviousUnreadAndGet(current.Id);
+        }
     }
 }

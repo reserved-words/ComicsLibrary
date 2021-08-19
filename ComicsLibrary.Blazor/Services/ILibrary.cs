@@ -10,5 +10,7 @@ namespace ComicsLibrary.Blazor.Services
         Task<List<NextComicInSeries>> GetNextToRead();
         Task<List<Series>> GetShelf(int shelfId);
         Task<bool> UpdateShelf(int seriesId, int shelfId);
+        Task<NextComicInSeries> MarkReadAndGetNext(int bookId);
+        Task<NextComicInSeries> MarkPreviousUnreadAndGet(int bookId);
     }
 }

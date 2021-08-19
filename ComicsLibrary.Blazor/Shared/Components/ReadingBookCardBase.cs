@@ -15,5 +15,27 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
         [Parameter]
         public Func<NextComicInSeries, Task<bool>> SkipPrevious { get; set; }
+
+        public bool PreventSkipPrevious { get; set; }
+
+        public bool PreventSkipNext { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            PreventSkipPrevious = Book.Progress == 0;
+            PreventSkipNext = Book.UnreadBooks == 1;
+
+            StateHasChanged();
+        }
+
+        protected async Task<bool> SkipNext1()
+        {
+            return await SkipNext(Book);
+        }
+
+        protected async Task<bool> SkipPrevious1()
+        {
+            return await SkipPrevious(Book);
+        }
     }
 }

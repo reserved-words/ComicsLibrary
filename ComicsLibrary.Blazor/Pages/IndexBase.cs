@@ -1,7 +1,6 @@
 ﻿using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +11,9 @@ namespace ComicsLibrary.Blazor.Pages
     {
         [Inject]
         private IReadingRepository _repository { get; set; }
+
+        [Inject]
+        private IMessenger _messenger { get; set; }
 
         public List<NextComicInSeries> Books { get; set; }
 
@@ -31,16 +33,31 @@ namespace ComicsLibrary.Blazor.Pages
 
         protected async Task<bool> SkipNext(NextComicInSeries book)
         {
-            throw new NotImplementedException();
-            // DB - mark book as read (returns next book in response)
-            // Update book to new values
+            var nextBook = await _repository.MoveNext(book);
+
+            Replace(book, nextBook);
+
+            return true;
         }
 
         protected async Task<bool> SkipPrevious(NextComicInSeries book)
         {
-            throw new NotImplementedException();
-            // DB - mark previous book as uread (returns previous book in response)
-            // Update book to new values        }
+            var previousBook = await _repository.MovePrevious(book);
+
+            Replace(book, previousBook);
+
+            return true;
+        }
+
+        private void Replace(NextComicInSeries oldBook, NextComicInSeries newBook)
+        {
+            var index = Books.IndexOf(oldBook);
+
+            Books.Remove(oldBook);
+
+            Books.Insert(index, newBook);
+
+            StateHasChanged();
         }
     }
 }

@@ -18,26 +18,45 @@ namespace ComicsLibrary.Blazor.Mocks
 
             foreach (var series in allSeries)
             {
-                var books = MockData.AllBooks[series.Id];
-                var firstUnread = books.First(b => !b.IsRead);
-                list.Add(new NextComicInSeries
-                {
-                    Id = firstUnread.Id,
-                    SeriesId = series.Id,
-                    SeriesTitle = series.Title,
-                    Years = series.Years,
-                    Publisher = series.Publisher,
-                    Color = series.Color,
-                    IssueTitle = firstUnread.IssueTitle,
-                    ImageUrl = firstUnread.ImageUrl,
-                    ReadUrl = firstUnread.ReadUrl,
-                    UnreadBooks = books.Count(b => !b.IsRead),
-                    Creators = "",
-                    Progress = series.Progress
-                });
+                list.Add(GetFirstUnreadBook(series));
             }
 
             return list;
+        }
+
+        private static NextComicInSeries GetFirstUnreadBook(Model.Series series)
+        {
+            var unreadBooks = MockData
+                .AllBooks[series.Id]
+                .Where(b => !b.IsRead)
+                .OrderBy(b => b.Id);
+
+            var firstUnread = unreadBooks.First();
+
+            return Map(firstUnread, series);
+        }
+
+        private static NextComicInSeries Map(Comic book, Model.Series series)
+        {
+            var unreadBooks = MockData
+                .AllBooks[series.Id]
+                .Where(b => !b.IsRead);
+
+            return new NextComicInSeries
+            {
+                Id = book.Id,
+                SeriesId = series.Id,
+                SeriesTitle = series.Title,
+                Years = series.Years,
+                Publisher = series.Publisher,
+                Color = series.Color,
+                IssueTitle = book.IssueTitle,
+                ImageUrl = book.ImageUrl,
+                ReadUrl = book.ReadUrl,
+                UnreadBooks = unreadBooks.Count(),
+                Creators = "",
+                Progress = series.Progress
+            };
         }
 
         public async Task<List<Model.Series>> GetShelf(int shelfId)
@@ -78,6 +97,59 @@ namespace ComicsLibrary.Blazor.Mocks
             }
 
             return true;
+        }
+
+        public async Task<NextComicInSeries> MarkReadAndGetNext(int bookId)
+        {
+            var book = GetBook(bookId);
+
+            UpdateReadStatus(book, true);
+
+            return GetFirstUnreadBook(book.SeriesId);
+        }
+
+        public async Task<NextComicInSeries> MarkPreviousUnreadAndGet(int bookId)
+        {
+            var book = GetBook(bookId);
+
+            var readBooks = MockData
+                .AllBooks[book.SeriesId]
+                .Where(b => b.IsRead)
+                .OrderBy(b => b.Id);
+
+            var lastRead = readBooks.Last();
+
+            UpdateReadStatus(lastRead, false);
+
+            var series = GetSeries(lastRead.SeriesId);
+
+            return Map(lastRead, series);
+        }
+
+        private static void UpdateReadStatus(Comic comic, bool read)
+        {
+            comic.IsRead = read;
+            comic.DateRead = read ? DateTime.Now : (DateTime?)null;
+            MockData.UpdateSeriesProgress(comic.SeriesId);
+        }
+
+        private static NextComicInSeries GetFirstUnreadBook(int seriesId)
+        { 
+            var series = GetSeries(seriesId);
+
+            return GetFirstUnreadBook(series);
+        }
+
+        private static Model.Series GetSeries(int seriesId)
+        {
+            return new Model.Series(MockData.GetSeries(seriesId));
+        }
+
+        private static Comic GetBook(int bookId)
+        {
+            return MockData.AllBooks
+                .SelectMany(s => s.Value)
+                .Single(c => c.Id == bookId);
         }
     }
 }

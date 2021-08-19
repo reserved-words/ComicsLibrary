@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ComicsLibrary.Blazor.Mocks
 {
-    public class MockData
+    public static class MockData
     {
         public static readonly List<LibrarySeries> AllSeries;
         public static readonly Dictionary<int, List<Comic>> AllBooks;
@@ -44,6 +44,22 @@ namespace ComicsLibrary.Blazor.Mocks
             AllSeries.AddSeries(Shelf.Archived, "DC", "Action Comics", 2016, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/439423/439423._SX312_QL80_TTD_.jpg");
 
             AllSeries.AddSeries(Shelf.Archived, "I", "Bitch Planet", null, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/294324/294324._SX360_QL80_TTD_.jpg");
+        }
+
+        public static void UpdateSeriesProgress(int seriesId)
+        {
+            var series = GetSeries(seriesId);
+            var comics = AllBooks[seriesId];
+
+            var progress = 100 * (double)comics.Count(c => c.IsRead) / (double)comics.Count;
+
+            series.Progress = (int)Math.Round(progress, 0);
+        }
+
+        public static LibrarySeries GetSeries(int seriesId)
+        {
+            return AllSeries
+                .Single(c => c.Id == seriesId);
         }
 
 
@@ -100,6 +116,7 @@ namespace ComicsLibrary.Blazor.Mocks
             var comic = new Comic
             {
                 Id = numberOfComicsAdded + 1,
+                SeriesId = series.Id,
                 IssueTitle = title,
                 SeriesTitle = series.Title,
                 IsRead = read,
@@ -107,13 +124,9 @@ namespace ComicsLibrary.Blazor.Mocks
                 ReadUrl = readUrl
             };
 
-            var seriesComics = MockData.AllBooks[series.Id];
+            MockData.AllBooks[series.Id].Add(comic);
 
-            seriesComics.Add(comic);
-
-            var progress = 100 * (double)seriesComics.Count(c => c.IsRead) / (double)seriesComics.Count;
-
-            series.Progress = (int)Math.Round(progress, 0);
+            MockData.UpdateSeriesProgress(series.Id);
 
             return series;
         }

@@ -7,5 +7,7 @@ namespace ComicsLibrary.Blazor.Services
     public interface IReadingRepository
     {
         Task<List<NextComicInSeries>> GetNextToRead(bool refreshCache);
+        Task<NextComicInSeries> MoveNext(NextComicInSeries current);
+        Task<NextComicInSeries> MovePrevious(NextComicInSeries current);
     }
 }

@@ -33,6 +33,16 @@ namespace ComicsLibrary.Blazor.Services
             return result.Select(b => new Series(b)).ToList();
         }
 
+        public async Task<NextComicInSeries> MarkReadAndGetNext(int bookId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<NextComicInSeries> MarkPreviousUnreadAndGet(int bookId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<bool> UpdateShelf(int seriesId, int shelfId)
         {
             var url = $"http://localhost:58281/Library/Move";
