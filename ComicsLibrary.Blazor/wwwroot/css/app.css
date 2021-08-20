@@ -1,1 +1,15 @@
-﻿
+﻿div.mud-card-header {
+    padding: 0.6rem;
+}
+
+    div.mud-card-header div.mud-card-header-avatar {
+        margin-right: 0.5rem;
+    }
+
+button.mud-icon-button {
+    padding: 0.5rem;
+}
+
+div.mud-card-actions {
+    padding: 0.2rem 0.6rem;
+}
