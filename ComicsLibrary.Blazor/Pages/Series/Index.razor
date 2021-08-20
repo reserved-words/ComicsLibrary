@@ -1,0 +1,40 @@
+﻿@page "/series/{SeriesId}"
+@inherits Pages.Series.IndexBase
+
+<MudContainer Class="px-8" MaxWidth="MaxWidth.False">
+
+    <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+
+    @if (Item == null)
+    {
+        <Loading />
+    }
+    else
+    {
+        <p>@Item.Series.Title</p>
+        <p>@Item.Series.Years</p>
+        <p>@Item.Series.MudColor()</p>
+        <p>@Item.Series.PublisherIcon</p>
+
+        @foreach (var action in Actions)
+        {
+            <p>@action.Caption</p>
+        }
+
+        <p>Progress: @Item.Series.Progress</p>
+
+        <img src="@Item.Series.ImageUrl" Height="350" />
+
+    }
+
+</MudContainer>
+
+@code  {
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+{
+        new BreadcrumbItem("Home", href: "#"),
+        new BreadcrumbItem("Library", href: "#"),
+        new BreadcrumbItem("Shelf Name", href: "#"),
+        new BreadcrumbItem("Series Title", href: null, disabled: true)
+    };
+}

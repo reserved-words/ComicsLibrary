@@ -51,5 +51,10 @@ namespace ComicsLibrary.Blazor.Services
             var response = await _httpClient.PostAsync(url, json);
             return response.IsSuccessStatusCode;
         }
+
+        public Task<SeriesDetail> GetSeries(int seriesId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

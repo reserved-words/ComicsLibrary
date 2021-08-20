@@ -6,12 +6,15 @@ using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Series = ComicsLibrary.Blazor.Model.Series;
+using SeriesModel = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Pages.Library
 {
     public class IndexBase : ComponentBase
     {
+        [Inject]
+        private INavigator _navigator { get; set; }
+
         [Inject] 
         private IMessenger _messenger { get; set; }
 
@@ -27,7 +30,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
         public List<SeriesAction> Actions { get; set; } = new List<SeriesAction>();
 
-        public List<Series> Items { get; set; }
+        public List<SeriesModel> Items { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -51,6 +54,8 @@ namespace ComicsLibrary.Blazor.Pages.Library
         private List<SeriesAction> GetActions()
         {
             var Actions = new List<SeriesAction>();
+
+            Actions.Add(new SeriesAction { Caption = "View", Icon = Icons.Material.Filled.Details, ClickAction = ViewSeries });
 
             if (Shelf == Shelf.Archived)
             {
@@ -84,7 +89,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
             return Actions;
         }
 
-        private async Task<bool> MoveToShelf(Series series, Shelf shelf)
+        private async Task<bool> MoveToShelf(SeriesModel series, Shelf shelf)
         {
             var success = await _repository.UpdateShelf(series, shelf);
 
@@ -100,12 +105,12 @@ namespace ComicsLibrary.Blazor.Pages.Library
             return success;
         }
 
-        protected async Task<bool> Archive(Series series)
+        protected async Task<bool> Archive(SeriesModel series)
         {
             return await MoveToShelf(series, Shelf.Archived);
         }
 
-        protected async Task<bool> Unarchive(Series series)
+        protected async Task<bool> Unarchive(SeriesModel series)
         {
             return await MoveToShelf(series, series.Progress == 0
                     ? Shelf.Unread
@@ -114,27 +119,33 @@ namespace ComicsLibrary.Blazor.Pages.Library
                     : Shelf.PutAside);
         }
 
-        protected async Task<bool> AddToReadNext(Series series)
+        protected async Task<bool> ViewSeries(SeriesModel series)
+        {
+            _navigator.NavigateToSeries(series.Id);
+            return true;
+        }
+
+        protected async Task<bool> AddToReadNext(SeriesModel series)
         {
             return await MoveToShelf(series, Shelf.ToReadNext);
         }
 
-        protected async Task<bool> RemoveFromReadNext(Series series)
+        protected async Task<bool> RemoveFromReadNext(SeriesModel series)
         {
             return await MoveToShelf(series, Shelf.Unread);
         }
 
-        protected async Task<bool> ReadNow(Series series)
+        protected async Task<bool> ReadNow(SeriesModel series)
         {
             return await MoveToShelf(series, Shelf.Reading);
         }
 
-        protected async Task<bool> PutAside(Series series)
+        protected async Task<bool> PutAside(SeriesModel series)
         {
             return await MoveToShelf(series, Shelf.PutAside);
         }
 
-        protected async Task<bool> Delete(Series series)
+        protected async Task<bool> Delete(SeriesModel series)
         {
             _messenger.DisplayErrorAlert("Deletion not currently available");
             return false;

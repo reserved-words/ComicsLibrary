@@ -1,4 +1,5 @@
-﻿using ComicsLibrary.Common;
+﻿using ComicsLibrary.Blazor.Services;
+using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
@@ -7,6 +8,9 @@ namespace ComicsLibrary.Blazor.Shared.Components
 {
     public class ReadingBookCardBase : ComponentBase
     {
+        [Inject]
+        private INavigator _nagivator { get; set; }
+
         [Parameter]
         public NextComicInSeries Book { get; set; }
 
@@ -36,6 +40,11 @@ namespace ComicsLibrary.Blazor.Shared.Components
         protected async Task<bool> SkipPrevious1()
         {
             return await SkipPrevious(Book);
+        }
+
+        protected async Task ViewSeries()
+        {
+            _nagivator.NavigateToSeries(Book.SeriesId);
         }
     }
 }

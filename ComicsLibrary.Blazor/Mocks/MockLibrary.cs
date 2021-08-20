@@ -1,4 +1,5 @@
-﻿using ComicsLibrary.Common;
+﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Common;
 using ComicsLibrary.Common.Data;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,17 @@ namespace ComicsLibrary.Blazor.Mocks
 {
     public class MockLibrary : ILibrary
     {
+        public MockLibrary()
+        {
+        }
+
         public async Task<List<NextComicInSeries>> GetNextToRead()
         {
             return (await GetShelf((int)Shelf.Reading))
                 .Select(c => GetFirstUnreadBook(c.Id))
                 .ToList();
         }
-        
+
         public async Task<List<Model.Series>> GetShelf(int shelfId)
         {
             return MockData.AllSeries
@@ -97,7 +102,7 @@ namespace ComicsLibrary.Blazor.Mocks
 
         private static NextComicInSeries Map(Comic book)
         {
-            var series = GetSeries(book.SeriesId);
+            var series = new Model.Series(MockData.GetSeries(book.SeriesId));
 
             var allBooks = MockData.AllBooks[series.Id];
             var total = allBooks.Count;
@@ -133,16 +138,51 @@ namespace ComicsLibrary.Blazor.Mocks
             comic.DateRead = read ? DateTime.Now : (DateTime?)null;
         }
 
-        private static Model.Series GetSeries(int seriesId)
-        {
-            return new Model.Series(MockData.GetSeries(seriesId));
-        }
-
         private static Comic GetBook(int bookId)
         {
             return MockData.AllBooks
                 .SelectMany(s => s.Value)
                 .Single(c => c.Id == bookId);
+        }
+
+        public async Task<SeriesDetail> GetSeries(int seriesId)
+        {
+            var series = MockData.GetSeries(seriesId);
+            var split = series.SplitSeriesTitle();
+
+            var books = MockData.AllBooks[seriesId];
+
+            var booklists = new List<BookList>();
+
+            foreach (var book in books)
+            {
+                if (!booklists.Any(bl => bl.TypeId == book.TypeID))
+                {
+                    booklists.Add(new BookList 
+                    { 
+                        TypeId = book.TypeID, 
+                        TypeName = book.TypeName,
+                        Home = true // for now
+                    });
+                }
+            }
+
+            foreach (var booklist in booklists)
+            {
+                booklist.Books = books
+                    .Where(b => b.TypeID == booklist.TypeId)
+                    .OrderBy(b => b.Id)
+                    .ToArray();
+
+                booklist.TotalBooks = booklist.Books.Length;
+            }
+
+            return new SeriesDetail
+            {
+                Id = seriesId,
+                Series = new Model.Series(series),
+                BookLists = booklists.ToArray()
+            };
         }
     }
 }

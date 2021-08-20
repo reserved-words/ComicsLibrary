@@ -20,6 +20,8 @@ namespace ComicsLibrary.Blazor
             builder.Services.AddMudServices();
 
             builder.Services.AddTransient<IMessenger, Messenger>();
+            builder.Services.AddTransient<INavigator, Navigator>();
+
             builder.Services.AddTransient<IReadingRepository, ReadingRepository>();
             builder.Services.AddTransient<ISeriesRepository, SeriesRepository>();
 #if DEBUG

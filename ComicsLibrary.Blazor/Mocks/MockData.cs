@@ -109,7 +109,9 @@ namespace ComicsLibrary.Blazor.Mocks
                 SeriesTitle = series.Title,
                 IsRead = read,
                 ImageUrl = imageUrl,
-                ReadUrl = readUrl
+                ReadUrl = readUrl,
+                TypeID = title.StartsWith("#") ? 1 : 2,
+                TypeName = title.StartsWith("#") ? "Issue" : "Collection"
             };
 
             MockData.AllBooks[series.Id].Add(comic);

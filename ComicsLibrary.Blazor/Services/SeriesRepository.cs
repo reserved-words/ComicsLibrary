@@ -1,4 +1,5 @@
-﻿using ComicsLibrary.Common.Data;
+﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Common.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,11 @@ namespace ComicsLibrary.Blazor.Services
         public SeriesRepository(ILibrary library)
         {
             _library = library;
+        }
+
+        public async Task<SeriesDetail> GetSeries(int id)
+        {
+            return await _library.GetSeries(id);
         }
 
         public async Task<List<Series>> GetShelf(Shelf shelf, bool refreshCache)
