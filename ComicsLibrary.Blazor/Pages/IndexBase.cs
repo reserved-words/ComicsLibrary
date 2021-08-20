@@ -21,12 +21,6 @@ namespace ComicsLibrary.Blazor.Pages
         {
             var books = await _repository.GetNextToRead(false);
 
-            foreach (var book in books)
-            {
-                (var title, var years) = book.SplitSeriesTitle();
-                book.SeriesTitle = title;
-                book.Years = years;
-            }
 
             Books = books.ToList();
         }

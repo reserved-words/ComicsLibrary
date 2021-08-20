@@ -12,16 +12,9 @@ namespace ComicsLibrary.Blazor.Mocks
     {
         public async Task<List<NextComicInSeries>> GetNextToRead()
         {
-            var list = new List<NextComicInSeries>();
-
-            var allSeries = await GetShelf((int)Shelf.Reading);
-
-            foreach (var series in allSeries)
-            {
-                list.Add(GetFirstUnreadBook(series));
-            }
-
-            return list;
+            return (await GetShelf((int)Shelf.Reading))
+                .Select(c => GetFirstUnreadBook(c.Id))
+                .ToList();
         }
         
         public async Task<List<Model.Series>> GetShelf(int shelfId)
@@ -86,29 +79,28 @@ namespace ComicsLibrary.Blazor.Mocks
 
             UpdateReadStatus(lastRead, false);
 
-            var series = GetSeries(lastRead.SeriesId);
-
-            return Map(lastRead, series);
+            return Map(lastRead);
         }
 
 
 
-        private static NextComicInSeries GetFirstUnreadBook(Model.Series series)
+        private static NextComicInSeries GetFirstUnreadBook(int seriesId)
         {
-            var unreadBooks = MockData
-                .AllBooks[series.Id]
+            var firstUnread = MockData
+                .AllBooks[seriesId]
                 .Where(b => !b.IsRead)
-                .OrderBy(b => b.Id);
+                .OrderBy(b => b.Id)
+                .First();
 
-            var firstUnread = unreadBooks.First();
-
-            return Map(firstUnread, series);
+            return Map(firstUnread);
         }
 
-        private static NextComicInSeries Map(Comic book, Model.Series series)
+        private static NextComicInSeries Map(Comic book)
         {
+            var series = GetSeries(book.SeriesId);
+
             var allBooks = MockData.AllBooks[series.Id];
-            var total = allBooks.Count();
+            var total = allBooks.Count;
             var unread = allBooks.Count(b => !b.IsRead);
             var read = allBooks.Count(b => b.IsRead);
 
@@ -118,7 +110,7 @@ namespace ComicsLibrary.Blazor.Mocks
                 SeriesId = series.Id,
                 SeriesTitle = series.Title,
                 Years = series.Years,
-                Publisher = series.Publisher,
+                Publisher = series.PublisherIcon,
                 Color = series.Color,
                 IssueTitle = book.IssueTitle,
                 ImageUrl = book.ImageUrl,
@@ -139,13 +131,6 @@ namespace ComicsLibrary.Blazor.Mocks
         {
             comic.IsRead = read;
             comic.DateRead = read ? DateTime.Now : (DateTime?)null;
-        }
-
-        private static NextComicInSeries GetFirstUnreadBook(int seriesId)
-        { 
-            var series = GetSeries(seriesId);
-
-            return GetFirstUnreadBook(series);
         }
 
         private static Model.Series GetSeries(int seriesId)
