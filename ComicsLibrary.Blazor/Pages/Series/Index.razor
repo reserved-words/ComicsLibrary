@@ -11,19 +11,55 @@
     }
     else
     {
-        <MudPaper Outlined="true" Elevation="2">
+        <MudPaper Elevation="3">
             <div class="series-header">
-                <img src="@Item.Series.ImageUrl" />
-                <div class="series-info">
-                    <MudText Typo="Typo.h4">@Item.Series.Title</MudText>
-                    <MudText Typo="Typo.h5">@Item.Series.Years</MudText>
-                    <MudText Typo="Typo.body1">Progress: @(Item.Series.Progress)</MudText>
+                <img src="@Item.Series.ImageUrl" width="200" />
+                <div class="series-header-content">
+
+                    <div class="series-info">
+                        <MudText Typo="Typo.h5">@Item.Series.Title</MudText>
+                        <MudText Typo="Typo.subtitle2">@Item.Series.Publisher</MudText>
+                        <MudText Typo="Typo.subtitle2">@Item.Series.Years</MudText>
+                        @*<MudText Typo="Typo.body1">Progress: @(Item.Series.Progress)</MudText>*@
+                    </div>
+
+                    <div class="series-actions">
+                        <MudButtonGroup Color="@Item.Series.MudColor()" Variant="Variant.Outlined">
+                            @foreach (var action in Actions)
+                            {
+                                <MudIconButton Icon="@action.Icon" Color="@Item.Series.MudColor()"></MudIconButton>
+                            }
+                        </MudButtonGroup>
+                    </div>
+
                 </div>
                 <div class="series-icon">
                     <MudAvatar Color="@Item.Series.MudColor()">@Item.Series.PublisherIcon</MudAvatar>
                 </div>
             </div>
         </MudPaper>
+
+        <!--<MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="@Item.Series.MudColor()">@Item.Series.PublisherIcon</MudAvatar>
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.body1">@Item.Series.Title</MudText>
+                    <MudText Typo="Typo.body2">@Item.Series.Years</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardMedia Image="@Item.Series.ImageUrl" />-->
+        @*<MudCardContent>
+                <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
+            </MudCardContent>*@
+        <!--<MudCardActions>
+                @foreach (var action in Actions)
+                {
+                    <MudIconButton Icon="@action.Icon" Color="@Item.Series.MudColor()"></MudIconButton>
+                }
+            </MudCardActions>
+        </MudCard>-->
     }
 
 </MudContainer>

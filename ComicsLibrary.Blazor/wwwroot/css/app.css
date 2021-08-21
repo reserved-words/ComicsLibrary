@@ -15,9 +15,11 @@ div.mud-card-actions {
 }
 
 div.series-header {
-    padding: 1rem;
+    padding: 0;
     max-width: 100%;
     display: flex;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
 }
 
     div.series-header img {
@@ -25,14 +27,29 @@ div.series-header {
         width: 150px;
         object-fit: contain;
         align-self: flex-start;
+        border-top-left-radius: inherit;
+        border-bottom-left-radius: inherit;
+        border-right: 1px solid #aaa;
     }
 
-    div.series-header div.series-info {
+    div.series-header div.series-header-content {
         flex: 1 1 auto;
-        padding: 0 1rem;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        display: flex;
+        align-content: space-between;
     }
+
+        div.series-header div.series-header-content div.series-info {
+        }
+
+        div.series-header div.series-header-content div.series-actions {
+           margin-top: auto;
+        }
 
     div.series-header div.series-icon {
-        padding: 0;
+        padding: 1rem;
         align-self: flex-start;
     }

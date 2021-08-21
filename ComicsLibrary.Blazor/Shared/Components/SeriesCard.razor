@@ -10,7 +10,7 @@
             <MudText Typo="Typo.body2">@Series.Years</MudText>
         </CardHeaderContent>
         <CardHeaderActions>
-            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Label="Offset Left" Variant="Variant.Filled" Color="Color.Default" Direction="Direction.Left" OffsetX="true">
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
                 @foreach (var action in Actions)
                 {
                     <MudMenuItem OnClick="() => OnAction(Series, action)" >@action.Caption</MudMenuItem>
