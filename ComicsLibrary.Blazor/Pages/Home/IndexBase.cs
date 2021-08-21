@@ -1,6 +1,8 @@
-﻿using ComicsLibrary.Blazor.Services;
+﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,12 +17,16 @@ namespace ComicsLibrary.Blazor.Pages.Home
         [Inject]
         private IMessenger _messenger { get; set; }
 
+        public List<BreadcrumbItem> Breadcrumbs = new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem("Home", href: null, disabled: true)
+        };
+
         public List<NextComicInSeries> Books { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             var books = await _repository.GetNextToRead(false);
-
 
             Books = books.ToList();
         }
@@ -52,6 +58,19 @@ namespace ComicsLibrary.Blazor.Pages.Home
             Books.Insert(index, newBook);
 
             StateHasChanged();
+        }
+
+        public async Task OnAction(Model.Series series, SeriesAction action)
+        {
+            var success = await action.ClickAction(series);
+
+            // TO DO
+
+            //if (success)
+            //{
+            //    Items.Remove(series);
+            //    StateHasChanged();
+            //}
         }
     }
 }

@@ -3,7 +3,7 @@
 
 <MudContainer Class="px-8" MaxWidth="MaxWidth.False">
 
-    <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+    <MudBreadcrumbs Items="@Breadcrumbs"></MudBreadcrumbs>
 
     @if (Books == null)
     {
@@ -24,11 +24,3 @@
     }
 
 </MudContainer>
-
-@code  {
-    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
-{
-        new BreadcrumbItem("Home", href: "#"),
-        new BreadcrumbItem("Currently Reading", href: null, disabled: true)
-    };
-}

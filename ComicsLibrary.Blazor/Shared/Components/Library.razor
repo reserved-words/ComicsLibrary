@@ -3,7 +3,7 @@
 <MudContainer Class="px-8" MaxWidth="MaxWidth.False">
 
     <MudToolBar Class="pa-0 mb-8">
-        <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+        <MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
         <MudToolBarSpacer />
         <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.GridView" Size="Size.Small" IconSize="Size.Small" Class="ml-2" Disabled="@GridView" OnClick="@EnableGridView" />
@@ -15,13 +15,3 @@
     <SeriesTable Items="@Items" Visible="@TableView" Actions="@Actions" Filter="new Func<Series,bool>(FilterFunc)" />
 
 </MudContainer>
-
-
-@code {
-    private List<BreadcrumbItem> _items => new List<BreadcrumbItem>
-    {
-        new BreadcrumbItem("Home", href: "#"),
-        new BreadcrumbItem("Library", href: "/library"),
-        new BreadcrumbItem(ShelfName, href: null, disabled: true)
-    };
-}

@@ -10,9 +10,11 @@
             <MudText Typo="Typo.body2">@Book.Years</MudText>
         </CardHeaderContent>
         <CardHeaderActions>
-            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Label="Offset Left" Variant="Variant.Filled" Color="Color.Default" Direction="Direction.Left" OffsetX="true">
-                <MudMenuItem OnClick="@ViewSeries">View Series</MudMenuItem>
-                <MudMenuItem>Archive</MudMenuItem>
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                @foreach (var action in Actions)
+                {
+                    <MudMenuItem OnClick="() => OnAction(action)">@action.Caption</MudMenuItem>
+                }
             </MudMenu>
         </CardHeaderActions>
     </MudCardHeader>

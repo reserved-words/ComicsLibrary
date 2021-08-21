@@ -1,6 +1,7 @@
 ﻿using ComicsLibrary.Blazor.Model;
 using ComicsLibrary.Common.Data;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using Series = ComicsLibrary.Blazor.Model.Series;
@@ -36,6 +37,13 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
         [Parameter]
         public List<SeriesAction> Actions { get; set; }
+
+        public List<BreadcrumbItem> Breadcrumbs => new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem("Home", href: "#"),
+            new BreadcrumbItem("Library", href: "/library"),
+            new BreadcrumbItem(ShelfName, href: null, disabled: true)
+        };
 
         protected void OnFilter()
         {

@@ -1,7 +1,9 @@
-﻿using ComicsLibrary.Blazor.Services;
+﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Shared.Components
@@ -10,6 +12,15 @@ namespace ComicsLibrary.Blazor.Shared.Components
     {
         [Inject]
         private INavigator _nagivator { get; set; }
+
+        [Inject]
+        private IActionsService _actionsService { get; set; }
+
+        [Inject]
+        private Services.ISeriesRepository _repository { get; set; }
+
+        [Inject]
+        private IMessenger _messenger { get; set; }
 
         [Parameter]
         public NextComicInSeries Book { get; set; }
@@ -24,10 +35,14 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
         public bool PreventSkipNext { get; set; }
 
+        public List<SeriesAction> Actions { get; set; } = new List<SeriesAction>();
+
         protected override void OnParametersSet()
         {
             PreventSkipPrevious = Book.Progress == 0;
             PreventSkipNext = Book.UnreadBooks == 1;
+
+            Actions = _actionsService.GetActions(Common.Data.Shelf.Reading, true);
 
             StateHasChanged();
         }
@@ -42,9 +57,22 @@ namespace ComicsLibrary.Blazor.Shared.Components
             return await SkipPrevious(Book);
         }
 
-        protected async Task ViewSeries()
+        public async Task OnAction(SeriesAction action)
         {
-            _nagivator.NavigateToSeries(Book.SeriesId);
+            var series = await _repository.GetSeries(Book.SeriesId);
+
+            var success = await action.ClickAction(series.Series);
+
+            // Might need to update some stuff
+
+            if (success)
+            {
+                _messenger.DisplayErrorAlert($"SUCCESSFUL ACTION: {action.Caption} {Book.SeriesId}");
+            }
+            else
+            {
+                _messenger.DisplayErrorAlert($"FAILED ACTION: {action.Caption} {Book.SeriesId}");
+            }
         }
     }
 }
