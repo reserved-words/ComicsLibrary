@@ -42,7 +42,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
                 _ => Shelf.ToString()
             };
 
-            Actions = _actionsService.GetActions(Shelf);
+            Actions = _actionsService.GetActions(Shelf, true);
 
             Items = await _repository.GetShelf(Shelf, false);
         }

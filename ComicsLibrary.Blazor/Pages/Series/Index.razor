@@ -3,7 +3,7 @@
 
 <MudContainer Class="px-8" MaxWidth="MaxWidth.False">
 
-    <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+    <MudBreadcrumbs Items="Breadcrumbs"></MudBreadcrumbs>
 
     @if (Item == null)
     {
@@ -27,7 +27,7 @@
                         <MudButtonGroup Color="@Item.Series.MudColor()" Variant="Variant.Outlined">
                             @foreach (var action in Actions)
                             {
-                                <MudIconButton Icon="@action.Icon" Color="@Item.Series.MudColor()"></MudIconButton>
+                                <MudIconButton OnClick="() => OnAction(action)" Icon="@action.Icon" Color="@Item.Series.MudColor()"></MudIconButton>
                             }
                         </MudButtonGroup>
                     </div>
@@ -38,38 +38,6 @@
                 </div>
             </div>
         </MudPaper>
-
-        <!--<MudCard>
-            <MudCardHeader>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="@Item.Series.MudColor()">@Item.Series.PublisherIcon</MudAvatar>
-                </CardHeaderAvatar>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.body1">@Item.Series.Title</MudText>
-                    <MudText Typo="Typo.body2">@Item.Series.Years</MudText>
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardMedia Image="@Item.Series.ImageUrl" />-->
-        @*<MudCardContent>
-                <MudText Typo="Typo.body2">This photo was taken in a small village in Istra Croatia.</MudText>
-            </MudCardContent>*@
-        <!--<MudCardActions>
-                @foreach (var action in Actions)
-                {
-                    <MudIconButton Icon="@action.Icon" Color="@Item.Series.MudColor()"></MudIconButton>
-                }
-            </MudCardActions>
-        </MudCard>-->
     }
 
 </MudContainer>
-
-@code  {
-    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
-{
-        new BreadcrumbItem("Home", href: "#"),
-        new BreadcrumbItem("Library", href: "#"),
-        new BreadcrumbItem("Shelf Name", href: "#"),
-        new BreadcrumbItem("Series Title", href: null, disabled: true)
-    };
-}

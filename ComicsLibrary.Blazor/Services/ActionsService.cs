@@ -20,11 +20,14 @@ namespace ComicsLibrary.Blazor.Services
             _navigator = navigator;
         }
 
-        public List<SeriesAction> GetActions(Shelf shelf)
+        public List<SeriesAction> GetActions(Shelf shelf, bool includeView)
         {
             var Actions = new List<SeriesAction>();
 
-            Actions.Add(new SeriesAction { Caption = "View", Icon = Icons.Material.Filled.Details, ClickAction = ViewSeries });
+            if (includeView)
+            {
+                Actions.Add(new SeriesAction { Caption = "View", Icon = Icons.Material.Filled.Details, ClickAction = ViewSeries });
+            }
 
             if (shelf == Shelf.Archived)
             {
