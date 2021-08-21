@@ -11,20 +11,19 @@
     }
     else
     {
-        <p>@Item.Series.Title</p>
-        <p>@Item.Series.Years</p>
-        <p>@Item.Series.MudColor()</p>
-        <p>@Item.Series.PublisherIcon</p>
-
-        @foreach (var action in Actions)
-        {
-            <p>@action.Caption</p>
-        }
-
-        <p>Progress: @Item.Series.Progress</p>
-
-        <img src="@Item.Series.ImageUrl" Height="350" />
-
+        <MudPaper Outlined="true" Elevation="2">
+            <div class="series-header">
+                <img src="@Item.Series.ImageUrl" />
+                <div class="series-info">
+                    <MudText Typo="Typo.h4">@Item.Series.Title</MudText>
+                    <MudText Typo="Typo.h5">@Item.Series.Years</MudText>
+                    <MudText Typo="Typo.body1">Progress: @(Item.Series.Progress)</MudText>
+                </div>
+                <div class="series-icon">
+                    <MudAvatar Color="@Item.Series.MudColor()">@Item.Series.PublisherIcon</MudAvatar>
+                </div>
+            </div>
+        </MudPaper>
     }
 
 </MudContainer>

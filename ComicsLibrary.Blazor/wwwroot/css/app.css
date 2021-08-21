@@ -13,3 +13,26 @@ button.mud-icon-button {
 div.mud-card-actions {
     padding: 0.2rem 0.6rem;
 }
+
+div.series-header {
+    padding: 1rem;
+    max-width: 100%;
+    display: flex;
+}
+
+    div.series-header img {
+        margin: 0;
+        width: 150px;
+        object-fit: contain;
+        align-self: flex-start;
+    }
+
+    div.series-header div.series-info {
+        flex: 1 1 auto;
+        padding: 0 1rem;
+    }
+
+    div.series-header div.series-icon {
+        padding: 0;
+        align-self: flex-start;
+    }
