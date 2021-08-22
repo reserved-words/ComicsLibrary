@@ -42,7 +42,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
             PreventSkipPrevious = Book.Progress == 0;
             PreventSkipNext = Book.UnreadBooks == 1;
 
-            Actions = _actionsService.GetActions(Common.Data.Shelf.Reading, true);
+            Actions = _actionsService.GetSeriesActions(Common.Data.Shelf.Reading, true);
 
             StateHasChanged();
         }

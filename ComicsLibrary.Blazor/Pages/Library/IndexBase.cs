@@ -39,7 +39,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
             ShelfName = Shelf?.GetName() ?? "";
 
-            Actions = _actionsService.GetActions(Shelf, true);
+            Actions = _actionsService.GetSeriesActions(Shelf, true);
 
             Items = await _repository.GetShelf(Shelf, false);
         }

@@ -1,0 +1,31 @@
+﻿@inherits Components.LibraryBookCardBase
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body2">@Book.IssueTitle</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                @foreach (var action in Actions)
+                {
+                    <MudMenuItem OnClick="() => OnAction(action)">@action.Caption</MudMenuItem>
+                }
+            </MudMenu>
+        </CardHeaderActions>
+    </MudCardHeader>
+
+    <MudPaper>
+        @if (!string.IsNullOrEmpty(Book.ReadUrl))
+        {
+            <MudLink Href="@Book.ReadUrl" Target="_blank">
+                <MudCardMedia Image="@Book.ImageUrl" Height="350" />
+            </MudLink>
+        }
+        else
+        {
+            <MudCardMedia Image="@Book.ImageUrl" Height="350" Style="opacity: 0.5;">
+            </MudCardMedia>
+        }
+    </MudPaper>
+</MudCard>

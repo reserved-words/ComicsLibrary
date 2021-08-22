@@ -6,6 +6,7 @@ namespace ComicsLibrary.Blazor.Services
 {
     public interface IActionsService
     {
-        List<SeriesAction> GetActions(Shelf? shelf, bool includeView);
+        List<SeriesAction> GetSeriesActions(Shelf? shelf, bool includeView);
+        List<BookAction> GetBookActions();
     }
 }

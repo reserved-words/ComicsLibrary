@@ -37,7 +37,22 @@ namespace ComicsLibrary.Blazor.Mocks
                 .AddBook("Vol. 2", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/531028/531028._SX312_QL80_TTD_.jpg")
                 .AddBook("Vol. 3", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/572264/572264._SX312_QL80_TTD_.jpg")
                 .AddBook("Vol. 4", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/618830/618830._SX312_QL80_TTD_.jpg")
-                .AddBook("Vol. 5", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/651046/651046._SX312_QL80_TTD_.jpg");
+                .AddBook("Vol. 5", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/651046/651046._SX312_QL80_TTD_.jpg")
+                .AddBook("#1", false, "https://i.annihil.us/u/prod/marvel/i/mg/c/40/5f3d36dc73d2a.jpg")
+                .AddBook("#2", false, "https://i.annihil.us/u/prod/marvel/i/mg/6/f0/5f735c594a0e9.jpg")
+                .AddBook("#3", false, "https://i.annihil.us/u/prod/marvel/i/mg/5/b0/601af793d000e.jpg")
+                .AddBook("#4", false, "https://i.annihil.us/u/prod/marvel/i/mg/2/80/601afd2412732.jpg")
+                .AddBook("#5", false, "https://i.annihil.us/u/prod/marvel/i/mg/9/70/6026d186cfbc7.jpg", "https://read.marvel.com/#/book/56005")
+                .AddBook("#6", false, "https://i.annihil.us/u/prod/marvel/i/mg/9/20/607717bae5be1.jpg")
+                .AddBook("#7", false, "https://i.annihil.us/u/prod/marvel/i/mg/b/d0/60afe2f70cd22.jpg")
+                .AddBook("#8", false, "https://i.annihil.us/u/prod/marvel/i/mg/4/50/609ece2894980.jpg")
+                .AddBook("#9", false, "https://i.annihil.us/u/prod/marvel/i/mg/9/20/60fad343bf338.jpg")
+                .AddBook("#10", false, "https://i.annihil.us/u/prod/marvel/i/mg/6/10/60e5e16d261c4.jpg")
+                .AddBook("Other 1", false, "https://i.annihil.us/u/prod/marvel/i/mg/4/20/56966d674b06d.jpg", null, true)
+                .AddBook("Other 2", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/439423/439423._SX312_QL80_TTD_.jpg", null)
+                .AddBook("Other 3", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/294324/294324._SX360_QL80_TTD_.jpg", null)
+                .AddBook("Removed 1", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/294324/294324._SX360_QL80_TTD_.jpg", null)
+                .AddBook("Removed 2", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/294324/294324._SX360_QL80_TTD_.jpg", null);
 
             AllSeries.AddSeries(Shelf.Finished, "M", "Alias", 2001, 2003, "https://i.annihil.us/u/prod/marvel/i/mg/4/20/56966d674b06d.jpg");
 
@@ -97,7 +112,7 @@ namespace ComicsLibrary.Blazor.Mocks
             return series;
         }
 
-        public static LibrarySeries AddBook(this LibrarySeries series, string title, bool read, string imageUrl, string readUrl = null)
+        public static LibrarySeries AddBook(this LibrarySeries series, string title, bool read, string imageUrl, string readUrl = null, bool isOtherType = false)
         {
             var numberOfComicsAdded = MockData.AllBooks.Sum(s => s.Value.Count);
 
@@ -110,8 +125,8 @@ namespace ComicsLibrary.Blazor.Mocks
                 IsRead = read,
                 ImageUrl = imageUrl,
                 ReadUrl = readUrl,
-                TypeID = title.StartsWith("#") ? 1 : 2,
-                TypeName = title.StartsWith("#") ? "Issue" : "Collection"
+                TypeID = title.StartsWith("Removed") ? -1 : title.StartsWith("Other") ? 999 : title.StartsWith("#") ? 1 : 2,
+                TypeName = title.StartsWith("Removed") ? "Removed Books" : title.StartsWith("Other") ? "Other Type" : title.StartsWith("#") ? "Issues" : "Collections"
             };
 
             MockData.AllBooks[series.Id].Add(comic);

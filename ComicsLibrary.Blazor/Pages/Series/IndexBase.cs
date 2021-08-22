@@ -39,7 +39,7 @@ namespace ComicsLibrary.Blazor.Pages.Series
 
         private void UpdateActionsAndBreadcrumbs()
         {
-            Actions = _actionsService.GetActions(Item.Series.Shelf, false);
+            Actions = _actionsService.GetSeriesActions(Item.Series.Shelf, false);
 
             Breadcrumbs = new List<BreadcrumbItem>
             {

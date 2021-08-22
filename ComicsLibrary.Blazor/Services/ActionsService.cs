@@ -20,7 +20,7 @@ namespace ComicsLibrary.Blazor.Services
             _navigator = navigator;
         }
 
-        public List<SeriesAction> GetActions(Shelf? shelf, bool includeView)
+        public List<SeriesAction> GetSeriesActions(Shelf? shelf, bool includeView)
         {
             var actions = new List<SeriesAction>();
 
@@ -123,6 +123,25 @@ namespace ComicsLibrary.Blazor.Services
         protected async Task<bool> Delete(SeriesModel series)
         {
             _messenger.DisplayErrorAlert("Deletion not currently available");
+            return false;
+        }
+
+        public List<BookAction> GetBookActions()
+        {
+            return new List<BookAction>
+            {
+                new BookAction
+                {
+                    Caption = "Test",
+                    ClickAction = TestBookAction,
+                    Icon = Icons.Material.Filled.Flag
+                }
+            };
+        }
+
+        protected async Task<bool> TestBookAction(Common.Comic book)
+        {
+            _messenger.DisplayErrorAlert("Not implemented yet");
             return false;
         }
     }
