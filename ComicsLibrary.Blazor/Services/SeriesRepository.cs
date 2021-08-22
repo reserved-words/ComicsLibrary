@@ -1,5 +1,6 @@
 ﻿using ComicsLibrary.Blazor.Model;
 using ComicsLibrary.Common.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,20 +24,50 @@ namespace ComicsLibrary.Blazor.Services
             return await _library.GetSeries(id);
         }
 
-        public async Task<List<Series>> GetShelf(Shelf shelf, bool refreshCache)
+        public async Task<List<Series>> GetShelf(Shelf? shelf, bool refreshCache)
         {
-            if (refreshCache)
+            if (shelf.HasValue)
             {
-                _cache.Remove(shelf);
+                if (refreshCache)
+                {
+                    _cache.Remove(shelf.Value);
+                }
+
+                return await GetAllSeries(shelf.Value);
+            }
+            else
+            {
+                if (refreshCache)
+                {
+                    _cache.Clear();
+                }
+
+                var allShelves = Enum.GetValues(typeof(Shelf)).OfType<Shelf>();
+
+                var allSeries = new List<Series>();
+
+                foreach (var sh in allShelves)
+                {
+                    var shelfSeries = await GetAllSeries(sh);
+                    allSeries.AddRange(shelfSeries);
+                }
+
+                return allSeries
+                    .OrderBy(s => s.Title)
+                    .ThenBy(s => s.Years)
+                    .ToList();
+            }
+        }
+
+        private async Task<List<Series>> GetAllSeries(Shelf shelf)
+        {
+            if (!_cache.TryGetValue(shelf, out List<Series> seriesList))
+            {
+                seriesList = await _library.GetShelf((int)shelf);
+                _cache.Add(shelf, seriesList);
             }
 
-            if (!_cache.TryGetValue(shelf, out List<Series> items))
-            {
-                items = await _library.GetShelf((int)shelf);
-                _cache.Add(shelf, items);
-            }
-
-            return items;
+            return seriesList;
         }
 
         public async Task<bool> UpdateShelf(Series series, Shelf newShelf)

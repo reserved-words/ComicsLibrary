@@ -45,7 +45,7 @@ namespace ComicsLibrary.Blazor.Pages.Series
             {
                 new BreadcrumbItem("Home", href: "#"),
                 new BreadcrumbItem("Library", href: "#"),
-                new BreadcrumbItem(Item.Series.Shelf.ToString(), href: "#"),
+                new BreadcrumbItem(Item.Series.Shelf.GetName(), href: $"/library/{(int)Item.Series.Shelf}"),
                 new BreadcrumbItem(Item.Series.Title, href: null, disabled: true)
             };
         }

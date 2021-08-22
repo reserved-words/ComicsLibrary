@@ -30,7 +30,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
         public List<Series> Items { get; set; }
 
         [Parameter]
-        public Shelf Shelf { get; set; }
+        public Shelf? Shelf { get; set; }
         
         [Parameter]
         public string ShelfName { get; set; }

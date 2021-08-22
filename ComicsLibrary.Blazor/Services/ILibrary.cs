@@ -8,7 +8,7 @@ namespace ComicsLibrary.Blazor.Services
     public interface ILibrary
     {
         Task<List<NextComicInSeries>> GetNextToRead();
-        Task<List<Series>> GetShelf(int shelfId);
+        Task<List<Series>> GetShelf(int? shelfId);
         Task<bool> UpdateShelf(int seriesId, int shelfId);
         Task<NextComicInSeries> MarkReadAndGetNext(int bookId);
         Task<NextComicInSeries> MarkPreviousUnreadAndGet(int bookId);

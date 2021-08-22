@@ -22,10 +22,10 @@ namespace ComicsLibrary.Blazor.Mocks
                 .ToList();
         }
 
-        public async Task<List<Model.Series>> GetShelf(int shelfId)
+        public async Task<List<Model.Series>> GetShelf(int? shelfId)
         {
             return MockData.AllSeries
-                .Where(s => s.Shelf == (Shelf)shelfId)
+                .Where(s => (!shelfId.HasValue || s.Shelf == (Shelf)shelfId.Value))
                 .Select(s => new Model.Series(s))
                 .ToList();
         }

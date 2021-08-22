@@ -26,7 +26,7 @@ namespace ComicsLibrary.Blazor.Services
             return books.ToList();
         }
 
-        public async Task<List<Series>> GetShelf(int shelfId)
+        public async Task<List<Series>> GetShelf(int? shelfId)
         {
             var url = $"http://localhost:58281/Library/Shelf?shelf={shelfId}";
             var result = await _httpClient.GetFromJsonAsync<LibrarySeries[]>(url);

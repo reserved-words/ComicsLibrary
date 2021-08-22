@@ -20,7 +20,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
         [Parameter]
         public string ShelfId { get; set; }
 
-        public Shelf Shelf { get; set; }
+        public Shelf? Shelf { get; set; }
 
         public string ShelfName { get; set; }
 
@@ -33,14 +33,11 @@ namespace ComicsLibrary.Blazor.Pages.Library
             Actions = new List<SeriesAction>();
             Items = null;
 
-            Shelf = Enum.Parse<Shelf>(ShelfId);
+            Shelf = ShelfId == null
+                ? null
+                : Enum.Parse<Shelf>(ShelfId);
 
-            ShelfName = Shelf switch
-            {
-                Shelf.ToReadNext => "To Read Next",
-                Shelf.PutAside => "Put Aside",
-                _ => Shelf.ToString()
-            };
+            ShelfName = Shelf?.GetName() ?? "";
 
             Actions = _actionsService.GetActions(Shelf, true);
 

@@ -10,7 +10,7 @@ namespace ComicsLibrary.Blazor.Services
     public interface ISeriesRepository
     {
         Task<SeriesDetail> GetSeries(int id);
-        Task<List<Series>> GetShelf(Shelf shelf, bool refreshCache);
+        Task<List<Series>> GetShelf(Shelf? shelf, bool refreshCache);
         Task<bool> UpdateShelf(Series series, Shelf newShelf);
     }
 }

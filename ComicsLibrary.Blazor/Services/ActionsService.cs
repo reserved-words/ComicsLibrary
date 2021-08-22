@@ -20,45 +20,48 @@ namespace ComicsLibrary.Blazor.Services
             _navigator = navigator;
         }
 
-        public List<SeriesAction> GetActions(Shelf shelf, bool includeView)
+        public List<SeriesAction> GetActions(Shelf? shelf, bool includeView)
         {
-            var Actions = new List<SeriesAction>();
+            var actions = new List<SeriesAction>();
 
             if (includeView)
             {
-                Actions.Add(new SeriesAction { Caption = "View", Icon = Icons.Material.Filled.Details, ClickAction = ViewSeries });
+                actions.Add(new SeriesAction { Caption = "View", Icon = Icons.Material.Filled.Details, ClickAction = ViewSeries });
             }
+
+            if (!shelf.HasValue)
+                return actions; // todo
 
             if (shelf == Shelf.Archived)
             {
-                Actions.Add(new SeriesAction { Caption = "Unarchive", Icon = Icons.Material.Filled.Unarchive, ClickAction = Unarchive });
-                Actions.Add(new SeriesAction { Caption = "Delete", Icon = Icons.Material.Filled.DeleteForever, ClickAction = Delete });
+                actions.Add(new SeriesAction { Caption = "Unarchive", Icon = Icons.Material.Filled.Unarchive, ClickAction = Unarchive });
+                actions.Add(new SeriesAction { Caption = "Delete", Icon = Icons.Material.Filled.DeleteForever, ClickAction = Delete });
             }
             else
             {
                 if (shelf == Shelf.Reading)
                 {
-                    Actions.Add(new SeriesAction { Caption = "Put Aside", Icon = Icons.Material.Filled.Pause, ClickAction = PutAside });
+                    actions.Add(new SeriesAction { Caption = "Put Aside", Icon = Icons.Material.Filled.Pause, ClickAction = PutAside });
                 }
                 else
                 {
-                    Actions.Add(new SeriesAction { Caption = "Read Now", Icon = Icons.Material.Filled.PlayArrow, ClickAction = ReadNow });
+                    actions.Add(new SeriesAction { Caption = "Read Now", Icon = Icons.Material.Filled.PlayArrow, ClickAction = ReadNow });
                 }
 
                 if (shelf == Shelf.ToReadNext)
                 {
-                    Actions.Add(new SeriesAction { Caption = "Remove from Read Next", Icon = Icons.Material.Filled.RemoveFromQueue, ClickAction = RemoveFromReadNext });
+                    actions.Add(new SeriesAction { Caption = "Remove from Read Next", Icon = Icons.Material.Filled.RemoveFromQueue, ClickAction = RemoveFromReadNext });
                 }
 
                 if (shelf != Shelf.Reading && shelf != Shelf.ToReadNext)
                 {
-                    Actions.Add(new SeriesAction { Caption = "Read Next", Icon = Icons.Material.Filled.PlaylistAdd, ClickAction = AddToReadNext });
+                    actions.Add(new SeriesAction { Caption = "Read Next", Icon = Icons.Material.Filled.PlaylistAdd, ClickAction = AddToReadNext });
                 }
 
-                Actions.Add(new SeriesAction { Caption = "Archive", Icon = Icons.Material.Filled.Archive, ClickAction = Archive });
+                actions.Add(new SeriesAction { Caption = "Archive", Icon = Icons.Material.Filled.Archive, ClickAction = Archive });
             }
 
-            return Actions;
+            return actions;
         }
 
         private async Task<bool> MoveToShelf(SeriesModel series, Shelf shelf)
