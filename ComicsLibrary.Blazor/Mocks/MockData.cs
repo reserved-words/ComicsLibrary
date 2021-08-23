@@ -59,6 +59,22 @@ namespace ComicsLibrary.Blazor.Mocks
             AllSeries.AddSeries(Shelf.Archived, "DC", "Action Comics", 2016, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/439423/439423._SX312_QL80_TTD_.jpg");
 
             AllSeries.AddSeries(Shelf.Archived, "I", "Bitch Planet", null, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/294324/294324._SX360_QL80_TTD_.jpg");
+
+            AllSeries.AddSeries(Shelf.Finished, "I", "Lazarus", null, null, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/48969/DIG010590_2._SX312_QL80_TTD_.jpg")
+                .AddBook("Vol. 1", true, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/48969/DIG010590_2._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/48969", false)
+                .AddBook("Vol. 2", true, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/128916/DIG025871_1._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/128916", false)
+                .AddBook("Vol. 3", true, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/207480/DIG054919_1._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/207480", false)
+                .AddBook("Vol. 4", true, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/332120/332120._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/332120", false)
+                .AddBook("Vol. 5", true, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/465178/465178._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/465178", false)
+                .AddBook("Vol. 6", true, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/821418/821418._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/821418", false)
+                .AddBook("Vol. 1", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/617955/617955._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/617955", true)
+                .AddBook("Vol. 1", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/636079/636079._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/636079", true)
+                .AddBook("", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/617950/617950._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/617950", true, true)
+                .AddBook("", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/483345/483345._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/483345", true, true)
+                .AddBook("", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/345926/345926._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/345926", true, true)
+                .AddBook("#1", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/43341/DIG005626_3._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/43341", false)
+                .AddBook("#2", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/44930/DIG007080_2._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/44930", false)
+                .AddBook("#3", false, "https://images-na.ssl-images-amazon.com/images/S/cmx-images-prod/Item/46397/DIG008430_2._SX312_QL80_TTD_.jpg", "https://www.comixology.co.uk/comic-reader/10378/46397", false);
         }
 
         public static LibrarySeries GetSeries(int seriesId)
@@ -112,7 +128,7 @@ namespace ComicsLibrary.Blazor.Mocks
             return series;
         }
 
-        public static LibrarySeries AddBook(this LibrarySeries series, string title, bool read, string imageUrl, string readUrl = null, bool isOtherType = false)
+        public static LibrarySeries AddBook(this LibrarySeries series, string title, bool read, string imageUrl, string readUrl = null, bool hidden = false, bool oneShot = false)
         {
             var numberOfComicsAdded = MockData.AllBooks.Sum(s => s.Value.Count);
 
@@ -125,8 +141,15 @@ namespace ComicsLibrary.Blazor.Mocks
                 IsRead = read,
                 ImageUrl = imageUrl,
                 ReadUrl = readUrl,
-                TypeID = title.StartsWith("Removed") ? -1 : title.StartsWith("Other") ? 999 : title.StartsWith("#") ? 1 : 2,
-                TypeName = title.StartsWith("Removed") ? "Removed Books" : title.StartsWith("Other") ? "Other Type" : title.StartsWith("#") ? "Issues" : "Collections"
+                Hidden = hidden,
+                TypeID = oneShot ? 3
+                    : title.StartsWith("Other") ? 999 
+                    : title.StartsWith("#") ? 1 
+                    : 2,
+                TypeName = oneShot ? "One-Shots" 
+                    : title.StartsWith("Other") ? "Others" 
+                    : title.StartsWith("#") ? "Issues" 
+                    : "Collections"
             };
 
             MockData.AllBooks[series.Id].Add(comic);
