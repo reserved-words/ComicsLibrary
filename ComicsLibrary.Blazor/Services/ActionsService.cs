@@ -1,4 +1,5 @@
 ﻿using ComicsLibrary.Blazor.Model;
+using ComicsLibrary.Common;
 using ComicsLibrary.Common.Data;
 using MudBlazor;
 using System.Collections.Generic;
@@ -140,6 +141,25 @@ namespace ComicsLibrary.Blazor.Services
         }
 
         protected async Task<bool> TestBookAction(Common.Comic book)
+        {
+            _messenger.DisplayErrorAlert("Not implemented yet");
+            return false;
+        }
+
+        public List<BooklistAction> GetBooklistActions()
+        {
+            return new List<BooklistAction>
+            {
+                new BooklistAction
+                {
+                    Caption = "Test",
+                    ClickAction = TestBooklistAction,
+                    Icon = Icons.Material.Filled.MarkEmailRead
+                }
+            };
+        }
+
+        protected async Task<bool> TestBooklistAction(BookList booklist)
         {
             _messenger.DisplayErrorAlert("Not implemented yet");
             return false;

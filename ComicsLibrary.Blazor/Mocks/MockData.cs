@@ -84,6 +84,13 @@ namespace ComicsLibrary.Blazor.Mocks
         }
     }
 
+    //public enum BookType
+    //{
+    //    Issue = 1,
+    //    Collection = 2,
+    //    OneShot = 3
+    //}
+
     public static class HelperMethods
     {
         public static LibrarySeries AddSeries(this List<LibrarySeries> list, Shelf shelf, string publisher, string title, int? startYear, int? endYear, string imageUrl)

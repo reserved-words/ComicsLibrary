@@ -39,58 +39,11 @@
             </div>
         </MudPaper>
 
-        <MudExpansionPanels MultiExpansion="true">
-            @foreach (var booklist in Item.BookLists.Where(bl => bl.Home))
-            {
-                <MudExpansionPanel Text="@booklist.TypeName" MaxHeight="1000">
-
-                    <MudGrid>
-
-                        @foreach (var item in booklist.Books)
-                        {
-                            <MudItem xs="12" sm="4" md="3" lg="2">
-                                <LibraryBookCard Book="@item" @key="item" />
-                            </MudItem>
-                        }
-                    </MudGrid>
-
-                </MudExpansionPanel>
-            }
-        </MudExpansionPanels>
-
-        @if (Item.BookLists.Any(bl => !bl.Home && bl.TypeId > 0))
+        @foreach (var booklist in Item.BookLists)
         {
-            <MudText Typo="Typo.h5">Additional Types</MudText>
-
-            <MudExpansionPanels>
-                @foreach (var booklist in Item.BookLists.Where(bl => !bl.Home && bl.TypeId > 0))
-                {
-                    <MudExpansionPanel Text="@booklist.TypeName" MaxHeight="1000">
-                        @foreach (var book in booklist.Books)
-                        {
-                            <MudText>@book.IssueTitle</MudText>
-                        }
-                    </MudExpansionPanel>
-                }
-            </MudExpansionPanels>
-        }
-
-        @if (Item.BookLists.Any(bl => !bl.Home && bl.TypeId < 0))
-        {
-            <MudText Typo="Typo.h5">Removed Books</MudText>
-
-            <MudExpansionPanels>
-                @foreach (var booklist in Item.BookLists.Where(bl => !bl.Home && bl.TypeId < 0))
-                {
-                    <MudExpansionPanel Text="Removed Books" MaxHeight="1000">
-                        @foreach (var book in booklist.Books)
-                        {
-                            <MudText>@book.IssueTitle</MudText>
-                        }
-                    </MudExpansionPanel>
-                }
-            </MudExpansionPanels>
-
+            <MudContainer Class="pa-0 my-3">
+                <BooklistCard Item="@booklist"></BooklistCard>
+            </MudContainer>
         }
     }
 

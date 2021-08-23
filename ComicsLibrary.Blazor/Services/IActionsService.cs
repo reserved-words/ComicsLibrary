@@ -8,5 +8,6 @@ namespace ComicsLibrary.Blazor.Services
     {
         List<SeriesAction> GetSeriesActions(Shelf? shelf, bool includeView);
         List<BookAction> GetBookActions();
+        List<BooklistAction> GetBooklistActions();
     }
 }
