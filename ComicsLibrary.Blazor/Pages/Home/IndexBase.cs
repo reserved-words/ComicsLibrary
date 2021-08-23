@@ -59,18 +59,5 @@ namespace ComicsLibrary.Blazor.Pages.Home
 
             StateHasChanged();
         }
-
-        public async Task OnAction(Model.Series series, SeriesAction action)
-        {
-            var success = await action.ClickAction(series);
-
-            // TO DO
-
-            //if (success)
-            //{
-            //    Items.Remove(series);
-            //    StateHasChanged();
-            //}
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
         private ISeriesRepository _repository { get; set; }
 
         [Inject]
-        private IActionsService _actionsService { get; set; }
+        private ISeriesActionsService _actionsService { get; set; }
 
         [Parameter]
         public string ShelfId { get; set; }
@@ -39,7 +39,7 @@ namespace ComicsLibrary.Blazor.Pages.Library
 
             ShelfName = Shelf?.GetName() ?? "";
 
-            Actions = _actionsService.GetSeriesActions(Shelf, true);
+            Actions = _actionsService.GetActions(Shelf, true);
 
             Items = await _repository.GetShelf(Shelf, false);
         }

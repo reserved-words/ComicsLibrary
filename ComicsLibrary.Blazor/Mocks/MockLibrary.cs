@@ -162,7 +162,7 @@ namespace ComicsLibrary.Blazor.Mocks
                     { 
                         TypeId = book.TypeID, 
                         TypeName = book.TypeName,
-                        Home = (book.TypeID >= 0 && book.TypeID < 999)
+                        Home = book.TypeName == "Issues"
                     });
                 }
             }

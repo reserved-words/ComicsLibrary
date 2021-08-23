@@ -8,20 +8,20 @@ using SeriesModel = ComicsLibrary.Blazor.Model.Series;
 
 namespace ComicsLibrary.Blazor.Services
 {
-    public class ActionsService : IActionsService
+    public class SeriesActionsService : ISeriesActionsService
     {
         private readonly INavigator _navigator;
         private readonly IMessenger _messenger;
         private readonly ISeriesRepository _repository;
 
-        public ActionsService(ISeriesRepository repository, IMessenger messenger, INavigator navigator)
+        public SeriesActionsService(ISeriesRepository repository, IMessenger messenger, INavigator navigator)
         {
             _repository = repository;
             _messenger = messenger;
             _navigator = navigator;
         }
 
-        public List<SeriesAction> GetSeriesActions(Shelf? shelf, bool includeView)
+        public List<SeriesAction> GetActions(Shelf? shelf, bool includeView)
         {
             var actions = new List<SeriesAction>();
 
@@ -124,44 +124,6 @@ namespace ComicsLibrary.Blazor.Services
         protected async Task<bool> Delete(SeriesModel series)
         {
             _messenger.DisplayErrorAlert("Deletion not currently available");
-            return false;
-        }
-
-        public List<BookAction> GetBookActions()
-        {
-            return new List<BookAction>
-            {
-                new BookAction
-                {
-                    Caption = "Test",
-                    ClickAction = TestBookAction,
-                    Icon = Icons.Material.Filled.Flag
-                }
-            };
-        }
-
-        protected async Task<bool> TestBookAction(Common.Comic book)
-        {
-            _messenger.DisplayErrorAlert("Not implemented yet");
-            return false;
-        }
-
-        public List<BooklistAction> GetBooklistActions()
-        {
-            return new List<BooklistAction>
-            {
-                new BooklistAction
-                {
-                    Caption = "Test",
-                    ClickAction = TestBooklistAction,
-                    Icon = Icons.Material.Filled.MarkEmailRead
-                }
-            };
-        }
-
-        protected async Task<bool> TestBooklistAction(BookList booklist)
-        {
-            _messenger.DisplayErrorAlert("Not implemented yet");
             return false;
         }
     }

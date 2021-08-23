@@ -7,5 +7,6 @@
         public Comic[] Books { get; set; }
         public int TotalBooks { get; set; }
         public bool Home { get; set; }
+        public bool ShowHidden { get; set; }
     }
 }

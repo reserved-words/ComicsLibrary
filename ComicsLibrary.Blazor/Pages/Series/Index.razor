@@ -39,11 +39,29 @@
             </div>
         </MudPaper>
 
-        @foreach (var booklist in Item.BookLists)
+        @foreach (var booklist in HomeTypes)
         {
             <MudContainer Class="pa-0 my-3">
                 <BooklistCard Item="@booklist"></BooklistCard>
             </MudContainer>
+        }
+
+        @if (OtherTypes.Any())
+        {
+            <MudContainer Class="mb-3 pa-0">
+                <MudSwitch @bind-Checked="@ShowOtherBooks" Color="@Item.Series.MudColor()">Show Other Books</MudSwitch>
+            </MudContainer>
+
+            @if (ShowOtherBooks)
+            {
+                @foreach (var booklist in OtherTypes)
+                {
+                    <MudContainer Class="pa-0 my-3">
+                        <BooklistCard Item="@booklist"></BooklistCard>
+                    </MudContainer>
+                }
+
+            }
         }
     }
 

@@ -4,6 +4,7 @@ using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Pages.Series
@@ -17,7 +18,7 @@ namespace ComicsLibrary.Blazor.Pages.Series
         private Services.ISeriesRepository _repository { get; set; }
 
         [Inject]
-        private Services.IActionsService _actionsService { get; set; }
+        private Services.ISeriesActionsService _actionsService { get; set; }
 
         [Parameter]
         public string SeriesId { get; set; }
@@ -28,18 +29,29 @@ namespace ComicsLibrary.Blazor.Pages.Series
 
         public List<SeriesAction> Actions { get; set; } = new List<SeriesAction>();
 
+        public List<BookList> HomeTypes { get; set; } = new List<BookList>();
+        public List<BookList> OtherTypes { get; set; } = new List<BookList>();
+        public bool ShowOtherBooks { get; set; }
+
         protected override async Task OnParametersSetAsync()
         {
             Item = null;
+            HomeTypes.Clear();
+            OtherTypes.Clear();
 
             Item = await _repository.GetSeries(int.Parse(SeriesId));
 
+            HomeTypes = Item.BookLists.Where(bl => bl.Home).ToList();
+            OtherTypes = Item.BookLists.Where(bl => !bl.Home).ToList();
+
             UpdateActionsAndBreadcrumbs();
+
+            StateHasChanged();
         }
 
         private void UpdateActionsAndBreadcrumbs()
         {
-            Actions = _actionsService.GetSeriesActions(Item.Series.Shelf, false);
+            Actions = _actionsService.GetActions(Item.Series.Shelf, false);
 
             Breadcrumbs = new List<BreadcrumbItem>
             {

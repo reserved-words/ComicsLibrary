@@ -14,7 +14,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
         private INavigator _nagivator { get; set; }
 
         [Inject]
-        private IActionsService _actionsService { get; set; }
+        private IBooklistActionsService _actionsService { get; set; }
 
         [Inject]
         private Services.ISeriesRepository _repository { get; set; }
@@ -29,7 +29,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
         protected override void OnParametersSet()
         {
-            Actions = _actionsService.GetBooklistActions();
+            Actions = _actionsService.GetActions(Item);
 
             StateHasChanged();
         }
@@ -40,11 +40,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
             // Might need to update some stuff
 
-            if (success)
-            {
-                _messenger.DisplayErrorAlert($"SUCCESSFUL ACTION: {action.Caption} {Item.TypeName}");
-            }
-            else
+            if (!success)
             {
                 _messenger.DisplayErrorAlert($"FAILED ACTION: {action.Caption} {Item.TypeName}");
             }

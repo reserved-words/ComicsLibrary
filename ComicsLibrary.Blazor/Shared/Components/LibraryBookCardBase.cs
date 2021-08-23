@@ -14,7 +14,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
         private INavigator _nagivator { get; set; }
 
         [Inject]
-        private IActionsService _actionsService { get; set; }
+        private IBookActionsService _actionsService { get; set; }
 
         [Inject]
         private Services.ISeriesRepository _repository { get; set; }
@@ -25,11 +25,15 @@ namespace ComicsLibrary.Blazor.Shared.Components
         [Parameter]
         public Comic Book { get; set; }
 
+        public bool IsNotHidden { get; set; }
+
         public List<BookAction> Actions { get; set; } = new List<BookAction>();
 
         protected override void OnParametersSet()
         {
-            Actions = _actionsService.GetBookActions();
+            Actions = _actionsService.GetActions(Book);
+
+            IsNotHidden = !Book.Hidden;
 
             StateHasChanged();
         }
@@ -40,13 +44,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
             var success = await action.ClickAction(Book);
 
-            // Might need to update some stuff
-
-            if (success)
-            {
-                _messenger.DisplayErrorAlert($"SUCCESSFUL ACTION: {action.Caption} {Book.Id}");
-            }
-            else
+            if (!success)
             {
                 _messenger.DisplayErrorAlert($"FAILED ACTION: {action.Caption} {Book.SeriesId}");
             }

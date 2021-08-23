@@ -14,7 +14,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
         private INavigator _nagivator { get; set; }
 
         [Inject]
-        private IActionsService _actionsService { get; set; }
+        private ISeriesActionsService _actionsService { get; set; }
 
         [Inject]
         private Services.ISeriesRepository _repository { get; set; }
@@ -42,7 +42,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
             PreventSkipPrevious = Book.Progress == 0;
             PreventSkipNext = Book.UnreadBooks == 1;
 
-            Actions = _actionsService.GetSeriesActions(Common.Data.Shelf.Reading, true);
+            Actions = _actionsService.GetActions(Common.Data.Shelf.Reading, true);
 
             StateHasChanged();
         }
@@ -65,11 +65,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
 
             // Might need to update some stuff
 
-            if (success)
-            {
-                _messenger.DisplayErrorAlert($"SUCCESSFUL ACTION: {action.Caption} {Book.SeriesId}");
-            }
-            else
+            if (!success)
             {
                 _messenger.DisplayErrorAlert($"FAILED ACTION: {action.Caption} {Book.SeriesId}");
             }

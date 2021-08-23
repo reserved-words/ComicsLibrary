@@ -22,7 +22,9 @@ namespace ComicsLibrary.Blazor
             builder.Services.AddTransient<IMessenger, Messenger>();
             builder.Services.AddTransient<INavigator, Navigator>();
 
-            builder.Services.AddTransient<IActionsService, ActionsService>();
+            builder.Services.AddTransient<IBookActionsService, BookActionsService>();
+            builder.Services.AddTransient<IBooklistActionsService, BooklistActionsService>();
+            builder.Services.AddTransient<ISeriesActionsService, SeriesActionsService>();
 
             builder.Services.AddTransient<IReadingRepository, ReadingRepository>();
             builder.Services.AddTransient<ISeriesRepository, SeriesRepository>();
