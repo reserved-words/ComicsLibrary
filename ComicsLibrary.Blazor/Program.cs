@@ -1,5 +1,4 @@
 using ComicsLibrary.Blazor.Mocks;
-using ComicsLibrary.Blazor.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;

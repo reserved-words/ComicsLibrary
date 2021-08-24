@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public class BookActionsService : IBookActionsService
     {
@@ -70,6 +70,7 @@ namespace ComicsLibrary.Blazor.Services
             _messenger.DisplaySuccessAlert("Mark as unread");
             book.IsRead = false;
             book.DateRead = null;
+            // Save changes - TO DO
             return true;
         }
 
@@ -78,6 +79,7 @@ namespace ComicsLibrary.Blazor.Services
             _messenger.DisplaySuccessAlert("Mark as read");
             book.IsRead = true;
             book.DateRead = DateTime.Now;
+            // Save changes - TO DO
             return true;
         }
 
@@ -85,6 +87,7 @@ namespace ComicsLibrary.Blazor.Services
         {
             _messenger.DisplaySuccessAlert("Hide");
             book.Hidden = true;
+            // Save changes - TO DO
             return true;
         }
 
@@ -92,6 +95,7 @@ namespace ComicsLibrary.Blazor.Services
         {
             _messenger.DisplaySuccessAlert("Unhide");
             book.Hidden = false;
+            // Save changes - TO DO
             return true;
         }
     }

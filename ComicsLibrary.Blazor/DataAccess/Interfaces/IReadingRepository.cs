@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public interface IReadingRepository
     {

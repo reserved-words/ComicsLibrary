@@ -1,5 +1,4 @@
 ﻿using ComicsLibrary.Blazor.Model;
-using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -17,7 +16,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
         private ISeriesActionsService _actionsService { get; set; }
 
         [Inject]
-        private Services.ISeriesRepository _repository { get; set; }
+        private ISeriesRepository _repository { get; set; }
 
         [Inject]
         private IMessenger _messenger { get; set; }

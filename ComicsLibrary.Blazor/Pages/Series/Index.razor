@@ -42,7 +42,7 @@
         @foreach (var booklist in HomeTypes)
         {
             <MudContainer Class="pa-0 my-3">
-                <BooklistCard Item="@booklist"></BooklistCard>
+                <BooklistCard Item="@booklist" OnItemActionCompleted="@OnBooklistActionCompleted"></BooklistCard>
             </MudContainer>
         }
 
@@ -57,7 +57,7 @@
                 @foreach (var booklist in OtherTypes)
                 {
                     <MudContainer Class="pa-0 my-3">
-                        <BooklistCard Item="@booklist"></BooklistCard>
+                        <BooklistCard Item="@booklist" OnItemActionCompleted="@OnBooklistActionCompleted"></BooklistCard>
                     </MudContainer>
                 }
 

@@ -1,5 +1,4 @@
 ﻿using ComicsLibrary.Blazor.Model;
-using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -15,10 +14,10 @@ namespace ComicsLibrary.Blazor.Pages.Series
         private IMessenger _messenger { get; set; }
 
         [Inject]
-        private Services.ISeriesRepository _repository { get; set; }
+        private ISeriesRepository _repository { get; set; }
 
         [Inject]
-        private Services.ISeriesActionsService _actionsService { get; set; }
+        private ISeriesActionsService _actionsService { get; set; }
 
         [Parameter]
         public string SeriesId { get; set; }
@@ -28,10 +27,9 @@ namespace ComicsLibrary.Blazor.Pages.Series
         public List<BreadcrumbItem> Breadcrumbs { get; set; }
 
         public List<SeriesAction> Actions { get; set; } = new List<SeriesAction>();
-
         public List<BookList> HomeTypes { get; set; } = new List<BookList>();
         public List<BookList> OtherTypes { get; set; } = new List<BookList>();
-        public bool ShowOtherBooks { get; set; }
+        public bool ShowOtherBooks { get; set; } = false;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -41,16 +39,14 @@ namespace ComicsLibrary.Blazor.Pages.Series
 
             Item = await _repository.GetSeries(int.Parse(SeriesId));
 
+            UpdatePage();
+        }
+
+        private void UpdatePage()
+        {
             HomeTypes = Item.BookLists.Where(bl => bl.Home).ToList();
             OtherTypes = Item.BookLists.Where(bl => !bl.Home).ToList();
 
-            UpdateActionsAndBreadcrumbs();
-
-            StateHasChanged();
-        }
-
-        private void UpdateActionsAndBreadcrumbs()
-        {
             Actions = _actionsService.GetActions(Item.Series.Shelf, false);
 
             Breadcrumbs = new List<BreadcrumbItem>
@@ -60,6 +56,13 @@ namespace ComicsLibrary.Blazor.Pages.Series
                 new BreadcrumbItem(Item.Series.Shelf.GetName(), href: $"/library/{(int)Item.Series.Shelf}"),
                 new BreadcrumbItem(Item.Series.Title, href: null, disabled: true)
             };
+
+            StateHasChanged();
+        }
+
+        public async Task OnBooklistActionCompleted(BooklistAction action, BookList booklist)
+        {
+            UpdatePage();
         }
 
         public async Task OnAction(SeriesAction action)
@@ -68,11 +71,7 @@ namespace ComicsLibrary.Blazor.Pages.Series
 
             if (success)
             {
-                UpdateActionsAndBreadcrumbs();
-
-                // Might also have set all books to read / unread
-
-                StateHasChanged();
+                UpdatePage();
             }
             else
             {

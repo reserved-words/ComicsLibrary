@@ -17,10 +17,10 @@
 
     <MudPaper Class="pa-3">
         <MudGrid>
-            @foreach (var book in Item.Books)
+            @foreach (var book in VisibleBooks)
             {
                 <MudItem xs="12" sm="4" md="3" lg="2">
-                    <LibraryBookCard Book="@book" @key="book" />
+                    <LibraryBookCard Book="@book" @key="book" OnItemActionCompleted="@OnBookActionCompleted" />
                 </MudItem>
             }
         </MudGrid>

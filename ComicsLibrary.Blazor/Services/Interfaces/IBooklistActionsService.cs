@@ -3,10 +3,10 @@ using ComicsLibrary.Common;
 using ComicsLibrary.Common.Data;
 using System.Collections.Generic;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
-    public interface IBookActionsService
+    public interface IBooklistActionsService
     {
-        List<BookAction> GetActions(Comic book);
+        List<BooklistAction> GetActions(BookList booklist);
     }
 }

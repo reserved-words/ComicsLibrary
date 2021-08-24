@@ -1,6 +1,4 @@
-﻿using ComicsLibrary.Blazor.Model;
-using ComicsLibrary.Blazor.Services;
-using ComicsLibrary.Common;
+﻿using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Collections.Generic;

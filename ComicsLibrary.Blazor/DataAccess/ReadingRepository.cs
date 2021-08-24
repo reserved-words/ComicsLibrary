@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public class ReadingRepository : IReadingRepository
     {

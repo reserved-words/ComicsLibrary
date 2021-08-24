@@ -4,7 +4,7 @@ using MudBlazor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public class BooklistActionsService : IBooklistActionsService
     {
@@ -27,7 +27,7 @@ namespace ComicsLibrary.Blazor.Services
             {
                 actions.Add(new BooklistAction
                 {
-                    Caption = "Remove",
+                    Caption = "Remove from Home Types",
                     ClickAction = RemoveFromHome,
                     Icon = Icons.Material.Filled.Remove
                 });
@@ -36,7 +36,7 @@ namespace ComicsLibrary.Blazor.Services
             {
                 actions.Add(new BooklistAction
                 {
-                    Caption = "Add",
+                    Caption = "Add to Home Types",
                     ClickAction = AddToHome,
                     Icon = Icons.Material.Filled.Add
                 });
@@ -55,7 +55,7 @@ namespace ComicsLibrary.Blazor.Services
             {
                 actions.Add(new BooklistAction
                 {
-                    Caption = "Hide Removed Books",
+                    Caption = "Show Removed Books",
                     ClickAction = ShowRemovedBooks,
                     Icon = Icons.Material.Filled.ShowChart
                 });
@@ -66,25 +66,31 @@ namespace ComicsLibrary.Blazor.Services
 
         protected async Task<bool> AddToHome(BookList booklist)
         {
-            _messenger.DisplaySuccessAlert("Add type to Home");
+            booklist.Home = true;
+            // Save changes - to do
+            _messenger.DisplaySuccessAlert($"Add {booklist.TypeName} to Home Types");
             return true;
         }
 
         protected async Task<bool> RemoveFromHome(BookList booklist)
         {
-            _messenger.DisplaySuccessAlert("Remove type from Home");
+            booklist.Home = false;
+            // Save changes - to do
+            _messenger.DisplaySuccessAlert($"Remove {booklist.TypeName} from Home Types");
             return true;
         }
 
         protected async Task<bool> ShowRemovedBooks(BookList booklist)
         {
-            _messenger.DisplaySuccessAlert("Show removed books");
+            booklist.ShowHidden = true;
+            _messenger.DisplaySuccessAlert($"Show hidden {booklist.TypeName}");
             return true;
         }
 
         protected async Task<bool> HideRemovedBooks(BookList booklist)
         {
-            _messenger.DisplaySuccessAlert("Hide removed books");
+            booklist.ShowHidden = false;
+            _messenger.DisplaySuccessAlert($"Hide hidden {booklist.TypeName}");
             return true;
         }
     }

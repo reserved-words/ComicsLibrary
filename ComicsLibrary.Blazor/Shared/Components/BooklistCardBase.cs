@@ -1,9 +1,9 @@
 ﻿using ComicsLibrary.Blazor.Model;
-using ComicsLibrary.Blazor.Services;
 using ComicsLibrary.Common;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ComicsLibrary.Blazor.Shared.Components
@@ -17,7 +17,7 @@ namespace ComicsLibrary.Blazor.Shared.Components
         private IBooklistActionsService _actionsService { get; set; }
 
         [Inject]
-        private Services.ISeriesRepository _repository { get; set; }
+        private ISeriesRepository _repository { get; set; }
 
         [Inject]
         private IMessenger _messenger { get; set; }
@@ -25,24 +25,46 @@ namespace ComicsLibrary.Blazor.Shared.Components
         [Parameter]
         public BookList Item { get; set; }
 
+        [Parameter]
+        public Func<BooklistAction, BookList, Task> OnItemActionCompleted { get; set; }
+
+        public List<Comic> VisibleBooks { get; set; }
+
         public List<BooklistAction> Actions { get; set; } = new List<BooklistAction>();
 
         protected override void OnParametersSet()
         {
+            UpdatePage();
+        }
+
+        private void UpdatePage()
+        {
+            VisibleBooks = Item.ShowHidden
+                ? Item.Books.ToList()
+                : Item.Books.Where(b => !b.Hidden).ToList();
+
             Actions = _actionsService.GetActions(Item);
 
             StateHasChanged();
+        }
+
+        public async Task OnBookActionCompleted(BookAction action, Comic book)
+        {
+            UpdatePage();
         }
 
         public async Task OnAction(BooklistAction action)
         {
             var success = await action.ClickAction(Item);
 
-            // Might need to update some stuff
-
             if (!success)
             {
                 _messenger.DisplayErrorAlert($"FAILED ACTION: {action.Caption} {Item.TypeName}");
+            }
+            else
+            {
+                UpdatePage();
+                await OnItemActionCompleted(action, Item);
             }
         }
     }

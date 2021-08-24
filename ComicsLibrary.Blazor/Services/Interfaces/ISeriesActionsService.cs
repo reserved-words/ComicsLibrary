@@ -2,7 +2,7 @@
 using ComicsLibrary.Common.Data;
 using System.Collections.Generic;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public interface ISeriesActionsService
     {

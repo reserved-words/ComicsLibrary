@@ -3,7 +3,7 @@ using ComicsLibrary.Common.Data;
 using System.Threading.Tasks;
 using SearchResult = ComicsLibrary.Blazor.Model.SearchResult;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public interface ISearchService
     {

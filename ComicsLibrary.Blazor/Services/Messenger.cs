@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public class Messenger : IMessenger
     {

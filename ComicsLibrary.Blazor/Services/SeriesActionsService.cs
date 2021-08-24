@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SeriesModel = ComicsLibrary.Blazor.Model.Series;
 
-namespace ComicsLibrary.Blazor.Services
+namespace ComicsLibrary.Blazor
 {
     public class SeriesActionsService : ISeriesActionsService
     {
